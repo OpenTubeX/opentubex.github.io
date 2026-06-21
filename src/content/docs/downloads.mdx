@@ -1,14 +1,19 @@
 ---
 title: Downloads
 description: Download OpenTubeX for your platform.
+tableOfContents: false
 ---
+
+import DownloadGrid from '../../components/DownloadGrid.astro';
+import { githubReleaseUrl, releaseVersion } from '../../data/release';
 
 OpenTubeX is available on Windows 10+, macOS 12+, and Linux.
 
 ## Official releases
 
-- [GitHub Releases](https://github.com/OpenTubeX/OpenTubeX/releases)
-- [AUR (opentubex-bin)](https://aur.archlinux.org/packages/opentubex-bin/)
+Download links below point to the <a href={githubReleaseUrl}>v{releaseVersion}-beta release on GitHub</a>.
+
+<DownloadGrid />
 
 ## Automated builds
 
