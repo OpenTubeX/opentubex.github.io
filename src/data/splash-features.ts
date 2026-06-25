@@ -2,30 +2,34 @@
 export const splashFeatures = [
 	{
 		id: 'playback-speed',
+		anchor: 'per-channel-playback-speed',
 		title: 'Per-channel playback speed',
 		description: 'Remember playback speed per channel — auto-save or save manually under the player.',
-		icon: 'speed',
+		icon: 'gauge',
 		x: 8,
 		y: 22,
 	},
 	{
 		id: 'video-quality',
+		anchor: 'per-channel-video-quality',
 		title: 'Per-channel video quality',
 		description: 'Keep your preferred quality for each channel, with the same workflow as playback speed.',
-		icon: 'quality',
+		icon: 'monitor-play',
 		x: 92,
 		y: 24,
 	},
 	{
 		id: 'seek-intervals',
+		anchor: 'optional-seek-interval-behavior',
 		title: 'Optional seek-interval behavior',
 		description: 'Choose whether arrow keys and J/L seek distances scale with playback rate.',
-		icon: 'seek',
+		icon: 'fast-forward',
 		x: 6,
 		y: 52,
 	},
 	{
 		id: 'timestamps',
+		anchor: 'playback-rate-adjusted-timestamps',
 		title: 'Playback-rate adjusted timestamps',
 		description: 'Optionally show timestamps that account for the current playback speed.',
 		icon: 'clock',
@@ -34,22 +38,25 @@ export const splashFeatures = [
 	},
 	{
 		id: 'chapter-tooltips',
+		anchor: 'chapter-tooltips-on-seekbar',
 		title: 'Chapter tooltips on seekbar',
 		description: 'See chapter names directly on the seekbar while scrubbing.',
-		icon: 'chapters',
+		icon: 'book-marked',
 		x: 14,
 		y: 78,
 	},
 	{
 		id: 'no-translations',
+		anchor: 'prevent-youtube-translations',
 		title: 'Prevent YouTube translations',
 		description: 'Keep original titles and descriptions instead of YouTube auto-translations.',
-		icon: 'translate',
+		icon: 'languages',
 		x: 86,
 		y: 76,
 	},
 	{
 		id: 'quick-search',
+		anchor: 'quick-search-focus',
 		title: 'Quick search focus',
 		description: 'Press / to jump to the search bar, in addition to Ctrl+L or Cmd+L.',
 		icon: 'search',
@@ -58,94 +65,106 @@ export const splashFeatures = [
 	},
 	{
 		id: 'sponsor-toggle',
+		anchor: 'sponsorblock-auto-skip-toggle',
 		title: 'SponsorBlock auto-skip toggle',
 		description: 'Quickly turn SponsorBlock auto-skip on or off right under the player.',
-		icon: 'sponsor',
+		icon: 'skip-forward',
 		x: 78,
 		y: 17,
 	},
 	{
 		id: 'sponsor-tooltips',
+		anchor: 'sponsorblock-tooltips-unskip--reskip--prompt-to-skip',
 		title: 'SponsorBlock tooltips',
 		description: 'Unskip, reskip, or get prompted before a segment is skipped.',
-		icon: 'sponsor',
+		icon: 'message-square',
 		x: 4,
 		y: 36,
 	},
 	{
 		id: 'sponsor-chapters',
+		anchor: 'sponsorblock-community-chapters',
 		title: 'SponsorBlock community chapters',
 		description: 'Display community-contributed chapters from SponsorBlock in the player.',
-		icon: 'community',
+		icon: 'users',
 		x: 96,
 		y: 38,
 	},
 	{
 		id: 'sponsor-submit',
+		anchor: 'sponsorblock-submission',
 		title: 'SponsorBlock submission',
 		description: 'Submit SponsorBlock segments directly from the player (experimental).',
-		icon: 'sponsor',
+		icon: 'upload',
 		x: 10,
 		y: 64,
 	},
 	{
 		id: 'tabs',
+		anchor: 'tab-support',
 		title: 'Tab support',
 		description: 'Browse with multiple tabs, similar to a web browser.',
-		icon: 'tabs',
+		icon: 'columns-2',
 		x: 90,
 		y: 62,
 	},
 	{
 		id: 'ip-recovery',
+		anchor: 'ip-block-recovery-script',
 		title: 'IP block recovery script',
 		description: 'Run a custom script when YouTube blocks your IP, then reload the video.',
-		icon: 'script',
+		icon: 'terminal',
 		x: 18,
 		y: 88,
 	},
 	{
 		id: 'auto-pip',
+		anchor: 'auto-picture-in-picture',
 		title: 'Auto Picture-in-Picture',
 		description: 'Enter PiP automatically when you switch tabs or scroll away from a video.',
-		icon: 'pip',
+		icon: 'picture-in-picture-2',
 		x: 82,
 		y: 88,
 	},
 	{
 		id: 'context-menu',
+		anchor: 'loop--copy-link-in-player-context-menu',
 		title: 'Loop & copy link',
 		description: 'Toggle loop or copy the video link from the player context menu.',
-		icon: 'menu',
+		icon: 'repeat',
 		x: 30,
 		y: 15,
 	},
 	{
 		id: 'speed-bar',
+		anchor: 'quick-playback-speed-bar',
 		title: 'Quick Playback Speed Bar',
 		description: 'Optional speed bar in the player for faster adjustments.',
-		icon: 'bar',
+		icon: 'sliders-horizontal',
 		x: 70,
 		y: 13,
 	},
 	{
 		id: 'return-dislike',
+		anchor: 'return-youtube-dislike-support',
 		title: 'Return YouTube Dislike',
 		description: 'Show dislike counts using Return YouTube Dislike.',
-		icon: 'dislike',
+		icon: 'thumbs-down',
 		x: 50,
 		y: 11,
 	},
 	{
 		id: 'remember-volume',
+		anchor: 'remember-volume',
 		title: 'Remember volume',
 		description: 'Keep your player volume between sessions (enabled by default).',
-		icon: 'volume',
+		icon: 'volume-2',
 		x: 36,
 		y: 92,
 	},
 	{
 		id: 'speed-shortcut',
+		anchor: 'playback-speed-toggle-shortcut',
 		title: 'Playback speed toggle',
 		description: 'Press G to toggle between 1× and your last used playback speed.',
 		icon: 'keyboard',
@@ -154,23 +173,6 @@ export const splashFeatures = [
 	},
 ] as const;
 
-export type SplashFeatureIcon =
-	| 'speed'
-	| 'quality'
-	| 'seek'
-	| 'clock'
-	| 'chapters'
-	| 'translate'
-	| 'search'
-	| 'sponsor'
-	| 'tabs'
-	| 'pip'
-	| 'script'
-	| 'menu'
-	| 'bar'
-	| 'dislike'
-	| 'volume'
-	| 'keyboard'
-	| 'community';
+export type SplashFeatureIcon = (typeof splashFeatures)[number]['icon'];
 
 export type SplashFeature = (typeof splashFeatures)[number];

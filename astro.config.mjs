@@ -7,7 +7,31 @@ import icon from 'astro-icon';
 export default defineConfig({
 	site: 'https://opentubex.org',
 	integrations: [
-		icon(),
+		icon({
+			include: {
+				lucide: [
+					'book-marked',
+					'clock',
+					'columns-2',
+					'fast-forward',
+					'gauge',
+					'keyboard',
+					'languages',
+					'message-square',
+					'monitor-play',
+					'picture-in-picture-2',
+					'repeat',
+					'search',
+					'skip-forward',
+					'sliders-horizontal',
+					'terminal',
+					'thumbs-down',
+					'upload',
+					'users',
+					'volume-2',
+				],
+			},
+		}),
 		starlight({
 			title: 'OpenTubeX',
 			customCss: ['./src/styles/splash.css'],

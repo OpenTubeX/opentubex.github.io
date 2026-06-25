@@ -151,8 +151,8 @@ html[data-has-hero] .main-frame :is(a, button, input, select, textarea, label, [
 .splash-hotspot__trigger {
 	display: grid;
 	place-items: center;
-	width: 2.5rem;
-	height: 2.5rem;
+	width: 2.75rem;
+	height: 2.75rem;
 	padding: 0;
 	border: 1px solid color-mix(in srgb, var(--sl-color-accent) calc(12% + var(--hotspot-lit) * 28%), transparent);
 	border-radius: 0.75rem;
@@ -187,8 +187,11 @@ html[data-has-hero] .main-frame :is(a, button, input, select, textarea, label, [
 }
 
 .splash-hotspot__icon {
-	width: 1.15rem;
-	height: 1.15rem;
+	width: 1.4rem;
+	height: 1.4rem;
+	flex-shrink: 0;
+	display: block;
+	stroke-width: 2;
 }
 
 .splash-hotspot__tip {
@@ -325,13 +328,13 @@ html[data-has-hero] .main-frame :is(a, button, input, select, textarea, label, [
 
 @media (max-width: 50rem) {
 	.splash-hotspot__trigger {
-		width: 2.15rem;
-		height: 2.15rem;
+		width: 2.4rem;
+		height: 2.4rem;
 	}
 
 	.splash-hotspot__icon {
-		width: 1rem;
-		height: 1rem;
+		width: 1.25rem;
+		height: 1.25rem;
 	}
 }
 
