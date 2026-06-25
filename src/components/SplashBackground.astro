@@ -17,12 +17,16 @@
 		if (root.dataset.otxSplashInit === 'true') return;
 		root.dataset.otxSplashInit = 'true';
 
+		const CENTER_X = 0.5;
+		const CENTER_Y = 0.4;
+
 		const state = {
-			targetX: 0.5,
-			targetY: 0.4,
-			currentX: 0.5,
-			currentY: 0.4,
+			targetX: CENTER_X,
+			targetY: CENTER_Y,
+			currentX: CENTER_X,
+			currentY: CENTER_Y,
 			time: 0,
+			pointerInside: false,
 		};
 
 		const setVars = () => {
@@ -44,21 +48,30 @@
 		};
 
 		const onPointerMove = (event) => {
+			state.pointerInside = true;
 			state.targetX = event.clientX / window.innerWidth;
 			state.targetY = event.clientY / window.innerHeight;
+		};
+
+		const onPointerLeave = () => {
+			state.pointerInside = false;
+			state.targetX = CENTER_X;
+			state.targetY = CENTER_Y;
 		};
 
 		const tick = (timestamp) => {
 			state.time = timestamp * 0.001;
 			const idleX = Math.sin(state.time * 0.35) * 0.04;
 			const idleY = Math.cos(state.time * 0.28) * 0.03;
+			const lerp = state.pointerInside ? 0.06 : 0.08;
 
-			state.currentX += (state.targetX + idleX - state.currentX) * 0.06;
-			state.currentY += (state.targetY + idleY - state.currentY) * 0.06;
+			state.currentX += (state.targetX + idleX - state.currentX) * lerp;
+			state.currentY += (state.targetY + idleY - state.currentY) * lerp;
 			setVars();
 			requestAnimationFrame(tick);
 		};
 
+		document.documentElement.addEventListener('pointerleave', onPointerLeave);
 		window.addEventListener('pointermove', onPointerMove, { passive: true });
 		setVars();
 		requestAnimationFrame(tick);
