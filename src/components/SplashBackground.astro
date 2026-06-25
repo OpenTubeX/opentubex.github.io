@@ -19,6 +19,7 @@
 
 		const CENTER_X = 0.5;
 		const CENTER_Y = 0.4;
+		const RETURN_DELAY_MS = 450;
 
 		const state = {
 			targetX: CENTER_X,
@@ -27,6 +28,25 @@
 			currentY: CENTER_Y,
 			time: 0,
 			pointerInside: false,
+		};
+
+		let returnTimer = null;
+
+		const cancelReturn = () => {
+			if (returnTimer !== null) {
+				clearTimeout(returnTimer);
+				returnTimer = null;
+			}
+		};
+
+		const scheduleReturn = () => {
+			cancelReturn();
+			returnTimer = setTimeout(() => {
+				returnTimer = null;
+				state.pointerInside = false;
+				state.targetX = CENTER_X;
+				state.targetY = CENTER_Y;
+			}, RETURN_DELAY_MS);
 		};
 
 		const setVars = () => {
@@ -48,15 +68,14 @@
 		};
 
 		const onPointerMove = (event) => {
+			cancelReturn();
 			state.pointerInside = true;
 			state.targetX = event.clientX / window.innerWidth;
 			state.targetY = event.clientY / window.innerHeight;
 		};
 
 		const onPointerLeave = () => {
-			state.pointerInside = false;
-			state.targetX = CENTER_X;
-			state.targetY = CENTER_Y;
+			scheduleReturn();
 		};
 
 		const tick = (timestamp) => {
