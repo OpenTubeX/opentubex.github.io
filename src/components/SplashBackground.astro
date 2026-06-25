@@ -1,0 +1,69 @@
+<div class="splash-bg" aria-hidden="true">
+	<div class="splash-bg__base"></div>
+	<div class="splash-bg__orb splash-bg__orb--1"></div>
+	<div class="splash-bg__orb splash-bg__orb--2"></div>
+	<div class="splash-bg__orb splash-bg__orb--3"></div>
+	<div class="splash-bg__spotlight"></div>
+	<div class="splash-bg__grid"></div>
+</div>
+
+<script>
+	function initSplashBackground() {
+		const root = document.documentElement;
+		if (!root.hasAttribute('data-has-hero')) return;
+
+		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (reducedMotion) return;
+		if (root.dataset.otxSplashInit === 'true') return;
+		root.dataset.otxSplashInit = 'true';
+
+		const state = {
+			targetX: 0.5,
+			targetY: 0.4,
+			currentX: 0.5,
+			currentY: 0.4,
+			time: 0,
+		};
+
+		const setVars = () => {
+			const dx = state.currentX - 0.5;
+			const dy = state.currentY - 0.5;
+
+			root.style.setProperty('--otx-pointer-x', `${state.currentX * 100}%`);
+			root.style.setProperty('--otx-pointer-y', `${state.currentY * 100}%`);
+			root.style.setProperty('--otx-pointer-dx', String(dx));
+			root.style.setProperty('--otx-pointer-dy', String(dy));
+			root.style.setProperty('--otx-orb-1-x', `${dx * 14}%`);
+			root.style.setProperty('--otx-orb-1-y', `${dy * 10}%`);
+			root.style.setProperty('--otx-orb-2-x', `${dx * -9}%`);
+			root.style.setProperty('--otx-orb-2-y', `${dy * 12}%`);
+			root.style.setProperty('--otx-orb-3-x', `${dx * 6}%`);
+			root.style.setProperty('--otx-orb-3-y', `${dy * -8}%`);
+			root.style.setProperty('--otx-grid-shift-x', `${dx * 18}px`);
+			root.style.setProperty('--otx-grid-shift-y', `${dy * 18}px`);
+		};
+
+		const onPointerMove = (event) => {
+			state.targetX = event.clientX / window.innerWidth;
+			state.targetY = event.clientY / window.innerHeight;
+		};
+
+		const tick = (timestamp) => {
+			state.time = timestamp * 0.001;
+			const idleX = Math.sin(state.time * 0.35) * 0.04;
+			const idleY = Math.cos(state.time * 0.28) * 0.03;
+
+			state.currentX += (state.targetX + idleX - state.currentX) * 0.06;
+			state.currentY += (state.targetY + idleY - state.currentY) * 0.06;
+			setVars();
+			requestAnimationFrame(tick);
+		};
+
+		window.addEventListener('pointermove', onPointerMove, { passive: true });
+		setVars();
+		requestAnimationFrame(tick);
+	}
+
+	initSplashBackground();
+	document.addEventListener('astro:page-load', initSplashBackground);
+</script>

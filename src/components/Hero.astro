@@ -1,0 +1,212 @@
+---
+import { Image } from 'astro:assets';
+import DraftContentNotice from 'virtual:starlight/components/DraftContentNotice';
+import LinkButton from '../../node_modules/@astrojs/starlight/user-components/LinkButton.astro';
+
+const PAGE_TITLE_ID = '_top';
+
+const { data } = Astro.locals.starlightRoute.entry;
+const { title = data.title, tagline, image, actions = [] } = data.hero || {};
+
+let darkImage: ImageMetadata | undefined;
+let lightImage: ImageMetadata | undefined;
+let rawHtml: string | undefined;
+if (image) {
+	if ('file' in image) {
+		darkImage = image.file;
+	} else if ('dark' in image) {
+		darkImage = image.dark;
+		lightImage = image.light;
+	} else {
+		rawHtml = image.html;
+	}
+}
+
+const hasImage = Boolean(darkImage || lightImage || rawHtml);
+
+const imageAttrs = {
+	loading: 'eager' as const,
+	decoding: 'async' as const,
+	width: 673,
+	height: 220,
+	alt: hasImage ? '' : 'OpenTubeX',
+};
+---
+
+<div class:list={['hero', 'splash-hero', { 'has-image': hasImage }]}>
+	{
+		hasImage && (
+			<div class="hero-logo-glow">
+				<div class="hero-logo-glow__halo" aria-hidden="true" />
+				<div class="hero-logo-glow__core" aria-hidden="true" />
+				{
+					darkImage && (
+						<Image
+							src={darkImage}
+							{...imageAttrs}
+							class:list={['hero-logo', { 'light:sl-hidden': Boolean(lightImage) }]}
+						/>
+					)
+				}
+				{lightImage && <Image src={lightImage} {...imageAttrs} class="hero-logo dark:sl-hidden" />}
+				{rawHtml && <div class="hero-logo hero-html sl-flex" set:html={rawHtml} />}
+			</div>
+		)
+	}
+	<div class="sl-flex stack">
+		<div class="sl-flex copy">
+			<h1 id={PAGE_TITLE_ID} data-page-title class:list={[{ 'sr-only': hasImage }]} set:html={title} />
+			{data.draft && <DraftContentNotice />}
+			{tagline && <div class="tagline" set:html={tagline} />}
+		</div>
+		{
+			actions.length > 0 && (
+				<div class="sl-flex actions">
+					{actions.map(
+						({ attrs: { class: className, ...attrs } = {}, icon, link: href, text, variant }) => (
+							<LinkButton {href} {variant} icon={icon?.name} class:list={[className]} {...attrs}>
+								{text}
+								{icon?.html && <Fragment set:html={icon.html} />}
+							</LinkButton>
+						)
+					)}
+				</div>
+			)
+		}
+	</div>
+</div>
+
+<style>
+	@layer starlight.core {
+		.hero.splash-hero {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: clamp(1.5rem, calc(1rem + 2vw), 2.5rem);
+			padding-block: clamp(2rem, calc(1rem + 8vmin), 6rem);
+			text-align: center;
+		}
+
+		.hero-logo-glow {
+			position: relative;
+			display: grid;
+			place-items: center;
+			width: min(92vw, 36rem);
+			isolation: isolate;
+		}
+
+		.hero-logo-glow__halo,
+		.hero-logo-glow__core {
+			position: absolute;
+			border-radius: 50%;
+			pointer-events: none;
+		}
+
+		.hero-logo-glow__halo {
+			inset: -35% -20%;
+			background: radial-gradient(
+				ellipse at center,
+				color-mix(in srgb, var(--sl-color-accent) 55%, transparent) 0%,
+				color-mix(in srgb, var(--sl-color-accent-low) 35%, transparent) 35%,
+				transparent 72%
+			);
+			filter: blur(48px);
+			opacity: 0.85;
+			animation: hero-halo-pulse 8s ease-in-out infinite;
+			transform: translate(
+				calc(var(--otx-pointer-dx, 0) * 28px),
+				calc(var(--otx-pointer-dy, 0) * 22px)
+			);
+		}
+
+		.hero-logo-glow__core {
+			inset: -8% 10%;
+			background: radial-gradient(
+				circle at center,
+				color-mix(in srgb, var(--sl-color-accent-high) 45%, transparent) 0%,
+				transparent 65%
+			);
+			filter: blur(20px);
+			opacity: 0.7;
+			transform: translate(
+				calc(var(--otx-pointer-dx, 0) * 14px),
+				calc(var(--otx-pointer-dy, 0) * 12px)
+			);
+		}
+
+		.hero-logo {
+			position: relative;
+			z-index: 1;
+			object-fit: contain;
+			width: 100%;
+			height: auto;
+			filter: drop-shadow(0 0 24px color-mix(in srgb, var(--sl-color-accent) 35%, transparent));
+		}
+
+		.stack {
+			flex-direction: column;
+			gap: clamp(1.25rem, calc(1rem + 1vw), 1.75rem);
+			align-items: center;
+			max-width: 42rem;
+		}
+
+		.copy {
+			flex-direction: column;
+			gap: 0.75rem;
+			align-items: center;
+		}
+
+		.copy > * {
+			max-width: 50ch;
+		}
+
+		h1 {
+			font-size: clamp(var(--sl-text-3xl), calc(0.25rem + 5vw), var(--sl-text-6xl));
+			line-height: var(--sl-line-height-headings);
+			font-weight: 600;
+			color: var(--sl-color-white);
+		}
+
+		.sr-only {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border: 0;
+		}
+
+		.tagline {
+			font-size: clamp(var(--sl-text-base), calc(0.0625rem + 2vw), var(--sl-text-xl));
+			color: var(--sl-color-gray-2);
+		}
+
+		.actions {
+			gap: 1rem 1.5rem;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.hero-logo-glow__halo,
+			.hero-logo-glow__core {
+				animation: none;
+				transform: none;
+			}
+		}
+
+		@keyframes hero-halo-pulse {
+			0%,
+			100% {
+				opacity: 0.75;
+			}
+			50% {
+				opacity: 1;
+			}
+		}
+	}
+</style>

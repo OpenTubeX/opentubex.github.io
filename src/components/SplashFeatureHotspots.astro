@@ -1,0 +1,290 @@
+---
+import { splashFeatures, type SplashFeatureIcon } from '../data/splash-features';
+
+const icons: Record<SplashFeatureIcon, string> = {
+	speed: '<path d="M12 3a9 9 0 1 0 9 9" /><path d="M12 7v5l3 2" /><path d="M16 3h5v5" />',
+	quality:
+		'<rect x="3" y="5" width="18" height="14" rx="2" /><path d="M7 15l3-3 2 2 4-4 3 3" />',
+	seek: '<path d="M8 8 4 12l4 4" /><path d="M16 8l4 4-4 4" /><path d="M12 4v16" />',
+	clock: '<circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />',
+	chapters: '<path d="M8 6h13" /><path d="M8 12h13" /><path d="M8 18h13" /><path d="M3 6h.01" /><path d="M3 12h.01" /><path d="M3 18h.01" />',
+	translate:
+		'<path d="m5 8 6 6" /><path d="m4 14 6-6 2-3" /><path d="M2 5h12" /><path d="M7 2v3" /><path d="m15 12 6 6" /><path d="m16 18 6-6-2-3" /><path d="M14 9h12" /><path d="M19 6v3" />',
+	search: '<circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />',
+	sponsor: '<path d="M12 3 4 7v6c0 5 3.5 8.5 8 9.5 4.5-1 8-4.5 8-9.5V7Z" />',
+	tabs: '<rect x="3" y="5" width="8" height="14" rx="1.5" /><rect x="13" y="5" width="8" height="14" rx="1.5" />',
+	pip: '<rect x="3" y="7" width="13" height="10" rx="1.5" /><rect x="14" y="11" width="7" height="5" rx="1" />',
+	script: '<path d="M14 3 9 21" /><path d="M5 7h7" /><path d="M7 12h9" /><path d="M6 17h8" />',
+	menu: '<path d="M4 7h16" /><path d="M4 12h16" /><path d="M4 17h10" />',
+	bar: '<path d="M4 18V6" /><path d="M8 18v-4" /><path d="M12 18V9" /><path d="M16 18v-7" /><path d="M20 18V4" />',
+	dislike: '<path d="M9 9H4v12h5l6 5V4Z" /><path d="M16 9a4 4 0 0 1 0 7" />',
+	volume: '<path d="M11 5 6 9H3v6h3l5 4Z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" />',
+	keyboard:
+		'<rect x="2" y="6" width="20" height="12" rx="2" /><path d="M6 10h.01" /><path d="M10 10h.01" /><path d="M14 10h.01" /><path d="M18 10h.01" /><path d="M8 14h8" />',
+	community: '<circle cx="9" cy="8" r="3" /><circle cx="16" cy="9" r="2.5" /><path d="M3 19c0-3 3-5 6-5s6 2 6 5" /><path d="M16 14c2.5 0 5 1.5 5 5" />',
+};
+---
+
+<div class="splash-hotspots" data-splash-hotspots>
+	{
+		splashFeatures.map((feature) => (
+			<div
+				class:list={[
+					'splash-hotspot',
+					{ 'splash-hotspot--bottom': feature.y > 78 },
+					{ 'splash-hotspot--start': feature.x < 18 },
+					{ 'splash-hotspot--end': feature.x > 82 },
+				]}
+				style={`--hotspot-x: ${feature.x}%; --hotspot-y: ${feature.y}%`}
+				data-hotspot={feature.id}
+			>
+				<button
+					type="button"
+					class="splash-hotspot__trigger"
+					aria-expanded="false"
+					aria-controls={`splash-tip-${feature.id}`}
+					aria-label={`${feature.title}: ${feature.description}`}
+				>
+					<svg
+						class="splash-hotspot__icon"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.75"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"
+						set:html={icons[feature.icon]}
+					/>
+				</button>
+				<div
+					id={`splash-tip-${feature.id}`}
+					class="splash-hotspot__tip"
+					role="dialog"
+					aria-label={feature.title}
+					hidden
+				>
+					<p class="splash-hotspot__title">{feature.title}</p>
+					<p class="splash-hotspot__text">{feature.description}</p>
+					<a class="splash-hotspot__link" href="/extra-features/">
+						All extra features →
+					</a>
+				</div>
+			</div>
+		))
+	}
+</div>
+
+<script>
+	const TIP_PAD = 12;
+	const TIP_GAP = 10;
+	const LIT_RADIUS = 0.24;
+
+	function getPointerPixels() {
+		const root = document.documentElement;
+		const styles = getComputedStyle(root);
+		const x = parseFloat(styles.getPropertyValue('--otx-pointer-x')) / 100;
+		const y = parseFloat(styles.getPropertyValue('--otx-pointer-y')) / 100;
+		return {
+			x: x * window.innerWidth,
+			y: y * window.innerHeight,
+		};
+	}
+
+	function smoothstep(value) {
+		return value * value * (3 - 2 * value);
+	}
+
+	function updateHotspotVisibility(hotspots) {
+		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const pointer = getPointerPixels();
+		const radius = Math.min(window.innerWidth, window.innerHeight) * LIT_RADIUS;
+
+		for (const hotspot of hotspots) {
+			if (hotspot.classList.contains('is-open')) {
+				hotspot.style.setProperty('--hotspot-lit', '1');
+				hotspot.style.pointerEvents = 'auto';
+				continue;
+			}
+
+			const trigger = hotspot.querySelector('.splash-hotspot__trigger');
+			if (!(trigger instanceof HTMLElement)) continue;
+
+			if (reducedMotion) {
+				hotspot.style.setProperty('--hotspot-lit', '0');
+				hotspot.style.pointerEvents = 'none';
+				continue;
+			}
+
+			const rect = trigger.getBoundingClientRect();
+			const cx = rect.left + rect.width / 2;
+			const cy = rect.top + rect.height / 2;
+			const dist = Math.hypot(cx - pointer.x, cy - pointer.y);
+			const lit = smoothstep(Math.max(0, 1 - dist / radius));
+
+			hotspot.style.setProperty('--hotspot-lit', lit.toFixed(3));
+			hotspot.style.pointerEvents = lit > 0.14 ? 'auto' : 'none';
+		}
+	}
+
+	function startHotspotLighting(hotspots) {
+		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (reducedMotion) return;
+
+		const tick = () => {
+			updateHotspotVisibility(hotspots);
+			requestAnimationFrame(tick);
+		};
+		requestAnimationFrame(tick);
+	}
+
+	function getHeaderBottom() {
+		const header = document.querySelector('.header');
+		return header ? header.getBoundingClientRect().bottom : 64;
+	}
+
+	function resetTipPosition(tip) {
+		tip.classList.remove('splash-hotspot__tip--floating');
+		tip.style.top = '';
+		tip.style.left = '';
+		tip.style.right = '';
+		tip.style.bottom = '';
+	}
+
+	function placeFloatingTip(hotspot, tip) {
+		const trigger = hotspot.querySelector('.splash-hotspot__trigger');
+		if (!(trigger instanceof HTMLElement)) return;
+
+		tip.classList.add('splash-hotspot__tip--floating');
+		tip.style.visibility = 'hidden';
+
+		const triggerRect = trigger.getBoundingClientRect();
+		const tipRect = tip.getBoundingClientRect();
+		const headerBottom = getHeaderBottom();
+		const isBottom = hotspot.classList.contains('splash-hotspot--bottom');
+		const isStart = hotspot.classList.contains('splash-hotspot--start');
+		const isEnd = hotspot.classList.contains('splash-hotspot--end');
+
+		let top = isBottom ? triggerRect.top - tipRect.height - TIP_GAP : triggerRect.bottom + TIP_GAP;
+		let left = triggerRect.left + triggerRect.width / 2 - tipRect.width / 2;
+
+		if (isStart) left = triggerRect.left;
+		if (isEnd) left = triggerRect.right - tipRect.width;
+
+		left = Math.max(TIP_PAD, Math.min(left, window.innerWidth - tipRect.width - TIP_PAD));
+
+		if (top < headerBottom + TIP_PAD) {
+			top = triggerRect.bottom + TIP_GAP;
+		}
+		if (top + tipRect.height > window.innerHeight - TIP_PAD) {
+			top = triggerRect.top - tipRect.height - TIP_GAP;
+		}
+
+		tip.style.top = `${top}px`;
+		tip.style.left = `${left}px`;
+		tip.style.visibility = '';
+	}
+
+	function mountFloatingTip(hotspot, tip) {
+		document.body.appendChild(tip);
+		placeFloatingTip(hotspot, tip);
+	}
+
+	function unmountFloatingTip(hotspot, tip) {
+		resetTipPosition(tip);
+		hotspot.appendChild(tip);
+	}
+
+	function initSplashHotspots() {
+		const layer = document.querySelector('[data-splash-hotspots]');
+		if (!layer || layer.dataset.otxHotspotsInit === 'true') return;
+		layer.dataset.otxHotspotsInit = 'true';
+
+		const hotspots = [...layer.querySelectorAll('.splash-hotspot')];
+		let openHotspot = null;
+		let openTip = null;
+
+		const closeAll = () => {
+			for (const hotspot of hotspots) {
+				const trigger = hotspot.querySelector('.splash-hotspot__trigger');
+				const tip = document.getElementById(`splash-tip-${hotspot.dataset.hotspot}`);
+				if (!(trigger instanceof HTMLButtonElement) || !(tip instanceof HTMLElement)) continue;
+				trigger.setAttribute('aria-expanded', 'false');
+				tip.hidden = true;
+				if (tip.parentElement === document.body) {
+					unmountFloatingTip(hotspot, tip);
+				} else {
+					resetTipPosition(tip);
+				}
+				hotspot.classList.remove('is-open');
+			}
+			openHotspot = null;
+			openTip = null;
+		};
+
+		const openHotspotTip = (hotspot) => {
+			closeAll();
+			const trigger = hotspot.querySelector('.splash-hotspot__trigger');
+			const tip = document.getElementById(`splash-tip-${hotspot.dataset.hotspot}`);
+			if (!(trigger instanceof HTMLButtonElement) || !(tip instanceof HTMLElement)) return;
+			trigger.setAttribute('aria-expanded', 'true');
+			tip.hidden = false;
+			hotspot.classList.add('is-open');
+			mountFloatingTip(hotspot, tip);
+			openHotspot = hotspot;
+			openTip = tip;
+		};
+
+		const handlePointerDown = (event) => {
+			const target = event.target;
+			if (!(target instanceof Element)) return;
+
+			const trigger = target.closest('.splash-hotspot__trigger');
+			if (trigger) {
+				event.stopPropagation();
+				const hotspot = trigger.closest('.splash-hotspot');
+				if (!hotspot) return;
+				if (hotspot.classList.contains('is-open')) {
+					closeAll();
+				} else {
+					openHotspotTip(hotspot);
+				}
+				return;
+			}
+
+			if (!target.closest('.splash-hotspot__tip')) {
+				closeAll();
+			}
+		};
+
+		layer.addEventListener('click', handlePointerDown);
+		document.addEventListener('click', handlePointerDown);
+
+		layer.addEventListener('focusin', (event) => {
+			const target = event.target;
+			if (!(target instanceof Element)) return;
+			const hotspot = target.closest('.splash-hotspot');
+			if (!hotspot) return;
+			hotspot.style.setProperty('--hotspot-lit', '1');
+			hotspot.style.pointerEvents = 'auto';
+		});
+
+		layer.addEventListener('focusout', () => {
+			updateHotspotVisibility(hotspots);
+		});
+
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape') closeAll();
+		});
+
+		window.addEventListener('resize', () => {
+			if (!openHotspot || !openTip || openTip.hidden) return;
+			placeFloatingTip(openHotspot, openTip);
+		});
+
+		startHotspotLighting(hotspots);
+	}
+
+	initSplashHotspots();
+	document.addEventListener('astro:page-load', initSplashHotspots);
+</script>

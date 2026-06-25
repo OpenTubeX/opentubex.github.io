@@ -10,6 +10,11 @@ export default defineConfig({
 		icon(),
 		starlight({
 			title: 'OpenTubeX',
+			customCss: ['./src/styles/splash.css'],
+			components: {
+				Hero: './src/components/Hero.astro',
+				PageFrame: './src/components/PageFrame.astro',
+			},
 			logo: {
 				light: './src/assets/logo-light.svg',
 				dark: './src/assets/logo-dark.svg',
