@@ -20,6 +20,7 @@
 		const CENTER_X = 0.5;
 		const CENTER_Y = 0.4;
 		const RETURN_DELAY_MS = 450;
+		const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
 
 		const state = {
 			targetX: CENTER_X,
@@ -67,14 +68,25 @@
 			root.style.setProperty('--otx-grid-shift-y', `${dy * 18}px`);
 		};
 
-		const onPointerMove = (event) => {
+		const updateTarget = (event) => {
 			cancelReturn();
 			state.pointerInside = true;
 			state.targetX = event.clientX / window.innerWidth;
 			state.targetY = event.clientY / window.innerHeight;
 		};
 
+		const onPointerMove = (event) => {
+			if (event.pointerType === 'touch' && !event.isPrimary) return;
+			updateTarget(event);
+		};
+
+		const onPointerDown = (event) => {
+			if (event.pointerType !== 'touch') return;
+			updateTarget(event);
+		};
+
 		const onPointerLeave = () => {
+			if (!finePointer.matches || !state.pointerInside) return;
 			scheduleReturn();
 		};
 
@@ -90,8 +102,17 @@
 			requestAnimationFrame(tick);
 		};
 
-		document.documentElement.addEventListener('pointerleave', onPointerLeave);
 		window.addEventListener('pointermove', onPointerMove, { passive: true });
+		window.addEventListener('pointerdown', onPointerDown, { passive: true });
+		if (finePointer.matches) {
+			document.documentElement.addEventListener('pointerleave', onPointerLeave);
+		} else {
+			const preventPinchZoom = (event) => {
+				if (event.touches.length > 1) event.preventDefault();
+			};
+			document.addEventListener('touchmove', preventPinchZoom, { passive: false });
+			document.addEventListener('gesturestart', (event) => event.preventDefault());
+		}
 		setVars();
 		requestAnimationFrame(tick);
 	}

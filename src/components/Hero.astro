@@ -86,6 +86,7 @@ const imageAttrs = {
 			gap: clamp(1.5rem, calc(1rem + 2vw), 2.5rem);
 			padding-block: clamp(2rem, calc(1rem + 8vmin), 6rem);
 			text-align: center;
+			overflow-x: clip;
 		}
 
 		.hero-logo-glow {
@@ -104,7 +105,7 @@ const imageAttrs = {
 		}
 
 		.hero-logo-glow__halo {
-			inset: -35% -20%;
+			inset: -22% -6%;
 			background: radial-gradient(
 				ellipse at center,
 				color-mix(in srgb, var(--sl-color-accent) 55%, transparent) 0%,
