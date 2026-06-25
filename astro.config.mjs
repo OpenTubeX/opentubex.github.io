@@ -34,6 +34,7 @@ export default defineConfig({
 		}),
 		starlight({
 			title: 'OpenTubeX',
+			pagefind: false,
 			customCss: ['./src/styles/splash.css'],
 			components: {
 				Hero: './src/components/Hero.astro',
