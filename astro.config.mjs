@@ -38,6 +38,7 @@ export default defineConfig({
 			components: {
 				Hero: './src/components/Hero.astro',
 				PageFrame: './src/components/PageFrame.astro',
+				SocialIcons: './src/components/SocialIcons.astro',
 			},
 			logo: {
 				light: './src/assets/logo-light.svg',
@@ -45,7 +46,14 @@ export default defineConfig({
 				alt: 'OpenTubeX',
 				replacesTitle: true,
 			},
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/OpenTubeX/OpenTubeX' }],
+			social: [
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/OpenTubeX/OpenTubeX' },
+				{
+					icon: 'translate',
+					label: 'Weblate',
+					href: 'https://weblate.d3sox.me/engage/opentubex/',
+				},
+			],
 			sidebar: [
 				{
 					label: 'Pages',
