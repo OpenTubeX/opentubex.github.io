@@ -6,6 +6,10 @@ const releaseBaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases/download
 export const allReleasesUrl = 'https://github.com/OpenTubeX/OpenTubeX/releases';
 export const githubReleaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases/tag/${releaseTag}`;
 
+export const flatpakRemoteUrl = 'https://flatpak.opentubex.org/opentubex.flatpakrepo';
+export const flatpakSiteUrl = 'https://flatpak.opentubex.org';
+const flatpakReleaseBaseUrl = `https://github.com/OpenTubeX/flatpak/releases/download/${releaseTag}`;
+
 export function downloadUrl(assetName: string): string {
 	return `${releaseBaseUrl}/${assetName}`;
 }
@@ -185,6 +189,27 @@ export const downloadGroups: DownloadGroup[] = [
 			{
 				label: 'AppImage (armv7l)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-armv7l.AppImage`),
+			},
+		],
+	},
+	{
+		title: 'Flatpak',
+		icon: 'simple-icons:flatpak',
+		links: [
+			{
+				label: 'Install instructions',
+				url: flatpakSiteUrl,
+				isExternal: true,
+			},
+			{
+				label: '.flatpak (x86_64)',
+				url: `${flatpakReleaseBaseUrl}/org.opentubex.OpenTubeX-${releaseTag}-x86_64.flatpak`,
+				isExternal: true,
+			},
+			{
+				label: '.flatpak (aarch64)',
+				url: `${flatpakReleaseBaseUrl}/org.opentubex.OpenTubeX-${releaseTag}-aarch64.flatpak`,
+				isExternal: true,
 			},
 		],
 	},
