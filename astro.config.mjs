@@ -20,6 +20,7 @@ export default defineConfig({
 					'message-square',
 					'monitor-play',
 					'picture-in-picture-2',
+					'refresh-cw',
 					'repeat',
 					'search',
 					'skip-forward',

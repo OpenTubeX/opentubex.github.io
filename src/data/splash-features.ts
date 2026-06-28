@@ -171,6 +171,15 @@ export const splashFeatures = [
 		x: 64,
 		y: 92,
 	},
+	{
+		id: 'subscription-refresh',
+		anchor: 'auto-refresh-subscriptions',
+		title: 'Auto-refresh subscriptions',
+		description: 'Refresh subscriptions automatically so your feed stays current.',
+		icon: 'refresh-cw',
+		x: 50,
+		y: 86,
+	},
 ] as const;
 
 export type SplashFeatureIcon = (typeof splashFeatures)[number]['icon'];
