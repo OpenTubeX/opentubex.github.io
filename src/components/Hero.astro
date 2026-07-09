@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import DraftContentNotice from 'virtual:starlight/components/DraftContentNotice';
 import LinkButton from '../../node_modules/@astrojs/starlight/user-components/LinkButton.astro';
 
@@ -41,14 +40,14 @@ const imageAttrs = {
 				<div class="hero-logo-glow__core" aria-hidden="true" />
 				{
 					darkImage && (
-						<Image
-							src={darkImage}
+						<img
+							src={darkImage.src}
 							{...imageAttrs}
 							class:list={['hero-logo', { 'light:sl-hidden': Boolean(lightImage) }]}
 						/>
 					)
 				}
-				{lightImage && <Image src={lightImage} {...imageAttrs} class="hero-logo dark:sl-hidden" />}
+				{lightImage && <img src={lightImage.src} {...imageAttrs} class="hero-logo dark:sl-hidden" />}
 				{rawHtml && <div class="hero-logo hero-html sl-flex" set:html={rawHtml} />}
 			</div>
 		)
