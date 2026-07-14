@@ -10,13 +10,16 @@ export default defineConfig({
 		icon({
 			include: {
 				lucide: [
+					'badge-info',
 					'book-marked',
+					'chart-no-axes-column',
 					'clock',
 					'columns-2',
 					'fast-forward',
 					'gauge',
 					'keyboard',
 					'languages',
+					'list-video',
 					'message-square',
 					'monitor-play',
 					'picture-in-picture-2',
