@@ -41,6 +41,7 @@ export default defineConfig({
 			pagefind: false,
 			customCss: ['./src/styles/splash.css'],
 			components: {
+				Footer: './src/components/Footer.astro',
 				Hero: './src/components/Hero.astro',
 				PageFrame: './src/components/PageFrame.astro',
 				SocialIcons: './src/components/SocialIcons.astro',
