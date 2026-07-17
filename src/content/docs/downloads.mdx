@@ -4,6 +4,7 @@ description: Download OpenTubeX for your platform.
 tableOfContents: false
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 import DownloadGrid from '../../components/DownloadGrid.astro';
 import { githubReleaseUrl, releaseVersion } from '../../data/release';
 
@@ -14,6 +15,41 @@ OpenTubeX is available on Windows 10+, macOS 12+, and Linux.
 Download links below point to the <a href={githubReleaseUrl}>v{releaseVersion}-beta release on GitHub</a>.
 
 <DownloadGrid />
+
+## Package managers
+
+On Windows, install OpenTubeX with [winget](https://learn.microsoft.com/windows/package-manager/winget/):
+
+```powershell
+winget install OpenTubeX.OpenTubeX
+```
+
+On Arch Linux, install from the AUR with a helper such as [paru](https://github.com/Morganamilo/paru) or [yay](https://github.com/Jguer/yay). Pick `opentubex-bin` for the prebuilt binary (faster to install) or `opentubex` to compile from source:
+
+<Tabs syncKey="aur-helper">
+	<TabItem label="paru">
+
+		```sh
+		# Prebuilt binary
+		paru -S opentubex-bin
+
+		# Build from source
+		paru -S opentubex
+		```
+
+	</TabItem>
+	<TabItem label="yay">
+
+		```sh
+		# Prebuilt binary
+		yay -S opentubex-bin
+
+		# Build from source
+		yay -S opentubex
+		```
+
+	</TabItem>
+</Tabs>
 
 ## Automated builds
 
