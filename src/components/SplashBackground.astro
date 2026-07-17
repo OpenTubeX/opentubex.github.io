@@ -76,13 +76,24 @@
 		};
 
 		const onPointerMove = (event) => {
-			if (event.pointerType === 'touch' && !event.isPrimary) return;
+			// Touch is handled via the touch events below, which keep firing
+			// during a drag even when the browser claims the gesture for scroll.
+			if (event.pointerType === 'touch') return;
 			updateTarget(event);
 		};
 
-		const onPointerDown = (event) => {
-			if (event.pointerType !== 'touch') return;
-			updateTarget(event);
+		const updateFromTouch = (event) => {
+			const touch = event.touches[0];
+			if (!touch) return;
+			cancelReturn();
+			state.pointerInside = true;
+			state.targetX = touch.clientX / window.innerWidth;
+			state.targetY = touch.clientY / window.innerHeight;
+		};
+
+		const onTouchEnd = (event) => {
+			if (event.touches.length > 0) return;
+			scheduleReturn();
 		};
 
 		const onPointerLeave = () => {
@@ -103,7 +114,12 @@
 		};
 
 		window.addEventListener('pointermove', onPointerMove, { passive: true });
-		window.addEventListener('pointerdown', onPointerDown, { passive: true });
+		// Passive touch listeners keep firing while the finger drags (scrolling
+		// the page), so the lamp follows the finger without blocking scroll.
+		window.addEventListener('touchstart', updateFromTouch, { passive: true });
+		window.addEventListener('touchmove', updateFromTouch, { passive: true });
+		window.addEventListener('touchend', onTouchEnd, { passive: true });
+		window.addEventListener('touchcancel', onTouchEnd, { passive: true });
 		if (finePointer.matches) {
 			document.documentElement.addEventListener('pointerleave', onPointerLeave);
 		} else {
