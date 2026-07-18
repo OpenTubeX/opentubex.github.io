@@ -1,6 +1,30 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { splashFeatures } from '../data/splash-features';
+
+type DescriptionLink = { label: string; anchor: string };
+type DescriptionPart = { text: string; anchor?: string };
+
+function getDescriptionParts(description: string, links: readonly DescriptionLink[]): DescriptionPart[] {
+	const matches = links
+		.map((link) => {
+			const index = description.indexOf(link.label);
+			if (index < 0) throw new Error(`Missing hotspot link label: ${link.label}`);
+			return { ...link, index };
+		})
+		.sort((a, b) => a.index - b.index);
+	const parts: DescriptionPart[] = [];
+	let offset = 0;
+
+	for (const match of matches) {
+		if (match.index > offset) parts.push({ text: description.slice(offset, match.index) });
+		parts.push({ text: match.label, anchor: match.anchor });
+		offset = match.index + match.label.length;
+	}
+
+	if (offset < description.length) parts.push({ text: description.slice(offset) });
+	return parts;
+}
 ---
 
 <div class="splash-hotspots" data-splash-hotspots>
@@ -39,10 +63,17 @@ import { splashFeatures } from '../data/splash-features';
 					hidden
 				>
 					<p class="splash-hotspot__title">{feature.title}</p>
-					<p class="splash-hotspot__text">{feature.description}</p>
-					<a class="splash-hotspot__link" href={`/extra-features/#${feature.anchor}`}>
-						All extra features →
-					</a>
+					<p class="splash-hotspot__text">
+						{getDescriptionParts(feature.description, feature.links).map((part) =>
+							part.anchor ? (
+								<a class="splash-hotspot__text-link" href={`/extra-features/#${part.anchor}`}>
+									{part.text}
+								</a>
+							) : (
+								part.text
+							),
+						)}
+					</p>
 				</div>
 			</div>
 		))

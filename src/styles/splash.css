@@ -343,27 +343,24 @@ html[data-has-hero] .main-frame :is(a, button, input, select, textarea, label, [
 
 .splash-hotspot__text {
 	position: relative;
-	margin: 0.4rem 0 0.65rem;
+	margin: 0.4rem 0 0;
 	font-size: var(--sl-text-xs);
 	line-height: 1.5;
 	color: var(--sl-color-gray-2);
 }
 
-.splash-hotspot__link {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
-	gap: 0.2rem;
-	font-size: var(--sl-text-xs);
+.splash-hotspot__text-link {
 	font-weight: 500;
 	color: var(--sl-color-accent-high);
-	text-decoration: none;
+	text-decoration: underline;
+	text-decoration-color: color-mix(in srgb, currentColor 55%, transparent);
+	text-underline-offset: 0.15em;
 	opacity: 0.95;
 }
 
-.splash-hotspot__link:hover {
+.splash-hotspot__text-link:hover {
 	opacity: 1;
-	text-decoration: none;
+	text-decoration-color: currentColor;
 	filter: brightness(1.08);
 }
 
