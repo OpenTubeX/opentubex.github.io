@@ -1,4 +1,4 @@
-export const releaseVersion = '0.28.1';
+export const releaseVersion = '0.29.0';
 
 const releaseTag = `v${releaseVersion}-beta`;
 const releaseBaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases/download/${releaseTag}`;
