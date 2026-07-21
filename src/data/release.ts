@@ -7,6 +7,7 @@ export const allReleasesUrl = 'https://github.com/OpenTubeX/OpenTubeX/releases';
 export const githubReleaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases/tag/${releaseTag}`;
 
 export const aptRepositoryUrl = 'https://apt.opentubex.org';
+export const rpmRepositoryUrl = 'https://rpm.opentubex.org';
 export const flatpakRemoteUrl = 'https://flatpak.opentubex.org/opentubex.flatpakrepo';
 export const flatpakSiteUrl = 'https://flatpak.opentubex.org';
 const flatpakReleaseBaseUrl = `https://github.com/OpenTubeX/flatpak/releases/download/${releaseTag}`;
@@ -147,9 +148,14 @@ export const downloadGroups: DownloadGroup[] = [
 		],
 	},
 	{
-		title: 'Fedora / RedHat',
+		title: 'Fedora / Red Hat',
 		icon: 'simple-icons:fedora',
 		links: [
+			{
+				label: 'Install RPM repository',
+				url: rpmRepositoryUrl,
+				isExternal: true,
+			},
 			{
 				label: '.rpm (x64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta.amd64.rpm`),

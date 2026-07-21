@@ -41,6 +41,17 @@ sudo apt update
 sudo apt install opentubex
 ```
 
+### <span style="display: inline-flex; align-items: center; gap: 0.5rem;"><Icon name="simple-icons:fedora" aria-hidden="true" /> Fedora / Red Hat</span>
+
+Add the signed [OpenTubeX RPM repository](https://rpm.opentubex.org) and install the package:
+
+```sh
+sudo curl --fail --location \
+  --output /etc/yum.repos.d/opentubex.repo \
+  https://rpm.opentubex.org/opentubex.repo
+sudo dnf install opentubex
+```
+
 ### <span style="display: inline-flex; align-items: center; gap: 0.5rem;"><Icon name="simple-icons:flatpak" aria-hidden="true" /> Flatpak</span>
 
 Add the [OpenTubeX Flatpak remote](https://flatpak.opentubex.org) and install the package:
