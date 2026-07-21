@@ -41,6 +41,16 @@ sudo apt update
 sudo apt install opentubex
 ```
 
+### <span style="display: inline-flex; align-items: center; gap: 0.5rem;"><Icon name="simple-icons:flatpak" aria-hidden="true" /> Flatpak</span>
+
+Add the [OpenTubeX Flatpak remote](https://flatpak.opentubex.org) and install the package:
+
+```sh
+flatpak remote-add --if-not-exists opentubex \
+  https://flatpak.opentubex.org/opentubex.flatpakrepo
+flatpak install opentubex org.opentubex.OpenTubeX
+```
+
 ### <span style="display: inline-flex; align-items: center; gap: 0.5rem;"><Icon name="simple-icons:archlinux" aria-hidden="true" /> Arch Linux</span>
 
 Install from the AUR with a helper such as [paru](https://github.com/Morganamilo/paru) or [yay](https://github.com/Jguer/yay). Pick `opentubex-bin` for the prebuilt binary (faster to install) or `opentubex` to compile from source:
