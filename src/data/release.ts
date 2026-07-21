@@ -6,6 +6,7 @@ const releaseBaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases/download
 export const allReleasesUrl = 'https://github.com/OpenTubeX/OpenTubeX/releases';
 export const githubReleaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases/tag/${releaseTag}`;
 
+export const aptRepositoryUrl = 'https://apt.opentubex.org';
 export const flatpakRemoteUrl = 'https://flatpak.opentubex.org/opentubex.flatpakrepo';
 export const flatpakSiteUrl = 'https://flatpak.opentubex.org';
 const flatpakReleaseBaseUrl = `https://github.com/OpenTubeX/flatpak/releases/download/${releaseTag}`;
@@ -126,6 +127,11 @@ export const downloadGroups: DownloadGroup[] = [
 		title: 'Ubuntu / Debian',
 		icon: 'simple-icons:ubuntu',
 		links: [
+			{
+				label: 'Install with APT',
+				url: aptRepositoryUrl,
+				isExternal: true,
+			},
 			{
 				label: '.deb (x64)',
 				url: downloadUrl(`opentubex_${releaseVersion}_beta_amd64.deb`),

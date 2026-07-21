@@ -6,7 +6,7 @@ tableOfContents: false
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 import DownloadGrid from '../../components/DownloadGrid.astro';
-import { githubReleaseUrl, releaseVersion } from '../../data/release';
+import { aptRepositoryUrl, githubReleaseUrl, releaseVersion } from '../../data/release';
 
 OpenTubeX is available on Windows 10+, macOS 12+, and Linux.
 
@@ -23,6 +23,20 @@ On Windows, install OpenTubeX with [winget](https://learn.microsoft.com/windows/
 ```powershell
 winget install OpenTubeX.OpenTubeX
 ```
+
+On Debian or Ubuntu, add the signed OpenTubeX APT repository and install the package:
+
+```sh
+sudo install -d -m 0755 /etc/apt/keyrings
+wget -qO- https://apt.opentubex.org/opentubex-archive-keyring.gpg \
+  | sudo tee /etc/apt/keyrings/opentubex-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/etc/apt/keyrings/opentubex-archive-keyring.gpg] https://apt.opentubex.org stable main" \
+  | sudo tee /etc/apt/sources.list.d/opentubex.list >/dev/null
+sudo apt update
+sudo apt install opentubex
+```
+
+See the <a href={aptRepositoryUrl}>APT repository page</a> for update instructions and manual downloads.
 
 On Arch Linux, install from the AUR with a helper such as [paru](https://github.com/Morganamilo/paru) or [yay](https://github.com/Jguer/yay). Pick `opentubex-bin` for the prebuilt binary (faster to install) or `opentubex` to compile from source:
 
