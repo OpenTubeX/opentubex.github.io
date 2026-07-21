@@ -5,6 +5,7 @@ tableOfContents: false
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Icon } from 'astro-icon/components';
 import DownloadGrid from '../../components/DownloadGrid.astro';
 import { aptRepositoryUrl, githubReleaseUrl, releaseVersion } from '../../data/release';
 
@@ -18,7 +19,7 @@ Download links below point to the <a href={githubReleaseUrl}>v{releaseVersion}-b
 
 ## Package managers
 
-### Windows
+### <Icon name="simple-icons:windows" aria-hidden="true" /> Windows
 
 Install OpenTubeX with [winget](https://learn.microsoft.com/windows/package-manager/winget/):
 
@@ -26,7 +27,7 @@ Install OpenTubeX with [winget](https://learn.microsoft.com/windows/package-mana
 winget install OpenTubeX.OpenTubeX
 ```
 
-### Debian / Ubuntu
+### <Icon name="simple-icons:ubuntu" aria-hidden="true" /> Debian / Ubuntu
 
 Add the signed OpenTubeX APT repository and install the package:
 
@@ -42,7 +43,7 @@ sudo apt install opentubex
 
 See the <a href={aptRepositoryUrl}>APT repository page</a> for update instructions and manual downloads.
 
-### Arch Linux
+### <Icon name="simple-icons:archlinux" aria-hidden="true" /> Arch Linux
 
 Install from the AUR with a helper such as [paru](https://github.com/Morganamilo/paru) or [yay](https://github.com/Jguer/yay). Pick `opentubex-bin` for the prebuilt binary (faster to install) or `opentubex` to compile from source:
 
