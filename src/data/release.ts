@@ -128,7 +128,7 @@ export const downloadGroups: DownloadGroup[] = [
 		icon: 'simple-icons:ubuntu',
 		links: [
 			{
-				label: 'Install with APT',
+				label: 'Install APT repository',
 				url: aptRepositoryUrl,
 				isExternal: true,
 			},
