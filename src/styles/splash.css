@@ -451,6 +451,12 @@ html[data-has-hero] .main-frame :is(a, button, input, select, textarea, label, [
 	}
 }
 
+html[data-has-hero][data-otx-motion='off'] .hero-logo-glow__halo,
+html[data-has-hero][data-otx-motion='off'] .hero-logo-glow__core {
+	animation: none;
+	transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.splash-bg__orb,
 	.splash-bg__spotlight,

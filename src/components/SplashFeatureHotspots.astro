@@ -84,6 +84,7 @@ function getDescriptionParts(description: string, links: readonly DescriptionLin
 	const TIP_PAD = 12;
 	const TIP_GAP = 10;
 	const LIT_RADIUS = 0.24;
+	let cleanupSplashHotspots;
 
 	function getPointerPixels() {
 		const root = document.documentElement;
@@ -130,17 +131,6 @@ function getDescriptionParts(description: string, links: readonly DescriptionLin
 			hotspot.style.setProperty('--hotspot-lit', lit.toFixed(3));
 			hotspot.style.pointerEvents = lit > 0.14 ? 'auto' : 'none';
 		}
-	}
-
-	function startHotspotLighting(hotspots) {
-		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		if (reducedMotion) return;
-
-		const tick = () => {
-			updateHotspotVisibility(hotspots);
-			requestAnimationFrame(tick);
-		};
-		requestAnimationFrame(tick);
 	}
 
 	function getHeaderBottom() {
@@ -202,12 +192,50 @@ function getDescriptionParts(description: string, links: readonly DescriptionLin
 
 	function initSplashHotspots() {
 		const layer = document.querySelector('[data-splash-hotspots]');
-		if (!layer || layer.dataset.otxHotspotsInit === 'true') return;
+		if (!layer) {
+			cleanupSplashHotspots?.();
+			cleanupSplashHotspots = undefined;
+			return;
+		}
+		if (layer.dataset.otxHotspotsInit === 'true') return;
 		layer.dataset.otxHotspotsInit = 'true';
 
 		const hotspots = [...layer.querySelectorAll('.splash-hotspot')];
+		const root = document.documentElement;
+		const eventController = new AbortController();
+		let lightingFrame = null;
 		let openHotspot = null;
 		let openTip = null;
+
+		const stopHotspotLighting = () => {
+			if (lightingFrame !== null) cancelAnimationFrame(lightingFrame);
+			lightingFrame = null;
+			for (const hotspot of hotspots) {
+				if (hotspot.classList.contains('is-open')) continue;
+				hotspot.style.setProperty('--hotspot-lit', '0');
+				hotspot.style.pointerEvents = 'none';
+			}
+		};
+
+		const startHotspotLighting = () => {
+			if (lightingFrame !== null) return;
+			if (root.dataset.otxMotion !== 'trial' && root.dataset.otxMotion !== 'full') return;
+
+			const tick = () => {
+				if (
+					!layer.isConnected ||
+					document.hidden ||
+					(root.dataset.otxMotion !== 'trial' && root.dataset.otxMotion !== 'full')
+				) {
+					lightingFrame = null;
+					return;
+				}
+				updateHotspotVisibility(hotspots);
+				lightingFrame = requestAnimationFrame(tick);
+			};
+
+			lightingFrame = requestAnimationFrame(tick);
+		};
 
 		const closeAll = () => {
 			for (const hotspot of hotspots) {
@@ -262,8 +290,8 @@ function getDescriptionParts(description: string, links: readonly DescriptionLin
 			}
 		};
 
-		layer.addEventListener('click', handlePointerDown);
-		document.addEventListener('click', handlePointerDown);
+		layer.addEventListener('click', handlePointerDown, { signal: eventController.signal });
+		document.addEventListener('click', handlePointerDown, { signal: eventController.signal });
 
 		layer.addEventListener('focusin', (event) => {
 			const target = event.target;
@@ -272,22 +300,36 @@ function getDescriptionParts(description: string, links: readonly DescriptionLin
 			if (!hotspot) return;
 			hotspot.style.setProperty('--hotspot-lit', '1');
 			hotspot.style.pointerEvents = 'auto';
-		});
+		}, { signal: eventController.signal });
 
 		layer.addEventListener('focusout', () => {
 			updateHotspotVisibility(hotspots);
-		});
+		}, { signal: eventController.signal });
 
 		document.addEventListener('keydown', (event) => {
 			if (event.key === 'Escape') closeAll();
-		});
+		}, { signal: eventController.signal });
 
 		window.addEventListener('resize', () => {
 			if (!openHotspot || !openTip || openTip.hidden) return;
 			placeFloatingTip(openHotspot, openTip);
+		}, { signal: eventController.signal });
+
+		root.addEventListener('otx:motion-start', startHotspotLighting, {
+			signal: eventController.signal,
+		});
+		root.addEventListener('otx:motion-stop', stopHotspotLighting, {
+			signal: eventController.signal,
 		});
 
-		startHotspotLighting(hotspots);
+		cleanupSplashHotspots = () => {
+			stopHotspotLighting();
+			closeAll();
+			eventController.abort();
+			delete layer.dataset.otxHotspotsInit;
+		};
+
+		startHotspotLighting();
 	}
 
 	initSplashHotspots();

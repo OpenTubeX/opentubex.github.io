@@ -8,12 +8,23 @@
 </div>
 
 <script>
+	const MOTION_SESSION_KEY = 'otx-splash-motion-v1';
+	const BASELINE_SAMPLE_MS = 500;
+	const TRIAL_SAMPLE_MS = 2000;
+	const MIN_BASELINE_RATIO = 0.7;
+	const MAX_FRAME_TIME_RATIO = 2;
+
+	let cleanupSplashBackground;
+
 	function initSplashBackground() {
 		const root = document.documentElement;
-		if (!root.hasAttribute('data-has-hero')) return;
+		if (!root.hasAttribute('data-has-hero')) {
+			cleanupSplashBackground?.();
+			cleanupSplashBackground = undefined;
+			return;
+		}
 
 		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		if (reducedMotion) return;
 		if (root.dataset.otxSplashInit === 'true') return;
 		root.dataset.otxSplashInit = 'true';
 
@@ -31,7 +42,36 @@
 			pointerInside: false,
 		};
 
+		let animationFrame = null;
+		let baselineFrame = null;
 		let returnTimer = null;
+		let disposed = false;
+		let trialStartedAt = 0;
+		let previousTrialFrame = 0;
+		let trialFrameTimes = [];
+		const eventController = new AbortController();
+		const eventOptions = { passive: true, signal: eventController.signal };
+
+		const getSavedMotion = () => {
+			try {
+				return sessionStorage.getItem(MOTION_SESSION_KEY);
+			} catch {
+				return null;
+			}
+		};
+
+		const saveMotion = (motion) => {
+			try {
+				sessionStorage.setItem(MOTION_SESSION_KEY, motion);
+			} catch {
+				// Storage can be unavailable in privacy-restricted contexts.
+			}
+		};
+
+		const percentile = (values, fraction) => {
+			const sorted = [...values].sort((a, b) => a - b);
+			return sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * fraction))] ?? Infinity;
+		};
 
 		const cancelReturn = () => {
 			if (returnTimer !== null) {
@@ -68,6 +108,20 @@
 			root.style.setProperty('--otx-grid-shift-y', `${dy * 18}px`);
 		};
 
+		const stopMotion = (persist = false) => {
+			if (animationFrame !== null) cancelAnimationFrame(animationFrame);
+			animationFrame = null;
+			state.targetX = CENTER_X;
+			state.targetY = CENTER_Y;
+			state.currentX = CENTER_X;
+			state.currentY = CENTER_Y;
+			state.pointerInside = false;
+			setVars();
+			root.dataset.otxMotion = 'off';
+			root.dispatchEvent(new CustomEvent('otx:motion-stop'));
+			if (persist) saveMotion('off');
+		};
+
 		const updateTarget = (event) => {
 			cancelReturn();
 			state.pointerInside = true;
@@ -102,6 +156,11 @@
 		};
 
 		const tick = (timestamp) => {
+			if (disposed || document.hidden) {
+				animationFrame = null;
+				return;
+			}
+
 			state.time = timestamp * 0.001;
 			const idleX = Math.sin(state.time * 0.35) * 0.04;
 			const idleY = Math.cos(state.time * 0.28) * 0.03;
@@ -110,27 +169,142 @@
 			state.currentX += (state.targetX + idleX - state.currentX) * lerp;
 			state.currentY += (state.targetY + idleY - state.currentY) * lerp;
 			setVars();
-			requestAnimationFrame(tick);
+
+			if (root.dataset.otxMotion === 'trial') {
+				if (previousTrialFrame > 0) trialFrameTimes.push(timestamp - previousTrialFrame);
+				previousTrialFrame = timestamp;
+
+				if (timestamp - trialStartedAt >= TRIAL_SAMPLE_MS && trialFrameTimes.length > 0) {
+					const baselineFrameTime = Number(root.dataset.otxBaselineFrameTime);
+					const trialDuration = trialFrameTimes.reduce((total, value) => total + value, 0);
+					const trialFps = (trialFrameTimes.length * 1000) / trialDuration;
+					const baselineFps = 1000 / baselineFrameTime;
+					const p95FrameTime = percentile(trialFrameTimes, 0.95);
+					const isTooSlow =
+						trialFps < baselineFps * MIN_BASELINE_RATIO ||
+						p95FrameTime > baselineFrameTime * MAX_FRAME_TIME_RATIO;
+
+					if (isTooSlow) {
+						stopMotion(true);
+						return;
+					}
+
+					root.dataset.otxMotion = 'full';
+					saveMotion('full');
+				}
+			}
+
+			animationFrame = requestAnimationFrame(tick);
 		};
 
-		window.addEventListener('pointermove', onPointerMove, { passive: true });
+		const startMotion = (trial) => {
+			if (animationFrame !== null || disposed || document.hidden) return;
+			root.dataset.otxMotion = trial ? 'trial' : 'full';
+			if (trial) {
+				trialStartedAt = performance.now();
+				previousTrialFrame = 0;
+				trialFrameTimes = [];
+			}
+			root.dispatchEvent(new CustomEvent('otx:motion-start'));
+			animationFrame = requestAnimationFrame(tick);
+		};
+
+		const measureBaseline = () =>
+			new Promise((resolve) => {
+				const frameTimes = [];
+				let startedAt = 0;
+				let previousFrame = 0;
+
+				const measure = (timestamp) => {
+					if (disposed) return;
+					if (startedAt === 0) startedAt = timestamp;
+					if (previousFrame > 0) frameTimes.push(timestamp - previousFrame);
+					previousFrame = timestamp;
+
+					if (timestamp - startedAt < BASELINE_SAMPLE_MS) {
+						baselineFrame = requestAnimationFrame(measure);
+						return;
+					}
+
+					baselineFrame = null;
+					resolve(percentile(frameTimes, 0.5));
+				};
+
+				baselineFrame = requestAnimationFrame(measure);
+			});
+
+		const startAdaptiveMotion = async () => {
+			if (reducedMotion || getSavedMotion() === 'off') {
+				stopMotion();
+				return;
+			}
+
+			if (getSavedMotion() === 'full') {
+				startMotion(false);
+				return;
+			}
+
+			stopMotion();
+			const baselineFrameTime = await measureBaseline();
+			if (disposed || !Number.isFinite(baselineFrameTime)) return;
+			root.dataset.otxBaselineFrameTime = String(baselineFrameTime);
+			startMotion(true);
+		};
+
+		window.addEventListener('pointermove', onPointerMove, eventOptions);
 		// Passive touch listeners keep firing while the finger drags (scrolling
 		// the page), so the lamp follows the finger without blocking scroll.
-		window.addEventListener('touchstart', updateFromTouch, { passive: true });
-		window.addEventListener('touchmove', updateFromTouch, { passive: true });
-		window.addEventListener('touchend', onTouchEnd, { passive: true });
-		window.addEventListener('touchcancel', onTouchEnd, { passive: true });
+		window.addEventListener('touchstart', updateFromTouch, eventOptions);
+		window.addEventListener('touchmove', updateFromTouch, eventOptions);
+		window.addEventListener('touchend', onTouchEnd, eventOptions);
+		window.addEventListener('touchcancel', onTouchEnd, eventOptions);
 		if (finePointer.matches) {
-			document.documentElement.addEventListener('pointerleave', onPointerLeave);
+			document.documentElement.addEventListener('pointerleave', onPointerLeave, {
+				signal: eventController.signal,
+			});
 		} else {
 			const preventPinchZoom = (event) => {
 				if (event.touches.length > 1) event.preventDefault();
 			};
-			document.addEventListener('touchmove', preventPinchZoom, { passive: false });
-			document.addEventListener('gesturestart', (event) => event.preventDefault());
+			document.addEventListener('touchmove', preventPinchZoom, {
+				passive: false,
+				signal: eventController.signal,
+			});
+			document.addEventListener('gesturestart', (event) => event.preventDefault(), {
+				signal: eventController.signal,
+			});
 		}
+
+		document.addEventListener(
+			'visibilitychange',
+			() => {
+				if (document.hidden) {
+					if (animationFrame !== null) cancelAnimationFrame(animationFrame);
+					animationFrame = null;
+					root.dispatchEvent(new CustomEvent('otx:motion-stop'));
+					return;
+				}
+
+				if (root.dataset.otxMotion === 'trial') startMotion(true);
+				if (root.dataset.otxMotion === 'full') startMotion(false);
+			},
+			{ signal: eventController.signal }
+		);
+
+		cleanupSplashBackground = () => {
+			disposed = true;
+			cancelReturn();
+			if (animationFrame !== null) cancelAnimationFrame(animationFrame);
+			if (baselineFrame !== null) cancelAnimationFrame(baselineFrame);
+			eventController.abort();
+			root.dispatchEvent(new CustomEvent('otx:motion-stop'));
+			delete root.dataset.otxSplashInit;
+			delete root.dataset.otxMotion;
+			delete root.dataset.otxBaselineFrameTime;
+		};
+
 		setVars();
-		requestAnimationFrame(tick);
+		startAdaptiveMotion();
 	}
 
 	initSplashBackground();
