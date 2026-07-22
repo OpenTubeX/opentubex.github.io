@@ -173,6 +173,25 @@ export const downloadGroups: DownloadGroup[] = [
 		],
 	},
 	{
+		title: 'openSUSE',
+		icon: 'simple-icons:opensuse',
+		links: [
+			{
+				label: 'Install RPM repository',
+				url: rpmRepositoryUrl,
+				isExternal: true,
+			},
+			{
+				label: '.rpm (x64)',
+				url: downloadUrl(`opentubex-${releaseVersion}-beta.amd64.rpm`),
+			},
+			{
+				label: '.rpm (arm64)',
+				url: downloadUrl(`opentubex-${releaseVersion}-beta.arm64.rpm`),
+			},
+		],
+	},
+	{
 		title: 'Arch Linux',
 		icon: 'simple-icons:archlinux',
 		links: [
