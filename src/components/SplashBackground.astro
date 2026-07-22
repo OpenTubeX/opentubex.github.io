@@ -108,7 +108,7 @@
 			root.style.setProperty('--otx-grid-shift-y', `${dy * 18}px`);
 		};
 
-		const stopMotion = (persist = false) => {
+		const enablePerformanceMode = (persist = false) => {
 			if (animationFrame !== null) cancelAnimationFrame(animationFrame);
 			animationFrame = null;
 			state.targetX = CENTER_X;
@@ -117,9 +117,9 @@
 			state.currentY = CENTER_Y;
 			state.pointerInside = false;
 			setVars();
-			root.dataset.otxMotion = 'off';
+			root.dataset.otxMotion = 'performance';
 			root.dispatchEvent(new CustomEvent('otx:motion-stop'));
-			if (persist) saveMotion('off');
+			if (persist) saveMotion('performance');
 		};
 
 		const updateTarget = (event) => {
@@ -185,7 +185,7 @@
 						p95FrameTime > baselineFrameTime * MAX_FRAME_TIME_RATIO;
 
 					if (isTooSlow) {
-						stopMotion(true);
+						enablePerformanceMode(true);
 						return;
 					}
 
@@ -234,17 +234,23 @@
 			});
 
 		const startAdaptiveMotion = async () => {
-			if (reducedMotion || getSavedMotion() === 'off') {
-				stopMotion();
+			const savedMotion = getSavedMotion();
+			if (reducedMotion) {
+				enablePerformanceMode();
 				return;
 			}
 
-			if (getSavedMotion() === 'full') {
+			if (savedMotion === 'performance' || savedMotion === 'off') {
+				enablePerformanceMode(savedMotion === 'off');
+				return;
+			}
+
+			if (savedMotion === 'full') {
 				startMotion(false);
 				return;
 			}
 
-			stopMotion();
+			enablePerformanceMode();
 			const baselineFrameTime = await measureBaseline();
 			if (disposed || !Number.isFinite(baselineFrameTime)) return;
 			root.dataset.otxBaselineFrameTime = String(baselineFrameTime);

@@ -210,10 +210,11 @@ function getDescriptionParts(description: string, links: readonly DescriptionLin
 		const stopHotspotLighting = () => {
 			if (lightingFrame !== null) cancelAnimationFrame(lightingFrame);
 			lightingFrame = null;
+			const performanceMode = root.dataset.otxMotion === 'performance';
 			for (const hotspot of hotspots) {
 				if (hotspot.classList.contains('is-open')) continue;
-				hotspot.style.setProperty('--hotspot-lit', '0');
-				hotspot.style.pointerEvents = 'none';
+				hotspot.style.setProperty('--hotspot-lit', performanceMode ? '0.65' : '0');
+				hotspot.style.pointerEvents = performanceMode ? 'auto' : 'none';
 			}
 		};
 
@@ -303,7 +304,11 @@ function getDescriptionParts(description: string, links: readonly DescriptionLin
 		}, { signal: eventController.signal });
 
 		layer.addEventListener('focusout', () => {
-			updateHotspotVisibility(hotspots);
+			if (root.dataset.otxMotion === 'performance') {
+				stopHotspotLighting();
+			} else {
+				updateHotspotVisibility(hotspots);
+			}
 		}, { signal: eventController.signal });
 
 		document.addEventListener('keydown', (event) => {
@@ -329,7 +334,11 @@ function getDescriptionParts(description: string, links: readonly DescriptionLin
 			delete layer.dataset.otxHotspotsInit;
 		};
 
-		startHotspotLighting();
+		if (root.dataset.otxMotion === 'performance') {
+			stopHotspotLighting();
+		} else {
+			startHotspotLighting();
+		}
 	}
 
 	initSplashHotspots();
