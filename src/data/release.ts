@@ -7,6 +7,7 @@ export const allReleasesUrl = 'https://github.com/OpenTubeX/OpenTubeX/releases';
 export const githubReleaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases/tag/${releaseTag}`;
 
 export const aptRepositoryUrl = 'https://apt.opentubex.org';
+export const coprRepositoryUrl = 'https://copr.fedorainfracloud.org/coprs/d3sox/opentubex/';
 export const rpmRepositoryUrl = 'https://rpm.opentubex.org';
 export const flatpakRemoteUrl = 'https://flatpak.opentubex.org/opentubex.flatpakrepo';
 export const flatpakSiteUrl = 'https://flatpak.opentubex.org';
@@ -151,6 +152,11 @@ export const downloadGroups: DownloadGroup[] = [
 		title: 'Fedora / Red Hat',
 		icon: 'simple-icons:fedora',
 		links: [
+			{
+				label: 'Install with COPR',
+				url: coprRepositoryUrl,
+				isExternal: true,
+			},
 			{
 				label: 'Install RPM repository',
 				url: rpmRepositoryUrl,

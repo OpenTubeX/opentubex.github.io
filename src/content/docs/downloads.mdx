@@ -43,7 +43,14 @@ sudo apt install opentubex
 
 ### <span style="display: inline-flex; align-items: center; gap: 0.5rem;"><Icon name="simple-icons:fedora" aria-hidden="true" /> Fedora / Red Hat</span>
 
-Add the signed [OpenTubeX RPM repository](https://rpm.opentubex.org) and install the package:
+Install from the official [OpenTubeX COPR repository](https://copr.fedorainfracloud.org/coprs/d3sox/opentubex/):
+
+```sh
+sudo dnf copr enable d3sox/opentubex
+sudo dnf install opentubex
+```
+
+Alternatively, add the signed [OpenTubeX-hosted RPM repository](https://rpm.opentubex.org):
 
 ```sh
 sudo curl --fail --location \
