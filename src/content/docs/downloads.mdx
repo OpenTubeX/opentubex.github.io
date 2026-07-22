@@ -4,7 +4,7 @@ description: Download OpenTubeX for your platform.
 tableOfContents: false
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
 import { Icon } from 'astro-icon/components';
 import DownloadGrid from '../../components/DownloadGrid.astro';
 import { githubReleaseUrl, releaseVersion } from '../../data/release';
@@ -111,12 +111,110 @@ Install from the AUR with a helper such as [paru](https://github.com/Morganamilo
 	</TabItem>
 </Tabs>
 
-## Automated builds
+## Development builds
 
-Use these pre-release builds at your own risk.
+Development builds provide early access to changes on the `development`
+branch in two different ways:
 
-- [GitHub Actions builds](https://github.com/OpenTubeX/OpenTubeX/actions/workflows/build.yml)
-- [AUR (opentubex-git)](https://aur.archlinux.org/packages/opentubex-git/)
+| Automated builds | Nightly package channels |
+| --- | --- |
+| After development changes are pushed | Every day at 02:15 UTC |
 
-> You need a GitHub account to download builds from GitHub Actions.
-> If you don't have one, you can use [nightly.link](https://nightly.link/OpenTubeX/OpenTubeX/workflows/build/development).
+<Aside type="caution" title="Development builds">
+	Both options may contain unfinished features or regressions. Nightly channels
+	are kept separate from stable repositories, but switching channels can
+	replace an existing stable installation.
+</Aside>
+
+### Automated builds
+
+The latest development artifacts are available from the
+[Build workflow](https://github.com/OpenTubeX/OpenTubeX/actions/workflows/build.yml)
+or through [nightly.link](https://nightly.link/OpenTubeX/OpenTubeX/workflows/build/development)
+without a GitHub account.
+
+Arch Linux users can build the current development revision with
+[`opentubex-git`](https://aur.archlinux.org/packages/opentubex-git):
+
+<Tabs syncKey="aur-helper">
+	<TabItem label="paru">
+
+		```sh title="Automated build"
+		paru -S opentubex-git
+		```
+
+	</TabItem>
+	<TabItem label="yay">
+
+		```sh title="Automated build"
+		yay -S opentubex-git
+		```
+
+	</TabItem>
+</Tabs>
+
+### Nightly package channels
+
+<Tabs syncKey="nightly-platform">
+	<TabItem label="Debian / Ubuntu">
+
+		Add the signing key and select the `nightly` APT suite:
+
+		```sh
+		sudo install -d -m 0755 /etc/apt/keyrings
+		wget -qO- https://apt.opentubex.org/opentubex-archive-keyring.gpg \
+		  | sudo tee /etc/apt/keyrings/opentubex-archive-keyring.gpg >/dev/null
+		echo "deb [signed-by=/etc/apt/keyrings/opentubex-archive-keyring.gpg] https://apt.opentubex.org nightly main" \
+		  | sudo tee /etc/apt/sources.list.d/opentubex.list >/dev/null
+		sudo apt update
+		sudo apt install opentubex
+		```
+
+	</TabItem>
+	<TabItem label="Fedora / Red Hat">
+
+		Install the OpenTubeX nightly repository configuration:
+
+		```sh
+		sudo curl --fail --location \
+		  --output /etc/yum.repos.d/opentubex-nightly.repo \
+		  https://rpm.opentubex.org/opentubex-nightly.repo
+		sudo dnf install opentubex
+		```
+
+	</TabItem>
+	<TabItem label="openSUSE">
+
+		Import the signing key and add the nightly RPM repository:
+
+		```sh
+		sudo rpm --import \
+		  https://rpm.opentubex.org/opensuse/nightly/repodata/repomd.xml.key
+		sudo zypper addrepo --refresh \
+		  https://rpm.opentubex.org/opensuse/nightly/ \
+		  opentubex-nightly
+		sudo zypper install opentubex
+		```
+
+	</TabItem>
+	<TabItem label="Flatpak">
+
+		Add the OpenTubeX remote and install its nightly branch:
+
+		```sh
+		flatpak remote-add --if-not-exists opentubex \
+		  https://flatpak.opentubex.org/opentubex.flatpakrepo
+		flatpak install opentubex org.opentubex.OpenTubeX//nightly
+		```
+
+	</TabItem>
+	<TabItem label="Snap">
+
+		Install from the Snap Store edge channel:
+
+		```sh
+		sudo snap install opentubex --edge
+		```
+
+	</TabItem>
+</Tabs>
