@@ -108,7 +108,7 @@
 			root.style.setProperty('--otx-grid-shift-y', `${dy * 18}px`);
 		};
 
-		const enablePerformanceMode = (persist = false) => {
+		const setStaticMode = (mode: 'measuring' | 'performance', persist = false) => {
 			if (animationFrame !== null) cancelAnimationFrame(animationFrame);
 			animationFrame = null;
 			state.targetX = CENTER_X;
@@ -117,10 +117,12 @@
 			state.currentY = CENTER_Y;
 			state.pointerInside = false;
 			setVars();
-			root.dataset.otxMotion = 'performance';
+			root.dataset.otxMotion = mode;
 			root.dispatchEvent(new CustomEvent('otx:motion-stop'));
-			if (persist) saveMotion('performance');
+			if (persist) saveMotion(mode);
 		};
+
+		const enablePerformanceMode = (persist = false) => setStaticMode('performance', persist);
 
 		const updateTarget = (event) => {
 			cancelReturn();
@@ -250,7 +252,7 @@
 				return;
 			}
 
-			enablePerformanceMode();
+			setStaticMode('measuring');
 			const baselineFrameTime = await measureBaseline();
 			if (disposed || !Number.isFinite(baselineFrameTime)) return;
 			root.dataset.otxBaselineFrameTime = String(baselineFrameTime);

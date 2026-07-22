@@ -451,8 +451,8 @@ html[data-has-hero] .main-frame :is(a, button, input, select, textarea, label, [
 	}
 }
 
-html[data-has-hero][data-otx-motion='performance'] .hero-logo-glow__halo,
-html[data-has-hero][data-otx-motion='performance'] .hero-logo-glow__core {
+html[data-has-hero]:is([data-otx-motion='performance'], [data-otx-motion='measuring']) .hero-logo-glow__halo,
+html[data-has-hero]:is([data-otx-motion='performance'], [data-otx-motion='measuring']) .hero-logo-glow__core {
 	animation: none;
 	transform: none;
 }
