@@ -44,6 +44,7 @@
 
 		let animationFrame = null;
 		let baselineFrame = null;
+		let cancelBaseline = null;
 		let returnTimer = null;
 		let disposed = false;
 		let trialStartedAt = 0;
@@ -200,8 +201,9 @@
 		};
 
 		const startMotion = (trial) => {
-			if (animationFrame !== null || disposed || document.hidden) return;
+			if (disposed) return;
 			root.dataset.otxMotion = trial ? 'trial' : 'full';
+			if (animationFrame !== null || document.hidden) return;
 			if (trial) {
 				trialStartedAt = performance.now();
 				previousTrialFrame = 0;
@@ -217,8 +219,22 @@
 				let startedAt = 0;
 				let previousFrame = 0;
 
+				const finish = (frameTime) => {
+					baselineFrame = null;
+					cancelBaseline = null;
+					resolve(frameTime);
+				};
+
+				cancelBaseline = () => {
+					if (baselineFrame !== null) cancelAnimationFrame(baselineFrame);
+					finish(null);
+				};
+
 				const measure = (timestamp) => {
-					if (disposed) return;
+					if (disposed || document.hidden) {
+						finish(null);
+						return;
+					}
 					if (startedAt === 0) startedAt = timestamp;
 					if (previousFrame > 0) frameTimes.push(timestamp - previousFrame);
 					previousFrame = timestamp;
@@ -228,8 +244,7 @@
 						return;
 					}
 
-					baselineFrame = null;
-					resolve(percentile(frameTimes, 0.5));
+					finish(percentile(frameTimes, 0.5));
 				};
 
 				baselineFrame = requestAnimationFrame(measure);
@@ -253,8 +268,9 @@
 			}
 
 			setStaticMode('measuring');
+			if (document.hidden) return;
 			const baselineFrameTime = await measureBaseline();
-			if (disposed || !Number.isFinite(baselineFrameTime)) return;
+			if (disposed || baselineFrameTime === null || !Number.isFinite(baselineFrameTime)) return;
 			root.dataset.otxBaselineFrameTime = String(baselineFrameTime);
 			startMotion(true);
 		};
@@ -289,10 +305,12 @@
 				if (document.hidden) {
 					if (animationFrame !== null) cancelAnimationFrame(animationFrame);
 					animationFrame = null;
+					cancelBaseline?.();
 					root.dispatchEvent(new CustomEvent('otx:motion-stop'));
 					return;
 				}
 
+				if (root.dataset.otxMotion === 'measuring') startAdaptiveMotion();
 				if (root.dataset.otxMotion === 'trial') startMotion(true);
 				if (root.dataset.otxMotion === 'full') startMotion(false);
 			},
@@ -303,7 +321,7 @@
 			disposed = true;
 			cancelReturn();
 			if (animationFrame !== null) cancelAnimationFrame(animationFrame);
-			if (baselineFrame !== null) cancelAnimationFrame(baselineFrame);
+			cancelBaseline?.();
 			eventController.abort();
 			root.dispatchEvent(new CustomEvent('otx:motion-stop'));
 			delete root.dataset.otxSplashInit;
