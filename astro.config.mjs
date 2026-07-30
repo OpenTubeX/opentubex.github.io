@@ -1,11 +1,18 @@
 // @ts-check
+import { unified } from '@astrojs/markdown-remark';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import icon from 'astro-icon';
+import remarkBundleGitHubImages from './src/plugins/remark-bundle-github-images.mjs';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://opentubex.org',
+	markdown: {
+		processor: unified({
+			remarkPlugins: [remarkBundleGitHubImages],
+		}),
+	},
 	integrations: [
 		icon({
 			include: {
