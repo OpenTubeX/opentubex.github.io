@@ -67,6 +67,17 @@ export default defineConfig({
 					label: 'Weblate',
 					href: 'https://weblate.d3sox.me/engage/opentubex/',
 				},
+				{
+					// Starlight has no Fluxer icon; remapped to simple-icons:fluxer in SocialIcons.
+					icon: 'discord',
+					label: 'Fluxer',
+					href: 'https://fluxer.gg/PHdJoM1G',
+				},
+				{
+					icon: 'matrix',
+					label: 'Matrix',
+					href: 'https://matrix.to/#/#opentubex:matrix.org',
+				},
 			],
 			sidebar: [
 				{
