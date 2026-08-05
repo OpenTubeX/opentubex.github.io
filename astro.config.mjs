@@ -5,19 +5,9 @@ import starlight from '@astrojs/starlight';
 import icon from 'astro-icon';
 import remarkBundleGitHubImages from './src/plugins/remark-bundle-github-images.mjs';
 
-/** Stable invite targets — update these when Fluxer/Matrix invite links change. */
-const communityInvites = {
-	fluxer: 'https://fluxer.gg/PHdJoM1G',
-	matrix: 'https://matrix.to/#/#opentubex:matrix.org',
-};
-
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://opentubex.org',
-	redirects: {
-		'/fluxer': communityInvites.fluxer,
-		'/matrix': communityInvites.matrix,
-	},
 	markdown: {
 		processor: unified({
 			remarkPlugins: [remarkBundleGitHubImages],
@@ -81,12 +71,12 @@ export default defineConfig({
 					// Starlight has no Fluxer icon; remapped to simple-icons:fluxer in SocialIcons.
 					icon: 'discord',
 					label: 'Fluxer',
-					href: '/fluxer',
+					href: 'https://fluxer.opentubex.org',
 				},
 				{
 					icon: 'matrix',
 					label: 'Matrix',
-					href: '/matrix',
+					href: 'https://matrix.opentubex.org',
 				},
 			],
 			sidebar: [
