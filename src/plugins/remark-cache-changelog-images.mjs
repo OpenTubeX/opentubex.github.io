@@ -19,6 +19,7 @@ const EXTENSIONS = new Map([
 	['image/gif', '.gif'],
 	['image/jpeg', '.jpg'],
 	['image/png', '.png'],
+	['image/svg+xml', '.svg'],
 	['image/webp', '.webp'],
 ]);
 
@@ -42,6 +43,15 @@ function cacheKey(url) {
 	const attachment = url.match(/\/user-attachments\/assets\/([a-f0-9-]+)/i);
 	if (attachment) return attachment[1];
 	return createHash('sha1').update(url).digest('hex').slice(0, 20);
+}
+
+function formatDownloadError(url, error) {
+	const message = error instanceof Error ? error.message : String(error);
+	const cause =
+		error instanceof Error && error.cause != null
+			? ` (${error.cause instanceof Error ? error.cause.message : error.cause})`
+			: '';
+	return `Failed to download ${url}: ${message}${cause}`;
 }
 
 async function downloadImage(url) {
@@ -75,7 +85,7 @@ async function downloadImage(url) {
 		});
 
 		if (!response.ok) {
-			throw new Error(`Failed to download ${url}: ${response.status}`);
+			throw new Error(`HTTP ${response.status}`);
 		}
 
 		if (!isAllowedUrl(response.url, ALLOWED_DOWNLOAD_HOSTS)) {
@@ -85,7 +95,7 @@ async function downloadImage(url) {
 		const contentType = response.headers.get('content-type')?.split(';')[0]?.trim();
 		const extension = contentType && EXTENSIONS.get(contentType);
 		if (!extension) {
-			throw new Error(`Unsupported image type for ${url}: ${contentType ?? 'unknown'}`);
+			throw new Error(`Unsupported image type: ${contentType ?? 'unknown'}`);
 		}
 
 		const filename = `${id}${extension}`;
@@ -121,7 +131,7 @@ async function rewriteBatch(items, getUrl, setUrl) {
 				try {
 					setUrl(item, await downloadImage(url));
 				} catch (error) {
-					console.warn(`[changelog] ${error instanceof Error ? error.message : error}`);
+					console.warn(`[changelog] ${formatDownloadError(url, error)}`);
 				}
 			}),
 		);
@@ -166,6 +176,24 @@ export function rehypeCacheChangelogImages() {
 
 export default remarkCacheChangelogImages;
 
+/**
+ * Astro copies `public/` before pages render, so images downloaded during changelog
+ * rendering never make it into `dist/` unless we copy the cache after the build.
+ */
+export async function copyCachedChangelogImages(distDirectory) {
+	const files = await readdir(cacheDirectory).catch(() => []);
+	const images = files.filter((file) => !file.endsWith('.tmp'));
+	if (!images.length) return 0;
+
+	const outputDirectory = resolve(distDirectory, 'changelog-images');
+	await mkdir(outputDirectory, { recursive: true });
+
+	await Promise.all(
+		images.map((file) => copyFile(resolve(cacheDirectory, file), resolve(outputDirectory, file))),
+	);
+	return images.length;
+}
+
 /** Final HTML pass for raw <img> tags that never entered the hast tree. */
 export async function cacheImagesInHtml(html) {
 	const urls = [...new Set(html.match(REMOTE_IMAGE_SRC) ?? [])];
@@ -178,7 +206,7 @@ export async function cacheImagesInHtml(html) {
 				try {
 					replacements.set(url, await downloadImage(url));
 				} catch (error) {
-					console.warn(`[changelog] ${error instanceof Error ? error.message : error}`);
+					console.warn(`[changelog] ${formatDownloadError(url, error)}`);
 				}
 			}),
 		);

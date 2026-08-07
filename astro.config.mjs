@@ -1,9 +1,26 @@
 // @ts-check
+import { fileURLToPath } from 'node:url';
 import { unified } from '@astrojs/markdown-remark';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import icon from 'astro-icon';
 import remarkBundleGitHubImages from './src/plugins/remark-bundle-github-images.mjs';
+import { copyCachedChangelogImages } from './src/plugins/remark-cache-changelog-images.mjs';
+
+/** Copy changelog images into dist after Astro's early public/ copy. */
+function changelogImages() {
+	return {
+		name: 'opentubex-changelog-images',
+		hooks: {
+			'astro:build:done': async ({ dir }) => {
+				const count = await copyCachedChangelogImages(fileURLToPath(dir));
+				if (count > 0) {
+					console.log(`[changelog] Copied ${count} cached image(s) into dist/changelog-images`);
+				}
+			},
+		},
+	};
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,6 +42,7 @@ export default defineConfig({
 		}),
 	},
 	integrations: [
+		changelogImages(),
 		icon({
 			include: {
 				lucide: [
