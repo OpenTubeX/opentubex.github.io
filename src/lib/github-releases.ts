@@ -6,6 +6,10 @@ const REPO = 'OpenTubeX/OpenTubeX';
 const API = `https://api.github.com/repos/${REPO}/releases`;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const CACHE_PATH = join(dirname(fileURLToPath(import.meta.url)), '../../.cache/github-releases.json');
+const FALLBACK_PATH = join(
+	dirname(fileURLToPath(import.meta.url)),
+	'../data/changelog-releases.fallback.json',
+);
 
 export type ChangelogRelease = {
 	id: number;
@@ -48,6 +52,28 @@ function writeCache(releases: ChangelogRelease[]) {
 	mkdirSync(dirname(CACHE_PATH), { recursive: true });
 	const payload: CacheFile = { fetchedAt: Date.now(), releases };
 	writeFileSync(CACHE_PATH, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+}
+
+function readFallback(): ChangelogRelease[] | null {
+	try {
+		if (!existsSync(FALLBACK_PATH)) return null;
+		const parsed = JSON.parse(readFileSync(FALLBACK_PATH, 'utf8')) as { releases?: ChangelogRelease[] };
+		if (!Array.isArray(parsed.releases) || !parsed.releases.length) return null;
+		return parsed.releases;
+	} catch {
+		return null;
+	}
+}
+
+function readStaleCache(): ChangelogRelease[] | null {
+	try {
+		if (!existsSync(CACHE_PATH)) return null;
+		const stale = JSON.parse(readFileSync(CACHE_PATH, 'utf8')) as CacheFile;
+		if (Array.isArray(stale.releases) && stale.releases.length) return stale.releases;
+		return null;
+	} catch {
+		return null;
+	}
 }
 
 function authHeaders(): HeadersInit {
@@ -116,15 +142,22 @@ export async function getChangelogReleases(): Promise<ChangelogRelease[]> {
 		writeCache(releases);
 		return releases;
 	} catch (error) {
-		// Fall back to stale cache if the network/API is unavailable.
-		try {
-			if (existsSync(CACHE_PATH)) {
-				const stale = JSON.parse(readFileSync(CACHE_PATH, 'utf8')) as CacheFile;
-				if (Array.isArray(stale.releases) && stale.releases.length) return stale.releases;
-			}
-		} catch {
-			/* ignore */
+		const stale = readStaleCache();
+		if (stale) {
+			console.warn(
+				`[changelog] GitHub releases unavailable (${error instanceof Error ? error.message : error}); using stale cache.`,
+			);
+			return stale;
 		}
+
+		const fallback = readFallback();
+		if (fallback) {
+			console.warn(
+				`[changelog] GitHub releases unavailable (${error instanceof Error ? error.message : error}); using committed fallback.`,
+			);
+			return fallback;
+		}
+
 		console.warn(
 			`[changelog] GitHub releases unavailable (${error instanceof Error ? error.message : error}); building with an empty list.`,
 		);

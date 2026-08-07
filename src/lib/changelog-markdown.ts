@@ -1,5 +1,7 @@
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
-import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
+import { fromHtml } from 'hast-util-from-html';
+import { sanitize, defaultSchema } from 'hast-util-sanitize';
+import { toHtml } from 'hast-util-to-html';
 import remarkGithubAlerts from '../plugins/remark-github-alerts.mjs';
 import remarkGithubReferences from '../plugins/remark-github-references.mjs';
 import {
@@ -27,6 +29,13 @@ const changelogSanitizeSchema = {
 	},
 };
 
+/** Sanitize after Markdown→HTML so opaque raw nodes cannot bypass the rehype pass. */
+function sanitizeChangelogHtml(html: string): string {
+	if (!html.trim()) return '';
+	const tree = fromHtml(html, { fragment: true });
+	return toHtml(sanitize(tree, changelogSanitizeSchema));
+}
+
 async function createProcessor(refTypes: Map<number, GithubRefKind>) {
 	return createMarkdownProcessor({
 		syntaxHighlight: 'shiki',
@@ -42,11 +51,7 @@ async function createProcessor(refTypes: Map<number, GithubRefKind>) {
 			[remarkGithubReferences, { refTypes }],
 			remarkCacheChangelogImages,
 		],
-		rehypePlugins: [
-			rehypeCacheChangelogImages,
-			rehypeChangelogTweaks,
-			[rehypeSanitize, changelogSanitizeSchema],
-		],
+		rehypePlugins: [rehypeCacheChangelogImages, rehypeChangelogTweaks],
 	});
 }
 
@@ -59,7 +64,7 @@ export async function renderChangelogBodies(bodies: string[]): Promise<string[]>
 		bodies.map(async (markdown) => {
 			if (!markdown.trim()) return '';
 			const { code } = await processor.render(markdown);
-			return cacheImagesInHtml(code);
+			return sanitizeChangelogHtml(await cacheImagesInHtml(code));
 		}),
 	);
 }
