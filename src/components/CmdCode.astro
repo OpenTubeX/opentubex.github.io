@@ -52,17 +52,26 @@ const { code, lang = 'shell', title } = Astro.props;
 		const track = document.createElement('div');
 		track.className = 'cmd-hscroll';
 		track.hidden = true;
-		track.setAttribute('role', 'scrollbar');
-		track.setAttribute('aria-orientation', 'horizontal');
-		track.setAttribute('aria-label', 'Code block horizontal scroll');
 
 		const thumb = document.createElement('div');
 		thumb.className = 'cmd-hscroll__thumb';
 		thumb.tabIndex = 0;
+		thumb.setAttribute('role', 'scrollbar');
+		thumb.setAttribute('aria-orientation', 'horizontal');
+		thumb.setAttribute('aria-controls', pre.id || (pre.id = `cmd-pre-${Math.random().toString(36).slice(2, 9)}`));
+		thumb.setAttribute('aria-label', 'Code block horizontal scroll');
+		thumb.setAttribute('aria-valuemin', '0');
+		thumb.setAttribute('aria-valuemax', '100');
+		thumb.setAttribute('aria-valuenow', '0');
 		track.append(thumb);
 		frame.append(track);
 
-		const refresh = () => syncThumb(pre, thumb, track);
+		const refresh = () => {
+			syncThumb(pre, thumb, track);
+			const max = pre.scrollWidth - pre.clientWidth;
+			const now = max <= 0 ? 0 : Math.round((pre.scrollLeft / max) * 100);
+			thumb.setAttribute('aria-valuenow', String(now));
+		};
 
 		pre.addEventListener('scroll', refresh, { passive: true });
 		window.addEventListener('resize', refresh, { passive: true });

@@ -68,17 +68,37 @@
     });
   }
 
-  function setMenuOpen(root, open) {
+  function optionList(root) {
+    return Array.prototype.slice.call(root.querySelectorAll("[data-theme-option]"));
+  }
+
+  function focusOption(root, index) {
+    var options = optionList(root);
+    if (!options.length) return;
+    var next = ((index % options.length) + options.length) % options.length;
+    options[next].focus();
+  }
+
+  function setMenuOpen(root, open, focusTarget) {
     var button = root.querySelector("[data-theme-button]");
     var menu = root.querySelector("[data-theme-menu]");
     if (!button || !menu) return;
     button.setAttribute("aria-expanded", open ? "true" : "false");
     menu.hidden = !open;
     root.classList.toggle("is-open", open);
+    if (open) {
+      var selected = root.querySelector('[data-theme-option][aria-selected="true"]');
+      var options = optionList(root);
+      var target = focusTarget || selected || options[0];
+      if (target) target.focus();
+    } else if (document.activeElement && root.contains(document.activeElement)) {
+      button.focus();
+    }
   }
 
-  function closeAllMenus() {
+  function closeAllMenus(except) {
     document.querySelectorAll("[data-theme-root]").forEach(function (root) {
+      if (except && root === except) return;
       setMenuOpen(root, false);
     });
   }
@@ -138,6 +158,55 @@
   });
 
   document.addEventListener("keydown", function (event) {
+    var option = event.target.closest("[data-theme-option]");
+    if (option) {
+      var root = option.closest("[data-theme-root]");
+      if (!root) return;
+      var options = optionList(root);
+      var index = options.indexOf(option);
+      if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+        event.preventDefault();
+        focusOption(root, index + 1);
+        return;
+      }
+      if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+        event.preventDefault();
+        focusOption(root, index - 1);
+        return;
+      }
+      if (event.key === "Home") {
+        event.preventDefault();
+        focusOption(root, 0);
+        return;
+      }
+      if (event.key === "End") {
+        event.preventDefault();
+        focusOption(root, options.length - 1);
+        return;
+      }
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        apply(option.getAttribute("data-value"));
+        closeAllMenus();
+        return;
+      }
+      if (event.key === "Escape" || event.key === "Tab") {
+        closeAllMenus();
+        return;
+      }
+    }
+
+    var button = event.target.closest("[data-theme-button]");
+    if (button && (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ")) {
+      var menuRoot = button.closest("[data-theme-root]");
+      if (!menuRoot) return;
+      if (button.getAttribute("aria-expanded") === "true") return;
+      event.preventDefault();
+      closeAllMenus(menuRoot);
+      setMenuOpen(menuRoot, true);
+      return;
+    }
+
     if (event.key === "Escape") closeAllMenus();
   });
 

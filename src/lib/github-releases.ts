@@ -125,7 +125,10 @@ export async function getChangelogReleases(): Promise<ChangelogRelease[]> {
 		} catch {
 			/* ignore */
 		}
-		throw error;
+		console.warn(
+			`[changelog] GitHub releases unavailable (${error instanceof Error ? error.message : error}); building with an empty list.`,
+		);
+		return [];
 	}
 }
 

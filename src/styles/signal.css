@@ -1110,7 +1110,7 @@ a.version-chip:hover .version-chip__dot {
 
 .laptop__screen {
   position: relative;
-  aspect-ratio: 1400 / 780;
+  aspect-ratio: 1708 / 1024;
   overflow: hidden;
   border-radius: 0.15rem;
   background: #0b1212;
@@ -1122,8 +1122,7 @@ a.version-chip:hover .version-chip__dot {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: top center;
+  object-fit: fill;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s var(--ease);

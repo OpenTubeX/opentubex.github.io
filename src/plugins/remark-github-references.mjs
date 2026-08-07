@@ -16,29 +16,33 @@ export default function remarkGithubReferences(options = {}) {
 	};
 
 	return (tree) => {
-		findAndReplace(tree, [
+		findAndReplace(
+			tree,
 			[
-				/(?<=^|[^\w/])#(\d+)\b/g,
-				(value, issueNumber) => ({
-					type: 'link',
-					url: hrefFor(issueNumber),
-					children: [{ type: 'text', value }],
-				}),
+				[
+					/(?<=^|[^\w/])#(\d+)\b/g,
+					(value, issueNumber) => ({
+						type: 'link',
+						url: hrefFor(issueNumber),
+						children: [{ type: 'text', value }],
+					}),
+				],
+				[
+					/(?<=^|[^\w/])([0-9a-f]{40})\b/gi,
+					(value, commitHash) => ({
+						type: 'link',
+						url: `https://github.com/${REPO}/commit/${commitHash}`,
+						children: [
+							{
+								type: 'inlineCode',
+								value: commitHash.slice(0, 7),
+							},
+						],
+					}),
+				],
 			],
-			[
-				/(?<=^|[^\w/])([0-9a-f]{40})\b/gi,
-				(value, commitHash) => ({
-					type: 'link',
-					url: `https://github.com/${REPO}/commit/${commitHash}`,
-					children: [
-						{
-							type: 'inlineCode',
-							value: commitHash.slice(0, 7),
-						},
-					],
-				}),
-			],
-		]);
+			{ ignore: ['link', 'linkReference'] },
+		);
 
 		normalizeGithubLinks(tree, hrefFor);
 	};

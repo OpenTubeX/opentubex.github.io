@@ -104,9 +104,18 @@ const entries = releases.map((release, index) => ({
 </SignalLayout>
 
 <script>
+	function navOffsetPx() {
+		const navRaw =
+			getComputedStyle(document.documentElement).getPropertyValue('--nav-h').trim() || '4.25rem';
+		if (navRaw.endsWith('px')) return parseFloat(navRaw) || 68;
+		return (
+			(parseFloat(navRaw) || 4.25) *
+			(parseFloat(getComputedStyle(document.documentElement).fontSize) || 16)
+		);
+	}
+
 	function scrollToSection(el: HTMLElement) {
-		const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 64;
-		const top = el.getBoundingClientRect().top + window.scrollY - navH - 12;
+		const top = el.getBoundingClientRect().top + window.scrollY - navOffsetPx() - 12;
 		window.scrollTo({ top, behavior: 'instant' });
 	}
 
@@ -114,6 +123,9 @@ const entries = releases.map((release, index) => ({
 		const toc = document.querySelector('.feature-toc');
 		const links = [...document.querySelectorAll<HTMLAnchorElement>('.feature-toc__list a')];
 		if (!toc || !links.length) return;
+
+		const previous = (toc as HTMLElement & { _tocObserver?: IntersectionObserver })._tocObserver;
+		previous?.disconnect();
 
 		const sections = links
 			.map((link) => {
@@ -148,13 +160,7 @@ const entries = releases.map((release, index) => ({
 			});
 		});
 
-		const navRaw =
-			getComputedStyle(document.documentElement).getPropertyValue('--nav-h').trim() || '4.25rem';
-		const navPx = navRaw.endsWith('px')
-			? parseFloat(navRaw) || 68
-			: (parseFloat(navRaw) || 4.25) *
-				(parseFloat(getComputedStyle(document.documentElement).fontSize) || 16);
-
+		const navPx = navOffsetPx();
 		const observer = new IntersectionObserver(
 			(entries) => {
 				const visible = entries
@@ -170,6 +176,7 @@ const entries = releases.map((release, index) => ({
 			},
 		);
 
+		(toc as HTMLElement & { _tocObserver?: IntersectionObserver })._tocObserver = observer;
 		sections.forEach(({ el }) => observer.observe(el));
 	}
 

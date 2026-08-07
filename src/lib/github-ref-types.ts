@@ -75,14 +75,16 @@ async function fetchRefKinds(numbers: number[]): Promise<Record<string, GithubRe
 		const results = await Promise.all(
 			batch.map(async (number) => {
 				try {
-					return [String(number), await fetchRefKind(number)] as const;
+					return [String(number), await fetchRefKind(number), true] as const;
 				} catch (error) {
 					console.warn(`[changelog] ${error instanceof Error ? error.message : error}`);
-					return [String(number), 'issue' as const] as const;
+					return [String(number), 'issue' as const, false] as const;
 				}
 			}),
 		);
-		for (const [key, kind] of results) resolved[key] = kind;
+		for (const [key, kind, confirmed] of results) {
+			if (confirmed) resolved[key] = kind;
+		}
 	}
 
 	return resolved;

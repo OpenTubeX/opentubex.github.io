@@ -1,5 +1,5 @@
 /* OpenTubeX — Signal theme (Starlight overrides) */
-@import url("https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700");
+@import "https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700";
 
 :root {
 	--sl-font: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;

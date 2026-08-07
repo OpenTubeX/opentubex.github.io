@@ -1,4 +1,5 @@
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import remarkGithubAlerts from '../plugins/remark-github-alerts.mjs';
 import remarkGithubReferences from '../plugins/remark-github-references.mjs';
 import {
@@ -8,6 +9,23 @@ import {
 } from '../plugins/remark-cache-changelog-images.mjs';
 import rehypeChangelogTweaks from '../plugins/rehype-changelog-tweaks.mjs';
 import { resolveGithubRefTypes, type GithubRefKind } from './github-ref-types';
+
+const changelogSanitizeSchema = {
+	...defaultSchema,
+	tagNames: [...(defaultSchema.tagNames ?? []), 'details', 'summary', 'video', 'source'],
+	attributes: {
+		...defaultSchema.attributes,
+		details: [...(defaultSchema.attributes?.details ?? []), 'open'],
+		img: [...(defaultSchema.attributes?.img ?? []), 'src', 'alt', 'title', 'width', 'height', 'loading', 'decoding'],
+		a: [...(defaultSchema.attributes?.a ?? []), 'href', 'rel', 'target'],
+		code: [...(defaultSchema.attributes?.code ?? []), 'className'],
+		pre: [...(defaultSchema.attributes?.pre ?? []), 'className'],
+		span: [...(defaultSchema.attributes?.span ?? []), 'className', 'style'],
+		div: [...(defaultSchema.attributes?.div ?? []), 'className'],
+		video: ['src', 'controls', 'muted', 'playsInline', 'poster', 'width', 'height'],
+		source: ['src', 'type'],
+	},
+};
 
 async function createProcessor(refTypes: Map<number, GithubRefKind>) {
 	return createMarkdownProcessor({
@@ -24,7 +42,11 @@ async function createProcessor(refTypes: Map<number, GithubRefKind>) {
 			[remarkGithubReferences, { refTypes }],
 			remarkCacheChangelogImages,
 		],
-		rehypePlugins: [rehypeCacheChangelogImages, rehypeChangelogTweaks],
+		rehypePlugins: [
+			rehypeCacheChangelogImages,
+			rehypeChangelogTweaks,
+			[rehypeSanitize, changelogSanitizeSchema],
+		],
 	});
 }
 

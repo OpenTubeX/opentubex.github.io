@@ -13,11 +13,11 @@ const logoLightSrc = typeof logoLight === 'string' ? logoLight : logoLight.src;
 const screenshots = [
 	{
 		id: 'main',
-		label: 'Main window',
+		label: 'Feed',
 		src: shotMain.src,
 		width: shotMain.width,
 		height: shotMain.height,
-		alt: 'OpenTubeX main window showing the subscription feed',
+		alt: 'OpenTubeX subscription feed',
 	},
 	{
 		id: 'watch',
@@ -231,16 +231,14 @@ const screenshots = [
 					<div class="laptop__shadow" aria-hidden="true"></div>
 				</figure>
 
-				<div class="shot-tabs" role="tablist" aria-label="Screenshot views">
+				<div class="shot-tabs" role="group" aria-label="Screenshot views">
 					{
 						screenshots.map((shot, index) => (
 							<button
 								type="button"
 								class:list={['shot-tabs__tab', { 'is-active': index === 0 }]}
-								role="tab"
-								aria-selected={index === 0 ? 'true' : 'false'}
+								aria-pressed={index === 0 ? 'true' : 'false'}
 								data-shot-tab={shot.id}
-								tabindex={index === 0 ? 0 : -1}
 							>
 								{shot.label}
 							</button>
@@ -311,8 +309,7 @@ const screenshots = [
 				tabs.forEach(function (tab) {
 					var on = tab.getAttribute('data-shot-tab') === id;
 					tab.classList.toggle('is-active', on);
-					tab.setAttribute('aria-selected', on ? 'true' : 'false');
-					tab.tabIndex = on ? 0 : -1;
+					tab.setAttribute('aria-pressed', on ? 'true' : 'false');
 				});
 				shots.forEach(function (shot) {
 					var on = shot.getAttribute('data-shot') === id;
@@ -321,21 +318,9 @@ const screenshots = [
 				});
 			}
 
-			tabs.forEach(function (tab, index) {
+			tabs.forEach(function (tab) {
 				tab.addEventListener('click', function () {
 					activate(tab.getAttribute('data-shot-tab'));
-				});
-				tab.addEventListener('keydown', function (event) {
-					var next = index;
-					if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % tabs.length;
-					else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
-						next = (index - 1 + tabs.length) % tabs.length;
-					else if (event.key === 'Home') next = 0;
-					else if (event.key === 'End') next = tabs.length - 1;
-					else return;
-					event.preventDefault();
-					tabs[next].focus();
-					activate(tabs[next].getAttribute('data-shot-tab'));
 				});
 			});
 		})();
