@@ -15,11 +15,12 @@ const ALLOWED_DOWNLOAD_HOSTS = new Set([
 	'github-production-user-asset-6210df.s3.amazonaws.com',
 ]);
 
+// Raster formats only — remote SVGs stay on their origin so active content
+// never becomes a same-origin navigable asset on the site.
 const EXTENSIONS = new Map([
 	['image/gif', '.gif'],
 	['image/jpeg', '.jpg'],
 	['image/png', '.png'],
-	['image/svg+xml', '.svg'],
 	['image/webp', '.webp'],
 ]);
 
@@ -181,7 +182,10 @@ export default remarkCacheChangelogImages;
  * rendering never make it into `dist/` unless we copy the cache after the build.
  */
 export async function copyCachedChangelogImages(distDirectory) {
-	const files = await readdir(cacheDirectory).catch(() => []);
+	const files = await readdir(cacheDirectory).catch((error) => {
+		if (error?.code === 'ENOENT') return [];
+		throw error;
+	});
 	const images = files.filter((file) => !file.endsWith('.tmp'));
 	if (!images.length) return 0;
 
