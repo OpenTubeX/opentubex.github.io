@@ -1,0 +1,138 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Tab {
+	id: string;
+	label: string;
+	icon?: string;
+}
+
+interface Props {
+	tabs: Tab[];
+	syncKey?: string;
+}
+
+const { tabs, syncKey } = Astro.props;
+const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class="sig-tabs" data-sync-key={syncKey || undefined}>
+	<div class="sig-tabs__list" role="tablist" aria-label="Options">
+		{
+			tabs.map((tab, index) => (
+				<button
+					type="button"
+					class:list={['sig-tabs__tab', { 'is-active': index === 0 }]}
+					role="tab"
+					id={`${groupId}-tab-${tab.id}`}
+					aria-selected={index === 0 ? 'true' : 'false'}
+					aria-controls={`${groupId}-panel-${tab.id}`}
+					tabindex={index === 0 ? 0 : -1}
+					data-tab={tab.id}
+					data-label={tab.label}
+				>
+					{tab.icon && <Icon name={tab.icon} aria-hidden="true" />}
+					{tab.label}
+				</button>
+			))
+		}
+	</div>
+	{
+		tabs.map((tab, index) => (
+			<div
+				class:list={['sig-tabs__panel', { 'is-active': index === 0 }]}
+				role="tabpanel"
+				id={`${groupId}-panel-${tab.id}`}
+				aria-labelledby={`${groupId}-tab-${tab.id}`}
+				hidden={index !== 0}
+				data-panel={tab.id}
+			>
+				<slot name={tab.id} />
+			</div>
+		))
+	}
+</div>
+
+<script>
+	function activateTab(root: HTMLElement, tabId: string, persist: boolean) {
+		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+		const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+		const next = tabs.find((tab) => tab.dataset.tab === tabId);
+		if (!next) return;
+
+		tabs.forEach((tab) => {
+			const active = tab === next;
+			tab.classList.toggle('is-active', active);
+			tab.setAttribute('aria-selected', active ? 'true' : 'false');
+			tab.tabIndex = active ? 0 : -1;
+		});
+
+		panels.forEach((panel) => {
+			const active = panel.dataset.panel === tabId;
+			panel.classList.toggle('is-active', active);
+			panel.hidden = !active;
+		});
+
+		const syncKey = root.dataset.syncKey;
+		if (persist && syncKey) {
+			try {
+				localStorage.setItem(`otx-synced-tabs__${syncKey}`, next.dataset.label || tabId);
+			} catch {
+				/* ignore */
+			}
+
+			document.querySelectorAll<HTMLElement>(`.sig-tabs[data-sync-key="${syncKey}"]`).forEach((other) => {
+				if (other === root) return;
+				const otherTab = [...other.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+					(tab) => tab.dataset.label === next.dataset.label,
+				);
+				if (otherTab?.dataset.tab) activateTab(other, otherTab.dataset.tab, false);
+			});
+		}
+	}
+
+	function restoreSynced(root: HTMLElement) {
+		const syncKey = root.dataset.syncKey;
+		if (!syncKey) return;
+		try {
+			const label = localStorage.getItem(`otx-synced-tabs__${syncKey}`);
+			if (!label) return;
+			const match = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+				(tab) => tab.dataset.label === label,
+			);
+			if (match?.dataset.tab) activateTab(root, match.dataset.tab, false);
+		} catch {
+			/* ignore */
+		}
+	}
+
+	function bindTabs(root: HTMLElement) {
+		if (root.dataset.bound === 'true') return;
+		root.dataset.bound = 'true';
+		restoreSynced(root);
+
+		root.querySelectorAll<HTMLButtonElement>('[role="tab"]').forEach((tab) => {
+			tab.addEventListener('click', () => {
+				if (tab.dataset.tab) activateTab(root, tab.dataset.tab, true);
+			});
+
+			tab.addEventListener('keydown', (event) => {
+				const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+				const index = tabs.indexOf(tab);
+				let nextIndex = index;
+				if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (index + 1) % tabs.length;
+				else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
+					nextIndex = (index - 1 + tabs.length) % tabs.length;
+				else if (event.key === 'Home') nextIndex = 0;
+				else if (event.key === 'End') nextIndex = tabs.length - 1;
+				else return;
+				event.preventDefault();
+				tabs[nextIndex]?.focus();
+				const id = tabs[nextIndex]?.dataset.tab;
+				if (id) activateTab(root, id, true);
+			});
+		});
+	}
+
+	document.querySelectorAll<HTMLElement>('.sig-tabs').forEach(bindTabs);
+</script>

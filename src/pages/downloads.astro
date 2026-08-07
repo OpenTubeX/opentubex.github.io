@@ -1,0 +1,407 @@
+---
+import SignalLayout from '../layouts/SignalLayout.astro';
+import CmdCode from '../components/CmdCode.astro';
+import SignalTabs from '../components/SignalTabs.astro';
+import { Icon } from 'astro-icon/components';
+import {
+	aptRepositoryUrl,
+	coprRepositoryUrl,
+	downloadGroups,
+	flatpakSiteUrl,
+	releaseTag,
+	releaseVersion,
+	rpmRepositoryUrl,
+} from '../data/release';
+
+const platformMeta: Record<string, string> = {
+	Windows: '10+',
+	macOS: '12+',
+};
+
+const aurTabs = [
+	{ id: 'paru', label: 'paru' },
+	{ id: 'yay', label: 'yay' },
+];
+
+const nightlyTabs = [
+	{ id: 'debian', label: 'Debian / Ubuntu', icon: 'simple-icons:ubuntu' },
+	{ id: 'fedora', label: 'Fedora / Red Hat', icon: 'simple-icons:fedora' },
+	{ id: 'opensuse', label: 'openSUSE', icon: 'simple-icons:opensuse' },
+	{ id: 'flatpak', label: 'Flatpak', icon: 'simple-icons:flatpak' },
+];
+
+const wingetCode = 'winget install OpenTubeX.OpenTubeX';
+
+const flatpakCode = `flatpak remote-add --if-not-exists opentubex \\
+  https://flatpak.opentubex.org/opentubex.flatpakrepo
+flatpak install opentubex org.opentubex.OpenTubeX`;
+
+const aptCode = `sudo install -d -m 0755 /etc/apt/keyrings
+wget -qO- https://apt.opentubex.org/opentubex-archive-keyring.gpg \\
+  | sudo tee /etc/apt/keyrings/opentubex-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/etc/apt/keyrings/opentubex-archive-keyring.gpg] https://apt.opentubex.org stable main" \\
+  | sudo tee /etc/apt/sources.list.d/opentubex.list >/dev/null
+sudo apt update
+sudo apt install opentubex`;
+
+const coprCode = `sudo dnf copr enable d3sox/opentubex
+sudo dnf install opentubex`;
+
+const rpmCode = `sudo curl --fail --location \\
+  --output /etc/yum.repos.d/opentubex.repo \\
+  https://rpm.opentubex.org/opentubex.repo
+sudo dnf install opentubex`;
+
+const opensuseCode = `sudo rpm --import \\
+  https://rpm.opentubex.org/opensuse/repodata/repomd.xml.key
+sudo zypper addrepo --refresh \\
+  https://rpm.opentubex.org/opensuse/ \\
+  opentubex
+sudo zypper install opentubex`;
+
+const aptNightlyCode = `sudo install -d -m 0755 /etc/apt/keyrings
+wget -qO- https://apt.opentubex.org/opentubex-archive-keyring.gpg \\
+  | sudo tee /etc/apt/keyrings/opentubex-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/etc/apt/keyrings/opentubex-archive-keyring.gpg] https://apt.opentubex.org nightly main" \\
+  | sudo tee /etc/apt/sources.list.d/opentubex.list >/dev/null
+sudo apt update
+sudo apt install opentubex`;
+
+const fedoraNightlyCode = `sudo curl --fail --location \\
+  --output /etc/yum.repos.d/opentubex-nightly.repo \\
+  https://rpm.opentubex.org/opentubex-nightly.repo
+sudo dnf install opentubex`;
+
+const opensuseNightlyCode = `sudo rpm --import \\
+  https://rpm.opentubex.org/opensuse/nightly/repodata/repomd.xml.key
+sudo zypper addrepo --refresh \\
+  https://rpm.opentubex.org/opensuse/nightly/ \\
+  opentubex-nightly
+sudo zypper install opentubex`;
+
+const flatpakNightlyCode = `flatpak remote-add --if-not-exists opentubex \\
+  https://flatpak.opentubex.org/opentubex.flatpakrepo
+flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
+---
+
+<SignalLayout
+	title="Downloads – OpenTubeX"
+	description={`Download OpenTubeX ${releaseVersion} beta for Windows, macOS, and Linux. Package managers and GitHub releases.`}
+	active="downloads"
+	mono
+>
+	<main>
+		<header class="page-hero">
+			<div class="page-hero__signal" aria-hidden="true">
+				<svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+					<g transform="translate(980 160)">
+						<path class="wave-path wave-path--b" d="M-460 20 Q-300 -50 -140 20 T180 20 T460 20"></path>
+						<path class="wave-path wave-path--a" d="M-500 50 Q-320 -20 -140 50 T220 50 T500 50"></path>
+						<path class="wave-path wave-path--b" d="M-380 -30 Q-250 -90 -120 -30 T140 -30 T380 -30"></path>
+						<path class="wave-path wave-path--a" d="M-300 -70 Q-190 -120 -80 -70 T140 -70 T300 -70"></path>
+						<g fill="var(--teal)">
+							<circle cx="-140" cy="20" r="3" opacity="0.65"></circle>
+							<circle cx="0" cy="-30" r="2.5" opacity="0.45"></circle>
+							<circle cx="140" cy="20" r="3" opacity="0.65"></circle>
+						</g>
+					</g>
+				</svg>
+			</div>
+			<div class="page-hero__mesh" aria-hidden="true"></div>
+			<div class="page-hero__content">
+				<p class="page-hero__eyebrow">Downloads</p>
+				<h1 class="page-hero__title">Choose your install path</h1>
+				<p class="page-hero__lede">
+					Grab a signed build or install through the package manager you already use.
+				</p>
+				<a class="version-chip" href={`/changelog/#${releaseTag}`}>
+					<span class="version-chip__dot" aria-hidden="true"></span>
+					Version {releaseVersion} beta
+				</a>
+				<div class="cta-group">
+					<a class="btn btn--primary" href="#platforms">
+						<Icon name="lucide:download" aria-hidden="true" />
+						Direct downloads
+					</a>
+					<a class="btn btn--ghost" href="#packages">
+						<Icon name="lucide:package" aria-hidden="true" />
+						Package managers
+					</a>
+					<a class="btn btn--quiet" href="#development">
+						<Icon name="lucide:moon" aria-hidden="true" />
+						Nightly &amp; CI
+					</a>
+				</div>
+			</div>
+		</header>
+
+		<section class="section section--page" id="platforms" aria-labelledby="platforms-heading">
+			<p class="section__eyebrow reveal">Direct builds</p>
+			<h2 class="section__title reveal" id="platforms-heading">Direct downloads by platform</h2>
+			<p class="section__intro reveal">
+				Installers, packages, and archives from the latest release.
+			</p>
+
+			<div class="platforms">
+				{
+					downloadGroups.map((group) => (
+						<article class="platform">
+							<div class="platform__heading">
+								<span class="platform__icon" aria-hidden="true">
+									<Icon name={group.icon} />
+								</span>
+								<h3 class="platform__name">
+									{group.title}
+									{platformMeta[group.title] && (
+										<span class="platform__meta">{platformMeta[group.title]}</span>
+									)}
+								</h3>
+							</div>
+							<ul class="format-list" aria-label={`${group.title} formats`}>
+								{group.links.map((link) => (
+									<li>
+										<a
+											href={link.url}
+											class:list={[{ 'is-preferred': link.preferred }]}
+											rel={link.isExternal ? 'noopener noreferrer' : undefined}
+										>
+											<Icon name={link.icon} aria-hidden="true" />
+											{link.label}
+										</a>
+									</li>
+								))}
+							</ul>
+						</article>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="section section--page section--tight" id="packages" aria-labelledby="packages-heading">
+			<p class="section__eyebrow reveal">Package channels</p>
+			<h2 class="section__title reveal" id="packages-heading">Install with your package manager</h2>
+			<p class="section__intro reveal">Ready-to-run commands for the usual package managers.</p>
+
+			<div class="pkg-list">
+				<article class="pkg">
+					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:windows" /></span>
+					<div>
+						<h3 class="pkg__title">Windows · winget</h3>
+						<p class="pkg__body">
+							Install with <a href="https://learn.microsoft.com/windows/package-manager/winget/" rel="noopener noreferrer">winget</a>.
+						</p>
+						<CmdCode code={wingetCode} lang="powershell" />
+					</div>
+				</article>
+
+				<article class="pkg">
+					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:ubuntu" /></span>
+					<div>
+						<h3 class="pkg__title">Debian / Ubuntu · APT</h3>
+						<p class="pkg__body">
+							Add the signed <a href={aptRepositoryUrl} rel="noopener noreferrer">APT repository</a>, then install.
+						</p>
+						<CmdCode code={aptCode} lang="shell" />
+					</div>
+				</article>
+
+				<article class="pkg">
+					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:fedora" /></span>
+					<div>
+						<h3 class="pkg__title">Fedora / Red Hat · COPR or RPM</h3>
+						<p class="pkg__body">
+							Enable the official <a href={coprRepositoryUrl} rel="noopener noreferrer">COPR</a>, then install.
+						</p>
+						<CmdCode code={coprCode} lang="shell" />
+						<p class="pkg__body pkg__body--follow">
+							Or use the signed <a href={rpmRepositoryUrl} rel="noopener noreferrer">OpenTubeX-hosted RPM repository</a>:
+						</p>
+						<CmdCode code={rpmCode} lang="shell" />
+					</div>
+				</article>
+
+				<article class="pkg">
+					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:opensuse" /></span>
+					<div>
+						<h3 class="pkg__title">openSUSE · RPM</h3>
+						<p class="pkg__body">
+							Add the signed <a href={rpmRepositoryUrl} rel="noopener noreferrer">RPM repository</a>, then install.
+						</p>
+						<CmdCode code={opensuseCode} lang="shell" />
+					</div>
+				</article>
+
+				<article class="pkg">
+					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:flatpak" /></span>
+					<div>
+						<h3 class="pkg__title">Flatpak</h3>
+						<p class="pkg__body">
+							Add the <a href={flatpakSiteUrl} rel="noopener noreferrer">OpenTubeX Flatpak remote</a>, then install.
+						</p>
+						<CmdCode code={flatpakCode} lang="shell" />
+					</div>
+				</article>
+
+				<article class="pkg">
+					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:archlinux" /></span>
+					<div>
+						<h3 class="pkg__title">Arch Linux · AUR</h3>
+						<p class="pkg__body">
+							Install with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a> or
+							{' '}<a href="https://github.com/Jguer/yay" rel="noopener noreferrer">yay</a>. Prefer{' '}
+							<code>opentubex-bin</code> for the prebuilt binary, or <code>opentubex</code> to build from source.
+						</p>
+						<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
+							<div slot="paru">
+								<CmdCode code="paru -S opentubex-bin" lang="shell" title="Prebuilt binary" />
+								<CmdCode code="paru -S opentubex" lang="shell" title="Build from source" />
+							</div>
+							<div slot="yay">
+								<CmdCode code="yay -S opentubex-bin" lang="shell" title="Prebuilt binary" />
+								<CmdCode code="yay -S opentubex" lang="shell" title="Build from source" />
+							</div>
+						</SignalTabs>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="section section--page" id="development" aria-labelledby="development-heading">
+			<p class="section__eyebrow reveal">Early access</p>
+			<h2 class="section__title reveal" id="development-heading">Development builds</h2>
+			<p class="section__intro reveal">
+				For testing the newest changes.
+			</p>
+
+			<div class="dev-table reveal" role="table" aria-label="Development build cadence">
+				<div class="dev-table__item" role="row">
+					<div class="dev-table__label" role="rowheader">Automated builds</div>
+					<div class="dev-table__value" role="cell">After development changes are pushed</div>
+				</div>
+				<div class="dev-table__item" role="row">
+					<div class="dev-table__label" role="rowheader">Nightly package channels</div>
+					<div class="dev-table__value" role="cell">Every day at 02:15 UTC</div>
+				</div>
+			</div>
+
+			<aside class="caution reveal" role="note">
+				<p class="caution__title">Warning</p>
+				<p>
+					Both options may contain unfinished features or regressions. Nightly channels are kept separate from stable
+					repositories, but switching channels can replace an existing stable installation.
+				</p>
+			</aside>
+
+			<div class="pkg-list pkg-list--dev">
+				<article class="pkg">
+					<span class="pkg__index" aria-hidden="true">01</span>
+					<div>
+						<h3 class="pkg__title">Automated builds</h3>
+						<p class="pkg__body">Latest development artifacts from CI, also available without a GitHub account.</p>
+						<div class="format-list">
+							<a
+								href="https://github.com/OpenTubeX/OpenTubeX/actions/workflows/build.yml"
+								rel="noopener noreferrer"
+							>
+								Build workflow
+							</a>
+							<a
+								href="https://nightly.link/OpenTubeX/OpenTubeX/workflows/build/development"
+								rel="noopener noreferrer"
+							>
+								nightly.link
+							</a>
+						</div>
+						<p class="pkg__body pkg__body--follow">
+							Arch users can build the current development revision with{' '}
+							<a href="https://aur.archlinux.org/packages/opentubex-git" rel="noopener noreferrer"
+								><code>opentubex-git</code></a
+							>:
+						</p>
+						<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
+							<div slot="paru">
+								<CmdCode code="paru -S opentubex-git" lang="shell" title="Automated build" />
+							</div>
+							<div slot="yay">
+								<CmdCode code="yay -S opentubex-git" lang="shell" title="Automated build" />
+							</div>
+						</SignalTabs>
+					</div>
+				</article>
+
+				<article class="pkg">
+					<span class="pkg__index" aria-hidden="true">02</span>
+					<div>
+						<h3 class="pkg__title">Nightly package channels</h3>
+						<SignalTabs syncKey="nightly-platform" tabs={nightlyTabs}>
+							<div slot="debian">
+								<p class="pkg__body">Add the signing key and select the <code>nightly</code> APT suite:</p>
+								<CmdCode code={aptNightlyCode} lang="shell" />
+							</div>
+							<div slot="fedora">
+								<p class="pkg__body">Install the OpenTubeX nightly repository configuration:</p>
+								<CmdCode code={fedoraNightlyCode} lang="shell" />
+							</div>
+							<div slot="opensuse">
+								<p class="pkg__body">Import the signing key and add the nightly RPM repository:</p>
+								<CmdCode code={opensuseNightlyCode} lang="shell" />
+							</div>
+							<div slot="flatpak">
+								<p class="pkg__body">Add the OpenTubeX remote and install its nightly branch:</p>
+								<CmdCode code={flatpakNightlyCode} lang="shell" />
+							</div>
+						</SignalTabs>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="strip" aria-labelledby="strip-heading">
+			<div class="strip__inner">
+				<div class="strip__copy">
+					<h2 class="strip__title reveal" id="strip-heading">See what else is included</h2>
+					<p class="strip__meta reveal">
+						Encrypted sync, SponsorBlock, tabs, Auto PiP, and more.
+					</p>
+					<div class="cta-group reveal">
+						<a class="btn btn--primary" href="/extra-features/">
+							<Icon name="lucide:sparkles" aria-hidden="true" />
+							Explore features
+						</a>
+						<a class="btn btn--ghost" href="/">
+							<Icon name="lucide:house" aria-hidden="true" />
+							Back home
+						</a>
+					</div>
+				</div>
+				<div class="strip__signal reveal" aria-hidden="true">
+					<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+						<g fill="none" stroke="var(--on-panel)" stroke-opacity="0.35" stroke-width="1.25" stroke-linecap="round">
+							<path d="M16 75 Q60 35 104 75 T192 75 T280 75">
+								<animate
+									attributeName="d"
+									dur="6s"
+									repeatCount="indefinite"
+									values="M16 75 Q60 35 104 75 T192 75 T280 75;M16 75 Q60 50 104 75 T192 75 T280 75;M16 75 Q60 35 104 75 T192 75 T280 75"
+								></animate>
+							</path>
+							<path d="M24 58 Q70 28 116 58 T208 58" stroke-opacity="0.5" stroke="var(--teal)">
+								<animate
+									attributeName="d"
+									dur="5s"
+									repeatCount="indefinite"
+									values="M24 58 Q70 28 116 58 T208 58;M24 58 Q70 42 116 58 T208 58;M24 58 Q70 28 116 58 T208 58"
+								></animate>
+							</path>
+						</g>
+						<circle cx="104" cy="75" r="4" fill="var(--teal)"></circle>
+						<circle cx="104" cy="75" r="10" fill="none" stroke="var(--teal)" stroke-opacity="0.4" stroke-width="1">
+							<animate attributeName="r" values="8;15;8" dur="3.5s" repeatCount="indefinite"></animate>
+							<animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="3.5s" repeatCount="indefinite"></animate>
+						</circle>
+					</svg>
+				</div>
+			</div>
+		</section>
+	</main>
+</SignalLayout>

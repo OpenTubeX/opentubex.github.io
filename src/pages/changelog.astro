@@ -1,0 +1,178 @@
+---
+import SignalLayout from '../layouts/SignalLayout.astro';
+import { Icon } from 'astro-icon/components';
+import { allReleasesUrl } from '../data/release';
+import { renderChangelogBodies } from '../lib/changelog-markdown';
+import { formatReleaseDate, getChangelogReleases } from '../lib/github-releases';
+
+const releases = await getChangelogReleases();
+const htmlBodies = await renderChangelogBodies(releases.map((release) => release.body));
+
+const entries = releases.map((release, index) => ({
+	...release,
+	html: htmlBodies[index] ?? '',
+}));
+---
+
+<SignalLayout
+	title="Changelog – OpenTubeX"
+	description="Stable OpenTubeX release notes: regular releases from GitHub, without nightlies or pre-releases."
+	active="changelog"
+>
+	<main>
+		<header class="page-hero">
+			<div class="page-hero__signal" aria-hidden="true">
+				<svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+					<g transform="translate(980 160)">
+						<path class="wave-path wave-path--b" d="M-460 20 Q-300 -50 -140 20 T180 20 T460 20"></path>
+						<path class="wave-path wave-path--a" d="M-500 50 Q-320 -20 -140 50 T220 50 T500 50"></path>
+						<path class="wave-path wave-path--b" d="M-380 -30 Q-250 -90 -120 -30 T140 -30 T380 -30"></path>
+						<path class="wave-path wave-path--a" d="M-300 -70 Q-190 -120 -80 -70 T140 -70 T300 -70"></path>
+					</g>
+				</svg>
+			</div>
+			<div class="page-hero__mesh" aria-hidden="true"></div>
+			<div class="page-hero__content">
+				<p class="page-hero__eyebrow">Release notes</p>
+				<h1 class="page-hero__title">Changelog</h1>
+				<p class="page-hero__lede">
+					Stable releases only. Nightlies can be seen on GitHub.
+				</p>
+				<div class="cta-group">
+					<a class="btn btn--primary" href="/downloads/">
+						<Icon name="lucide:download" aria-hidden="true" />
+						Downloads
+					</a>
+					<a class="btn btn--ghost" href={allReleasesUrl} rel="noopener noreferrer">
+						<Icon name="lucide:external-link" aria-hidden="true" />
+						All GitHub releases
+					</a>
+				</div>
+			</div>
+		</header>
+
+		<section class="section section--page" aria-label="Stable releases">
+			{
+				entries.length === 0 ? (
+					<p class="changelog-empty">No stable releases were found.</p>
+				) : (
+					<div class="features-layout">
+						<nav class="feature-toc" aria-label="Releases">
+							<p class="feature-toc__label">On this page</p>
+							<div class="feature-toc__scroll">
+								<ol class="feature-toc__list">
+									{entries.map((release) => (
+										<li>
+											<a href={`#${release.tag}`}>{release.name}</a>
+										</li>
+									))}
+								</ol>
+							</div>
+						</nav>
+
+						<div class="features-main">
+							<ol class="changelog">
+								{entries.map((release) => (
+									<li class="changelog__item" id={release.tag}>
+										<header class="changelog__head">
+											<h2 class="changelog__title">
+												<a href={release.url} rel="noopener noreferrer">
+													{release.name}
+												</a>
+											</h2>
+											<p class="changelog__meta">
+												<span class="changelog__tag">{release.tag}</span>
+												{release.publishedAt && (
+													<time datetime={release.publishedAt}>{formatReleaseDate(release.publishedAt)}</time>
+												)}
+											</p>
+										</header>
+										{release.html ? (
+											<div class="changelog__body feature-doc" set:html={release.html} />
+										) : (
+											<p class="changelog__empty-body">No release notes for this version.</p>
+										)}
+									</li>
+								))}
+							</ol>
+						</div>
+					</div>
+				)
+			}
+		</section>
+	</main>
+</SignalLayout>
+
+<script>
+	function scrollToSection(el: HTMLElement) {
+		const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 64;
+		const top = el.getBoundingClientRect().top + window.scrollY - navH - 12;
+		window.scrollTo({ top, behavior: 'instant' });
+	}
+
+	function syncChangelogToc() {
+		const toc = document.querySelector('.feature-toc');
+		const links = [...document.querySelectorAll<HTMLAnchorElement>('.feature-toc__list a')];
+		if (!toc || !links.length) return;
+
+		const sections = links
+			.map((link) => {
+				const id = decodeURIComponent(link.hash.slice(1));
+				const el = id ? document.getElementById(id) : null;
+				return el ? { link, el } : null;
+			})
+			.filter((entry): entry is { link: HTMLAnchorElement; el: HTMLElement } => entry !== null);
+
+		if (!sections.length) return;
+
+		const setActive = (active: HTMLAnchorElement | null) => {
+			links.forEach((link) => {
+				const on = link === active;
+				link.classList.toggle('is-active', on);
+				if (on) link.setAttribute('aria-current', 'location');
+				else link.removeAttribute('aria-current');
+			});
+		};
+
+		links.forEach((link) => {
+			if (link.dataset.tocBound === '1') return;
+			link.dataset.tocBound = '1';
+			link.addEventListener('click', (event) => {
+				const id = decodeURIComponent(link.hash.slice(1));
+				const target = id ? document.getElementById(id) : null;
+				if (!target) return;
+				event.preventDefault();
+				history.pushState(null, '', `#${id}`);
+				scrollToSection(target);
+				setActive(link);
+			});
+		});
+
+		const navRaw =
+			getComputedStyle(document.documentElement).getPropertyValue('--nav-h').trim() || '4.25rem';
+		const navPx = navRaw.endsWith('px')
+			? parseFloat(navRaw) || 68
+			: (parseFloat(navRaw) || 4.25) *
+				(parseFloat(getComputedStyle(document.documentElement).fontSize) || 16);
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const visible = entries
+					.filter((entry) => entry.isIntersecting)
+					.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+				if (!visible.length) return;
+				const match = sections.find((section) => section.el === visible[0].target);
+				if (match) setActive(match.link);
+			},
+			{
+				rootMargin: `-${Math.round(navPx)}px 0px -55% 0px`,
+				threshold: [0.1, 0.25, 0.5],
+			},
+		);
+
+		sections.forEach(({ el }) => observer.observe(el));
+	}
+
+	syncChangelogToc();
+	document.addEventListener('astro:page-load', syncChangelogToc);
+</script>

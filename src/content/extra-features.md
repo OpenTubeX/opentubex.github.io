@@ -1,10 +1,7 @@
 ---
 title: Extra Features
-description: Fork-only additions available in OpenTubeX.
+description: Extra features available in OpenTubeX.
 ---
-
-OpenTubeX is a fork that adds extra features beyond the original project. Here
-is what’s unique so far.
 
 ## Per-channel playback speed
 
