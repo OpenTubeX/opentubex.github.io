@@ -1,0 +1,328 @@
+---
+import SignalLayout from '../layouts/SignalLayout.astro';
+import { Icon } from 'astro-icon/components';
+import logoDark from '../assets/logo-dark.svg';
+import logoLight from '../assets/logo-light.svg';
+import shotMain from '../assets/screenshots/opentubex-1.webp';
+import shotWatch from '../assets/screenshots/opentubex-2.webp';
+import shotSettings from '../assets/screenshots/opentubex-3.webp';
+
+const logoDarkSrc = typeof logoDark === 'string' ? logoDark : logoDark.src;
+const logoLightSrc = typeof logoLight === 'string' ? logoLight : logoLight.src;
+
+const screenshots = [
+	{
+		id: 'main',
+		label: 'Feed',
+		src: shotMain.src,
+		width: shotMain.width,
+		height: shotMain.height,
+		alt: 'OpenTubeX subscription feed',
+	},
+	{
+		id: 'watch',
+		label: 'Watching',
+		src: shotWatch.src,
+		width: shotWatch.width,
+		height: shotWatch.height,
+		alt: 'OpenTubeX watching a video',
+	},
+	{
+		id: 'settings',
+		label: 'Settings',
+		src: shotSettings.src,
+		width: shotSettings.width,
+		height: shotSettings.height,
+		alt: 'OpenTubeX settings',
+	},
+] as const;
+---
+
+<SignalLayout
+	title="OpenTubeX – Privacy-first YouTube client"
+	description="OpenTubeX is a privacy-first desktop YouTube client. Encrypted sync, SponsorBlock, no tracking."
+	active="home"
+>
+	<main id="top">
+		<section class="hero" aria-labelledby="hero-heading">
+			<div class="hero__signal" aria-hidden="true">
+				<svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+					<defs>
+						<radialGradient id="signalGlow" cx="62%" cy="42%" r="45%">
+							<stop offset="0%" stop-color="var(--teal)" stop-opacity="0.35"></stop>
+							<stop offset="55%" stop-color="var(--teal)" stop-opacity="0.08"></stop>
+							<stop offset="100%" stop-color="var(--glow-stop)" stop-opacity="0"></stop>
+						</radialGradient>
+					</defs>
+					<ellipse class="wave-glow" cx="920" cy="380" rx="520" ry="280"></ellipse>
+					<g transform="translate(980 360)">
+						<path class="wave-path wave-path--c" d="M-420 0 Q-280 -90 -140 0 T140 0 T420 0"></path>
+						<path class="wave-path wave-path--b" d="M-460 40 Q-300 -70 -140 40 T180 40 T460 40"></path>
+						<path class="wave-path wave-path--a" d="M-500 80 Q-320 -40 -140 80 T220 80 T500 80"></path>
+						<path class="wave-path wave-path--c" d="M-380 -40 Q-250 -120 -120 -40 T140 -40 T380 -40"></path>
+						<path class="wave-path wave-path--b" d="M-340 -80 Q-220 -150 -100 -80 T140 -80 T340 -80"></path>
+						<path class="wave-path wave-path--a" d="M-300 -120 Q-190 -180 -80 -120 T140 -120 T300 -120"></path>
+						<path class="wave-path wave-path--c" d="M-260 120 Q-160 40 -60 120 T140 120 T260 120"></path>
+						<path class="wave-path wave-path--b" d="M-220 160 Q-130 90 -40 160 T140 160 T220 160"></path>
+						<g class="wave-grid" stroke="var(--wave-grid)" stroke-width="1" fill="none">
+							<line x1="-280" y1="-200" x2="-280" y2="220"></line>
+							<line x1="-140" y1="-220" x2="-140" y2="240"></line>
+							<line x1="0" y1="-240" x2="0" y2="260"></line>
+							<line x1="140" y1="-220" x2="140" y2="240"></line>
+							<line x1="280" y1="-200" x2="280" y2="220"></line>
+						</g>
+						<g fill="var(--teal)">
+							<circle cx="-140" cy="0" r="3.5" opacity="0.7"></circle>
+							<circle cx="0" cy="-40" r="2.5" opacity="0.5"></circle>
+							<circle cx="140" cy="0" r="3.5" opacity="0.7"></circle>
+							<circle cx="280" cy="40" r="2.5" opacity="0.45"></circle>
+							<circle cx="-280" cy="40" r="2.5" opacity="0.45"></circle>
+						</g>
+					</g>
+					<path
+						class="wave-path wave-path--a"
+						d="M-40 620 Q180 540 400 620 T840 620 T1280 620 T1600 620"
+						opacity="0.5"></path>
+					<path
+						class="wave-path wave-path--b"
+						d="M-80 680 Q160 600 400 680 T880 680 T1360 680 T1720 680"
+						opacity="0.4"></path>
+					<path
+						class="wave-path wave-path--c"
+						d="M-120 740 Q140 680 400 740 T920 740 T1440 740 T1800 740"
+						opacity="0.35"></path>
+				</svg>
+			</div>
+			<div class="hero__mesh" aria-hidden="true"></div>
+
+			<div class="hero__content">
+				<img
+					class="hero__logo"
+					data-logo
+					data-logo-dark={logoDarkSrc}
+					data-logo-light={logoLightSrc}
+					src={logoLightSrc}
+					alt="OpenTubeX"
+					width="420"
+					height="137"
+				/>
+				<h1 class="hero__headline" id="hero-heading">Your YouTube signal, sealed.</h1>
+				<p class="hero__lede">
+					A highly customizable, privacy-focused desktop YouTube client that aims to provide the best UX.
+				</p>
+				<div class="cta-group">
+					<a class="btn btn--primary" href="/downloads/">
+						<Icon name="lucide:download" aria-hidden="true" />
+						Download now
+					</a>
+					<a class="btn btn--ghost" href="#pillars">
+						<Icon name="lucide:compass" aria-hidden="true" />
+						Why OpenTubeX
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="pillars" aria-labelledby="pillars-heading">
+			<p class="section__eyebrow reveal">Why OpenTubeX</p>
+			<h2 class="section__title reveal" id="pillars-heading">Five reasons to switch</h2>
+			<p class="section__intro reveal">A client that stays private, flexible, and yours to shape.</p>
+
+			<div class="pillars">
+				<article class="pillar">
+					<span class="pillar__mark" aria-hidden="true">
+						<span class="pillar__icon"><Icon name="lucide:lock-keyhole" /></span>
+						<span class="pillar__index">01</span>
+					</span>
+					<div>
+						<h3 class="pillar__title">End-to-end encrypted sync</h3>
+						<p class="pillar__body">
+							Settings and watch state travel encrypted between your machines. Only you hold the keys. The sync stack
+							is <a href="https://github.com/OpenTubeX/sync-server" rel="noopener noreferrer">open source and self-hostable</a> if you want your own server.
+						</p>
+					</div>
+				</article>
+				<article class="pillar">
+					<span class="pillar__mark" aria-hidden="true">
+						<span class="pillar__icon"><Icon name="lucide:eye-off" /></span>
+						<span class="pillar__index">02</span>
+					</span>
+					<div>
+						<h3 class="pillar__title">Private by default</h3>
+						<p class="pillar__body">
+							OpenTubeX does not profile you. No analytics, no fingerprinting, no silent telemetry.
+						</p>
+					</div>
+				</article>
+				<article class="pillar">
+					<span class="pillar__mark" aria-hidden="true">
+						<span class="pillar__icon"><Icon name="lucide:layers" /></span>
+						<span class="pillar__index">03</span>
+					</span>
+					<div>
+						<h3 class="pillar__title">Feature-rich</h3>
+						<p class="pillar__body">
+							Tabs, SponsorBlock, Auto PiP, transcripts, downloads, Ambient Mode, and{' '}
+							<a href="/extra-features/">more</a>.
+						</p>
+					</div>
+				</article>
+				<article class="pillar">
+					<span class="pillar__mark" aria-hidden="true">
+						<span class="pillar__icon"><Icon name="lucide:sliders-horizontal" /></span>
+						<span class="pillar__index">04</span>
+					</span>
+					<div>
+						<h3 class="pillar__title">Built to customize</h3>
+						<p class="pillar__body">
+							Themes, shortcuts, per-channel quality and speed, layout tweaks, and deep settings let you shape the
+							client around how you actually watch.
+						</p>
+					</div>
+				</article>
+				<article class="pillar">
+					<span class="pillar__mark" aria-hidden="true">
+						<span class="pillar__icon"><Icon name="lucide:code-xml" /></span>
+						<span class="pillar__index">05</span>
+					</span>
+					<div>
+						<h3 class="pillar__title">Open source, auditable</h3>
+						<p class="pillar__body">
+							Inspect <a href="https://github.com/OpenTubeX/OpenTubeX" rel="noopener noreferrer">the code</a>, fork it, and verify the claims for yourself.
+						</p>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="section section--shots" id="screenshots" aria-labelledby="shots-heading">
+			<p class="section__eyebrow reveal">Screenshots</p>
+			<h2 class="section__title reveal" id="shots-heading">What it looks like</h2>
+			<p class="section__intro reveal">Browse the feed, watch something, open settings.</p>
+
+			<div class="shot-stage reveal" data-shot-stage>
+				<figure class="laptop" aria-label="OpenTubeX on a laptop">
+					<div class="laptop__lid">
+						<div class="laptop__bezel">
+							<span class="laptop__camera" aria-hidden="true"></span>
+							<div class="laptop__screen">
+								{
+									screenshots.map((shot, index) => (
+										<img
+											class:list={['laptop__shot', { 'is-active': index === 0 }]}
+											src={shot.src}
+											width={shot.width}
+											height={shot.height}
+											alt={shot.alt}
+											data-shot={shot.id}
+											aria-hidden={index === 0 ? 'false' : 'true'}
+											loading={index === 0 ? 'eager' : 'lazy'}
+											decoding="async"
+										/>
+									))
+								}
+							</div>
+						</div>
+					</div>
+					<div class="laptop__hinge" aria-hidden="true"></div>
+					<div class="laptop__base" aria-hidden="true">
+						<span class="laptop__notch"></span>
+					</div>
+					<div class="laptop__shadow" aria-hidden="true"></div>
+				</figure>
+
+				<div class="shot-tabs" role="group" aria-label="Screenshot views">
+					{
+						screenshots.map((shot, index) => (
+							<button
+								type="button"
+								class:list={['shot-tabs__tab', { 'is-active': index === 0 }]}
+								aria-pressed={index === 0 ? 'true' : 'false'}
+								data-shot-tab={shot.id}
+							>
+								{shot.label}
+							</button>
+						))
+					}
+				</div>
+			</div>
+		</section>
+
+		<section class="download" id="download" aria-labelledby="download-heading">
+			<div class="download__inner">
+				<div class="download__copy">
+					<h2 class="download__title reveal" id="download-heading">Ready to install?</h2>
+					<p class="download__meta reveal">
+						Grab a signed build or install through the package manager you already use.
+					</p>
+					<div class="cta-group reveal">
+						<a class="btn btn--primary" href="/downloads/">
+							<Icon name="lucide:download" aria-hidden="true" />
+							Go to downloads
+						</a>
+						<a class="btn btn--ghost" href="/extra-features/">
+							<Icon name="lucide:sparkles" aria-hidden="true" />
+							Explore features
+						</a>
+					</div>
+				</div>
+				<div class="download__signal reveal" aria-hidden="true">
+					<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+						<g fill="none" stroke="var(--on-panel)" stroke-opacity="0.35" stroke-width="1.25" stroke-linecap="round">
+							<path d="M16 75 Q60 35 104 75 T192 75 T280 75">
+								<animate
+									attributeName="d"
+									dur="6s"
+									repeatCount="indefinite"
+									values="M16 75 Q60 35 104 75 T192 75 T280 75;M16 75 Q60 50 104 75 T192 75 T280 75;M16 75 Q60 35 104 75 T192 75 T280 75"
+								></animate>
+							</path>
+							<path d="M24 58 Q70 28 116 58 T208 58" stroke-opacity="0.5" stroke="var(--teal)">
+								<animate
+									attributeName="d"
+									dur="5s"
+									repeatCount="indefinite"
+									values="M24 58 Q70 28 116 58 T208 58;M24 58 Q70 42 116 58 T208 58;M24 58 Q70 28 116 58 T208 58"
+								></animate>
+							</path>
+						</g>
+						<circle cx="104" cy="75" r="4" fill="var(--teal)"></circle>
+						<circle cx="104" cy="75" r="10" fill="none" stroke="var(--teal)" stroke-opacity="0.4" stroke-width="1">
+							<animate attributeName="r" values="8;15;8" dur="3.5s" repeatCount="indefinite"></animate>
+							<animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="3.5s" repeatCount="indefinite"></animate>
+						</circle>
+					</svg>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<script is:inline>
+		(function () {
+			var stage = document.querySelector('[data-shot-stage]');
+			if (!stage) return;
+
+			var tabs = Array.prototype.slice.call(stage.querySelectorAll('[data-shot-tab]'));
+			var shots = Array.prototype.slice.call(stage.querySelectorAll('[data-shot]'));
+
+			function activate(id) {
+				tabs.forEach(function (tab) {
+					var on = tab.getAttribute('data-shot-tab') === id;
+					tab.classList.toggle('is-active', on);
+					tab.setAttribute('aria-pressed', on ? 'true' : 'false');
+				});
+				shots.forEach(function (shot) {
+					var on = shot.getAttribute('data-shot') === id;
+					shot.classList.toggle('is-active', on);
+					shot.setAttribute('aria-hidden', on ? 'false' : 'true');
+				});
+			}
+
+			tabs.forEach(function (tab) {
+				tab.addEventListener('click', function () {
+					activate(tab.getAttribute('data-shot-tab'));
+				});
+			});
+		})();
+	</script>
+</SignalLayout>

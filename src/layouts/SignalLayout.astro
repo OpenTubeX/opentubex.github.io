@@ -1,0 +1,167 @@
+---
+import '../styles/signal.css';
+import { Icon } from 'astro-icon/components';
+import ThemeSelect from '../components/ThemeSelect.astro';
+import markDark from '../assets/mark-dark.svg';
+import markLight from '../assets/mark-light.svg';
+
+type Active = 'home' | 'downloads' | 'features' | 'changelog';
+
+interface Props {
+	title: string;
+	description: string;
+	active?: Active | null;
+	mono?: boolean;
+}
+
+const { title, description, active = null, mono = false } = Astro.props;
+
+const markDarkSrc = typeof markDark === 'string' ? markDark : markDark.src;
+const markLightSrc = typeof markLight === 'string' ? markLight : markLight.src;
+
+const fontHref = mono
+	? 'https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700|ibm-plex-mono:400,500'
+	: 'https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700';
+
+const social = [
+	{ href: 'https://github.com/OpenTubeX/OpenTubeX', label: 'GitHub', icon: 'simple-icons:github' },
+	{ href: 'https://weblate.d3sox.me/engage/opentubex/', label: 'Weblate', icon: 'simple-icons:weblate' },
+	{ href: 'https://fluxer.opentubex.org', label: 'Fluxer', icon: 'simple-icons:fluxer' },
+	{ href: 'https://matrix.opentubex.org', label: 'Matrix', icon: 'simple-icons:matrix' },
+] as const;
+
+const primaryNav = [
+	{ href: '/', label: 'Home', id: 'home' },
+	{ href: '/downloads/', label: 'Downloads', id: 'downloads' },
+	{ href: '/extra-features/', label: 'Features', id: 'features' },
+	{ href: '/changelog/', label: 'Changelog', id: 'changelog' },
+] as const;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script is:inline src="/signal/theme-boot.js"></script>
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="preconnect" href="https://fonts.bunny.net" />
+		<link href={fontHref} rel="stylesheet" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	</head>
+	<body class="signal-body">
+		<div class="page-bg" aria-hidden="true"></div>
+
+		<header class="nav" id="nav">
+			<div class="nav__inner">
+				<a class="nav__brand" href="/" aria-label="OpenTubeX home">
+					<img
+						data-logo
+						data-logo-dark={markDarkSrc}
+						data-logo-light={markLightSrc}
+						src={markLightSrc}
+						alt=""
+						width="32"
+						height="32"
+					/>
+					<span>OpenTubeX</span>
+				</a>
+				<nav class="nav__links" id="nav-links" aria-label="Primary">
+					{
+						primaryNav.map(({ href, label, id }) => (
+							<a
+								href={href}
+								class:list={[{ 'is-active': active === id }]}
+								aria-current={active === id ? 'page' : undefined}
+							>
+								{label}
+							</a>
+						))
+					}
+					<div class="nav__social nav__social--menu" aria-label="Community">
+						{
+							social.map(({ href, label, icon }) => (
+								<a href={href} rel="noopener noreferrer" aria-label={label} title={label}>
+									<span class="sr-only">{label}</span>
+									<Icon name={icon} />
+								</a>
+							))
+						}
+					</div>
+				</nav>
+				<div class="nav__actions">
+					<nav class="nav__social nav__social--bar" aria-label="Community">
+						{
+							social.map(({ href, label, icon }) => (
+								<a href={href} rel="noopener noreferrer" aria-label={label} title={label}>
+									<span class="sr-only">{label}</span>
+									<Icon name={icon} />
+								</a>
+							))
+						}
+					</nav>
+					<ThemeSelect />
+					<button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Menu">
+						<span></span><span></span><span></span>
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<div class="page-shell">
+			<slot />
+		</div>
+
+		<script is:inline>
+			(function () {
+				var nav = document.getElementById('nav');
+				var toggle = nav.querySelector('.nav__toggle');
+				var links = document.getElementById('nav-links');
+
+				toggle.addEventListener('click', function () {
+					var open = nav.classList.toggle('is-open');
+					toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+				});
+
+				links.querySelectorAll('a').forEach(function (a) {
+					a.addEventListener('click', function () {
+						nav.classList.remove('is-open');
+						toggle.setAttribute('aria-expanded', 'false');
+					});
+				});
+
+				var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+				var targets = document.querySelectorAll('.pillar, .platform, .pkg, .reveal');
+
+				if (reduce) {
+					targets.forEach(function (el) {
+						el.classList.add('is-visible');
+					});
+					document.querySelectorAll('animate').forEach(function (el) {
+						el.remove();
+					});
+					return;
+				}
+
+				var observer = new IntersectionObserver(
+					function (entries) {
+						entries.forEach(function (entry) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								observer.unobserve(entry.target);
+							}
+						});
+					},
+					{ rootMargin: '0px 0px -40px 0px', threshold: 0 },
+				);
+
+				targets.forEach(function (el, i) {
+					el.style.transitionDelay = (i % 8) * 0.05 + 's';
+					observer.observe(el);
+				});
+			})();
+		</script>
+		<script is:inline src="/signal/theme.js"></script>
+	</body>
+</html>

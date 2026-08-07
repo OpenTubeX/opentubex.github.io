@@ -1,0 +1,164 @@
+---
+import { Code } from 'astro-expressive-code/components';
+
+interface Props {
+	code: string;
+	lang?: string;
+	title?: string;
+}
+
+const { code, lang = 'shell', title } = Astro.props;
+---
+
+<div class="cmd-block">
+	{
+		title ? (
+			<Code code={code} lang={lang} title={title} frame="code" />
+		) : (
+			<Code code={code} lang={lang} frame="code" />
+		)
+	}
+</div>
+
+<script>
+	function syncThumb(pre: HTMLElement, thumb: HTMLElement, track: HTMLElement) {
+		const max = pre.scrollWidth - pre.clientWidth;
+		if (max <= 0) {
+			track.hidden = true;
+			pre.classList.remove('is-x-scrollable');
+			return;
+		}
+
+		track.hidden = false;
+		pre.classList.add('is-x-scrollable');
+
+		const ratio = pre.clientWidth / pre.scrollWidth;
+		const thumbW = Math.max(36, Math.round(track.clientWidth * ratio));
+		const maxThumb = track.clientWidth - thumbW;
+		const left = maxThumb <= 0 ? 0 : (pre.scrollLeft / max) * maxThumb;
+
+		thumb.style.width = `${thumbW}px`;
+		thumb.style.transform = `translateX(${left}px)`;
+	}
+
+	function enhanceFrame(frame: HTMLElement) {
+		if (frame.dataset.cmdScroll === '1') return;
+
+		const pre = frame.querySelector('pre');
+		if (!(pre instanceof HTMLElement)) return;
+
+		frame.dataset.cmdScroll = '1';
+
+		const track = document.createElement('div');
+		track.className = 'cmd-hscroll';
+		track.hidden = true;
+
+		const thumb = document.createElement('div');
+		thumb.className = 'cmd-hscroll__thumb';
+		thumb.tabIndex = 0;
+		thumb.setAttribute('role', 'scrollbar');
+		thumb.setAttribute('aria-orientation', 'horizontal');
+		thumb.setAttribute('aria-controls', pre.id || (pre.id = `cmd-pre-${Math.random().toString(36).slice(2, 9)}`));
+		thumb.setAttribute('aria-label', 'Code block horizontal scroll');
+		thumb.setAttribute('aria-valuemin', '0');
+		thumb.setAttribute('aria-valuemax', '100');
+		thumb.setAttribute('aria-valuenow', '0');
+		track.append(thumb);
+		frame.append(track);
+
+		const refresh = () => {
+			syncThumb(pre, thumb, track);
+			const max = pre.scrollWidth - pre.clientWidth;
+			const now = max <= 0 ? 0 : Math.round((pre.scrollLeft / max) * 100);
+			thumb.setAttribute('aria-valuenow', String(now));
+		};
+
+		pre.addEventListener('scroll', refresh, { passive: true });
+		window.addEventListener('resize', refresh, { passive: true });
+
+		if (typeof ResizeObserver !== 'undefined') {
+			const ro = new ResizeObserver(refresh);
+			ro.observe(pre);
+			ro.observe(track);
+		}
+
+		let dragging = false;
+		let startX = 0;
+		let startScroll = 0;
+
+		const onMove = (clientX: number) => {
+			const max = pre.scrollWidth - pre.clientWidth;
+			if (max <= 0) return;
+			const thumbW = thumb.offsetWidth;
+			const maxThumb = Math.max(1, track.clientWidth - thumbW);
+			const delta = clientX - startX;
+			pre.scrollLeft = startScroll + (delta / maxThumb) * max;
+		};
+
+		thumb.addEventListener('pointerdown', (event) => {
+			dragging = true;
+			startX = event.clientX;
+			startScroll = pre.scrollLeft;
+			thumb.setPointerCapture(event.pointerId);
+			track.classList.add('is-dragging');
+			event.preventDefault();
+		});
+
+		thumb.addEventListener('pointermove', (event) => {
+			if (!dragging) return;
+			onMove(event.clientX);
+		});
+
+		const endDrag = (event: PointerEvent) => {
+			if (!dragging) return;
+			dragging = false;
+			track.classList.remove('is-dragging');
+			try {
+				thumb.releasePointerCapture(event.pointerId);
+			} catch {
+				/* already released */
+			}
+		};
+
+		thumb.addEventListener('pointerup', endDrag);
+		thumb.addEventListener('pointercancel', endDrag);
+
+		track.addEventListener('pointerdown', (event) => {
+			if (event.target !== track) return;
+			const max = pre.scrollWidth - pre.clientWidth;
+			if (max <= 0) return;
+			const rect = track.getBoundingClientRect();
+			const thumbW = thumb.offsetWidth;
+			const maxThumb = Math.max(1, track.clientWidth - thumbW);
+			const x = event.clientX - rect.left - thumbW / 2;
+			pre.scrollLeft = (Math.min(maxThumb, Math.max(0, x)) / maxThumb) * max;
+			refresh();
+		});
+
+		thumb.addEventListener('keydown', (event) => {
+			const step = Math.max(48, Math.round(pre.clientWidth * 0.25));
+			if (event.key === 'ArrowLeft') {
+				pre.scrollLeft -= step;
+				event.preventDefault();
+			} else if (event.key === 'ArrowRight') {
+				pre.scrollLeft += step;
+				event.preventDefault();
+			} else if (event.key === 'Home') {
+				pre.scrollLeft = 0;
+				event.preventDefault();
+			} else if (event.key === 'End') {
+				pre.scrollLeft = pre.scrollWidth;
+				event.preventDefault();
+			}
+		});
+
+		requestAnimationFrame(refresh);
+	}
+
+	function enhance(root: ParentNode = document) {
+		root.querySelectorAll<HTMLElement>('.cmd-block .expressive-code .frame').forEach(enhanceFrame);
+	}
+
+	enhance();
+	document.addEventListener('astro:page-load', () => enhance());
+</script>

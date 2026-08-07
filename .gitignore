@@ -3,6 +3,12 @@ dist/
 # generated types
 .astro/
 
+# build-time API cache
+.cache/
+
+# downloaded changelog images (rebuilt at build time)
+public/changelog-images/
+
 # dependencies
 node_modules/
 
@@ -19,3 +25,6 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# IDE files
+.idea

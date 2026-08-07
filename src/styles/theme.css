@@ -1,0 +1,96 @@
+/* OpenTubeX — Signal theme (Starlight overrides) */
+@import "https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700";
+
+:root {
+	--sl-font: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+	--sl-font-system: var(--sl-font);
+	--sl-font-headings: "Space Grotesk", var(--sl-font);
+
+	/* Signal teal accents — dark mode (Starlight default :root is dark) */
+	--sl-color-accent-low: hsl(174, 45%, 14%);
+	--sl-color-accent: hsl(174, 71%, 45%);
+	--sl-color-accent-high: hsl(174, 55%, 78%);
+
+	/* Cool slate/mist surfaces */
+	--sl-color-white: hsl(168, 20%, 96%);
+	--sl-color-gray-1: hsl(168, 12%, 88%);
+	--sl-color-gray-2: hsl(168, 10%, 72%);
+	--sl-color-gray-3: hsl(168, 8%, 52%);
+	--sl-color-gray-4: hsl(175, 12%, 28%);
+	--sl-color-gray-5: hsl(175, 16%, 16%);
+	--sl-color-gray-6: hsl(175, 18%, 11%);
+	--sl-color-black: hsl(175, 22%, 7%);
+
+	--otx-mist: #e8f2f0;
+	--otx-ink: #0b3d3e;
+	--otx-teal: #1a9b8e;
+	--otx-wave: color-mix(in srgb, var(--sl-color-accent) 55%, transparent);
+}
+
+:root[data-theme="light"] {
+	--sl-color-accent-high: hsl(174, 70%, 22%);
+	--sl-color-accent: hsl(174, 71%, 35%);
+	--sl-color-accent-low: hsl(168, 40%, 90%);
+
+	--sl-color-white: hsl(175, 22%, 10%);
+	--sl-color-gray-1: hsl(175, 16%, 16%);
+	--sl-color-gray-2: hsl(175, 12%, 28%);
+	--sl-color-gray-3: hsl(168, 10%, 42%);
+	--sl-color-gray-4: hsl(168, 12%, 62%);
+	--sl-color-gray-5: hsl(168, 22%, 88%);
+	--sl-color-gray-6: hsl(168, 28%, 94%);
+	--sl-color-black: hsl(168, 35%, 97%);
+
+	--otx-mist: #e8f2f0;
+	--otx-ink: #0b3d3e;
+	--otx-teal: #1a9b8e;
+}
+
+/* Nav logo: show full wordmark without cropping */
+.site-title {
+	gap: 0.5rem;
+	overflow: visible;
+}
+
+.site-title img,
+.site-title picture,
+.site-title svg {
+	height: clamp(1.65rem, 2.4vw, 2rem);
+	width: auto;
+	max-width: min(11.5rem, 42vw);
+	object-fit: contain;
+	object-position: left center;
+}
+
+/* Prefer Space Grotesk on headings / brand chrome */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) {
+	font-family: var(--sl-font-headings);
+	letter-spacing: -0.02em;
+}
+
+/* Soften header on Signal mist/teal surfaces */
+.header {
+	border-bottom-color: color-mix(in srgb, var(--sl-color-accent) 18%, var(--sl-color-hairline-shade));
+}
+
+html[data-has-hero] .header {
+	background-color: color-mix(in srgb, var(--sl-color-bg-nav) 78%, transparent);
+	backdrop-filter: blur(14px);
+}
+
+/* Download cards — slightly tighter Signal surfaces */
+.download-card {
+	border-radius: 0.85rem;
+	background: color-mix(in srgb, var(--sl-color-bg-nav) 92%, var(--sl-color-accent-low));
+	border-color: color-mix(in srgb, var(--sl-color-accent) 16%, var(--sl-color-gray-5));
+}
+
+.platform-mark {
+	border-radius: 0.75rem;
+}

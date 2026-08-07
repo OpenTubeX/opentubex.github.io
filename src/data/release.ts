@@ -1,6 +1,6 @@
 export const releaseVersion = '0.30.2';
 
-const releaseTag = `v${releaseVersion}-beta`;
+export const releaseTag = `v${releaseVersion}-beta`;
 const releaseBaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases/download/${releaseTag}`;
 
 export const allReleasesUrl = 'https://github.com/OpenTubeX/OpenTubeX/releases';
@@ -20,6 +20,8 @@ export function downloadUrl(assetName: string): string {
 export type DownloadLink = {
 	label: string;
 	url: string;
+	icon: string;
+	preferred?: boolean;
 	isExternal?: boolean;
 };
 
@@ -29,30 +31,36 @@ export type DownloadGroup = {
 	links: DownloadLink[];
 };
 
-const linuxPortableDownloads = [
+const linuxPortableDownloads: DownloadLink[] = [
 	{
 		label: '.zip (x64)',
 		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-x64-portable.zip`),
-	},
-	{
-		label: '.7z (x64)',
-		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-x64-portable.7z`),
+		icon: 'lucide:file-archive',
 	},
 	{
 		label: '.zip (arm64)',
 		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-arm64-portable.zip`),
-	},
-	{
-		label: '.7z (arm64)',
-		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-arm64-portable.7z`),
+		icon: 'lucide:file-archive',
 	},
 	{
 		label: '.zip (armv7l)',
 		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-armv7l-portable.zip`),
+		icon: 'lucide:file-archive',
+	},
+	{
+		label: '.7z (x64)',
+		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-x64-portable.7z`),
+		icon: 'lucide:file-archive',
+	},
+	{
+		label: '.7z (arm64)',
+		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-arm64-portable.7z`),
+		icon: 'lucide:file-archive',
 	},
 	{
 		label: '.7z (armv7l)',
 		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-armv7l-portable.7z`),
+		icon: 'lucide:file-archive',
 	},
 ];
 
@@ -64,34 +72,44 @@ export const downloadGroups: DownloadGroup[] = [
 			{
 				label: '.exe installer (x64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-setup-x64.exe`),
-			},
-			{
-				label: '.exe portable (x64)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-x64-portable.exe`),
-			},
-			{
-				label: '.zip (x64)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-x64-portable.zip`),
-			},
-			{
-				label: '.7z (x64)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-x64-portable.7z`),
+				icon: 'lucide:package',
+				preferred: true,
 			},
 			{
 				label: '.exe installer (arm64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-setup-arm64.exe`),
+				icon: 'lucide:package',
+				preferred: true,
+			},
+			{
+				label: '.exe portable (x64)',
+				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-x64-portable.exe`),
+				icon: 'lucide:download',
 			},
 			{
 				label: '.exe portable (arm64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-arm64-portable.exe`),
+				icon: 'lucide:download',
+			},
+			{
+				label: '.zip (x64)',
+				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-x64-portable.zip`),
+				icon: 'lucide:file-archive',
 			},
 			{
 				label: '.zip (arm64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-arm64-portable.zip`),
+				icon: 'lucide:file-archive',
+			},
+			{
+				label: '.7z (x64)',
+				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-x64-portable.7z`),
+				icon: 'lucide:file-archive',
 			},
 			{
 				label: '.7z (arm64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-arm64-portable.7z`),
+				icon: 'lucide:file-archive',
 			},
 		],
 	},
@@ -102,26 +120,34 @@ export const downloadGroups: DownloadGroup[] = [
 			{
 				label: '.dmg (Apple silicon)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-mac-arm64.dmg`),
-			},
-			{
-				label: '.zip (Apple silicon)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-mac-arm64.zip`),
-			},
-			{
-				label: '.7z (Apple silicon)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-mac-arm64.7z`),
+				icon: 'lucide:hard-drive',
+				preferred: true,
 			},
 			{
 				label: '.dmg (Intel)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-mac-x64.dmg`),
+				icon: 'lucide:hard-drive',
+				preferred: true,
+			},
+			{
+				label: '.zip (Apple silicon)',
+				url: downloadUrl(`opentubex-${releaseVersion}-beta-mac-arm64.zip`),
+				icon: 'lucide:file-archive',
 			},
 			{
 				label: '.zip (Intel)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-mac-x64.zip`),
+				icon: 'lucide:file-archive',
+			},
+			{
+				label: '.7z (Apple silicon)',
+				url: downloadUrl(`opentubex-${releaseVersion}-beta-mac-arm64.7z`),
+				icon: 'lucide:file-archive',
 			},
 			{
 				label: '.7z (Intel)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-mac-x64.7z`),
+				icon: 'lucide:file-archive',
 			},
 		],
 	},
@@ -132,19 +158,24 @@ export const downloadGroups: DownloadGroup[] = [
 			{
 				label: 'Install APT repository',
 				url: aptRepositoryUrl,
+				icon: 'lucide:boxes',
+				preferred: true,
 				isExternal: true,
 			},
 			{
 				label: '.deb (x64)',
 				url: downloadUrl(`opentubex_${releaseVersion}_beta_amd64.deb`),
+				icon: 'lucide:package',
 			},
 			{
 				label: '.deb (arm64)',
 				url: downloadUrl(`opentubex_${releaseVersion}_beta_arm64.deb`),
+				icon: 'lucide:package',
 			},
 			{
 				label: '.deb (armv7l)',
 				url: downloadUrl(`opentubex_${releaseVersion}_beta_armv7l.deb`),
+				icon: 'lucide:package',
 			},
 		],
 	},
@@ -155,20 +186,26 @@ export const downloadGroups: DownloadGroup[] = [
 			{
 				label: 'Install with COPR',
 				url: coprRepositoryUrl,
+				icon: 'lucide:boxes',
+				preferred: true,
 				isExternal: true,
 			},
 			{
 				label: 'Install RPM repository',
 				url: rpmRepositoryUrl,
+				icon: 'lucide:boxes',
+				preferred: true,
 				isExternal: true,
 			},
 			{
 				label: '.rpm (x64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta.amd64.rpm`),
+				icon: 'lucide:package',
 			},
 			{
 				label: '.rpm (arm64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta.arm64.rpm`),
+				icon: 'lucide:package',
 			},
 		],
 	},
@@ -179,15 +216,19 @@ export const downloadGroups: DownloadGroup[] = [
 			{
 				label: 'Install RPM repository',
 				url: rpmRepositoryUrl,
+				icon: 'lucide:boxes',
+				preferred: true,
 				isExternal: true,
 			},
 			{
 				label: '.rpm (x64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta.amd64.rpm`),
+				icon: 'lucide:package',
 			},
 			{
 				label: '.rpm (arm64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta.arm64.rpm`),
+				icon: 'lucide:package',
 			},
 		],
 	},
@@ -196,18 +237,22 @@ export const downloadGroups: DownloadGroup[] = [
 		icon: 'simple-icons:archlinux',
 		links: [
 			{
-				label: '.pacman (x64)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-amd64.pacman`),
-			},
-			{
 				label: 'AUR (opentubex-bin)',
 				url: 'https://aur.archlinux.org/packages/opentubex-bin/',
+				icon: 'simple-icons:archlinux',
+				preferred: true,
 				isExternal: true,
 			},
 			{
 				label: 'AUR (opentubex)',
 				url: 'https://aur.archlinux.org/packages/opentubex/',
+				icon: 'simple-icons:archlinux',
 				isExternal: true,
+			},
+			{
+				label: '.pacman (x64)',
+				url: downloadUrl(`opentubex-${releaseVersion}-beta-amd64.pacman`),
+				icon: 'lucide:package',
 			},
 		],
 	},
@@ -218,14 +263,17 @@ export const downloadGroups: DownloadGroup[] = [
 			{
 				label: 'AppImage (x64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-amd64.AppImage`),
+				icon: 'simple-icons:appimage',
 			},
 			{
 				label: 'AppImage (arm64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-arm64.AppImage`),
+				icon: 'simple-icons:appimage',
 			},
 			{
 				label: 'AppImage (armv7l)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-armv7l.AppImage`),
+				icon: 'simple-icons:appimage',
 			},
 		],
 	},
@@ -234,18 +282,22 @@ export const downloadGroups: DownloadGroup[] = [
 		icon: 'simple-icons:flatpak',
 		links: [
 			{
-				label: 'Install instructions',
+				label: 'Install with repository',
 				url: flatpakSiteUrl,
+				icon: 'simple-icons:flatpak',
+				preferred: true,
 				isExternal: true,
 			},
 			{
 				label: '.flatpak (x86_64)',
 				url: `${flatpakReleaseBaseUrl}/org.opentubex.OpenTubeX-${releaseTag}-x86_64.flatpak`,
+				icon: 'lucide:package',
 				isExternal: true,
 			},
 			{
 				label: '.flatpak (aarch64)',
 				url: `${flatpakReleaseBaseUrl}/org.opentubex.OpenTubeX-${releaseTag}-aarch64.flatpak`,
+				icon: 'lucide:package',
 				isExternal: true,
 			},
 		],

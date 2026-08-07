@@ -1,0 +1,214 @@
+---
+import SignalLayout from '../layouts/SignalLayout.astro';
+import { Icon } from 'astro-icon/components';
+import { Content, getHeadings } from '../content/extra-features.md';
+
+const headings = getHeadings().filter((heading) => heading.depth === 2);
+---
+
+<SignalLayout
+	title="Features – OpenTubeX"
+	description="OpenTubeX extra features: encrypted sync, SponsorBlock, tabs, Auto PiP, and more."
+	active="features"
+>
+	<main>
+		<header class="page-hero page-hero--features">
+			<div class="page-hero__signal" aria-hidden="true">
+				<svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+					<g transform="translate(980 160)">
+						<path class="wave-path wave-path--b" d="M-460 20 Q-300 -50 -140 20 T180 20 T460 20"></path>
+						<path class="wave-path wave-path--a" d="M-500 50 Q-320 -20 -140 50 T220 50 T500 50"></path>
+						<path class="wave-path wave-path--b" d="M-380 -30 Q-250 -90 -120 -30 T140 -30 T380 -30"></path>
+						<path class="wave-path wave-path--a" d="M-300 -70 Q-190 -120 -80 -70 T140 -70 T300 -70"></path>
+						<g fill="var(--teal)">
+							<circle cx="-140" cy="20" r="3" opacity="0.65"></circle>
+							<circle cx="0" cy="-30" r="2.5" opacity="0.45"></circle>
+							<circle cx="140" cy="20" r="3" opacity="0.65"></circle>
+						</g>
+					</g>
+				</svg>
+			</div>
+			<div class="page-hero__mesh" aria-hidden="true"></div>
+			<div class="page-hero__content">
+				<p class="page-hero__eyebrow">Features</p>
+				<h1 class="page-hero__title">More tools. Same OpenTubeX.</h1>
+				<p class="page-hero__lede">
+					Extras that keep playback private, precise, and under your control.
+				</p>
+				<div class="cta-group">
+					<a class="btn btn--primary" href="/downloads/">
+						<Icon name="lucide:download" aria-hidden="true" />
+						Downloads
+					</a>
+					<a class="btn btn--ghost" href="#features">
+						<Icon name="lucide:list" aria-hidden="true" />
+						Browse the list
+					</a>
+				</div>
+			</div>
+		</header>
+
+		<section class="section section--features" id="features" aria-labelledby="features-heading">
+			<div class="features-layout">
+				{
+					headings.length > 0 && (
+						<nav class="feature-toc" aria-label="Feature sections">
+							<p class="feature-toc__label">On this page</p>
+							<div class="feature-toc__scroll">
+								<ol class="feature-toc__list">
+									{headings.map((heading) => (
+										<li>
+											<a href={`#${heading.slug}`}>{heading.text}</a>
+										</li>
+									))}
+								</ol>
+							</div>
+						</nav>
+					)
+				}
+
+				<div class="features-main">
+					<h2 class="section__title reveal" id="features-heading">
+						{headings.length} extras worth knowing
+					</h2>
+					<p class="section__intro reveal">
+						Screenshots and details for each feature.
+					</p>
+
+					<article class="feature-doc">
+						<Content />
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="strip" aria-labelledby="strip-heading">
+			<div class="strip__inner">
+				<div class="strip__copy">
+					<h2 class="strip__title reveal" id="strip-heading">Take the features with you</h2>
+					<p class="strip__meta reveal">
+						Grab a signed build or install through the package manager you already use.
+					</p>
+					<div class="cta-group reveal">
+						<a class="btn btn--primary" href="/downloads/">
+							<Icon name="lucide:download" aria-hidden="true" />
+							Go to downloads
+						</a>
+						<a class="btn btn--ghost" href="/">
+							<Icon name="lucide:house" aria-hidden="true" />
+							Back home
+						</a>
+					</div>
+				</div>
+				<div class="strip__signal reveal" aria-hidden="true">
+					<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+						<g fill="none" stroke="var(--on-panel)" stroke-opacity="0.35" stroke-width="1.25" stroke-linecap="round">
+							<path d="M16 75 Q60 35 104 75 T192 75 T280 75">
+								<animate
+									attributeName="d"
+									dur="6s"
+									repeatCount="indefinite"
+									values="M16 75 Q60 35 104 75 T192 75 T280 75;M16 75 Q60 50 104 75 T192 75 T280 75;M16 75 Q60 35 104 75 T192 75 T280 75"
+								></animate>
+							</path>
+							<path d="M24 58 Q70 28 116 58 T208 58" stroke-opacity="0.5" stroke="var(--teal)">
+								<animate
+									attributeName="d"
+									dur="5s"
+									repeatCount="indefinite"
+									values="M24 58 Q70 28 116 58 T208 58;M24 58 Q70 42 116 58 T208 58;M24 58 Q70 28 116 58 T208 58"
+								></animate>
+							</path>
+						</g>
+						<circle cx="104" cy="75" r="4" fill="var(--teal)"></circle>
+						<circle cx="104" cy="75" r="10" fill="none" stroke="var(--teal)" stroke-opacity="0.4" stroke-width="1">
+							<animate attributeName="r" values="8;15;8" dur="3.5s" repeatCount="indefinite"></animate>
+							<animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="3.5s" repeatCount="indefinite"></animate>
+						</circle>
+					</svg>
+				</div>
+			</div>
+		</section>
+	</main>
+</SignalLayout>
+
+<script>
+	function navOffsetPx() {
+		const navRaw =
+			getComputedStyle(document.documentElement).getPropertyValue('--nav-h').trim() || '4.25rem';
+		if (navRaw.endsWith('px')) return parseFloat(navRaw) || 68;
+		return (
+			(parseFloat(navRaw) || 4.25) *
+			(parseFloat(getComputedStyle(document.documentElement).fontSize) || 16)
+		);
+	}
+
+	function scrollToSection(el: HTMLElement) {
+		const top = el.getBoundingClientRect().top + window.scrollY - navOffsetPx() - 12;
+		window.scrollTo({ top, behavior: 'instant' });
+	}
+
+	function syncFeatureToc() {
+		const toc = document.querySelector('.feature-toc');
+		const links = [...document.querySelectorAll<HTMLAnchorElement>('.feature-toc__list a')];
+		if (!toc || !links.length) return;
+
+		const previous = (toc as HTMLElement & { _tocObserver?: IntersectionObserver })._tocObserver;
+		previous?.disconnect();
+
+		const sections = links
+			.map((link) => {
+				const id = link.hash.slice(1);
+				const el = id ? document.getElementById(id) : null;
+				return el ? { link, el } : null;
+			})
+			.filter((entry): entry is { link: HTMLAnchorElement; el: HTMLElement } => entry !== null);
+
+		if (!sections.length) return;
+
+		const setActive = (active: HTMLAnchorElement | null) => {
+			links.forEach((link) => {
+				const on = link === active;
+				link.classList.toggle('is-active', on);
+				if (on) link.setAttribute('aria-current', 'location');
+				else link.removeAttribute('aria-current');
+			});
+		};
+
+		links.forEach((link) => {
+			if (link.dataset.tocBound === '1') return;
+			link.dataset.tocBound = '1';
+			link.addEventListener('click', (event) => {
+				const id = link.hash.slice(1);
+				const target = id ? document.getElementById(id) : null;
+				if (!target) return;
+				event.preventDefault();
+				history.pushState(null, '', `#${id}`);
+				scrollToSection(target);
+				setActive(link);
+			});
+		});
+
+		const navPx = navOffsetPx();
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const visible = entries
+					.filter((entry) => entry.isIntersecting)
+					.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+				if (!visible.length) return;
+				const match = sections.find((section) => section.el === visible[0].target);
+				if (match) setActive(match.link);
+			},
+			{
+				rootMargin: `-${Math.round(navPx)}px 0px -55% 0px`,
+				threshold: [0.1, 0.25, 0.5],
+			},
+		);
+
+		(toc as HTMLElement & { _tocObserver?: IntersectionObserver })._tocObserver = observer;
+		sections.forEach(({ el }) => observer.observe(el));
+	}
+
+	syncFeatureToc();
+	document.addEventListener('astro:page-load', syncFeatureToc);
+</script>
