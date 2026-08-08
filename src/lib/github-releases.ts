@@ -6,6 +6,7 @@ const REPO = 'OpenTubeX/OpenTubeX';
 const API = `https://api.github.com/repos/${REPO}/releases`;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const CACHE_PATH = resolve('.cache/github-releases.json');
+const OFFLINE_BUILD = process.env.OPENTUBEX_OFFLINE_BUILD === '1';
 
 export type ChangelogRelease = {
 	id: number;
@@ -126,6 +127,8 @@ async function fetchFromGithub(): Promise<ChangelogRelease[]> {
 
 /** Stable (non-prerelease) releases, refreshed at most once per day at build time. */
 export async function getChangelogReleases(): Promise<ChangelogRelease[]> {
+	if (OFFLINE_BUILD) return readFallback() ?? [];
+
 	const cached = readCache();
 	if (cached) return cached.releases;
 

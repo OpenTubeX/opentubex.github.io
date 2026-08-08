@@ -4,6 +4,7 @@ import { dirname, resolve } from 'node:path';
 const OWNER = 'OpenTubeX';
 const REPO = 'OpenTubeX';
 const CACHE_PATH = resolve('.cache/github-ref-types.json');
+const OFFLINE_BUILD = process.env.OPENTUBEX_OFFLINE_BUILD === '1';
 
 export type GithubRefKind = 'issue' | 'pull';
 
@@ -103,7 +104,7 @@ export async function resolveGithubRefTypes(markdownBodies: string[]): Promise<M
 	const cached = readCache();
 	const missing = [...wanted].filter((number) => !cached[String(number)]);
 
-	if (missing.length) {
+	if (missing.length && !OFFLINE_BUILD) {
 		const fetched = await fetchRefKinds(missing);
 		Object.assign(cached, fetched);
 		try {

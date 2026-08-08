@@ -36,6 +36,11 @@ function isAllowedUrl(value, hosts = ALLOWED_HOSTS) {
 	}
 }
 
+function isCacheableUrl(value) {
+	if (!isAllowedUrl(value)) return false;
+	return !new URL(value).pathname.toLowerCase().endsWith('.svg');
+}
+
 function cacheKey(url) {
 	const attachment = url.match(/\/user-attachments\/assets\/([a-f0-9-]+)/i);
 	if (attachment) return attachment[1];
@@ -126,7 +131,7 @@ async function downloadImage(url) {
 }
 
 function collectMarkdownImages(node, images) {
-	if (node.type === 'image' && typeof node.url === 'string' && isAllowedUrl(node.url)) {
+	if (node.type === 'image' && typeof node.url === 'string' && isCacheableUrl(node.url)) {
 		images.push(node);
 	}
 
@@ -195,7 +200,7 @@ export function rehypeCacheChangelogImages() {
 		visit(tree, 'element', (node) => {
 			if (node.tagName !== 'img') return;
 			const src = node.properties?.src;
-			if (typeof src === 'string' && isAllowedUrl(src)) images.push(node);
+			if (typeof src === 'string' && isCacheableUrl(src)) images.push(node);
 		});
 		if (!images.length) return;
 		await rewriteBatch(
