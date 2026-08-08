@@ -40,7 +40,7 @@
 
   function iconSource(preference) {
     var tmpl = document.getElementById("otx-theme-icons");
-    if (!tmpl) return null;
+    if (!tmpl || !Object.prototype.hasOwnProperty.call(LABELS, preference)) return null;
     return tmpl.content.querySelector("." + preference);
   }
 
@@ -79,7 +79,7 @@
     options[next].focus();
   }
 
-  function setMenuOpen(root, open, focusTarget) {
+  function setMenuOpen(root, open, focusTarget, restoreFocus) {
     var button = root.querySelector("[data-theme-button]");
     var menu = root.querySelector("[data-theme-menu]");
     if (!button || !menu) return;
@@ -91,7 +91,7 @@
       var options = optionList(root);
       var target = focusTarget || selected || options[0];
       if (target) target.focus();
-    } else if (document.activeElement && root.contains(document.activeElement)) {
+    } else if (restoreFocus !== false && document.activeElement && root.contains(document.activeElement)) {
       button.focus();
     }
   }
@@ -190,8 +190,12 @@
         closeAllMenus();
         return;
       }
-      if (event.key === "Escape" || event.key === "Tab") {
+      if (event.key === "Escape") {
         closeAllMenus();
+        return;
+      }
+      if (event.key === "Tab") {
+        setMenuOpen(root, false, null, false);
         return;
       }
     }
