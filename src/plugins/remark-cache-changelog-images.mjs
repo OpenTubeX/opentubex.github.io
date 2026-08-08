@@ -25,6 +25,9 @@ const OPTIMIZED_SUFFIX = '.optimized.webp';
 
 const cacheDirectory = resolve('.cache/changelog-images');
 const publicDirectory = resolve('public/changelog-images');
+const previousImagesDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
+	? resolve(process.env.OPENTUBEX_PREVIOUS_SITE, 'changelog-images')
+	: undefined;
 const downloads = new Map();
 
 function isAllowedUrl(value, hosts = ALLOWED_HOSTS) {
@@ -80,6 +83,28 @@ async function downloadImage(url) {
 				width: metadata.width,
 				height: metadata.pageHeight ?? metadata.height,
 			};
+		}
+
+		const previousPath = previousImagesDirectory
+			? resolve(previousImagesDirectory, `${id}${OPTIMIZED_SUFFIX}`)
+			: undefined;
+		if (previousPath) {
+			const previousFiles = await readdir(previousImagesDirectory).catch((error) => {
+				if (error?.code === 'ENOENT') return [];
+				throw error;
+			});
+			const filename = `${id}${OPTIMIZED_SUFFIX}`;
+			if (previousFiles.includes(filename)) {
+				const cachePath = resolve(cacheDirectory, filename);
+				await copyFile(previousPath, cachePath);
+				await copyFile(previousPath, resolve(publicDirectory, filename));
+				const metadata = await sharp(cachePath, { animated: true }).metadata();
+				return {
+					src: `/changelog-images/${filename}`,
+					width: metadata.width,
+					height: metadata.pageHeight ?? metadata.height,
+				};
+			}
 		}
 
 		const response = await fetch(url, {
