@@ -1,15 +1,11 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
+import fallbackData from '../data/changelog-releases.fallback.json';
 
 const REPO = 'OpenTubeX/OpenTubeX';
 const API = `https://api.github.com/repos/${REPO}/releases`;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
-const CACHE_PATH = join(dirname(fileURLToPath(import.meta.url)), '../../.cache/github-releases.json');
-const FALLBACK_PATH = join(
-	dirname(fileURLToPath(import.meta.url)),
-	'../data/changelog-releases.fallback.json',
-);
+const CACHE_PATH = resolve('.cache/github-releases.json');
 
 export type ChangelogRelease = {
 	id: number;
@@ -55,14 +51,9 @@ function writeCache(releases: ChangelogRelease[]) {
 }
 
 function readFallback(): ChangelogRelease[] | null {
-	try {
-		if (!existsSync(FALLBACK_PATH)) return null;
-		const parsed = JSON.parse(readFileSync(FALLBACK_PATH, 'utf8')) as { releases?: ChangelogRelease[] };
-		if (!Array.isArray(parsed.releases) || !parsed.releases.length) return null;
-		return parsed.releases;
-	} catch {
-		return null;
-	}
+	return Array.isArray(fallbackData.releases) && fallbackData.releases.length
+		? fallbackData.releases
+		: null;
 }
 
 function readStaleCache(): ChangelogRelease[] | null {
@@ -112,6 +103,7 @@ async function fetchFromGithub(): Promise<ChangelogRelease[]> {
 	while (page <= 10) {
 		const response = await fetch(`${API}?per_page=100&page=${page}`, {
 			headers: authHeaders(),
+			signal: AbortSignal.timeout(30_000),
 		});
 
 		if (!response.ok) {
@@ -139,7 +131,13 @@ export async function getChangelogReleases(): Promise<ChangelogRelease[]> {
 
 	try {
 		const releases = await fetchFromGithub();
-		writeCache(releases);
+		try {
+			writeCache(releases);
+		} catch (error) {
+			console.warn(
+				`[changelog] Could not update the releases cache (${error instanceof Error ? error.message : error}).`,
+			);
+		}
 		return releases;
 	} catch (error) {
 		const stale = readStaleCache();
@@ -171,5 +169,6 @@ export function formatReleaseDate(iso: string): string {
 		year: 'numeric',
 		month: 'short',
 		day: 'numeric',
+		timeZone: 'UTC',
 	}).format(new Date(iso));
 }

@@ -117,7 +117,12 @@ async function downloadImage(url) {
 	})();
 
 	downloads.set(id, job);
-	return job;
+	try {
+		return await job;
+	} catch (error) {
+		if (downloads.get(id) === job) downloads.delete(id);
+		throw error;
+	}
 }
 
 function collectMarkdownImages(node, images) {
