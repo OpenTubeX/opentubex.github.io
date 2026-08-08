@@ -104,16 +104,15 @@ async function downloadImage(url) {
 		const publicPath = resolve(publicDirectory, filename);
 		const temporaryPath = `${cachePath}.tmp`;
 		const bytes = Buffer.from(await response.arrayBuffer());
-		const image = sharp(bytes, { animated: true });
-		const metadata = await image.metadata();
-		const optimized = await image.webp().toBuffer();
+		const image = sharp(bytes, { animated: true, autoOrient: true });
+		const { data: optimized, info } = await image.webp().toBuffer({ resolveWithObject: true });
 		await writeFile(temporaryPath, optimized);
 		await rename(temporaryPath, cachePath);
 		await writeFile(publicPath, optimized);
 		return {
 			src: `/changelog-images/${filename}`,
-			width: metadata.width,
-			height: metadata.pageHeight ?? metadata.height,
+			width: info.width,
+			height: info.pageHeight ?? info.height,
 		};
 	})();
 
@@ -170,6 +169,20 @@ export function remarkCacheChangelogImages() {
 	};
 }
 
+function addImageProperties(properties, asset) {
+	if (properties.width == null && properties.height == null) {
+		properties.width = asset.width;
+		properties.height = asset.height;
+	} else if (typeof properties.width === 'number' && properties.height == null) {
+		properties.height = Math.round((properties.width * asset.height) / asset.width);
+	} else if (typeof properties.height === 'number' && properties.width == null) {
+		properties.width = Math.round((properties.height * asset.width) / asset.height);
+	}
+
+	properties.loading = 'lazy';
+	properties.decoding = 'async';
+}
+
 /** Rehype: cache raw HTML <img src> from release notes. */
 export function rehypeCacheChangelogImages() {
 	return async (tree) => {
@@ -185,10 +198,7 @@ export function rehypeCacheChangelogImages() {
 			(node) => node.properties.src,
 			(node, asset) => {
 				node.properties.src = asset.src;
-				node.properties.width ??= asset.width;
-				node.properties.height ??= asset.height;
-				node.properties.loading = 'lazy';
-				node.properties.decoding = 'async';
+				addImageProperties(node.properties, asset);
 			},
 		);
 	};
