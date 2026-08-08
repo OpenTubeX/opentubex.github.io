@@ -334,17 +334,17 @@ body.signal-body {
   margin-left: 0.85rem;
 }
 
-.nav__social {
+.nav__community-links {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
-.nav__social--menu {
+.nav__community-links--menu {
   display: none;
 }
 
-.nav__social a {
+.nav__community-links a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -356,12 +356,12 @@ body.signal-body {
   transition: color 0.2s var(--ease), background 0.2s var(--ease);
 }
 
-.nav__social a:hover {
+.nav__community-links a:hover {
   color: var(--ink);
   background: var(--white);
 }
 
-.nav__social svg {
+.nav__community-links svg {
   width: 1.1rem;
   height: 1.1rem;
   overflow: visible;
@@ -2591,9 +2591,9 @@ a.version-chip:hover .version-chip__dot {
     margin-left: 0.35rem;
   }
 
-  .nav__social--bar { display: none; }
+  .nav__community-links--bar { display: none; }
 
-  .nav__social--menu {
+  .nav__community-links--menu {
     display: flex;
     gap: 0.35rem;
     padding-top: 0.85rem;
@@ -2601,7 +2601,7 @@ a.version-chip:hover .version-chip__dot {
     border-top: 0;
   }
 
-  .nav__social--menu a {
+  .nav__community-links--menu a {
     width: 2.4rem;
     height: 2.4rem;
     border: 1px solid var(--line);
