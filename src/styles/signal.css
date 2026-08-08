@@ -498,7 +498,11 @@ body.signal-body {
 .theme-select__menu [data-theme-option]:focus-visible {
   color: var(--ink);
   background: color-mix(in srgb, var(--teal) 14%, var(--surface));
-  outline: none;
+}
+
+.theme-select__menu [data-theme-option]:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: -2px;
 }
 
 .theme-select__menu [data-theme-option].is-active {
@@ -944,8 +948,6 @@ a.version-chip:hover .version-chip__dot {
   gap: 1.25rem 1.5rem;
   padding: 1.85rem 0;
   border-bottom: 1px solid var(--line);
-  opacity: 0;
-  transform: translateY(1rem);
   transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
   align-items: start;
 }
@@ -957,7 +959,12 @@ a.version-chip:hover .version-chip__dot {
   padding: 1.65rem 0;
 }
 
-.pillar.is-visible {
+.js .pillar {
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+.js .pillar.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -1384,14 +1391,17 @@ a.version-chip:hover .version-chip__dot {
   gap: 1rem 2rem;
   padding: 1.25rem 0;
   border-bottom: 1px solid var(--line);
-  opacity: 0;
-  transform: translateY(1rem);
   transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
   min-width: 0;
   align-items: center;
 }
 
-.platform.is-visible {
+.js .platform {
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+.js .platform.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -1445,6 +1455,9 @@ a.version-chip:hover .version-chip__dot {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .pkg .format-list {
@@ -1509,8 +1522,6 @@ a.version-chip:hover .version-chip__dot {
   gap: 1rem 1.5rem;
   padding: 1.75rem 0;
   border-bottom: 1px solid var(--line);
-  opacity: 0;
-  transform: translateY(1rem);
   transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
   min-width: 0;
 }
@@ -1520,7 +1531,12 @@ a.version-chip:hover .version-chip__dot {
   padding-bottom: 0;
 }
 
-.pkg.is-visible {
+.js .pkg {
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+.js .pkg.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -2413,12 +2429,15 @@ a.version-chip:hover .version-chip__dot {
 
 /* ——— Reveal on scroll ——— */
 .reveal {
-  opacity: 0;
-  transform: translateY(1.1rem);
   transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
 }
 
-.reveal.is-visible {
+.js .reveal {
+  opacity: 0;
+  transform: translateY(1.1rem);
+}
+
+.js .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }

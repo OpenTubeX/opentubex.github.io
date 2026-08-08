@@ -1,4 +1,5 @@
 (function () {
+  document.documentElement.classList.add("js");
   try {
     var KEY = "otx-theme";
     var LEGACY_KEY = "otx-redesign-theme";

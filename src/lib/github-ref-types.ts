@@ -1,10 +1,10 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
 
 const OWNER = 'OpenTubeX';
 const REPO = 'OpenTubeX';
-const CACHE_PATH = join(dirname(fileURLToPath(import.meta.url)), '../../.cache/github-ref-types.json');
+const CACHE_PATH = resolve('.cache/github-ref-types.json');
+const OFFLINE_BUILD = process.env.OPENTUBEX_OFFLINE_BUILD === '1';
 
 export type GithubRefKind = 'issue' | 'pull';
 
@@ -51,19 +51,22 @@ function collectRefNumbers(text: string): number[] {
 	return [...numbers].sort((a, b) => a - b);
 }
 
-async function fetchRefKind(number: number): Promise<GithubRefKind> {
+async function fetchRefKind(
+	number: number,
+): Promise<{ kind: GithubRefKind; cacheable: boolean }> {
 	// Issues API returns both issues and PRs; PRs include a `pull_request` field.
 	const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${number}`, {
 		headers: authHeaders(),
+		signal: AbortSignal.timeout(30_000),
 	});
 
-	if (response.status === 404) return 'issue';
+	if (response.status === 404) return { kind: 'issue', cacheable: false };
 	if (!response.ok) {
 		throw new Error(`GitHub issue lookup failed for #${number} (${response.status})`);
 	}
 
 	const payload = (await response.json()) as { pull_request?: unknown };
-	return payload.pull_request ? 'pull' : 'issue';
+	return { kind: payload.pull_request ? 'pull' : 'issue', cacheable: true };
 }
 
 async function fetchRefKinds(numbers: number[]): Promise<Record<string, GithubRefKind>> {
@@ -75,7 +78,8 @@ async function fetchRefKinds(numbers: number[]): Promise<Record<string, GithubRe
 		const results = await Promise.all(
 			batch.map(async (number) => {
 				try {
-					return [String(number), await fetchRefKind(number), true] as const;
+					const { kind, cacheable } = await fetchRefKind(number);
+					return [String(number), kind, cacheable] as const;
 				} catch (error) {
 					console.warn(`[changelog] ${error instanceof Error ? error.message : error}`);
 					return [String(number), 'issue' as const, false] as const;
@@ -100,10 +104,16 @@ export async function resolveGithubRefTypes(markdownBodies: string[]): Promise<M
 	const cached = readCache();
 	const missing = [...wanted].filter((number) => !cached[String(number)]);
 
-	if (missing.length) {
+	if (missing.length && !OFFLINE_BUILD) {
 		const fetched = await fetchRefKinds(missing);
 		Object.assign(cached, fetched);
-		writeCache(cached);
+		try {
+			writeCache(cached);
+		} catch (error) {
+			console.warn(
+				`[changelog] Could not update the reference cache (${error instanceof Error ? error.message : error}).`,
+			);
+		}
 	}
 
 	const map = new Map<number, GithubRefKind>();

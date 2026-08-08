@@ -45,6 +45,7 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 				id={`${groupId}-panel-${tab.id}`}
 				aria-labelledby={`${groupId}-tab-${tab.id}`}
 				hidden={index !== 0}
+				tabindex={0}
 				data-panel={tab.id}
 			>
 				<slot name={tab.id} />
