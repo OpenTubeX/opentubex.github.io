@@ -28,13 +28,10 @@ export default defineConfig({
 	trailingSlash: 'ignore',
 	redirects: {
 		'/download': '/downloads/',
-		'/download/': '/downloads/',
+		'/favicon.ico': '/favicon.svg',
 		'/features': '/extra-features/',
-		'/features/': '/extra-features/',
 		'/feature': '/extra-features/',
-		'/feature/': '/extra-features/',
 		'/extra-feature': '/extra-features/',
-		'/extra-feature/': '/extra-features/',
 	},
 	markdown: {
 		processor: unified({
@@ -82,6 +79,7 @@ export default defineConfig({
 		}),
 		starlight({
 			title: 'OpenTubeX',
+			disable404Route: true,
 			pagefind: false,
 			customCss: ['./src/styles/theme.css'],
 			// Night Owl Light collapses shell tokens; vitesse-light keeps command/flag/path contrast.

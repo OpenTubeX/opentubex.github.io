@@ -1,6 +1,9 @@
 import { createHash } from 'node:crypto';
 import { copyFile, mkdir, readdir, rename, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { fromHtml } from 'hast-util-from-html';
+import { toHtml } from 'hast-util-to-html';
+import sharp from 'sharp';
 import { visit } from 'unist-util-visit';
 
 const ALLOWED_HOSTS = new Set([
@@ -17,15 +20,8 @@ const ALLOWED_DOWNLOAD_HOSTS = new Set([
 
 // Raster formats only — remote SVGs stay on their origin so active content
 // never becomes a same-origin navigable asset on the site.
-const EXTENSIONS = new Map([
-	['image/gif', '.gif'],
-	['image/jpeg', '.jpg'],
-	['image/png', '.png'],
-	['image/webp', '.webp'],
-]);
-
-const REMOTE_IMAGE_SRC =
-	/https:\/\/(?:github\.com\/user-attachments\/assets\/[a-f0-9-]+|user-images\.githubusercontent\.com\/[^\s"'<>]+|raw\.githubusercontent\.com\/[^\s"'<>]+|private-user-images\.githubusercontent\.com\/[^\s"'<>]+)/gi;
+const SUPPORTED_TYPES = new Set(['image/gif', 'image/jpeg', 'image/png', 'image/webp']);
+const OPTIMIZED_SUFFIX = '.optimized.webp';
 
 const cacheDirectory = resolve('.cache/changelog-images');
 const publicDirectory = resolve('public/changelog-images');
@@ -67,13 +63,18 @@ async function downloadImage(url) {
 		await mkdir(publicDirectory, { recursive: true });
 
 		const cachedFiles = await readdir(cacheDirectory);
-		const cached = cachedFiles.find((file) => file.startsWith(`${id}.`) && !file.endsWith('.tmp'));
+		const cached = cachedFiles.find((file) => file === `${id}${OPTIMIZED_SUFFIX}`);
 		if (cached) {
 			const publicFiles = await readdir(publicDirectory).catch(() => []);
 			if (!publicFiles.includes(cached)) {
 				await copyFile(resolve(cacheDirectory, cached), resolve(publicDirectory, cached));
 			}
-			return `/changelog-images/${cached}`;
+			const metadata = await sharp(resolve(cacheDirectory, cached), { animated: true }).metadata();
+			return {
+				src: `/changelog-images/${cached}`,
+				width: metadata.width,
+				height: metadata.pageHeight ?? metadata.height,
+			};
 		}
 
 		const response = await fetch(url, {
@@ -94,20 +95,25 @@ async function downloadImage(url) {
 		}
 
 		const contentType = response.headers.get('content-type')?.split(';')[0]?.trim();
-		const extension = contentType && EXTENSIONS.get(contentType);
-		if (!extension) {
+		if (!contentType || !SUPPORTED_TYPES.has(contentType)) {
 			throw new Error(`Unsupported image type: ${contentType ?? 'unknown'}`);
 		}
 
-		const filename = `${id}${extension}`;
+		const filename = `${id}${OPTIMIZED_SUFFIX}`;
 		const cachePath = resolve(cacheDirectory, filename);
 		const publicPath = resolve(publicDirectory, filename);
 		const temporaryPath = `${cachePath}.tmp`;
 		const bytes = Buffer.from(await response.arrayBuffer());
-		await writeFile(temporaryPath, bytes);
+		const image = sharp(bytes, { animated: true, autoOrient: true });
+		const { data: optimized, info } = await image.webp().toBuffer({ resolveWithObject: true });
+		await writeFile(temporaryPath, optimized);
 		await rename(temporaryPath, cachePath);
-		await writeFile(publicPath, bytes);
-		return `/changelog-images/${filename}`;
+		await writeFile(publicPath, optimized);
+		return {
+			src: `/changelog-images/${filename}`,
+			width: info.width,
+			height: info.pageHeight ?? info.height,
+		};
 	})();
 
 	downloads.set(id, job);
@@ -148,11 +154,33 @@ export function remarkCacheChangelogImages() {
 		await rewriteBatch(
 			images,
 			(image) => image.url,
-			(image, next) => {
-				image.url = next;
+			(image, asset) => {
+				image.url = asset.src;
+				image.data ??= {};
+				image.data.hProperties = {
+					...image.data.hProperties,
+					width: asset.width,
+					height: asset.height,
+					loading: 'lazy',
+					decoding: 'async',
+				};
 			},
 		);
 	};
+}
+
+function addImageProperties(properties, asset) {
+	if (properties.width == null && properties.height == null) {
+		properties.width = asset.width;
+		properties.height = asset.height;
+	} else if (typeof properties.width === 'number' && properties.height == null) {
+		properties.height = Math.round((properties.width * asset.height) / asset.width);
+	} else if (typeof properties.height === 'number' && properties.width == null) {
+		properties.width = Math.round((properties.height * asset.width) / asset.height);
+	}
+
+	properties.loading = 'lazy';
+	properties.decoding = 'async';
 }
 
 /** Rehype: cache raw HTML <img src> from release notes. */
@@ -168,8 +196,9 @@ export function rehypeCacheChangelogImages() {
 		await rewriteBatch(
 			images,
 			(node) => node.properties.src,
-			(node, next) => {
-				node.properties.src = next;
+			(node, asset) => {
+				node.properties.src = asset.src;
+				addImageProperties(node.properties, asset);
 			},
 		);
 	};
@@ -186,7 +215,7 @@ export async function copyCachedChangelogImages(distDirectory) {
 		if (error?.code === 'ENOENT') return [];
 		throw error;
 	});
-	const images = files.filter((file) => !file.endsWith('.tmp'));
+	const images = files.filter((file) => file.endsWith(OPTIMIZED_SUFFIX));
 	if (!images.length) return 0;
 
 	const outputDirectory = resolve(distDirectory, 'changelog-images');
@@ -200,25 +229,7 @@ export async function copyCachedChangelogImages(distDirectory) {
 
 /** Final HTML pass for raw <img> tags that never entered the hast tree. */
 export async function cacheImagesInHtml(html) {
-	const urls = [...new Set(html.match(REMOTE_IMAGE_SRC) ?? [])];
-	if (!urls.length) return html;
-
-	const replacements = new Map();
-	for (let index = 0; index < urls.length; index += 8) {
-		await Promise.all(
-			urls.slice(index, index + 8).map(async (url) => {
-				try {
-					replacements.set(url, await downloadImage(url));
-				} catch (error) {
-					console.warn(`[changelog] ${formatDownloadError(url, error)}`);
-				}
-			}),
-		);
-	}
-
-	let next = html;
-	for (const [remote, local] of replacements) {
-		next = next.split(remote).join(local);
-	}
-	return next;
+	const tree = fromHtml(html, { fragment: true });
+	await rehypeCacheChangelogImages()(tree);
+	return toHtml(tree);
 }

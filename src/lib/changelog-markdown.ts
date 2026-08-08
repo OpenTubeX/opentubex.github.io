@@ -17,6 +17,7 @@ const changelogSanitizeSchema = {
 	tagNames: [...(defaultSchema.tagNames ?? []), 'details', 'summary', 'video', 'source'],
 	attributes: {
 		...defaultSchema.attributes,
+		blockquote: [...(defaultSchema.attributes?.blockquote ?? []), 'dataAlert'],
 		details: [...(defaultSchema.attributes?.details ?? []), 'open'],
 		img: [...(defaultSchema.attributes?.img ?? []), 'src', 'alt', 'title', 'width', 'height', 'loading', 'decoding'],
 		a: [...(defaultSchema.attributes?.a ?? []), 'href', 'rel', 'target'],
