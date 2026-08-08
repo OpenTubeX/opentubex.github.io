@@ -4,18 +4,29 @@ import { unified } from '@astrojs/markdown-remark';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import icon from 'astro-icon';
-import remarkBundleGitHubImages from './src/plugins/remark-bundle-github-images.mjs';
+import remarkBundleGitHubImages, {
+	copyReusedGitHubImages,
+} from './src/plugins/remark-bundle-github-images.mjs';
 import { copyCachedChangelogImages } from './src/plugins/remark-cache-changelog-images.mjs';
 
-/** Copy changelog images into dist after Astro's early public/ copy. */
-function changelogImages() {
+/** Copy reused images into dist after Astro's early public/ copy. */
+function cachedImages() {
 	return {
-		name: 'opentubex-changelog-images',
+		name: 'opentubex-cached-images',
 		hooks: {
 			'astro:build:done': async ({ dir }) => {
-				const count = await copyCachedChangelogImages(fileURLToPath(dir));
-				if (count > 0) {
-					console.log(`[changelog] Copied ${count} cached image(s) into dist/changelog-images`);
+				const distDirectory = fileURLToPath(dir);
+				const [changelogCount, featureCount] = await Promise.all([
+					copyCachedChangelogImages(distDirectory),
+					copyReusedGitHubImages(distDirectory),
+				]);
+				if (changelogCount > 0) {
+					console.log(
+						`[changelog] Copied ${changelogCount} cached image(s) into dist/changelog-images`,
+					);
+				}
+				if (featureCount > 0) {
+					console.log(`[features] Reused ${featureCount} image(s) from the previous deployment`);
 				}
 			},
 		},
@@ -39,7 +50,7 @@ export default defineConfig({
 		}),
 	},
 	integrations: [
-		changelogImages(),
+		cachedImages(),
 		icon({
 			include: {
 				lucide: [

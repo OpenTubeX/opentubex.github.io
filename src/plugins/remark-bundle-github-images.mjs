@@ -1,10 +1,15 @@
-import { mkdir, readdir, rename, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readdir, rename, writeFile } from 'node:fs/promises';
 import { dirname, relative, resolve, sep } from 'node:path';
+import sharp from 'sharp';
 
 const attachmentPattern =
 	/^https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)$/;
 const cacheDirectory = resolve('node_modules/.astro/github-images');
+const previousAssetsDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
+	? resolve(process.env.OPENTUBEX_PREVIOUS_SITE, '_astro')
+	: undefined;
 const downloads = new Map();
+const reusedAssets = new Map();
 
 const extensions = new Map([
 	['image/gif', '.gif'],
@@ -15,7 +20,27 @@ const extensions = new Map([
 
 async function downloadImage(url, id, cachedFiles) {
 	const cachedFile = cachedFiles.find((file) => file.startsWith(`${id}.`));
-	if (cachedFile) return resolve(cacheDirectory, cachedFile);
+	if (cachedFile) return { path: resolve(cacheDirectory, cachedFile) };
+
+	if (previousAssetsDirectory) {
+		const previousFiles = await readdir(previousAssetsDirectory).catch((error) => {
+			if (error?.code === 'ENOENT') return [];
+			throw error;
+		});
+		const previousFile = previousFiles.find(
+			(file) => file.startsWith(`${id}.`) && /\.(?:gif|jpe?g|png|webp)$/i.test(file),
+		);
+		if (previousFile) {
+			const previousPath = resolve(previousAssetsDirectory, previousFile);
+			const metadata = await sharp(previousPath, { animated: true }).metadata();
+			reusedAssets.set(previousFile, previousPath);
+			return {
+				url: `/_astro/${previousFile}`,
+				width: metadata.width,
+				height: metadata.pageHeight ?? metadata.height,
+			};
+		}
+	}
 
 	const existingDownload = downloads.get(id);
 	if (existingDownload) return existingDownload;
@@ -36,7 +61,7 @@ async function downloadImage(url, id, cachedFiles) {
 		const temporaryPath = `${path}.tmp`;
 		await writeFile(temporaryPath, Buffer.from(await response.arrayBuffer()));
 		await rename(temporaryPath, path);
-		return path;
+		return { path };
 	})();
 
 	downloads.set(id, download);
@@ -67,10 +92,32 @@ export default function remarkBundleGitHubImages() {
 		for (let index = 0; index < images.length; index += 8) {
 			await Promise.all(
 				images.slice(index, index + 8).map(async (image) => {
-					const cachedPath = await downloadImage(image.url, image.id, cachedFiles);
-					image.node.url = relative(sourceDirectory, cachedPath).split(sep).join('/');
+					const asset = await downloadImage(image.url, image.id, cachedFiles);
+					image.node.url = asset.url ?? relative(sourceDirectory, asset.path).split(sep).join('/');
+					if (asset.url) {
+						image.node.data ??= {};
+						image.node.data.hProperties = {
+							...image.node.data.hProperties,
+							width: asset.width,
+							height: asset.height,
+							loading: 'lazy',
+							decoding: 'async',
+						};
+					}
 				}),
 			);
 		}
 	};
+}
+
+/** Copy feature images reused from the previous deployment into the new output. */
+export async function copyReusedGitHubImages(distDirectory) {
+	if (reusedAssets.size === 0) return 0;
+
+	const outputDirectory = resolve(distDirectory, '_astro');
+	await mkdir(outputDirectory, { recursive: true });
+	await Promise.all(
+		[...reusedAssets].map(([file, source]) => copyFile(source, resolve(outputDirectory, file))),
+	);
+	return reusedAssets.size;
 }
