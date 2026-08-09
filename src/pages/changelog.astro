@@ -124,8 +124,10 @@ const entries = releases.map((release, index) => ({
 		const links = [...document.querySelectorAll<HTMLAnchorElement>('.feature-toc__list a')];
 		if (!toc || !links.length) return;
 
-		const previous = (toc as HTMLElement & { _tocObserver?: IntersectionObserver })._tocObserver;
-		previous?.disconnect();
+		const tocElement = toc as HTMLElement & { _tocController?: AbortController };
+		tocElement._tocController?.abort();
+		const controller = new AbortController();
+		tocElement._tocController = controller;
 
 		const sections = links
 			.map((link) => {
@@ -137,47 +139,72 @@ const entries = releases.map((release, index) => ({
 
 		if (!sections.length) return;
 
+		const tocScroll = toc.querySelector<HTMLElement>('.feature-toc__scroll');
+		let currentActive = links.find((link) => link.classList.contains('is-active')) ?? null;
 		const setActive = (active: HTMLAnchorElement | null) => {
+			if (active === currentActive) return;
+			currentActive = active;
 			links.forEach((link) => {
 				const on = link === active;
 				link.classList.toggle('is-active', on);
 				if (on) link.setAttribute('aria-current', 'location');
 				else link.removeAttribute('aria-current');
 			});
+
+			if (active && tocScroll) {
+				const scrollBounds = tocScroll.getBoundingClientRect();
+				const activeBounds = active.getBoundingClientRect();
+				if (activeBounds.top < scrollBounds.top) {
+					tocScroll.scrollTop -= scrollBounds.top - activeBounds.top;
+				} else if (activeBounds.bottom > scrollBounds.bottom) {
+					tocScroll.scrollTop += activeBounds.bottom - scrollBounds.bottom;
+				}
+			}
 		};
 
 		links.forEach((link) => {
-			if (link.dataset.tocBound === '1') return;
-			link.dataset.tocBound = '1';
-			link.addEventListener('click', (event) => {
-				const id = decodeURIComponent(link.hash.slice(1));
-				const target = id ? document.getElementById(id) : null;
-				if (!target) return;
-				event.preventDefault();
-				history.pushState(null, '', `#${id}`);
-				scrollToSection(target);
-				setActive(link);
-			});
+			link.addEventListener(
+				'click',
+				(event) => {
+					const id = decodeURIComponent(link.hash.slice(1));
+					const target = id ? document.getElementById(id) : null;
+					if (!target) return;
+					event.preventDefault();
+					history.pushState(null, '', `#${id}`);
+					scrollToSection(target);
+					setActive(link);
+				},
+				{ signal: controller.signal },
+			);
 		});
 
-		const navPx = navOffsetPx();
-		const observer = new IntersectionObserver(
-			(entries) => {
-				const visible = entries
-					.filter((entry) => entry.isIntersecting)
-					.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-				if (!visible.length) return;
-				const match = sections.find((section) => section.el === visible[0].target);
-				if (match) setActive(match.link);
-			},
-			{
-				rootMargin: `-${Math.round(navPx)}px 0px -55% 0px`,
-				threshold: [0.1, 0.25, 0.5],
-			},
-		);
+		let frame = 0;
+		const updateActive = () => {
+			frame = 0;
+			const rootFontPx = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+			const activationY = navOffsetPx() + rootFontPx;
+			let active: HTMLAnchorElement | null = null;
 
-		(toc as HTMLElement & { _tocObserver?: IntersectionObserver })._tocObserver = observer;
-		sections.forEach(({ el }) => observer.observe(el));
+			for (const section of sections) {
+				if (section.el.getBoundingClientRect().top > activationY) break;
+				active = section.link;
+			}
+
+			setActive(active);
+		};
+		const scheduleUpdate = () => {
+			if (frame) return;
+			frame = requestAnimationFrame(updateActive);
+		};
+
+		window.addEventListener('scroll', scheduleUpdate, { passive: true, signal: controller.signal });
+		window.addEventListener('resize', scheduleUpdate, { passive: true, signal: controller.signal });
+		window.addEventListener('hashchange', scheduleUpdate, { signal: controller.signal });
+
+		const hash = decodeURIComponent(window.location.hash.slice(1));
+		const hashMatch = sections.find(({ el }) => el.id === hash);
+		setActive(hashMatch?.link ?? null);
+		if (!hashMatch) scheduleUpdate();
 	}
 
 	syncChangelogToc();
