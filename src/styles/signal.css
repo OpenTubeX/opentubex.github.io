@@ -1046,6 +1046,20 @@ a.version-chip:hover .version-chip__dot {
   padding-top: 2.5rem;
 }
 
+.ai-disclosure {
+  margin-top: 5.5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--line);
+}
+
+.ai-disclosure__body {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 62ch;
+  color: var(--slate);
+  font-size: 1.02rem;
+}
+
 .shot-stage {
   display: flex;
   flex-direction: column;
