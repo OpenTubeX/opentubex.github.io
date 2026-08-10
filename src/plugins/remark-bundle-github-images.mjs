@@ -1,10 +1,11 @@
 import { copyFile, mkdir, readdir, rename, writeFile } from 'node:fs/promises';
-import { dirname, relative, resolve, sep } from 'node:path';
+import { basename, dirname, relative, resolve, sep } from 'node:path';
 import sharp from 'sharp';
 
 const attachmentPattern =
 	/^https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)$/;
 const cacheDirectory = resolve('node_modules/.astro/github-images');
+const publicDirectory = resolve('public/feature-images');
 const previousAssetsDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
 	? resolve(process.env.OPENTUBEX_PREVIOUS_SITE, '_astro')
 	: undefined;
@@ -68,6 +69,20 @@ async function downloadImage(url, id, cachedFiles) {
 	return download;
 }
 
+async function exposeCachedImage(asset) {
+	if (!asset.path) return asset;
+
+	await mkdir(publicDirectory, { recursive: true });
+	const filename = basename(asset.path);
+	await copyFile(asset.path, resolve(publicDirectory, filename));
+	const metadata = await sharp(asset.path, { animated: true }).metadata();
+	return {
+		url: `/feature-images/${filename}`,
+		width: metadata.width,
+		height: metadata.pageHeight ?? metadata.height,
+	};
+}
+
 function collectImages(node, images) {
 	if (node.type === 'image' && typeof node.url === 'string') {
 		const match = node.url.match(attachmentPattern);
@@ -79,7 +94,7 @@ function collectImages(node, images) {
 	}
 }
 
-export default function remarkBundleGitHubImages() {
+export default function remarkBundleGitHubImages(options = {}) {
 	return async (tree, file) => {
 		const images = [];
 		collectImages(tree, images);
@@ -92,7 +107,8 @@ export default function remarkBundleGitHubImages() {
 		for (let index = 0; index < images.length; index += 8) {
 			await Promise.all(
 				images.slice(index, index + 8).map(async (image) => {
-					const asset = await downloadImage(image.url, image.id, cachedFiles);
+					const downloaded = await downloadImage(image.url, image.id, cachedFiles);
+					const asset = options.command === 'dev' ? await exposeCachedImage(downloaded) : downloaded;
 					image.node.url = asset.url ?? relative(sourceDirectory, asset.path).split(sep).join('/');
 					if (asset.url) {
 						image.node.data ??= {};

@@ -10,10 +10,15 @@ import remarkBundleGitHubImages, {
 import { copyCachedChangelogImages } from './src/plugins/remark-cache-changelog-images.mjs';
 
 /** Copy reused images into dist after Astro's early public/ copy. */
+const featureImageOptions = { command: 'build' };
+
 function cachedImages() {
 	return {
 		name: 'opentubex-cached-images',
 		hooks: {
+			'astro:config:setup': ({ command }) => {
+				featureImageOptions.command = command;
+			},
 			'astro:build:done': async ({ dir }) => {
 				const distDirectory = fileURLToPath(dir);
 				const [changelogCount, featureCount] = await Promise.all([
@@ -46,7 +51,7 @@ export default defineConfig({
 	},
 	markdown: {
 		processor: unified({
-			remarkPlugins: [remarkBundleGitHubImages],
+			remarkPlugins: [[remarkBundleGitHubImages, featureImageOptions]],
 		}),
 	},
 	integrations: [
@@ -70,6 +75,7 @@ export default defineConfig({
 					'package',
 					'sliders-horizontal',
 					'sparkles',
+					'triangle-alert',
 				],
 				'simple-icons': [
 					'appimage',

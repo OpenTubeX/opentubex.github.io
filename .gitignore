@@ -8,6 +8,7 @@ dist/
 
 # downloaded changelog images (rebuilt at build time)
 public/changelog-images/
+public/feature-images/
 
 # dependencies
 node_modules/
