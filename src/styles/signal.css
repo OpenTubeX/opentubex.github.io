@@ -1743,6 +1743,7 @@ a.version-chip:hover .version-chip__dot {
 
 .caution {
   --caution-alert: #9a6700;
+
   max-width: 42rem;
   margin-bottom: 1.75rem;
   padding: 1rem 1.15rem;
@@ -1767,7 +1768,7 @@ a.version-chip:hover .version-chip__dot {
 .caution__title svg {
   width: 1rem;
   height: 1rem;
-  color: currentColor;
+  color: currentcolor;
 }
 
 [data-theme='dark'] .caution {
@@ -2240,7 +2241,7 @@ a.version-chip:hover .version-chip__dot {
   width: 1rem;
   height: 1rem;
   flex: 0 0 auto;
-  background: currentColor;
+  background: currentcolor;
   -webkit-mask: var(--changelog-alert-icon) center / contain no-repeat;
   mask: var(--changelog-alert-icon) center / contain no-repeat;
 }
