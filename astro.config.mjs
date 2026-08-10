@@ -5,6 +5,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import icon from 'astro-icon';
 import remarkBundleGitHubImages, {
+	clearExposedGitHubImages,
 	copyReusedGitHubImages,
 } from './src/plugins/remark-bundle-github-images.mjs';
 import { copyCachedChangelogImages } from './src/plugins/remark-cache-changelog-images.mjs';
@@ -16,8 +17,9 @@ function cachedImages() {
 	return {
 		name: 'opentubex-cached-images',
 		hooks: {
-			'astro:config:setup': ({ command }) => {
+			'astro:config:setup': async ({ command }) => {
 				featureImageOptions.command = command;
+				await clearExposedGitHubImages();
 			},
 			'astro:build:done': async ({ dir }) => {
 				const distDirectory = fileURLToPath(dir);

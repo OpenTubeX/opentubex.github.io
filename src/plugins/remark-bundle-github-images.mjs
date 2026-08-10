@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readdir, rename, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readdir, rename, rm, writeFile } from 'node:fs/promises';
 import { basename, dirname, relative, resolve, sep } from 'node:path';
 import sharp from 'sharp';
 
@@ -81,6 +81,11 @@ async function exposeCachedImage(asset) {
 		width: metadata.width,
 		height: metadata.pageHeight ?? metadata.height,
 	};
+}
+
+/** Remove development-only copies before Astro serves or bundles public files. */
+export async function clearExposedGitHubImages() {
+	await rm(publicDirectory, { recursive: true, force: true });
 }
 
 function collectImages(node, images) {
