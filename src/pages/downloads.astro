@@ -23,9 +23,6 @@ const aurTabs = [
 	{ id: 'yay', label: 'yay' },
 ];
 
-const aurMaintenanceWarning =
-	'The AUR packages are currently out of date because the AUR is locked for maintenance.';
-
 const nightlyTabs = [
 	{ id: 'debian', label: 'Debian / Ubuntu', icon: 'simple-icons:ubuntu' },
 	{ id: 'fedora', label: 'Fedora / Red Hat', icon: 'simple-icons:fedora' },
@@ -161,12 +158,6 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								</h3>
 							</div>
 							<div class="platform__downloads">
-								{group.title === 'Arch Linux' && (
-									<p class="platform__warning" role="note">
-										<Icon name="lucide:triangle-alert" aria-hidden="true" />
-										{aurMaintenanceWarning}
-									</p>
-								)}
 								<ul class="format-list" aria-label={`${group.title} formats`}>
 									{group.links.map((link) => (
 										<li>
@@ -257,13 +248,6 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:archlinux" /></span>
 					<div>
 						<h3 class="pkg__title">Arch Linux · AUR</h3>
-						<aside class="caution" role="note">
-							<p class="caution__title">
-								<Icon name="lucide:triangle-alert" aria-hidden="true" />
-								Warning
-							</p>
-							<p>{aurMaintenanceWarning}</p>
-						</aside>
 						<p class="pkg__body">
 							Install with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a> or
 							{' '}<a href="https://github.com/Jguer/yay" rel="noopener noreferrer">yay</a>. Prefer{' '}
