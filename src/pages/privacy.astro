@@ -1,0 +1,150 @@
+---
+import SignalLayout from '../layouts/SignalLayout.astro';
+import { Content, getHeadings } from '../content/privacy.md';
+
+const headings = getHeadings().filter((heading) => heading.depth === 2);
+---
+
+<SignalLayout
+	title="Privacy Policy – OpenTubeX"
+	description="Privacy policy for the OpenTubeX website and desktop app."
+	active="privacy"
+	mono
+>
+	<main>
+		<header class="page-hero page-hero--privacy">
+			<div class="page-hero__signal" aria-hidden="true">
+				<svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+					<g transform="translate(980 160)">
+						<path class="wave-path wave-path--b" d="M-460 20 Q-300 -50 -140 20 T180 20 T460 20"></path>
+						<path class="wave-path wave-path--a" d="M-500 50 Q-320 -20 -140 50 T220 50 T500 50"></path>
+						<path class="wave-path wave-path--b" d="M-380 -30 Q-250 -90 -120 -30 T140 -30 T380 -30"></path>
+						<path class="wave-path wave-path--a" d="M-300 -70 Q-190 -120 -80 -70 T140 -70 T300 -70"></path>
+						<g fill="var(--teal)">
+							<circle cx="-140" cy="20" r="3" opacity="0.65"></circle>
+							<circle cx="0" cy="-30" r="2.5" opacity="0.45"></circle>
+							<circle cx="140" cy="20" r="3" opacity="0.65"></circle>
+						</g>
+					</g>
+				</svg>
+			</div>
+			<div class="page-hero__mesh" aria-hidden="true"></div>
+			<div class="page-hero__content">
+				<p class="page-hero__eyebrow">Legal</p>
+				<h1 class="page-hero__title">Privacy policy</h1>
+				<p class="page-hero__lede">What the website and desktop app expose, store, and send.</p>
+			</div>
+		</header>
+
+		<section class="section section--privacy" aria-label="Privacy policy">
+			<div class="privacy-layout">
+				<nav class="privacy-toc" aria-label="Privacy policy sections">
+					<p class="privacy-toc__label">On this page</p>
+					<ol class="privacy-toc__list">
+						{headings.map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}
+					</ol>
+				</nav>
+				<article class="privacy-doc">
+					<Content />
+				</article>
+			</div>
+		</section>
+	</main>
+</SignalLayout>
+
+<script>
+	function navOffsetPx() {
+		const navRaw =
+			getComputedStyle(document.documentElement).getPropertyValue('--nav-h').trim() || '4.25rem';
+		if (navRaw.endsWith('px')) return parseFloat(navRaw) || 68;
+		return (
+			(parseFloat(navRaw) || 4.25) *
+			(parseFloat(getComputedStyle(document.documentElement).fontSize) || 16)
+		);
+	}
+
+	function scrollToSection(el: HTMLElement) {
+		const top = el.getBoundingClientRect().top + window.scrollY - navOffsetPx() - 12;
+		window.scrollTo({ top, behavior: 'instant' });
+	}
+
+	function syncPrivacyToc() {
+		const toc = document.querySelector('.privacy-toc');
+		const links = [...document.querySelectorAll<HTMLAnchorElement>('.privacy-toc__list a')];
+		if (!toc || !links.length) return;
+
+		const tocElement = toc as HTMLElement & { _tocController?: AbortController };
+		tocElement._tocController?.abort();
+		const controller = new AbortController();
+		tocElement._tocController = controller;
+
+		const sections = links
+			.map((link) => {
+				const id = decodeURIComponent(link.hash.slice(1));
+				const el = id ? document.getElementById(id) : null;
+				return el ? { link, el } : null;
+			})
+			.filter((entry): entry is { link: HTMLAnchorElement; el: HTMLElement } => entry !== null);
+
+		if (!sections.length) return;
+
+		let currentActive = links.find((link) => link.classList.contains('is-active')) ?? null;
+		const setActive = (active: HTMLAnchorElement | null) => {
+			if (active === currentActive) return;
+			currentActive = active;
+			links.forEach((link) => {
+				const on = link === active;
+				link.classList.toggle('is-active', on);
+				if (on) link.setAttribute('aria-current', 'location');
+				else link.removeAttribute('aria-current');
+			});
+		};
+
+		links.forEach((link) => {
+			link.addEventListener(
+				'click',
+				(event) => {
+					const id = decodeURIComponent(link.hash.slice(1));
+					const target = id ? document.getElementById(id) : null;
+					if (!target) return;
+					event.preventDefault();
+					history.pushState(null, '', `#${id}`);
+					scrollToSection(target);
+					setActive(link);
+				},
+				{ signal: controller.signal },
+			);
+		});
+
+		let frame = 0;
+		const updateActive = () => {
+			frame = 0;
+			const rootFontPx = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+			const activationY = navOffsetPx() + rootFontPx;
+			let active: HTMLAnchorElement | null = null;
+
+			for (const section of sections) {
+				if (section.el.getBoundingClientRect().top > activationY) break;
+				active = section.link;
+			}
+
+			setActive(active);
+		};
+		const scheduleUpdate = () => {
+			if (frame) return;
+			frame = requestAnimationFrame(updateActive);
+		};
+
+		window.addEventListener('scroll', scheduleUpdate, { passive: true, signal: controller.signal });
+		window.addEventListener('resize', scheduleUpdate, { passive: true, signal: controller.signal });
+		window.addEventListener('hashchange', scheduleUpdate, { signal: controller.signal });
+
+		const hash = decodeURIComponent(window.location.hash.slice(1));
+		const hashMatch = sections.find(({ el }) => el.id === hash);
+		setActive(hashMatch?.link ?? null);
+		if (!hashMatch) scheduleUpdate();
+	}
+
+	syncPrivacyToc();
+	document.addEventListener('astro:page-load', syncPrivacyToc);
+</script>
