@@ -20,7 +20,7 @@ Following a link to GitHub, Weblate, Fluxer, Matrix, or another external service
 
 ### Local storage and cookies
 
-The website stores only your light, dark, or automatic theme preference in your browser's local storage. This value stays on your device and does not identify you. The website itself does not set cookies.
+The website stores your light, dark, or automatic theme preference and selections made in synchronized tab controls in your browser's local storage. These values stay on your device and do not identify you. The website itself does not set cookies.
 
 ### Why this data is processed
 
