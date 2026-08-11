@@ -12,6 +12,8 @@ export const rpmRepositoryUrl = 'https://rpm.opentubex.org';
 export const flatpakRemoteUrl = 'https://flatpak.opentubex.org/opentubex.flatpakrepo';
 export const flatpakSiteUrl = 'https://flatpak.opentubex.org';
 const flatpakReleaseBaseUrl = `https://github.com/OpenTubeX/flatpak/releases/download/${releaseTag}`;
+export const snapSiteUrl = 'https://snap.opentubex.org';
+const snapReleaseBaseUrl = `https://github.com/OpenTubeX/snap/releases/download/${releaseTag}`;
 
 export function downloadUrl(assetName: string): string {
 	return `${releaseBaseUrl}/${assetName}`;
@@ -297,6 +299,31 @@ export const downloadGroups: DownloadGroup[] = [
 			{
 				label: '.flatpak (aarch64)',
 				url: `${flatpakReleaseBaseUrl}/org.opentubex.OpenTubeX-${releaseTag}-aarch64.flatpak`,
+				icon: 'lucide:package',
+				isExternal: true,
+			},
+		],
+	},
+	{
+		title: 'Snap',
+		icon: 'simple-icons:snapcraft',
+		links: [
+			{
+				label: 'OpenTubeX Snap page',
+				url: snapSiteUrl,
+				icon: 'simple-icons:snapcraft',
+				preferred: true,
+				isExternal: true,
+			},
+			{
+				label: '.snap (amd64)',
+				url: `${snapReleaseBaseUrl}/opentubex_${releaseVersion}_amd64.snap`,
+				icon: 'lucide:package',
+				isExternal: true,
+			},
+			{
+				label: '.snap (arm64)',
+				url: `${snapReleaseBaseUrl}/opentubex_${releaseVersion}_arm64.snap`,
 				icon: 'lucide:package',
 				isExternal: true,
 			},

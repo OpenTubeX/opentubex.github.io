@@ -90,6 +90,7 @@ export default defineConfig({
 					'linux',
 					'matrix',
 					'opensuse',
+					'snapcraft',
 					'ubuntu',
 					'weblate',
 					'windows',

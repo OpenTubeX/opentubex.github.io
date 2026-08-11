@@ -11,6 +11,7 @@ import {
 	releaseTag,
 	releaseVersion,
 	rpmRepositoryUrl,
+	snapSiteUrl,
 } from '../data/release';
 
 const platformMeta: Record<string, string> = {
@@ -31,6 +32,7 @@ const nightlyTabs = [
 ];
 
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
+const snapCode = 'sudo snap install --dangerous ./opentubex_*.snap';
 
 const flatpakCode = `flatpak remote-add --if-not-exists opentubex \\
   https://flatpak.opentubex.org/opentubex.flatpakrepo
@@ -241,6 +243,19 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							Add the <a href={flatpakSiteUrl} rel="noopener noreferrer">OpenTubeX Flatpak remote</a>, then install.
 						</p>
 						<CmdCode code={flatpakCode} lang="shell" />
+					</div>
+				</article>
+
+				<article class="pkg">
+					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:snapcraft" /></span>
+					<div>
+						<h3 class="pkg__title">Snap · Store review pending</h3>
+						<p class="pkg__body">
+							Snap Store publication is pending review. For now, download the package for your architecture
+							from the <a href={snapSiteUrl} rel="noopener noreferrer">OpenTubeX Snap page</a> and install it
+							directly. Directly installed packages must be updated manually.
+						</p>
+						<CmdCode code={snapCode} lang="shell" />
 					</div>
 				</article>
 
