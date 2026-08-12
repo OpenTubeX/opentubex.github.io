@@ -25,7 +25,7 @@ const changelogSanitizeSchema = {
 		pre: [...(defaultSchema.attributes?.pre ?? []), 'className'],
 		span: [...(defaultSchema.attributes?.span ?? []), 'className', 'style'],
 		div: [...(defaultSchema.attributes?.div ?? []), 'className'],
-		video: ['src', 'controls', 'muted', 'playsInline', 'poster', 'width', 'height'],
+		video: ['src', 'controls', 'muted', 'playsInline', 'poster', 'preload', 'width', 'height'],
 		source: ['src', 'type'],
 	},
 };

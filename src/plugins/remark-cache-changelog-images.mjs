@@ -1,6 +1,7 @@
-import { createHash } from 'node:crypto';
-import { copyFile, mkdir, readdir, rename, writeFile } from 'node:fs/promises';
+import { createHash, randomUUID } from 'node:crypto';
+import { copyFile, mkdir, open, readdir, rename, rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { setTimeout as delay } from 'node:timers/promises';
 import { fromHtml } from 'hast-util-from-html';
 import { toHtml } from 'hast-util-to-html';
 import sharp from 'sharp';
@@ -22,6 +23,14 @@ const ALLOWED_DOWNLOAD_HOSTS = new Set([
 // never becomes a same-origin navigable asset on the site.
 const SUPPORTED_TYPES = new Set(['image/gif', 'image/jpeg', 'image/png', 'image/webp']);
 const OPTIMIZED_SUFFIX = '.optimized.webp';
+const VIDEO_TYPES = new Map([
+	['video/mp4', '.mp4'],
+	['video/webm', '.webm'],
+	['video/quicktime', '.mov'],
+]);
+const MAX_CONCURRENT_DOWNLOADS = 3;
+const MAX_DOWNLOAD_ATTEMPTS = 3;
+const MAX_ASSET_BYTES = 100 * 1024 * 1024;
 
 const cacheDirectory = resolve('.cache/changelog-images');
 const publicDirectory = resolve('public/changelog-images');
@@ -29,6 +38,21 @@ const previousImagesDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
 	? resolve(process.env.OPENTUBEX_PREVIOUS_SITE, 'changelog-images')
 	: undefined;
 const downloads = new Map();
+let activeDownloads = 0;
+const downloadWaiters = [];
+
+async function withDownloadSlot(job) {
+	while (activeDownloads >= MAX_CONCURRENT_DOWNLOADS) {
+		await new Promise((resolveWaiter) => downloadWaiters.push(resolveWaiter));
+	}
+	activeDownloads += 1;
+	try {
+		return await job();
+	} finally {
+		activeDownloads -= 1;
+		downloadWaiters.shift()?.();
+	}
+}
 
 function isAllowedUrl(value, hosts = ALLOWED_HOSTS) {
 	try {
@@ -59,6 +83,73 @@ function formatDownloadError(url, error) {
 	return `Failed to download ${url}: ${message}${cause}`;
 }
 
+function requestHeaders(accept) {
+	const headers = {
+		Accept: accept,
+		'User-Agent': 'opentubex.github.io-changelog',
+	};
+	const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+	if (token) headers.Authorization = `Bearer ${token}`;
+	return headers;
+}
+
+async function fetchAsset(url, accept) {
+	return withDownloadSlot(async () => {
+		let lastError;
+		for (let attempt = 1; attempt <= MAX_DOWNLOAD_ATTEMPTS; attempt += 1) {
+			const temporaryPath = resolve(cacheDirectory, `.download-${randomUUID()}.tmp`);
+			try {
+				const response = await fetch(url, {
+					headers: requestHeaders(accept),
+					redirect: 'follow',
+					signal: AbortSignal.timeout(30_000),
+				});
+				if (!response.ok) throw new Error(`HTTP ${response.status}`);
+				if (!isAllowedUrl(response.url, ALLOWED_DOWNLOAD_HOSTS)) {
+					throw new Error(`Blocked asset host after redirect: ${response.url}`);
+				}
+				const contentLength = Number(response.headers.get('content-length'));
+				if (Number.isFinite(contentLength) && contentLength > MAX_ASSET_BYTES) {
+					throw new Error(`Asset exceeds ${MAX_ASSET_BYTES} byte limit`);
+				}
+				if (!response.body) throw new Error('Asset response has no body');
+
+				const file = await open(temporaryPath, 'wx');
+				let receivedBytes = 0;
+				try {
+					for await (const chunk of response.body) {
+						receivedBytes += chunk.byteLength;
+						if (receivedBytes > MAX_ASSET_BYTES) {
+							throw new Error(`Asset exceeds ${MAX_ASSET_BYTES} byte limit`);
+						}
+						let offset = 0;
+						while (offset < chunk.byteLength) {
+							const { bytesWritten } = await file.write(
+								chunk,
+								offset,
+								chunk.byteLength - offset,
+							);
+							if (bytesWritten === 0) throw new Error('Could not write asset download');
+							offset += bytesWritten;
+						}
+					}
+				} finally {
+					await file.close();
+				}
+				return {
+					temporaryPath,
+					contentType: response.headers.get('content-type')?.split(';')[0]?.trim(),
+				};
+			} catch (error) {
+				await rm(temporaryPath, { force: true });
+				lastError = error;
+				if (attempt < MAX_DOWNLOAD_ATTEMPTS) await delay(250 * 2 ** (attempt - 1));
+			}
+		}
+		throw lastError;
+	});
+}
+
 async function downloadImage(url) {
 	if (!isAllowedUrl(url)) return url;
 
@@ -77,7 +168,10 @@ async function downloadImage(url) {
 			if (!publicFiles.includes(cached)) {
 				await copyFile(resolve(cacheDirectory, cached), resolve(publicDirectory, cached));
 			}
-			const metadata = await sharp(resolve(cacheDirectory, cached), { animated: true }).metadata();
+			const metadata = await sharp(resolve(cacheDirectory, cached), {
+				animated: true,
+				limitInputPixels: false,
+			}).metadata();
 			return {
 				src: `/changelog-images/${cached}`,
 				width: metadata.width,
@@ -98,7 +192,10 @@ async function downloadImage(url) {
 				const cachePath = resolve(cacheDirectory, filename);
 				await copyFile(previousPath, cachePath);
 				await copyFile(previousPath, resolve(publicDirectory, filename));
-				const metadata = await sharp(cachePath, { animated: true }).metadata();
+				const metadata = await sharp(cachePath, {
+					animated: true,
+					limitInputPixels: false,
+				}).metadata();
 				return {
 					src: `/changelog-images/${filename}`,
 					width: metadata.width,
@@ -107,43 +204,37 @@ async function downloadImage(url) {
 			}
 		}
 
-		const response = await fetch(url, {
-			headers: {
-				Accept: 'image/*',
-				'User-Agent': 'opentubex.github.io-changelog',
-			},
-			redirect: 'follow',
-			signal: AbortSignal.timeout(30_000),
-		});
+		const asset = await fetchAsset(url, 'image/*');
+		try {
+			if (!asset.contentType || !SUPPORTED_TYPES.has(asset.contentType)) {
+				throw new Error(`Unsupported image type: ${asset.contentType ?? 'unknown'}`);
+			}
 
-		if (!response.ok) {
-			throw new Error(`HTTP ${response.status}`);
+			const filename = `${id}${OPTIMIZED_SUFFIX}`;
+			const cachePath = resolve(cacheDirectory, filename);
+			const publicPath = resolve(publicDirectory, filename);
+			const temporaryPath = `${cachePath}.tmp`;
+			const info = asset.contentType === 'image/webp'
+				? await sharp(asset.temporaryPath, {
+						animated: true,
+						limitInputPixels: false,
+					}).metadata()
+				: await sharp(asset.temporaryPath, { animated: true, autoOrient: true })
+						.webp()
+						.toFile(temporaryPath);
+			if (asset.contentType === 'image/webp') {
+				await copyFile(asset.temporaryPath, temporaryPath);
+			}
+			await rename(temporaryPath, cachePath);
+			await copyFile(cachePath, publicPath);
+			return {
+				src: `/changelog-images/${filename}`,
+				width: info.width,
+				height: info.pageHeight ?? info.height,
+			};
+		} finally {
+			await rm(asset.temporaryPath, { force: true });
 		}
-
-		if (!isAllowedUrl(response.url, ALLOWED_DOWNLOAD_HOSTS)) {
-			throw new Error(`Blocked image host after redirect: ${response.url}`);
-		}
-
-		const contentType = response.headers.get('content-type')?.split(';')[0]?.trim();
-		if (!contentType || !SUPPORTED_TYPES.has(contentType)) {
-			throw new Error(`Unsupported image type: ${contentType ?? 'unknown'}`);
-		}
-
-		const filename = `${id}${OPTIMIZED_SUFFIX}`;
-		const cachePath = resolve(cacheDirectory, filename);
-		const publicPath = resolve(publicDirectory, filename);
-		const temporaryPath = `${cachePath}.tmp`;
-		const bytes = Buffer.from(await response.arrayBuffer());
-		const image = sharp(bytes, { animated: true, autoOrient: true });
-		const { data: optimized, info } = await image.webp().toBuffer({ resolveWithObject: true });
-		await writeFile(temporaryPath, optimized);
-		await rename(temporaryPath, cachePath);
-		await writeFile(publicPath, optimized);
-		return {
-			src: `/changelog-images/${filename}`,
-			width: info.width,
-			height: info.pageHeight ?? info.height,
-		};
 	})();
 
 	downloads.set(id, job);
@@ -151,6 +242,59 @@ async function downloadImage(url) {
 		return await job;
 	} catch (error) {
 		if (downloads.get(id) === job) downloads.delete(id);
+		throw error;
+	}
+}
+
+async function downloadVideo(url) {
+	if (!isAllowedUrl(url)) return null;
+	const id = cacheKey(url);
+	const key = `video:${id}`;
+	const existing = downloads.get(key);
+	if (existing) return existing;
+
+	const job = (async () => {
+		await mkdir(cacheDirectory, { recursive: true });
+		await mkdir(publicDirectory, { recursive: true });
+		const cachedFiles = await readdir(cacheDirectory);
+		const cached = cachedFiles.find((file) =>
+			[...VIDEO_TYPES.values()].some((extension) => file === `${id}${extension}`),
+		);
+		if (cached) {
+			await copyFile(resolve(cacheDirectory, cached), resolve(publicDirectory, cached));
+			return `/changelog-images/${cached}`;
+		}
+
+		if (previousImagesDirectory) {
+			const previousFiles = await readdir(previousImagesDirectory).catch(() => []);
+			const previous = previousFiles.find((file) =>
+				[...VIDEO_TYPES.values()].some((extension) => file === `${id}${extension}`),
+			);
+			if (previous) {
+				await copyFile(resolve(previousImagesDirectory, previous), resolve(cacheDirectory, previous));
+				await copyFile(resolve(previousImagesDirectory, previous), resolve(publicDirectory, previous));
+				return `/changelog-images/${previous}`;
+			}
+		}
+
+		const asset = await fetchAsset(url, 'video/*');
+		try {
+			const extension = asset.contentType ? VIDEO_TYPES.get(asset.contentType) : undefined;
+			if (!extension) return null;
+			const filename = `${id}${extension}`;
+			await rename(asset.temporaryPath, resolve(cacheDirectory, filename));
+			await copyFile(resolve(cacheDirectory, filename), resolve(publicDirectory, filename));
+			return `/changelog-images/${filename}`;
+		} finally {
+			await rm(asset.temporaryPath, { force: true });
+		}
+	})();
+
+	downloads.set(key, job);
+	try {
+		return await job;
+	} catch (error) {
+		if (downloads.get(key) === job) downloads.delete(key);
 		throw error;
 	}
 }
@@ -165,13 +309,13 @@ function collectMarkdownImages(node, images) {
 	}
 }
 
-async function rewriteBatch(items, getUrl, setUrl) {
+async function rewriteBatch(items, getUrl, setUrl, download = downloadImage) {
 	for (let index = 0; index < items.length; index += 8) {
 		await Promise.all(
 			items.slice(index, index + 8).map(async (item) => {
 				const url = getUrl(item);
 				try {
-					setUrl(item, await downloadImage(url));
+					setUrl(item, await download(url));
 				} catch (error) {
 					console.warn(`[changelog] ${formatDownloadError(url, error)}`);
 				}
@@ -250,7 +394,9 @@ export async function copyCachedChangelogImages(distDirectory) {
 		if (error?.code === 'ENOENT') return [];
 		throw error;
 	});
-	const images = files.filter((file) => file.endsWith(OPTIMIZED_SUFFIX));
+	const images = files.filter(
+		(file) => file.endsWith(OPTIMIZED_SUFFIX) || [...VIDEO_TYPES.values()].some((type) => file.endsWith(type)),
+	);
 	if (!images.length) return 0;
 
 	const outputDirectory = resolve(distDirectory, 'changelog-images');
@@ -266,5 +412,41 @@ export async function copyCachedChangelogImages(distDirectory) {
 export async function cacheImagesInHtml(html) {
 	const tree = fromHtml(html, { fragment: true });
 	await rehypeCacheChangelogImages()(tree);
+	const videos = [];
+	visit(tree, 'element', (node, index, parent) => {
+		if (
+			node.tagName === 'video' &&
+			typeof node.properties?.src === 'string' &&
+			typeof index === 'number' &&
+			parent
+		) {
+			videos.push({ node, index, parent });
+		}
+	});
+	await rewriteBatch(
+		videos,
+		({ node }) => node.properties.src,
+		({ node, index, parent }, src) => {
+			if (src) {
+				node.properties.src = src;
+				return;
+			}
+			const href = node.properties.src;
+			parent.children[index] = {
+				type: 'element',
+				tagName: 'a',
+				properties: { href, rel: ['noopener', 'noreferrer'] },
+				children: [{ type: 'text', value: href }],
+			};
+		},
+		async (url) => {
+			try {
+				return await downloadVideo(url);
+			} catch (error) {
+				console.warn(`[changelog] ${formatDownloadError(url, error)}`);
+				return null;
+			}
+		},
+	);
 	return toHtml(tree);
 }

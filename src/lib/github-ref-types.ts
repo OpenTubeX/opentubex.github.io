@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import fallbackData from '../data/github-ref-types.fallback.json';
 
 const OWNER = 'OpenTubeX';
 const REPO = 'OpenTubeX';
@@ -23,14 +24,36 @@ function authHeaders(): HeadersInit {
 	return headers;
 }
 
-function readCache(): Record<string, GithubRefKind> {
+function isRefKind(value: unknown): value is GithubRefKind {
+	return value === 'issue' || value === 'pull';
+}
+
+function normalizeTypes(value: unknown): Record<string, GithubRefKind> {
+	if (!value || typeof value !== 'object') return {};
+	const types: Record<string, GithubRefKind> = {};
+	for (const [key, kind] of Object.entries(value as Record<string, unknown>)) {
+		if (/^\d+$/.test(key) && isRefKind(kind)) types[key] = kind;
+	}
+	return types;
+}
+
+function readFallback(): Record<string, GithubRefKind> {
+	return normalizeTypes(fallbackData?.types);
+}
+
+/** Disk cache has no TTL — issue vs PR never changes for a given number. */
+function readDiskCache(): Record<string, GithubRefKind> {
 	try {
 		if (!existsSync(CACHE_PATH)) return {};
 		const parsed = JSON.parse(readFileSync(CACHE_PATH, 'utf8')) as CacheFile;
-		return parsed?.types && typeof parsed.types === 'object' ? parsed.types : {};
+		return normalizeTypes(parsed?.types);
 	} catch {
 		return {};
 	}
+}
+
+function readCache(): Record<string, GithubRefKind> {
+	return { ...readFallback(), ...readDiskCache() };
 }
 
 function writeCache(types: Record<string, GithubRefKind>) {
@@ -94,7 +117,7 @@ async function fetchRefKinds(numbers: number[]): Promise<Record<string, GithubRe
 	return resolved;
 }
 
-/** Resolve whether OpenTubeX #N refs are issues or pull requests (cached on disk). */
+/** Resolve whether OpenTubeX #N refs are issues or pull requests (cached forever). */
 export async function resolveGithubRefTypes(markdownBodies: string[]): Promise<Map<number, GithubRefKind>> {
 	const wanted = new Set<number>();
 	for (const body of markdownBodies) {
