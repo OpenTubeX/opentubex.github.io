@@ -2383,6 +2383,15 @@ a.version-chip:hover .version-chip__dot {
   background: var(--white);
 }
 
+.changelog__body video {
+  display: block;
+  max-width: 100%;
+  max-height: min(70vh, 720px);
+  margin-block: 1rem;
+  border-radius: 0.35rem;
+  background: #000;
+}
+
 .changelog__body details {
   margin: 1rem 0;
   padding: 0.85rem 1rem;
