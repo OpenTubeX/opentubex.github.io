@@ -22,6 +22,7 @@ const platformMeta: Record<string, string> = {
 const aurTabs = [
 	{ id: 'paru', label: 'paru' },
 	{ id: 'yay', label: 'yay' },
+	{ id: 'shelly', label: 'shelly' },
 ];
 
 const nightlyTabs = [
@@ -264,8 +265,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					<div>
 						<h3 class="pkg__title">Arch Linux · AUR</h3>
 						<p class="pkg__body">
-							Install with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a> or
-							{' '}<a href="https://github.com/Jguer/yay" rel="noopener noreferrer">yay</a>. Prefer{' '}
+							Install with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a>,
+							{' '}<a href="https://github.com/Jguer/yay" rel="noopener noreferrer">yay</a>, or
+							{' '}<a href="https://github.com/Seafoam-Labs/Shelly-ALPM" rel="noopener noreferrer">shelly</a>. Prefer{' '}
 							<code>opentubex-bin</code> for the prebuilt binary, or <code>opentubex</code> to build from source.
 						</p>
 						<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
@@ -276,6 +278,10 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							<div slot="yay">
 								<CmdCode code="yay -S opentubex-bin" lang="shell" title="Prebuilt binary" />
 								<CmdCode code="yay -S opentubex" lang="shell" title="Build from source" />
+							</div>
+							<div slot="shelly">
+								<CmdCode code="shelly -Ia opentubex-bin" lang="shell" title="Prebuilt binary" />
+								<CmdCode code="shelly -Ia opentubex" lang="shell" title="Build from source" />
 							</div>
 						</SignalTabs>
 					</div>
@@ -348,6 +354,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							</div>
 							<div slot="yay">
 								<CmdCode code="yay -S opentubex-git" lang="shell" title="Automated build" />
+							</div>
+							<div slot="shelly">
+								<CmdCode code="shelly -Ia opentubex-git" lang="shell" title="Automated build" />
 							</div>
 						</SignalTabs>
 					</div>
