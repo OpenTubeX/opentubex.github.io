@@ -439,7 +439,14 @@ export async function cacheImagesInHtml(html) {
 				children: [{ type: 'text', value: href }],
 			};
 		},
-		downloadVideo,
+		async (url) => {
+			try {
+				return await downloadVideo(url);
+			} catch (error) {
+				console.warn(`[changelog] ${formatDownloadError(url, error)}`);
+				return null;
+			}
+		},
 	);
 	return toHtml(tree);
 }

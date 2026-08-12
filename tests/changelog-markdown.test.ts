@@ -54,4 +54,26 @@ describe('renderChangelogBodies', () => {
 			globalThis.fetch = originalFetch;
 		}
 	});
+
+	test('restores attachment links when video downloads fail', async () => {
+		const attachment =
+			'https://github.com/user-attachments/assets/00000000-0000-4000-8000-000000000001';
+		const originalFetch = globalThis.fetch;
+		const originalWarn = console.warn;
+		globalThis.fetch = async () => {
+			throw new Error('network unavailable');
+		};
+		console.warn = () => {};
+
+		try {
+			const html = await cacheImagesInHtml(
+				`<p><video src="${attachment}" controls></video></p>`,
+			);
+			expect(html).not.toContain('<video');
+			expect(html).toContain(`<a href="${attachment}"`);
+		} finally {
+			globalThis.fetch = originalFetch;
+			console.warn = originalWarn;
+		}
+	});
 });
