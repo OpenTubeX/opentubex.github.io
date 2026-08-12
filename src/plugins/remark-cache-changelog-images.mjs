@@ -1,5 +1,5 @@
-import { createHash } from 'node:crypto';
-import { copyFile, mkdir, readdir, rename, writeFile } from 'node:fs/promises';
+import { createHash, randomUUID } from 'node:crypto';
+import { copyFile, mkdir, open, readdir, rename, rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { fromHtml } from 'hast-util-from-html';
@@ -30,6 +30,7 @@ const VIDEO_TYPES = new Map([
 ]);
 const MAX_CONCURRENT_DOWNLOADS = 3;
 const MAX_DOWNLOAD_ATTEMPTS = 3;
+const MAX_ASSET_BYTES = 100 * 1024 * 1024;
 
 const cacheDirectory = resolve('.cache/changelog-images');
 const publicDirectory = resolve('public/changelog-images');
@@ -41,7 +42,7 @@ let activeDownloads = 0;
 const downloadWaiters = [];
 
 async function withDownloadSlot(job) {
-	if (activeDownloads >= MAX_CONCURRENT_DOWNLOADS) {
+	while (activeDownloads >= MAX_CONCURRENT_DOWNLOADS) {
 		await new Promise((resolveWaiter) => downloadWaiters.push(resolveWaiter));
 	}
 	activeDownloads += 1;
@@ -96,6 +97,7 @@ async function fetchAsset(url, accept) {
 	return withDownloadSlot(async () => {
 		let lastError;
 		for (let attempt = 1; attempt <= MAX_DOWNLOAD_ATTEMPTS; attempt += 1) {
+			const temporaryPath = resolve(cacheDirectory, `.download-${randomUUID()}.tmp`);
 			try {
 				const response = await fetch(url, {
 					headers: requestHeaders(accept),
@@ -106,11 +108,40 @@ async function fetchAsset(url, accept) {
 				if (!isAllowedUrl(response.url, ALLOWED_DOWNLOAD_HOSTS)) {
 					throw new Error(`Blocked asset host after redirect: ${response.url}`);
 				}
+				const contentLength = Number(response.headers.get('content-length'));
+				if (Number.isFinite(contentLength) && contentLength > MAX_ASSET_BYTES) {
+					throw new Error(`Asset exceeds ${MAX_ASSET_BYTES} byte limit`);
+				}
+				if (!response.body) throw new Error('Asset response has no body');
+
+				const file = await open(temporaryPath, 'wx');
+				let receivedBytes = 0;
+				try {
+					for await (const chunk of response.body) {
+						receivedBytes += chunk.byteLength;
+						if (receivedBytes > MAX_ASSET_BYTES) {
+							throw new Error(`Asset exceeds ${MAX_ASSET_BYTES} byte limit`);
+						}
+						let offset = 0;
+						while (offset < chunk.byteLength) {
+							const { bytesWritten } = await file.write(
+								chunk,
+								offset,
+								chunk.byteLength - offset,
+							);
+							if (bytesWritten === 0) throw new Error('Could not write asset download');
+							offset += bytesWritten;
+						}
+					}
+				} finally {
+					await file.close();
+				}
 				return {
-					bytes: Buffer.from(await response.arrayBuffer()),
+					temporaryPath,
 					contentType: response.headers.get('content-type')?.split(';')[0]?.trim(),
 				};
 			} catch (error) {
+				await rm(temporaryPath, { force: true });
 				lastError = error;
 				if (attempt < MAX_DOWNLOAD_ATTEMPTS) await delay(250 * 2 ** (attempt - 1));
 			}
@@ -173,31 +204,37 @@ async function downloadImage(url) {
 			}
 		}
 
-		const { bytes, contentType } = await fetchAsset(url, 'image/*');
-		if (!contentType || !SUPPORTED_TYPES.has(contentType)) {
-			throw new Error(`Unsupported image type: ${contentType ?? 'unknown'}`);
-		}
+		const asset = await fetchAsset(url, 'image/*');
+		try {
+			if (!asset.contentType || !SUPPORTED_TYPES.has(asset.contentType)) {
+				throw new Error(`Unsupported image type: ${asset.contentType ?? 'unknown'}`);
+			}
 
-		const filename = `${id}${OPTIMIZED_SUFFIX}`;
-		const cachePath = resolve(cacheDirectory, filename);
-		const publicPath = resolve(publicDirectory, filename);
-		const temporaryPath = `${cachePath}.tmp`;
-		const { data: optimized, info } = contentType === 'image/webp'
-			? {
-					data: bytes,
-					info: await sharp(bytes, { animated: true, limitInputPixels: false }).metadata(),
-				}
-			: await sharp(bytes, { animated: true, autoOrient: true })
-					.webp()
-					.toBuffer({ resolveWithObject: true });
-		await writeFile(temporaryPath, optimized);
-		await rename(temporaryPath, cachePath);
-		await writeFile(publicPath, optimized);
-		return {
-			src: `/changelog-images/${filename}`,
-			width: info.width,
-			height: info.pageHeight ?? info.height,
-		};
+			const filename = `${id}${OPTIMIZED_SUFFIX}`;
+			const cachePath = resolve(cacheDirectory, filename);
+			const publicPath = resolve(publicDirectory, filename);
+			const temporaryPath = `${cachePath}.tmp`;
+			const info = asset.contentType === 'image/webp'
+				? await sharp(asset.temporaryPath, {
+						animated: true,
+						limitInputPixels: false,
+					}).metadata()
+				: await sharp(asset.temporaryPath, { animated: true, autoOrient: true })
+						.webp()
+						.toFile(temporaryPath);
+			if (asset.contentType === 'image/webp') {
+				await copyFile(asset.temporaryPath, temporaryPath);
+			}
+			await rename(temporaryPath, cachePath);
+			await copyFile(cachePath, publicPath);
+			return {
+				src: `/changelog-images/${filename}`,
+				width: info.width,
+				height: info.pageHeight ?? info.height,
+			};
+		} finally {
+			await rm(asset.temporaryPath, { force: true });
+		}
 	})();
 
 	downloads.set(id, job);
@@ -240,15 +277,17 @@ async function downloadVideo(url) {
 			}
 		}
 
-		const { bytes, contentType } = await fetchAsset(url, 'video/*');
-		const extension = contentType ? VIDEO_TYPES.get(contentType) : undefined;
-		if (!extension) throw new Error(`Unsupported video type: ${contentType ?? 'unknown'}`);
-		const filename = `${id}${extension}`;
-		const temporaryPath = resolve(cacheDirectory, `${filename}.tmp`);
-		await writeFile(temporaryPath, bytes);
-		await rename(temporaryPath, resolve(cacheDirectory, filename));
-		await writeFile(resolve(publicDirectory, filename), bytes);
-		return `/changelog-images/${filename}`;
+		const asset = await fetchAsset(url, 'video/*');
+		try {
+			const extension = asset.contentType ? VIDEO_TYPES.get(asset.contentType) : undefined;
+			if (!extension) return null;
+			const filename = `${id}${extension}`;
+			await rename(asset.temporaryPath, resolve(cacheDirectory, filename));
+			await copyFile(resolve(cacheDirectory, filename), resolve(publicDirectory, filename));
+			return `/changelog-images/${filename}`;
+		} finally {
+			await rm(asset.temporaryPath, { force: true });
+		}
 	})();
 
 	downloads.set(key, job);
@@ -374,14 +413,31 @@ export async function cacheImagesInHtml(html) {
 	const tree = fromHtml(html, { fragment: true });
 	await rehypeCacheChangelogImages()(tree);
 	const videos = [];
-	visit(tree, 'element', (node) => {
-		if (node.tagName === 'video' && typeof node.properties?.src === 'string') videos.push(node);
+	visit(tree, 'element', (node, index, parent) => {
+		if (
+			node.tagName === 'video' &&
+			typeof node.properties?.src === 'string' &&
+			typeof index === 'number' &&
+			parent
+		) {
+			videos.push({ node, index, parent });
+		}
 	});
 	await rewriteBatch(
 		videos,
-		(node) => node.properties.src,
-		(node, src) => {
-			if (src) node.properties.src = src;
+		({ node }) => node.properties.src,
+		({ node, index, parent }, src) => {
+			if (src) {
+				node.properties.src = src;
+				return;
+			}
+			const href = node.properties.src;
+			parent.children[index] = {
+				type: 'element',
+				tagName: 'a',
+				properties: { href, rel: ['noopener', 'noreferrer'] },
+				children: [{ type: 'text', value: href }],
+			};
 		},
 		downloadVideo,
 	);

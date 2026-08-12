@@ -3,6 +3,7 @@ import { fromHtml } from 'hast-util-from-html';
 import { toHtml } from 'hast-util-to-html';
 import { renderChangelogBodies } from '../src/lib/changelog-markdown';
 import rehypeChangelogTweaks from '../src/plugins/rehype-changelog-tweaks.mjs';
+import { cacheImagesInHtml } from '../src/plugins/remark-cache-changelog-images.mjs';
 
 describe('renderChangelogBodies', () => {
 	test('uses permanently cached GitHub reference types', async () => {
@@ -29,5 +30,28 @@ describe('renderChangelogBodies', () => {
 
 		expect(html).not.toContain('<video');
 		expect(html).toContain(`<a href="${attachment}"`);
+	});
+
+	test('restores standalone non-video attachments as links', async () => {
+		const attachment =
+			'https://github.com/user-attachments/assets/00000000-0000-4000-8000-000000000000';
+		const originalFetch = globalThis.fetch;
+		globalThis.fetch = async () => {
+			const response = new Response(new Uint8Array([1, 2, 3]), {
+				headers: { 'content-length': '3', 'content-type': 'image/png' },
+			});
+			Object.defineProperty(response, 'url', { value: attachment });
+			return response;
+		};
+
+		try {
+			const html = await cacheImagesInHtml(
+				`<p><video src="${attachment}" controls></video></p>`,
+			);
+			expect(html).not.toContain('<video');
+			expect(html).toContain(`<a href="${attachment}"`);
+		} finally {
+			globalThis.fetch = originalFetch;
+		}
 	});
 });
