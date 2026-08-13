@@ -1235,7 +1235,7 @@ a.version-chip:hover .version-chip__dot {
 
 .zoomable-image:focus-visible {
   outline: 3px solid var(--teal);
-  outline-offset: 3px;
+  outline-offset: -3px;
 }
 
 .section--shots {

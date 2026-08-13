@@ -11,7 +11,10 @@ import 'photoswipe/style.css';
 			const controller = new AbortController();
 			gallery.imageLightboxController = controller;
 
-			const images = [...gallery.querySelectorAll<HTMLImageElement>('img')];
+			const images = [...gallery.querySelectorAll<HTMLImageElement>('img')].filter(
+				(image) => !image.closest('a[href]'),
+			);
+			let lightboxActive = false;
 			images.forEach((image) => {
 				image.classList.add('zoomable-image');
 				image.tabIndex = image.getAttribute('aria-hidden') === 'true' ? -1 : 0;
@@ -20,37 +23,48 @@ import 'photoswipe/style.css';
 			});
 
 			async function openImage(image: HTMLImageElement) {
-				if (!image.complete) {
-					await image.decode().catch(() => undefined);
+				if (lightboxActive) return;
+				lightboxActive = true;
+
+				try {
+					if (!image.complete) {
+						await image.decode().catch(() => undefined);
+					}
+
+					const PhotoSwipe = (await import('photoswipe')).default;
+					const dataSource = images.map((item) => ({
+						src: item.currentSrc || item.src,
+						msrc: item.currentSrc || item.src,
+						width: item.naturalWidth || Number(item.getAttribute('width')) || item.clientWidth,
+						height: item.naturalHeight || Number(item.getAttribute('height')) || item.clientHeight,
+						alt: item.alt,
+					}));
+
+					const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+					const lightbox = new PhotoSwipe({
+						dataSource,
+						index: images.indexOf(image),
+						bgOpacity: 0.94,
+						spacing: 0.14,
+						wheelToZoom: true,
+						showHideAnimationType: prefersReducedMotion ? 'none' : 'fade',
+					});
+
+					if (!prefersReducedMotion) {
+						lightbox.goTo = (index) => {
+							const distance = lightbox.getLoopedIndex(index) - lightbox.potentialIndex;
+							lightbox.mainScroll.moveIndexBy(distance, true);
+						};
+					}
+
+					lightbox.on('destroy', () => {
+						lightboxActive = false;
+					});
+					lightbox.init();
+				} catch (error) {
+					lightboxActive = false;
+					console.error('Unable to open image lightbox', error);
 				}
-
-				const PhotoSwipe = (await import('photoswipe')).default;
-				const dataSource = images.map((item) => ({
-					src: item.currentSrc || item.src,
-					msrc: item.currentSrc || item.src,
-					width: item.naturalWidth || Number(item.getAttribute('width')) || item.clientWidth,
-					height: item.naturalHeight || Number(item.getAttribute('height')) || item.clientHeight,
-					alt: item.alt,
-				}));
-
-				const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-				const lightbox = new PhotoSwipe({
-					dataSource,
-					index: images.indexOf(image),
-					bgOpacity: 0.94,
-					spacing: 0.14,
-					wheelToZoom: true,
-					showHideAnimationType: prefersReducedMotion ? 'none' : 'fade',
-				});
-
-				if (!prefersReducedMotion) {
-					lightbox.goTo = (index) => {
-						const distance = lightbox.getLoopedIndex(index) - lightbox.potentialIndex;
-						lightbox.mainScroll.moveIndexBy(distance, true);
-					};
-				}
-
-				lightbox.init();
 			}
 
 			gallery.addEventListener(
