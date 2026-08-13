@@ -20,6 +20,7 @@
     "hast-util-from-html": "^2.0.3",
     "hast-util-sanitize": "^5.0.2",
     "hast-util-to-html": "^9.0.5",
+    "photoswipe": "^5.4.4",
     "sharp": "^0.35.3"
   },
   "devDependencies": {

@@ -200,7 +200,7 @@ const screenshots = [
 			<h2 class="section__title reveal" id="shots-heading">What it looks like</h2>
 			<p class="section__intro reveal">Browse the feed, watch something, open settings.</p>
 
-			<div class="shot-stage reveal" data-shot-stage>
+			<div class="shot-stage reveal" data-shot-stage data-image-gallery>
 				<figure class="laptop" aria-label="OpenTubeX on a laptop">
 					<div class="laptop__lid">
 						<div class="laptop__bezel">
@@ -332,6 +332,7 @@ const screenshots = [
 					var on = shot.getAttribute('data-shot') === id;
 					shot.classList.toggle('is-active', on);
 					shot.setAttribute('aria-hidden', on ? 'false' : 'true');
+					shot.tabIndex = on ? 0 : -1;
 				});
 			}
 

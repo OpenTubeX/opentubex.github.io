@@ -1229,6 +1229,15 @@ a.version-chip:hover .version-chip__dot {
 .pillar--linked .pillar__body { font-size: 0.97rem; }
 
 /* Homepage product screenshots */
+.zoomable-image {
+  cursor: zoom-in;
+}
+
+.zoomable-image:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: -3px;
+}
+
 .section--shots {
   padding-top: 2.5rem;
 }
