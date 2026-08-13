@@ -1,6 +1,7 @@
 ---
 import '../styles/signal.css';
 import { Icon } from 'astro-icon/components';
+import ImageLightbox from '../components/ImageLightbox.astro';
 import ThemeSelect from '../components/ThemeSelect.astro';
 import markDark from '../assets/mark-dark.svg';
 import markLight from '../assets/mark-light.svg';
@@ -121,6 +122,8 @@ const primaryNav = [
 				</nav>
 			</div>
 		</footer>
+
+		<ImageLightbox />
 
 		<script is:inline>
 			(function () {
