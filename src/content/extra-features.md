@@ -3,20 +3,17 @@ title: Extra Features
 description: Extra features available in OpenTubeX.
 ---
 
-## Per-channel playback speed
+## Per-channel playback settings
 
-Remember playback speed on a per-channel basis. You can enable it in settings,
-save automatically when you change speed, or use a button under the player to
-save manually.
+Manage and automatically apply playback speed, video quality, subtitles, and
+volume for individual channels. Enable each option in settings. Playback speeds
+can be saved automatically when you change them through the player options, or
+you can leave automatic saving off and use the dedicated button below the
+player to save the current speed for that channel manually.
 
-![Per-channel playback speed settings](https://github.com/user-attachments/assets/e8fe58f3-80f0-4280-946e-abf997f0eac3)
-![Manual save button under player](https://github.com/user-attachments/assets/8fb28196-cf5a-4bb8-baa5-b911cb37262f)
+![Per-channel playback settings](https://github.com/user-attachments/assets/c713c463-93c3-4f21-96a2-4a653c2c8399)
 ![Per-channel speed indicator](https://github.com/user-attachments/assets/560a55c0-f653-4c21-ae30-5cdeff6ac428)
-
-## Per-channel video quality
-
-Remember video quality on a per-channel basis with the same workflow as
-per-channel playback speed.
+![Per-channel settings](https://github.com/user-attachments/assets/a802d400-0f41-4375-a252-9f5a157afb84)
 
 ## Optional seek-interval behavior
 
@@ -100,8 +97,8 @@ Submit SponsorBlock segments directly from the player. This feature is experimen
 ## Tab support
 
 Use browser-style tabs in horizontal or vertical layouts, with pinning, colors,
-thumbnail previews, duplication, unloading, reordering, moving between
-windows, bulk closing, YouTube link copying, and configurable session
+thumbnail previews, duplication, unloading, multi-selection, reordering,
+moving between windows, bulk actions, YouTube link copying, and configurable session
 restoration.
 
 ![Experimental tab support](https://github.com/user-attachments/assets/2ddbedea-5997-4a3c-af9e-6a36d3a21d04)
@@ -226,11 +223,13 @@ Choose the thumbnail size used while browsing videos.
 ## Additional video metadata
 
 See more context about a video, including AI-generated content labels,
-collaborators, categories, relative publication dates, and comment counts.
+paid-promotion disclosures, collaborators, categories, games, tags, relative
+publication dates, and comment counts.
 
 ![Additional video metadata](https://github.com/user-attachments/assets/90cfb4b3-1d26-438d-86de-c1be2e8858ce)
 ![Video collaborators and category](https://github.com/user-attachments/assets/ceaa25b3-2157-4904-80ad-619426862c1d)
-![Relative publication date and comment count](https://github.com/user-attachments/assets/36674aa1-e6e9-4332-9018-0357667291c5)
+![Game metadata](https://github.com/user-attachments/assets/0c147b10-c2de-4560-898d-ae80223418c0)
+![Paid-promotion disclosure](https://github.com/user-attachments/assets/7741014a-caa1-4bde-9fc2-6e2cdd5755c8)
 
 ## Playlist playback controls
 
@@ -259,13 +258,17 @@ Optionally ask for confirmation before closing the app.
 
 ## Download support
 
-Download videos directly via yt-dlp.
+Use yt-dlp for reliable playback and advanced video, audio, and playlist
+downloads. Download subtitles separately as SRT, VTT, ASS, or LRC files, and
+manage active and completed downloads from a dedicated page.
 
-![Video download options](https://github.com/user-attachments/assets/cbc33197-d6df-4619-a040-c28fb8a3ba42)
+![Updated download options](https://github.com/user-attachments/assets/1460f265-5b22-40b6-8958-73b4d3a89e83)
+![Downloads manager](https://github.com/user-attachments/assets/d42c04c5-eca4-477f-bcd7-3c8a3bd5a272)
 
 ## Full-screen docks
 
-Open comments, playlists, or chapters in full-screen docks.
+Open video information, comments, playlists, chapters, or live chat in
+resizable and rearrangeable full-screen docks.
 
 ![Full-screen dock](https://github.com/user-attachments/assets/1cb48073-f523-455d-9926-c96a95fdc959)
 
@@ -338,13 +341,12 @@ in a side panel on the watch page.
 
 ## Inline add-to-playlist
 
-Choose playlists from an inline popover, and pick an icon for the quick
-bookmark playlist.
+Choose playlists from an inline popover, and personalize the quick-bookmark
+playlist with an icon, emoji, or cropped image.
 
 ![Inline add-to-playlist popover](https://github.com/user-attachments/assets/c3c6aead-f462-4386-8e82-399dbef2abd1)
 ![Add-to-playlist action](https://github.com/user-attachments/assets/bd6dcd6e-346c-4849-9806-dae1a00f6457)
-![Quick-bookmark icon picker](https://github.com/user-attachments/assets/4ef1ba2d-ceb6-49dc-b884-6a19d1468fe9)
-![Quick-bookmark action](https://github.com/user-attachments/assets/456cc066-1075-42e4-a7dc-91e95716dd33)
+![Custom quick-bookmark icons](https://github.com/user-attachments/assets/7147298f-38a2-4d5b-a99b-a6722e925049)
 
 ## Selection web search
 
@@ -411,3 +413,67 @@ Cancel subscription refreshes and see new videos immediately while the rest
 loads.
 
 ![Cancelable subscription refresh](https://github.com/user-attachments/assets/b200bd06-0cde-49a5-8b13-2706a3c6cc8c)
+
+## Settings window and search
+
+Open settings in a draggable, resizable window with integrated subpages and
+search across every category.
+
+![Settings window](https://github.com/user-attachments/assets/be196edf-e84f-4bae-ab59-89a31e507a6c)
+
+## Live streams, premieres, and chat replay
+
+Automatically refresh upcoming premieres, view comments during premieres, and
+use chat replay. Live chat also supports optional timestamps, top or all
+messages, and a full-screen dock.
+
+![Live chat and premiere controls](https://github.com/user-attachments/assets/7605cabd-8b2d-428d-a04f-207f9f24cf55)
+
+## Quick settings and profile icons
+
+Access profiles and common preferences from the top bar. Personalize profiles
+with emoji or interactively cropped image icons.
+
+![Quick-settings menu](https://github.com/user-attachments/assets/80cfe992-c400-4ecf-be56-f0685b1e9ecb)
+![Custom profile icons](https://github.com/user-attachments/assets/a8e50f1b-383b-4865-a2d5-83ef18510b64)
+
+## Voice-over translation
+
+Translate supported videos through the unofficial Yandex API with synchronized
+voice-over audio and separate translated and original volume controls.
+
+<video controls preload="metadata" src="https://github.com/user-attachments/assets/0df65773-8f13-4c5e-90d6-2db9106dea98"></video>
+
+## Video zoom and pan
+
+Zoom into videos from the player menu. Press <kbd>Z</kbd> to zoom in,
+<kbd>Shift</kbd> + <kbd>Z</kbd> to zoom out, or hold <kbd>Shift</kbd> and drag to
+pan the visible area.
+
+![Video zoom and pan](https://github.com/user-attachments/assets/d54f6c4d-d7b1-4117-a783-f109c07d94b7)
+
+## Live stream and premiere notifications
+
+Get an operating-system notification when a scheduled live stream or premiere
+starts.
+
+![Scheduled video notification](https://github.com/user-attachments/assets/d8d0e9fc-517c-4136-a3a7-d4f165e99477)
+
+## Custom themes
+
+Create, import, export, and edit custom themes. When following the system
+setting, configure independent light and dark themes.
+
+![Custom theme editor](https://github.com/user-attachments/assets/55b85fc1-04de-44d6-9a0c-1a5081b5d39a)
+
+## Automatic caption translation
+
+Translate captions into any language offered by YouTube.
+
+![Caption translation](https://github.com/user-attachments/assets/a706d1fa-a6b9-41a2-8ceb-9b42db1ca678)
+
+## Selectable icon packs
+
+Choose between Material Symbols and Remix Icon throughout the interface.
+
+![Icon pack setting](https://github.com/user-attachments/assets/2c5f32de-0aa8-4679-9888-b76b85795bab)

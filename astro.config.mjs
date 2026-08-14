@@ -6,6 +6,7 @@ import starlight from '@astrojs/starlight';
 import icon from 'astro-icon';
 import remarkBundleGitHubImages, {
 	clearExposedGitHubImages,
+	copyExposedGitHubImages,
 	copyReusedGitHubImages,
 } from './src/plugins/remark-bundle-github-images.mjs';
 import { copyCachedChangelogImages } from './src/plugins/remark-cache-changelog-images.mjs';
@@ -23,9 +24,10 @@ function cachedImages() {
 			},
 			'astro:build:done': async ({ dir }) => {
 				const distDirectory = fileURLToPath(dir);
-				const [changelogCount, featureCount] = await Promise.all([
+				const [changelogCount, featureCount, animatedFeatureCount] = await Promise.all([
 					copyCachedChangelogImages(distDirectory),
 					copyReusedGitHubImages(distDirectory),
+					copyExposedGitHubImages(distDirectory),
 				]);
 				if (changelogCount > 0) {
 					console.log(
@@ -34,6 +36,9 @@ function cachedImages() {
 				}
 				if (featureCount > 0) {
 					console.log(`[features] Reused ${featureCount} image(s) from the previous deployment`);
+				}
+				if (animatedFeatureCount > 0) {
+					console.log(`[features] Copied ${animatedFeatureCount} animated image(s) into dist`);
 				}
 			},
 		},

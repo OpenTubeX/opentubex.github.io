@@ -11,6 +11,7 @@ const previousAssetsDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
 	: undefined;
 const downloads = new Map();
 const reusedAssets = new Map();
+const exposedAssets = new Map();
 
 const extensions = new Map([
 	['image/gif', '.gif'],
@@ -33,12 +34,13 @@ async function downloadImage(url, id, cachedFiles) {
 		);
 		if (previousFile) {
 			const previousPath = resolve(previousAssetsDirectory, previousFile);
-			const metadata = await sharp(previousPath, { animated: true }).metadata();
+			const metadata = await sharp(previousPath).metadata();
 			reusedAssets.set(previousFile, previousPath);
 			return {
 				url: `/_astro/${previousFile}`,
 				width: metadata.width,
 				height: metadata.pageHeight ?? metadata.height,
+				pages: metadata.pages,
 			};
 		}
 	}
@@ -75,7 +77,8 @@ async function exposeCachedImage(asset) {
 	await mkdir(publicDirectory, { recursive: true });
 	const filename = basename(asset.path);
 	await copyFile(asset.path, resolve(publicDirectory, filename));
-	const metadata = await sharp(asset.path, { animated: true }).metadata();
+	exposedAssets.set(filename, asset.path);
+	const metadata = await sharp(asset.path).metadata();
 	return {
 		url: `/feature-images/${filename}`,
 		width: metadata.width,
@@ -85,6 +88,7 @@ async function exposeCachedImage(asset) {
 
 /** Remove development-only copies before Astro serves or bundles public files. */
 export async function clearExposedGitHubImages() {
+	exposedAssets.clear();
 	await rm(publicDirectory, { recursive: true, force: true });
 }
 
@@ -113,7 +117,11 @@ export default function remarkBundleGitHubImages(options = {}) {
 			await Promise.all(
 				images.slice(index, index + 8).map(async (image) => {
 					const downloaded = await downloadImage(image.url, image.id, cachedFiles);
-					const asset = options.command === 'dev' ? await exposeCachedImage(downloaded) : downloaded;
+					const metadata = downloaded.path ? await sharp(downloaded.path).metadata() : undefined;
+					const asset =
+						options.command === 'dev' || (downloaded.pages ?? metadata?.pages ?? 1) > 1
+							? await exposeCachedImage(downloaded)
+							: downloaded;
 					image.node.url = asset.url ?? relative(sourceDirectory, asset.path).split(sep).join('/');
 					if (asset.url) {
 						image.node.data ??= {};
@@ -141,4 +149,16 @@ export async function copyReusedGitHubImages(distDirectory) {
 		[...reusedAssets].map(([file, source]) => copyFile(source, resolve(outputDirectory, file))),
 	);
 	return reusedAssets.size;
+}
+
+/** Copy animated feature images that bypass Astro's image processing. */
+export async function copyExposedGitHubImages(distDirectory) {
+	if (exposedAssets.size === 0) return 0;
+
+	const outputDirectory = resolve(distDirectory, 'feature-images');
+	await mkdir(outputDirectory, { recursive: true });
+	await Promise.all(
+		[...exposedAssets].map(([file, source]) => copyFile(source, resolve(outputDirectory, file))),
+	);
+	return exposedAssets.size;
 }
