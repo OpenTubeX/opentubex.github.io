@@ -25,6 +25,8 @@
 	--otx-ink: #0b3d3e;
 	--otx-teal: #1a9b8e;
 	--otx-wave: color-mix(in srgb, var(--sl-color-accent) 55%, transparent);
+	--otx-selection-bg: #2ec4b6;
+	--otx-selection-text: #071113;
 }
 
 :root[data-theme="light"] {
@@ -44,6 +46,13 @@
 	--otx-mist: #e8f2f0;
 	--otx-ink: #0b3d3e;
 	--otx-teal: #1a9b8e;
+	--otx-selection-bg: #147a70;
+	--otx-selection-text: #fbfefd;
+}
+
+::selection {
+	color: var(--otx-selection-text);
+	background: var(--otx-selection-bg);
 }
 
 /* Nav logo: show full wordmark without cropping */

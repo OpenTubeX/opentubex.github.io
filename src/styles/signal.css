@@ -63,6 +63,8 @@
   --scrollbar-track: color-mix(in srgb, var(--mist-2) 70%, transparent);
   --scrollbar-thumb: color-mix(in srgb, var(--teal) 42%, var(--slate-muted));
   --scrollbar-thumb-hover: color-mix(in srgb, var(--teal) 72%, var(--ink));
+  --selection-bg: #147a70;
+  --selection-text: #fbfefd;
 }
 
 [data-theme="dark"] {
@@ -121,9 +123,16 @@
   --scrollbar-track: color-mix(in srgb, var(--mist-2) 80%, transparent);
   --scrollbar-thumb: color-mix(in srgb, var(--teal) 38%, var(--slate-muted));
   --scrollbar-thumb-hover: color-mix(in srgb, var(--teal) 68%, var(--ink));
+  --selection-bg: #2ec4b6;
+  --selection-text: #071113;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+::selection {
+  color: var(--selection-text);
+  background: var(--selection-bg);
+}
 
 html {
   scroll-behavior: smooth;
