@@ -2695,6 +2695,32 @@ a.version-chip:hover .version-chip__dot {
   margin-bottom: 0.35rem;
 }
 
+.section--changelog {
+  --changelog-reading-width: 52ch;
+}
+
+.section--changelog .changelog__body blockquote {
+  max-width: var(--changelog-reading-width);
+}
+
+@media (min-width: 901px) {
+  .section--changelog {
+    --changelog-reading-width: 80ch;
+
+    width: min(1440px, calc(100% - 2.5rem));
+    padding-inline-start: clamp(0px, calc(50% - 560px), 160px);
+  }
+
+  .section--changelog .changelog,
+  .section--changelog .changelog__body {
+    max-width: 68rem;
+  }
+
+  .section--changelog .changelog__body :is(p, ul, ol) {
+    max-width: var(--changelog-reading-width);
+  }
+}
+
 @media (max-width: 900px) {
   .privacy-layout {
     grid-template-columns: 1fr;
@@ -2724,6 +2750,11 @@ a.version-chip:hover .version-chip__dot {
   .features-layout {
     grid-template-columns: 1fr;
     gap: 1.75rem;
+  }
+
+  .section--changelog .changelog {
+    max-width: var(--changelog-reading-width);
+    margin-inline: auto;
   }
 
   .feature-toc {
