@@ -2706,6 +2706,7 @@ a.version-chip:hover .version-chip__dot {
 @media (min-width: 901px) {
   .section--changelog {
     --changelog-reading-width: 80ch;
+
     width: min(1440px, calc(100% - 2.5rem));
     padding-inline-start: clamp(0px, calc(50% - 560px), 160px);
   }
