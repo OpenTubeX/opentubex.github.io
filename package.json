@@ -16,7 +16,7 @@
     "@iconify-json/lucide": "^1.2.123",
     "@iconify-json/simple-icons": "^1.2.93",
     "astro": "^7.2.1",
-    "astro-icon": "^1.1.5",
+    "astro-icon": "^1.2.0",
     "hast-util-from-html": "^2.0.3",
     "hast-util-sanitize": "^5.0.2",
     "hast-util-to-html": "^9.0.5",
