@@ -59,6 +59,12 @@
     });
   }
 
+  function syncChangelogPictures(theme) {
+    document.querySelectorAll("picture source[data-changelog-theme]").forEach(function (source) {
+      source.media = source.getAttribute("data-changelog-theme") === theme ? "all" : "not all";
+    });
+  }
+
   function syncIcons(preference) {
     document.querySelectorAll("[data-theme-icon]").forEach(function (icon) {
       fillIcon(icon, preference);
@@ -123,6 +129,7 @@
     document.documentElement.dataset.theme = theme;
     storePreference(preference);
     syncLogos(theme);
+    syncChangelogPictures(theme);
     syncControls(preference);
   }
 

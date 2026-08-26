@@ -17,11 +17,13 @@ const ALLOWED_HOSTS = new Set([
 const ALLOWED_DOWNLOAD_HOSTS = new Set([
 	...ALLOWED_HOSTS,
 	'github-production-user-asset-6210df.s3.amazonaws.com',
+	'release-assets.githubusercontent.com',
 ]);
 
 // Raster formats only — remote SVGs stay on their origin so active content
 // never becomes a same-origin navigable asset on the site.
 const SUPPORTED_TYPES = new Set(['image/gif', 'image/jpeg', 'image/png', 'image/webp']);
+const SUPPORTED_FORMATS = new Set(['gif', 'jpeg', 'png', 'webp']);
 const OPTIMIZED_SUFFIX = '.optimized.webp';
 const VIDEO_TYPES = new Map([
 	['video/mp4', '.mp4'],
@@ -139,6 +141,7 @@ async function fetchAsset(url, accept) {
 				return {
 					temporaryPath,
 					contentType: response.headers.get('content-type')?.split(';')[0]?.trim(),
+					downloadHost: new URL(response.url).hostname,
 				};
 			} catch (error) {
 				await rm(temporaryPath, { force: true });
@@ -206,7 +209,10 @@ async function downloadImage(url) {
 
 		const asset = await fetchAsset(url, 'image/*');
 		try {
-			if (!asset.contentType || !SUPPORTED_TYPES.has(asset.contentType)) {
+			const isGithubReleaseAsset =
+				asset.downloadHost === 'release-assets.githubusercontent.com' &&
+				asset.contentType === 'application/octet-stream';
+			if (!asset.contentType || (!SUPPORTED_TYPES.has(asset.contentType) && !isGithubReleaseAsset)) {
 				throw new Error(`Unsupported image type: ${asset.contentType ?? 'unknown'}`);
 			}
 
@@ -214,15 +220,19 @@ async function downloadImage(url) {
 			const cachePath = resolve(cacheDirectory, filename);
 			const publicPath = resolve(publicDirectory, filename);
 			const temporaryPath = `${cachePath}.tmp`;
-			const info = asset.contentType === 'image/webp'
-				? await sharp(asset.temporaryPath, {
-						animated: true,
-						limitInputPixels: false,
-					}).metadata()
+			const metadata = await sharp(asset.temporaryPath, {
+				animated: true,
+				limitInputPixels: false,
+			}).metadata();
+			if (!metadata.format || !SUPPORTED_FORMATS.has(metadata.format)) {
+				throw new Error(`Unsupported image format: ${metadata.format ?? 'unknown'}`);
+			}
+			const info = metadata.format === 'webp'
+				? metadata
 				: await sharp(asset.temporaryPath, { animated: true, autoOrient: true })
 						.webp()
 						.toFile(temporaryPath);
-			if (asset.contentType === 'image/webp') {
+			if (metadata.format === 'webp') {
 				await copyFile(asset.temporaryPath, temporaryPath);
 			}
 			await rename(temporaryPath, cachePath);
@@ -367,20 +377,35 @@ export function rehypeCacheChangelogImages() {
 	return async (tree) => {
 		const images = [];
 		visit(tree, 'element', (node) => {
-			if (node.tagName !== 'img') return;
-			const src = node.properties?.src;
-			if (typeof src === 'string' && isCacheableUrl(src)) images.push(node);
+			const property = node.tagName === 'img' ? 'src' : node.tagName === 'source' ? 'srcSet' : null;
+			const src = property ? node.properties?.[property] : undefined;
+			if (typeof src === 'string' && isCacheableUrl(src)) images.push({ node, property });
 		});
 		if (!images.length) return;
 		await rewriteBatch(
 			images,
-			(node) => node.properties.src,
-			(node, asset) => {
-				node.properties.src = asset.src;
-				addImageProperties(node.properties, asset);
+			({ node, property }) => node.properties[property],
+			({ node, property }, asset) => {
+				node.properties[property] = asset.src;
+				if (node.tagName === 'img') addImageProperties(node.properties, asset);
 			},
 		);
 	};
+}
+
+function markThemePictures(tree) {
+	visit(tree, 'element', (node) => {
+		if (node.tagName !== 'picture') return;
+		for (const child of node.children ?? []) {
+			if (child.type !== 'element' || child.tagName !== 'source') continue;
+			const media = child.properties?.media;
+			if (media === '(prefers-color-scheme: dark)') {
+				child.properties.dataChangelogTheme = 'dark';
+			} else if (media === '(prefers-color-scheme: light)') {
+				child.properties.dataChangelogTheme = 'light';
+			}
+		}
+	});
 }
 
 export default remarkCacheChangelogImages;
@@ -412,6 +437,7 @@ export async function copyCachedChangelogImages(distDirectory) {
 export async function cacheImagesInHtml(html) {
 	const tree = fromHtml(html, { fragment: true });
 	await rehypeCacheChangelogImages()(tree);
+	markThemePictures(tree);
 	const videos = [];
 	visit(tree, 'element', (node, index, parent) => {
 		if (
