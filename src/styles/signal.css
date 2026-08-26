@@ -65,6 +65,8 @@
   --scrollbar-thumb-hover: color-mix(in srgb, var(--teal) 72%, var(--ink));
   --selection-bg: #147a70;
   --selection-text: #fbfefd;
+  --button-primary-bg: #147a70;
+  --button-primary-hover: #0b3d3e;
 }
 
 [data-theme="dark"] {
@@ -125,6 +127,8 @@
   --scrollbar-thumb-hover: color-mix(in srgb, var(--teal) 68%, var(--ink));
   --selection-bg: #2ec4b6;
   --selection-text: #071113;
+  --button-primary-bg: #147a70;
+  --button-primary-hover: #0f625c;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -812,13 +816,13 @@ a.version-chip:hover .version-chip__dot {
 /* Outrank `.signal-body a { color: inherit }` */
 .signal-body a.btn--primary,
 .signal-body button.btn--primary {
-  background: var(--teal);
+  background: var(--button-primary-bg);
   color: #ffffff;
 }
 
 .signal-body a.btn--primary:hover,
 .signal-body button.btn--primary:hover {
-  background: var(--teal-deep);
+  background: var(--button-primary-hover);
   color: #ffffff;
   box-shadow:
     0 0 0 3px color-mix(in srgb, var(--teal) 45%, transparent),

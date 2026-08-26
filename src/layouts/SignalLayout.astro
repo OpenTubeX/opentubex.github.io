@@ -21,8 +21,8 @@ const markDarkSrc = typeof markDark === 'string' ? markDark : markDark.src;
 const markLightSrc = typeof markLight === 'string' ? markLight : markLight.src;
 
 const fontHref = mono
-	? 'https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700|ibm-plex-mono:400,500'
-	: 'https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700';
+	? 'https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700|ibm-plex-mono:400,500&display=swap'
+	: 'https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700&display=swap';
 
 const social = [
 	{ href: 'https://github.com/OpenTubeX/OpenTubeX', label: 'GitHub', icon: 'simple-icons:github' },
@@ -44,11 +44,36 @@ const primaryNav = [
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<script is:inline src="/signal/theme-boot.js"></script>
+		<script is:inline>
+			(function () {
+				document.documentElement.classList.add('js');
+				try {
+					var KEY = 'otx-theme';
+					var LEGACY_KEY = 'otx-redesign-theme';
+					var stored = localStorage.getItem(KEY);
+					if (stored === null || stored === '') {
+						var legacy = localStorage.getItem(LEGACY_KEY);
+						if (legacy === 'light' || legacy === 'dark') stored = legacy;
+						else stored = 'auto';
+					}
+					var theme =
+						stored === 'light' || stored === 'dark'
+							? stored
+							: matchMedia('(prefers-color-scheme: dark)').matches
+								? 'dark'
+								: 'light';
+					document.documentElement.dataset.theme = theme;
+				} catch (e) {
+					document.documentElement.dataset.theme = 'dark';
+				}
+			})();
+		</script>
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<link rel="preconnect" href="https://fonts.bunny.net" />
-		<link href={fontHref} rel="stylesheet" />
+		<link rel="preload" href={fontHref} as="style" />
+		<link href={fontHref} rel="stylesheet" media="print" onload="this.media='all'" />
+		<noscript><link href={fontHref} rel="stylesheet" /></noscript>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	</head>
 	<body class="signal-body">

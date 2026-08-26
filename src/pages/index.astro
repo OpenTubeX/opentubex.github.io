@@ -1,5 +1,6 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
+import { Picture } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import logoDark from '../assets/logo-dark.svg';
 import logoLight from '../assets/logo-light.svg';
@@ -14,7 +15,7 @@ const screenshots = [
 	{
 		id: 'main',
 		label: 'Feed',
-		src: shotMain.src,
+		src: shotMain,
 		width: shotMain.width,
 		height: shotMain.height,
 		alt: 'OpenTubeX subscription feed',
@@ -22,7 +23,7 @@ const screenshots = [
 	{
 		id: 'watch',
 		label: 'Watching',
-		src: shotWatch.src,
+		src: shotWatch,
 		width: shotWatch.width,
 		height: shotWatch.height,
 		alt: 'OpenTubeX watching a video',
@@ -30,7 +31,7 @@ const screenshots = [
 	{
 		id: 'settings',
 		label: 'Settings',
-		src: shotSettings.src,
+		src: shotSettings,
 		width: shotSettings.width,
 		height: shotSettings.height,
 		alt: 'OpenTubeX settings',
@@ -208,15 +209,21 @@ const screenshots = [
 							<div class="laptop__screen">
 								{
 									screenshots.map((shot, index) => (
-										<img
+										<Picture
 											class:list={['laptop__shot', { 'is-active': index === 0 }]}
 											src={shot.src}
-											width={shot.width}
-											height={shot.height}
+											widths={[366, 732, 1098, 1464]}
+											sizes="(max-width: 742px) calc(100vw - 3.5rem), 686px"
+											formats={['avif']}
+											fallbackFormat="webp"
+											quality="mid"
 											alt={shot.alt}
 											data-shot={shot.id}
+											data-full-src={shot.src.src}
+											data-full-width={shot.width}
+											data-full-height={shot.height}
 											aria-hidden={index === 0 ? 'false' : 'true'}
-											loading={index === 0 ? 'eager' : 'lazy'}
+											loading="lazy"
 											decoding="async"
 										/>
 									))
