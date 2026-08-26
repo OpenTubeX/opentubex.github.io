@@ -33,10 +33,18 @@ import 'photoswipe/style.css';
 
 					const PhotoSwipe = (await import('photoswipe')).default;
 					const dataSource = images.map((item) => ({
-						src: item.currentSrc || item.src,
+						src: item.dataset.fullSrc || item.currentSrc || item.src,
 						msrc: item.currentSrc || item.src,
-						width: item.naturalWidth || Number(item.getAttribute('width')) || item.clientWidth,
-						height: item.naturalHeight || Number(item.getAttribute('height')) || item.clientHeight,
+						width:
+							Number(item.dataset.fullWidth) ||
+							item.naturalWidth ||
+							Number(item.getAttribute('width')) ||
+							item.clientWidth,
+						height:
+							Number(item.dataset.fullHeight) ||
+							item.naturalHeight ||
+							Number(item.getAttribute('height')) ||
+							item.clientHeight,
 						alt: item.alt,
 					}));
 
