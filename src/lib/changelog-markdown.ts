@@ -26,7 +26,7 @@ const changelogSanitizeSchema = {
 		span: [...(defaultSchema.attributes?.span ?? []), 'className', 'style'],
 		div: [...(defaultSchema.attributes?.div ?? []), 'className'],
 		video: ['src', 'controls', 'muted', 'playsInline', 'poster', 'preload', 'width', 'height'],
-		source: ['src', 'type'],
+		source: ['src', 'srcSet', 'type', 'media', 'dataChangelogTheme'],
 	},
 };
 
