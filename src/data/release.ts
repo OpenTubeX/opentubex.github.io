@@ -11,6 +11,7 @@ export const coprRepositoryUrl = 'https://copr.fedorainfracloud.org/coprs/d3sox/
 export const rpmRepositoryUrl = 'https://rpm.opentubex.org';
 export const flatpakRemoteUrl = 'https://flatpak.opentubex.org/opentubex.flatpakrepo';
 export const flatpakSiteUrl = 'https://flatpak.opentubex.org';
+export const flatparkSiteUrl = 'https://flatpark.org/apps/org.opentubex.OpenTubeX/';
 const flatpakReleaseBaseUrl = `https://github.com/OpenTubeX/flatpak/releases/download/${releaseTag}`;
 export const snapSiteUrl = 'https://snap.opentubex.org';
 const snapReleaseBaseUrl = `https://github.com/OpenTubeX/snap/releases/download/${releaseTag}`;
@@ -284,10 +285,16 @@ export const downloadGroups: DownloadGroup[] = [
 		icon: 'simple-icons:flatpak',
 		links: [
 			{
-				label: 'Install with repository',
+				label: 'Install with OpenTubeX remote',
 				url: flatpakSiteUrl,
 				icon: 'simple-icons:flatpak',
 				preferred: true,
+				isExternal: true,
+			},
+			{
+				label: 'Install with Flatpark',
+				url: flatparkSiteUrl,
+				icon: 'simple-icons:flatpak',
 				isExternal: true,
 			},
 			{

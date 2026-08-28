@@ -7,6 +7,7 @@ import {
 	aptRepositoryUrl,
 	coprRepositoryUrl,
 	downloadGroups,
+	flatparkSiteUrl,
 	flatpakSiteUrl,
 	releaseTag,
 	releaseVersion,
@@ -241,7 +242,8 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					<div>
 						<h3 class="pkg__title">Flatpak</h3>
 						<p class="pkg__body">
-							Add the <a href={flatpakSiteUrl} rel="noopener noreferrer">OpenTubeX Flatpak remote</a>, then install.
+							Add the <a href={flatpakSiteUrl} rel="noopener noreferrer">OpenTubeX Flatpak remote</a>, or
+							install through <a href={flatparkSiteUrl} rel="noopener noreferrer">Flatpark</a>.
 						</p>
 						<CmdCode code={flatpakCode} lang="shell" />
 					</div>
