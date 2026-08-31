@@ -67,6 +67,13 @@ match navigation.
 
 ![In-page search](https://github.com/user-attachments/assets/b4f651f1-321f-4b83-a392-67367b677497)
 
+## Command palette
+
+Press <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>K</kbd> to search app actions and
+settings from one command palette.
+
+![Command palette](https://github.com/user-attachments/assets/8ad0c18b-1a75-4fde-8010-57452fc58435)
+
 ## SponsorBlock side panel
 
 Open a side panel with segment details, a temporary auto-skip toggle, and an
@@ -86,29 +93,54 @@ Improved SponsorBlock tooltips with unskip, reskip, and prompt-to-skip when you 
 
 Display SponsorBlock community-contributed chapters, including Highlight and
 Hook/Greetings segments, in the player. Hover over a seekbar segment to see its
-category label.
+category label, and choose a custom color for each segment category.
 
 ![SponsorBlock category label](https://github.com/user-attachments/assets/177e216b-2eec-4f54-9aa9-ea98f5d89e18)
+![Custom SponsorBlock colors](https://github.com/user-attachments/assets/f98bc167-d35b-498f-84c9-700ff4918f89)
 
 ## SponsorBlock submission
 
-Submit SponsorBlock segments directly from the player. This feature is experimental.
+Submit SponsorBlock segments directly from the player and review your
+submissions, contributed skips, and time saved. Submission is experimental.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-953-sponsorblock-stats-dark-dark-aa05727bab.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-953-sponsorblock-stats-light-light-e14a6dbf9c.png">
+  <img alt="SponsorBlock contribution statistics" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-953-sponsorblock-stats-dark-dark-aa05727bab.png">
+</picture>
 
 ## Tab support
 
-Use browser-style tabs in horizontal or vertical layouts, with pinning, colors,
-thumbnail previews, duplication, unloading, multi-selection, reordering,
-moving between windows, bulk actions, YouTube link copying, and configurable session
-restoration.
+Place browser-style tabs at the top, bottom, left, or right of the window. Pin,
+color, preview, duplicate, unload, group, select, reorder, and move tabs between
+windows. A searchable organizer provides bulk actions and recently closed tab
+history. Internal links support browser-style middle-click, Ctrl/Cmd-click, and
+Shift-click behavior.
 
 ![Experimental tab support](https://github.com/user-attachments/assets/2ddbedea-5997-4a3c-af9e-6a36d3a21d04)
 ![Horizontal and vertical tab layouts](https://github.com/user-attachments/assets/486f0119-ca74-40ec-835a-dd6f53cf1f56)
+![Tab position setting](https://github.com/user-attachments/assets/358e09be-feb3-4dd2-809e-d868f93c7da5)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T130522Z-opentubex-tab-organizer-dark-dark-e96041e52b.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T130522Z-opentubex-tab-organizer-light-light-9e74e5c5cc.png">
+  <img alt="Searchable tab organizer" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T130522Z-opentubex-tab-organizer-dark-dark-e96041e52b.png">
+</picture>
 
 ## IP block recovery script
 
 Set a script to run when YouTube blocks your IP. OpenTubeX waits for the script to finish, then reloads the video.
 
 ![IP block recovery script setting](https://github.com/user-attachments/assets/2946401c-8e01-4048-9638-621289e31956)
+
+## Authenticated playback
+
+Retry age-restricted and members-only videos through yt-dlp with cookies from a
+browser or file. Configured cookies can also request account-only formats for
+any video.
+
+![Cookie source settings](https://github.com/user-attachments/assets/a38336e6-9210-43c3-ab49-f8e889d4d9f1)
+![Restricted video playback controls](https://github.com/user-attachments/assets/853fb879-ebeb-4d4e-b968-64beb8486bcf)
 
 ## Auto Picture-in-Picture
 
@@ -119,9 +151,17 @@ or switch windows.
 
 ## Scroll mini-player
 
-Keep watching in a mini-player when you scroll away from a video.
+Keep watching in a mini-player when you scroll away from a video or switch to
+another tab. Use its controls to return to the source tab or hide the player
+without interrupting playback.
 
 ![Scroll mini-player](https://github.com/user-attachments/assets/74411434-6ec6-4394-801f-2676074a742e)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T093432Z-937-cross-tab-mini-player-dark-dark-a5c2094e77.webp">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T093432Z-937-cross-tab-mini-player-light-light-c891741308.webp">
+  <img alt="Mini-player kept across tabs" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T093432Z-937-cross-tab-mini-player-dark-dark-a5c2094e77.webp">
+</picture>
 
 ## YouTube end-screen annotations
 
@@ -143,16 +183,26 @@ Quickly toggle looping or copy the video link from the player's context menu.
 
 ## Quick Playback Speed Bar
 
-Add an optional, fully customizable quick playback speed bar to the player.
+Add an optional, fully customizable quick playback speed bar to the regular and
+YouTube-style Shorts players.
 
 ![Quick Playback Speed Bar](https://github.com/user-attachments/assets/cd055a73-d188-4633-aac6-61ab708a4cd6)
+![Quick Playback Speed Bar in Shorts](https://github.com/user-attachments/assets/84ec5eb9-2d69-4fcf-a6fd-d71b42308487)
 
-## Fast-forward through silence
+## Skip silence
 
-Optionally speed through silent parts of a video. Enable this behavior in
-Player settings.
+Jump over detected silent parts of a video. Enable this behavior in Player
+settings, and choose whether new tabs start with it enabled.
 
-![Fast-forward through silence setting](https://github.com/user-attachments/assets/7886468c-0f08-4ebb-9cfd-2ce07a4230f5)
+![Skip silence setting](https://github.com/user-attachments/assets/7886468c-0f08-4ebb-9cfd-2ce07a4230f5)
+
+## A-B repeat
+
+Repeat a selected part of a video with draggable markers, player-menu controls,
+and configurable keyboard shortcuts.
+
+![A-B repeat player controls](https://github.com/OpenTubeX/media/releases/download/attachments/20260828T151651Z-ab-repeat-player-menu-b4502f02f5.png)
+![Video looping between A-B repeat markers](https://github.com/OpenTubeX/media/releases/download/attachments/20260828T151655Z-ab-repeat-loop-5d27c2deb9.webp)
 
 ## Temporary 2× playback
 
@@ -207,6 +257,17 @@ Explore your viewing activity with daily and weekly watch-time charts.
 
 ![Watch time statistics](https://github.com/user-attachments/assets/61942468-a351-4a8c-813e-a7504828121f)
 
+## Customizable Home page
+
+Resume videos and review recent subscriptions, queues, playlists, downloads,
+reminders, and weekly watch activity from configurable Home shelves.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260828T152427Z-opentubex-home-release-note-dark-dark-2c14b3da84.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260828T152427Z-opentubex-home-release-note-light-light-8a62aaf509.png">
+  <img alt="Customizable Home page with recent activity shelves" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260828T152427Z-opentubex-home-release-note-dark-dark-2c14b3da84.png">
+</picture>
+
 ## Configurable thumbnail action
 
 Choose an extra action button to show on video thumbnails.
@@ -220,30 +281,86 @@ Choose the thumbnail size used while browsing videos.
 
 ![Configurable thumbnail sizes](https://github.com/user-attachments/assets/47f102b3-5884-4219-85ce-552e631bf67c)
 
+## Animated thumbnail previews
+
+Preview videos by hovering over their thumbnails. The animated previews can be
+disabled in Appearance settings.
+
+![Animated thumbnail preview](https://github.com/user-attachments/assets/90d4871b-0add-446e-b4a0-d1461b6d9ca9)
+
 ## Additional video metadata
 
 See more context about a video, including AI-generated content labels,
 paid-promotion disclosures, collaborators, categories, games, tags, relative
-publication dates, and comment counts.
+publication dates, comment counts, age restrictions, and unlisted status.
+Channel avatars can also be shown beside channel names in video and playlist
+results.
 
 ![Additional video metadata](https://github.com/user-attachments/assets/90cfb4b3-1d26-438d-86de-c1be2e8858ce)
 ![Video collaborators and category](https://github.com/user-attachments/assets/ceaa25b3-2157-4904-80ad-619426862c1d)
 ![Game metadata](https://github.com/user-attachments/assets/0c147b10-c2de-4560-898d-ae80223418c0)
 ![Paid-promotion disclosure](https://github.com/user-attachments/assets/7741014a-caa1-4bde-9fc2-6e2cdd5755c8)
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-938-channel-avatars-dark-dark-56df4bda9e.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-938-channel-avatars-light-light-3fa490d1b6.png">
+  <img alt="Channel avatars in search results" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-938-channel-avatars-dark-dark-56df4bda9e.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-949-watch-page-badges-dark-dark-bfe40a3411.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-949-watch-page-badges-light-light-784c2ffc3b.png">
+  <img alt="Age-restricted and unlisted video badges" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-949-watch-page-badges-dark-dark-bfe40a3411.png">
+</picture>
+
+## Local metadata history
+
+Optionally keep a local history of video titles, thumbnails, and descriptions,
+then review how they changed over time.
+
+![Video metadata history](https://github.com/user-attachments/assets/ee6f65db-ea21-4e83-8bdd-e32c99ee61c4)
+
 ## Playlist playback controls
 
 Reorder or remove playlist items during playback and remember the reverse state
 of each playlist.
 
+## Playlist browsing and saved YouTube playlists
+
+Choose an independent Grid or List view for playlist pages and switch it from
+Quick settings. Save YouTube playlists as read-only bookmarks in Your
+Playlists.
+
+![Playlist view setting](https://github.com/user-attachments/assets/9fab29b3-0111-4e1c-9227-ff11b7aa6442)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260830T075432Z-saved-playlist-dark-dark-815812ca6c.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260830T075432Z-saved-playlist-light-light-fdb2f428ab.png">
+  <img alt="Saved YouTube playlist in Your Playlists" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260830T075432Z-saved-playlist-dark-dark-815812ca6c.png">
+</picture>
+
 ## Comment tools
 
 Render nested reply threads, show when comments were edited, reload comments,
-or copy a comment's direct YouTube link.
+or copy a comment's direct YouTube link. Translate comments and replies into
+the app language, search loaded comments, filter comments from the creator,
+and pin comments locally.
 
 ![Nested comment replies](https://github.com/user-attachments/assets/a3737645-e3c3-40e1-bc1b-a55e13ca44b1)
 ![Comment tools](https://github.com/user-attachments/assets/81b94e05-e389-43c8-b01a-39f1d53f4932)
 ![Edited comment indicator](https://github.com/user-attachments/assets/a34dc28c-2103-454b-9e24-4e7f6df5b494)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-936-comment-translation-dark-dark-3c214f1e9e.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-936-comment-translation-light-light-4114bb3ad8.png">
+  <img alt="Comment translations" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-936-comment-translation-dark-dark-3c214f1e9e.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-939-comment-search-pins-dark-dark-6a86772413.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-939-comment-search-pins-light-light-6dc1798855.png">
+  <img alt="Comment search and personal pins" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-939-comment-search-pins-dark-dark-6a86772413.png">
+</picture>
 
 ## LibreTube import
 
@@ -265,6 +382,22 @@ manage active and completed downloads from a dedicated page.
 ![Updated download options](https://github.com/user-attachments/assets/1460f265-5b22-40b6-8958-73b4d3a89e83)
 ![Downloads manager](https://github.com/user-attachments/assets/d42c04c5-eca4-477f-bcd7-3c8a3bd5a272)
 
+## Automatic downloads and download queue
+
+Automatically download new uploads from selected channels with per-channel
+templates and filters. A persistent queue provides concurrency and bandwidth
+limits, and <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>J</kbd> opens Downloads.
+
+![Automatic download templates and filters](https://github.com/user-attachments/assets/39df3b81-e95e-456c-887d-b2e634b76276)
+![Download queue controls](https://github.com/user-attachments/assets/3298735c-ba0d-4a6a-8894-f924b1fffbfe)
+
+## Data and storage controls
+
+Review disk usage and clean individual caches or saved data from Data & Storage
+settings.
+
+![Data and Storage settings](https://github.com/user-attachments/assets/77e6bc25-bc34-43a3-a8e3-75e28e1e0db4)
+
 ## Full-screen docks
 
 Open video information, comments, playlists, chapters, or live chat in
@@ -272,11 +405,29 @@ resizable and rearrangeable full-screen docks.
 
 ![Full-screen dock](https://github.com/user-attachments/assets/1cb48073-f523-455d-9926-c96a95fdc959)
 
+## Paused fullscreen controls
+
+Choose which player interface elements remain visible while playback is paused
+in full-window or fullscreen mode.
+
+![Paused fullscreen control settings](https://github.com/user-attachments/assets/aa9e00c1-eecf-45cd-a00f-dc54dd5bcc26)
+
 ## Customizable keyboard shortcuts
 
 Choose the keyboard shortcuts used throughout the app.
 
 ![Keyboard shortcut settings](https://github.com/user-attachments/assets/5e21ef42-245b-4ea1-93fb-ef9d7c542d66)
+
+## Gamepad controls
+
+Navigate menus, adjust sliders, control playback, and go back with a standard
+gamepad. The current control receives theme-aware focus feedback.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114548Z-gamepad-navigation-dark-dark-9be08dd476.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114548Z-gamepad-navigation-light-light-f044bdd7dc.png">
+  <img alt="Gamepad focus feedback in Settings" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114548Z-gamepad-navigation-dark-dark-9be08dd476.png">
+</picture>
 
 ## Rewind live streams and premieres
 
@@ -286,11 +437,18 @@ the live edge.
 ## New subscription content
 
 Show indicators for newly fetched content and optionally collect it in a
-separate new-content feed.
+separate new-content feed. Sort that feed with the oldest content first or
+switch its categories between combined sections and tabs.
 
 ![New-content indicator settings](https://github.com/user-attachments/assets/ba61cf09-a515-4410-8597-095d5644d34b)
 ![Separate new-content feed setting](https://github.com/user-attachments/assets/84d221e2-c56e-44e9-ad70-af0a23323549)
 ![New-content feed](https://github.com/user-attachments/assets/384bb44c-baf1-4b08-95cf-33af9b579ea4)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T200027Z-new-feed-tabbed-dark-dark-8c5a594149.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T200027Z-new-feed-tabbed-light-light-e57a70f649.png">
+  <img alt="Tabbed New subscriptions feed" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T200027Z-new-feed-tabbed-dark-dark-8c5a594149.png">
+</picture>
 
 ## Autoplay preview
 
@@ -327,9 +485,17 @@ Open a chatter's channel by clicking their handle in live chat.
 
 Synchronize subscriptions, playlists, history, per-channel playback speeds,
 profiles, tabs, and settings with end-to-end encryption. LibreTube Sync
-servers are supported too.
+servers are supported too. Pair another device by scanning a QR code or
+entering a text code without sharing account credentials or the privacy
+passphrase.
 
 ![Encrypted synchronization settings](https://github.com/user-attachments/assets/15144ab2-0111-4e38-b011-c7a57417fcd0)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-943-device-pairing-dark-dark-9a0bd2458f.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-943-device-pairing-light-light-4a5ee41c60.png">
+  <img alt="Pair with an existing device" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-943-device-pairing-dark-dark-9a0bd2458f.png">
+</picture>
 
 ## Watch queue
 
@@ -391,6 +557,26 @@ automatically hide or remain visible.
 
 ![Interface rounding setting](https://github.com/user-attachments/assets/1a5d4b45-307e-480b-8dcc-75a1502f4625)
 ![Always-show overlay scrollbar setting](https://github.com/user-attachments/assets/2158bbc6-8893-42be-a12b-8b75034bcd56)
+
+## Interface preferences
+
+Choose the app font from fonts installed on your system, adjust mouse-wheel and
+touchpad scroll speed from 25% to 300%, and select date and time formats
+independently of the app language.
+
+![App font setting](https://github.com/user-attachments/assets/14a3d8a7-6915-46d1-92e3-b57ab41be647)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114553Z-date-time-formats-dark-dark-3a9954e455.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114553Z-date-time-formats-light-light-a05cdc33c5.png">
+  <img alt="Date and time format settings" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114553Z-date-time-formats-dark-dark-3a9954e455.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114556Z-scroll-speed-dark-dark-1d2178fb7a.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114556Z-scroll-speed-light-light-2c833601d7.png">
+  <img alt="Scroll speed setting" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114556Z-scroll-speed-dark-dark-1d2178fb7a.png">
+</picture>
 
 ## YouTube-style Shorts
 
@@ -461,8 +647,9 @@ starts.
 
 ## Custom themes
 
-Create, import, export, and edit custom themes. When following the system
-setting, configure independent light and dark themes.
+Create, import, export, edit, and share custom themes. Use transparent colors,
+backdrop blur, custom interaction and text-selection colors, and independent
+light and dark themes when following the system setting.
 
 ![Custom theme editor](https://github.com/user-attachments/assets/55b85fc1-04de-44d6-9a0c-1a5081b5d39a)
 
