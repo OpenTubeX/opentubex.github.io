@@ -15,7 +15,7 @@
     "@astrojs/starlight": "^0.41.7",
     "@iconify-json/lucide": "^1.2.124",
     "@iconify-json/simple-icons": "^1.2.93",
-    "astro": "^7.2.4",
+    "astro": "^7.2.7",
     "astro-icon": "^1.2.0",
     "hast-util-from-html": "^2.0.3",
     "hast-util-sanitize": "^5.0.2",
