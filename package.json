@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.4",
-    "@astrojs/starlight": "^0.41.7",
+    "@astrojs/starlight": "^0.41.9",
     "@iconify-json/lucide": "^1.2.124",
     "@iconify-json/simple-icons": "^1.2.93",
     "astro": "^7.2.4",
