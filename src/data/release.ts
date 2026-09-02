@@ -13,7 +13,7 @@ export const flatpakRemoteUrl = 'https://flatpak.opentubex.org/opentubex.flatpak
 export const flatpakSiteUrl = 'https://flatpak.opentubex.org';
 export const flatparkSiteUrl = 'https://flatpark.org/apps/org.opentubex.OpenTubeX/';
 const flatpakReleaseBaseUrl = `https://github.com/OpenTubeX/flatpak/releases/download/${releaseTag}`;
-export const snapSiteUrl = 'https://snap.opentubex.org';
+export const snapSiteUrl = 'https://snapcraft.io/opentubex';
 const snapReleaseBaseUrl = `https://github.com/OpenTubeX/snap/releases/download/${releaseTag}`;
 
 export function downloadUrl(assetName: string): string {
@@ -316,7 +316,7 @@ export const downloadGroups: DownloadGroup[] = [
 		icon: 'simple-icons:snapcraft',
 		links: [
 			{
-				label: 'OpenTubeX Snap page',
+				label: 'Install from the Snap Store',
 				url: snapSiteUrl,
 				icon: 'simple-icons:snapcraft',
 				preferred: true,

@@ -31,10 +31,15 @@ const nightlyTabs = [
 	{ id: 'fedora', label: 'Fedora / Red Hat', icon: 'simple-icons:fedora' },
 	{ id: 'opensuse', label: 'openSUSE', icon: 'simple-icons:opensuse' },
 	{ id: 'flatpak', label: 'Flatpak', icon: 'simple-icons:flatpak' },
+	{ id: 'snap', label: 'Snap', icon: 'simple-icons:snapcraft' },
 ];
 
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
-const snapCode = 'sudo snap install --dangerous ./opentubex_*.snap';
+const snapCode = 'sudo snap install opentubex';
+const snapMigrationCode = 'sudo snap refresh --amend opentubex';
+const snapNightlyCode = 'sudo snap install opentubex --edge';
+const snapNightlyRefreshCode = 'sudo snap refresh opentubex --edge';
+const snapNightlyMigrationCode = 'sudo snap refresh --amend opentubex --edge';
 
 const flatpakCode = `flatpak remote-add --if-not-exists opentubex \\
   https://flatpak.opentubex.org/opentubex.flatpakrepo
@@ -252,13 +257,15 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 				<article class="pkg">
 					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:snapcraft" /></span>
 					<div>
-						<h3 class="pkg__title">Snap · Store review pending</h3>
+						<h3 class="pkg__title">Snap</h3>
 						<p class="pkg__body">
-							Snap Store publication is pending review. For now, download the package for your architecture
-							from the <a href={snapSiteUrl} rel="noopener noreferrer">OpenTubeX Snap page</a> and install it
-							directly. Directly installed packages must be updated manually.
+							Install OpenTubeX from the <a href={snapSiteUrl} rel="noopener noreferrer">Snap Store</a>.
 						</p>
-						<CmdCode code={snapCode} lang="shell" />
+						<CmdCode code={snapCode} lang="shell" title="New installation" />
+						<p class="pkg__body pkg__body--follow">
+							If you previously installed a downloaded <code>.snap</code> file, switch it to Store-managed updates:
+						</p>
+						<CmdCode code={snapMigrationCode} lang="shell" title="Existing manual installation" />
 					</div>
 				</article>
 
@@ -384,6 +391,14 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							<div slot="flatpak">
 								<p class="pkg__body">Add the OpenTubeX remote and install its nightly branch:</p>
 								<CmdCode code={flatpakNightlyCode} lang="shell" />
+							</div>
+							<div slot="snap">
+								<p class="pkg__body">Install the latest build from the <code>edge</code> channel:</p>
+								<CmdCode code={snapNightlyCode} lang="shell" title="New installation" />
+								<p class="pkg__body pkg__body--follow">Switch an existing Snap Store installation:</p>
+								<CmdCode code={snapNightlyRefreshCode} lang="shell" title="Existing Store installation" />
+								<p class="pkg__body pkg__body--follow">Switch an existing manual installation:</p>
+								<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
 							</div>
 						</SignalTabs>
 					</div>
