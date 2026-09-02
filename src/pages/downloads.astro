@@ -36,7 +36,10 @@ const nightlyTabs = [
 
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
 const snapCode = 'sudo snap install opentubex';
+const snapMigrationCode = 'sudo snap refresh --amend opentubex';
 const snapNightlyCode = 'sudo snap install opentubex --edge';
+const snapNightlyRefreshCode = 'sudo snap refresh opentubex --edge';
+const snapNightlyMigrationCode = 'sudo snap refresh --amend opentubex --edge';
 
 const flatpakCode = `flatpak remote-add --if-not-exists opentubex \\
   https://flatpak.opentubex.org/opentubex.flatpakrepo
@@ -258,7 +261,11 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 						<p class="pkg__body">
 							Install OpenTubeX from the <a href={snapSiteUrl} rel="noopener noreferrer">Snap Store</a>.
 						</p>
-						<CmdCode code={snapCode} lang="shell" />
+						<CmdCode code={snapCode} lang="shell" title="New installation" />
+						<p class="pkg__body pkg__body--follow">
+							If you previously installed a downloaded <code>.snap</code> file, switch it to Store-managed updates:
+						</p>
+						<CmdCode code={snapMigrationCode} lang="shell" title="Existing manual installation" />
 					</div>
 				</article>
 
@@ -387,7 +394,11 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							</div>
 							<div slot="snap">
 								<p class="pkg__body">Install the latest build from the <code>edge</code> channel:</p>
-								<CmdCode code={snapNightlyCode} lang="shell" />
+								<CmdCode code={snapNightlyCode} lang="shell" title="New installation" />
+								<p class="pkg__body pkg__body--follow">Switch an existing Snap Store installation:</p>
+								<CmdCode code={snapNightlyRefreshCode} lang="shell" title="Existing Store installation" />
+								<p class="pkg__body pkg__body--follow">Switch an existing manual installation:</p>
+								<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
 							</div>
 						</SignalTabs>
 					</div>
