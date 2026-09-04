@@ -15,6 +15,12 @@ export const flatparkSiteUrl = 'https://flatpark.org/apps/org.opentubex.OpenTube
 const flatpakReleaseBaseUrl = `https://github.com/OpenTubeX/flatpak/releases/download/${releaseTag}`;
 export const snapSiteUrl = 'https://snapcraft.io/opentubex';
 const snapReleaseBaseUrl = `https://github.com/OpenTubeX/snap/releases/download/${releaseTag}`;
+export const fdroidSiteUrl = 'https://fdroid.opentubex.org/';
+export const obtainiumUrl =
+	'https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/OpenTubeX/OpenTubeX';
+export const fdroidNightlyUrl = 'https://fdroid.opentubex.org/#release-channels';
+export const obtainiumNightlyUrl =
+	'https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22org.opentubex.app.nightly%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FOpenTubeX%2FOpenTubeX%22%2C%22author%22%3A%22OpenTubeX%22%2C%22name%22%3A%22OpenTubeX%20Nightly%22%2C%22preferredApkIndex%22%3A0%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Atrue%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22filterReleaseTitlesByRegEx%5C%22%3A%5C%22nightly%5C%22%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22android-universal%5B.%5Dapk%24%5C%22%7D%22%2C%22overrideSource%22%3A%22GitHub%22%7D';
 
 export function downloadUrl(assetName: string): string {
 	return `${releaseBaseUrl}/${assetName}`;
@@ -151,6 +157,26 @@ export const downloadGroups: DownloadGroup[] = [
 				label: '.7z (Intel)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-mac-x64.7z`),
 				icon: 'lucide:file-archive',
+			},
+		],
+	},
+	{
+		title: 'Android',
+		icon: 'simple-icons:android',
+		links: [
+			{
+				label: 'Install with F-Droid',
+				url: fdroidSiteUrl,
+				icon: 'simple-icons:fdroid',
+				preferred: true,
+				isExternal: true,
+			},
+			{
+				label: 'Install with Obtainium',
+				url: obtainiumUrl,
+				icon: 'lucide:package-check',
+				preferred: true,
+				isExternal: true,
 			},
 		],
 	},
