@@ -9,6 +9,8 @@ import {
 	downloadGroups,
 	flatparkSiteUrl,
 	flatpakSiteUrl,
+	fdroidNightlyUrl,
+	obtainiumNightlyUrl,
 	releaseTag,
 	releaseVersion,
 	rpmRepositoryUrl,
@@ -18,6 +20,7 @@ import {
 const platformMeta: Record<string, string> = {
 	Windows: '10+',
 	macOS: '12+',
+	Android: '7.0+ · early preview',
 };
 
 const aurTabs = [
@@ -32,6 +35,7 @@ const nightlyTabs = [
 	{ id: 'opensuse', label: 'openSUSE', icon: 'simple-icons:opensuse' },
 	{ id: 'flatpak', label: 'Flatpak', icon: 'simple-icons:flatpak' },
 	{ id: 'snap', label: 'Snap', icon: 'simple-icons:snapcraft' },
+	{ id: 'android', label: 'Android', icon: 'simple-icons:android' },
 ];
 
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
@@ -95,7 +99,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 
 <SignalLayout
 	title="Downloads – OpenTubeX"
-	description={`Download OpenTubeX ${releaseVersion} beta for Windows, macOS, and Linux. Package managers and GitHub releases.`}
+	description={`Download OpenTubeX ${releaseVersion} beta for Windows, macOS, Linux, and Android. Package managers and GitHub releases.`}
 	active="downloads"
 	mono
 >
@@ -399,6 +403,23 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								<CmdCode code={snapNightlyRefreshCode} lang="shell" title="Existing Store installation" />
 								<p class="pkg__body pkg__body--follow">Switch an existing manual installation:</p>
 								<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
+							</div>
+							<div slot="android">
+								<p class="pkg__body">Install and update the Android nightly preview through F-Droid or Obtainium:</p>
+								<ul class="format-list" aria-label="Android nightly install links">
+									<li>
+										<a class="is-preferred" href={fdroidNightlyUrl} rel="noopener noreferrer">
+											<Icon name="simple-icons:fdroid" aria-hidden="true" />
+											Install nightly with F-Droid
+										</a>
+									</li>
+									<li>
+										<a class="is-preferred" href={obtainiumNightlyUrl} rel="noopener noreferrer">
+											<Icon name="lucide:package-check" aria-hidden="true" />
+											Install nightly with Obtainium
+										</a>
+									</li>
+								</ul>
 							</div>
 						</SignalTabs>
 					</div>
