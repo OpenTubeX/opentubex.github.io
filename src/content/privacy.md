@@ -1,4 +1,4 @@
-Last updated: August 11, 2026
+Last updated: September 7, 2026
 
 This policy explains how the OpenTubeX website and desktop app handle data. It does not cover independently operated services or websites that OpenTubeX links to.
 
@@ -42,7 +42,7 @@ This section describes the data exposed by OpenTubeX itself. It assumes that you
 
 ### Data stored by OpenTubeX
 
-By default, subscriptions, playlists, settings, history, profiles, open tabs, and channel playback speeds remain on your device. Enabling synchronization sends copies of the selected categories to the configured sync server:
+By default, subscriptions, playlists, settings including saved channel settings, history, profiles, and open tabs remain on your device. Enabling synchronization sends copies of the selected categories to the configured sync server:
 
 - Enhanced-privacy sync encrypts the selected data on your device before upload. The server still receives account and traffic metadata.
 - A legacy sync server does not support this encryption. Synced data is visible to that server's operator.
@@ -58,12 +58,15 @@ Rows for optional services apply only when the feature is enabled. An IP address
 | Local extractor | YouTube/Google | IP address, requested API, media and image resources, video or channel identifiers, searches, and timing |
 | Invidious | Configured Invidious operator; YouTube receives the instance's upstream requests and may receive direct media requests when video proxying is disabled | The operator can see your IP address, requested content, searches, and timing. YouTube normally sees the instance's IP for proxied requests, but sees your IP for direct media requests |
 | VPN or Tor | VPN or Tor infrastructure and the destination service | The intermediary can observe connection metadata depending on the setup. The destination sees the VPN or Tor exit address, requested resources, and timing instead of your direct IP address |
-| SponsorBlock | Configured SponsorBlock operator | IP address, timing, lookup hash prefixes, and requested categories; submissions and votes additionally reveal video identifiers, segment data, and a SponsorBlock user identifier |
+| SponsorBlock | Configured SponsorBlock operator | IP address, timing, lookup hash prefixes, and requested categories; contribution-stat lookups reveal a stable hash of a SponsorBlock user identifier; submissions and votes additionally reveal video identifiers, segment data, and a SponsorBlock user identifier |
 | DeArrow | Configured SponsorBlock/DeArrow and thumbnail-service operators | IP address, timing, video-ID hash prefixes for branding lookups, and full video identifiers and timestamps for generated-thumbnail requests |
 | Return YouTube Dislike | Configured Return YouTube Dislike operator | IP address, video identifiers, and timing |
-| Enhanced-privacy sync | Configured sync operator | IP address, account identifier, authentication data, encrypted payloads, collection names, payload sizes, revisions, and timing; not the decrypted selected data |
-| Legacy sync | Configured sync operator | IP address, account identifier, authentication data, selected synced data, and timing |
+| Voice-over translation | Unofficial Yandex voice-over translation service | IP address, YouTube video identifier and URL, video duration, requested output language, and timing |
+| Enhanced-privacy sync | Configured sync operator | IP address, OpenTubeX application version from Electron desktop builds, account identifier, authentication data, encrypted payloads, collection names, payload sizes, revisions, and timing; not the decrypted selected data |
+| Legacy sync | Configured sync operator | IP address, OpenTubeX application version from Electron desktop builds, account identifier, authentication data, selected synced data, and timing |
 | `yt-dlp` playback and downloads | YouTube and the configured proxy, if any | IP address, requested page and media resources, video identifier, formats, and timing. OpenTubeX's proxy setting is passed to `yt-dlp` |
+
+Voice-over translation is disabled by default. When it is enabled, no translation-service request is made until you request a translation. The separate background-preparation option is also disabled by default; enabling it requests a translation whenever a supported non-live video loads. These requests omit browser credentials and cookies.
 
 HTTPS encrypts request paths and payloads in transit, but DNS providers and network operators may still learn destination hostnames and traffic patterns. A VPN or Tor changes which parties see your direct IP address; it does not prevent the destination service from seeing the request itself.
 
@@ -71,7 +74,7 @@ HTTPS encrypts request paths and payloads in transit, but DNS providers and netw
 
 - To keep app data local, leave synchronization disabled.
 - To prevent a sync operator from reading synced data, use a server that supports enhanced-privacy sync and use a separate, strong privacy passphrase.
-- To avoid sending requests to optional services, leave SponsorBlock, DeArrow, Return YouTube Dislike, and synchronization disabled.
+- To avoid sending requests to optional services, leave SponsorBlock, DeArrow, Return YouTube Dislike, voice-over translation, and synchronization disabled.
 - To hide your direct IP address from YouTube or optional services, route the relevant requests through a trusted VPN or Tor and verify the proxy configuration.
 
 ## Your rights and policy changes
