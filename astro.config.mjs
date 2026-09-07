@@ -4,6 +4,7 @@ import { unified } from '@astrojs/markdown-remark';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import icon from 'astro-icon';
+import rehypeFeatureSections from './src/plugins/rehype-feature-sections.mjs';
 import remarkBundleGitHubImages, {
 	clearExposedGitHubImages,
 	copyExposedGitHubImages,
@@ -59,6 +60,7 @@ export default defineConfig({
 	markdown: {
 		processor: unified({
 			remarkPlugins: [[remarkBundleGitHubImages, featureImageOptions]],
+			rehypePlugins: [rehypeFeatureSections],
 		}),
 	},
 	integrations: [
@@ -67,6 +69,8 @@ export default defineConfig({
 			include: {
 				lucide: [
 					'boxes',
+					'circle-play',
+					'copy',
 					'code-xml',
 					'compass',
 					'download',
@@ -83,6 +87,7 @@ export default defineConfig({
 					'package-check',
 					'sliders-horizontal',
 					'sparkles',
+					'terminal',
 					'triangle-alert',
 				],
 				'simple-icons': [
@@ -95,6 +100,7 @@ export default defineConfig({
 					'flatpak',
 					'fluxer',
 					'github',
+					'githubactions',
 					'linux',
 					'matrix',
 					'opensuse',

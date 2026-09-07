@@ -1,5 +1,6 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
+import '../styles/home.css';
 import { getImage } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import logoDark from '../assets/logo-dark.svg';
@@ -18,6 +19,7 @@ const screenshots = [
 	{
 		id: 'main',
 		label: 'Feed',
+		icon: 'lucide:list',
 		dark: shotMainDark,
 		light: shotMainLight,
 		alt: 'OpenTubeX subscription feed',
@@ -25,6 +27,7 @@ const screenshots = [
 	{
 		id: 'watch',
 		label: 'Watching',
+		icon: 'lucide:circle-play',
 		dark: shotWatchDark,
 		light: shotWatchLight,
 		alt: 'OpenTubeX watching a video',
@@ -32,13 +35,14 @@ const screenshots = [
 	{
 		id: 'settings',
 		label: 'Settings',
+		icon: 'lucide:sliders-horizontal',
 		dark: shotSettingsDark,
 		light: shotSettingsLight,
 		alt: 'OpenTubeX settings',
 	},
 ] as const;
 
-const screenshotSizes = '(max-width: 742px) calc(100vw - 3.5rem), 686px';
+const screenshotSizes = '(max-width: 640px) calc(100vw - 3.5rem), (max-width: 960px) 680px, (max-width: 1160px) 52vw, 600px';
 const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => ({
 	...shot,
 	sources: await Promise.all((['light', 'dark'] as const).flatMap((theme) =>
@@ -61,7 +65,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 	description="OpenTubeX is a privacy-first YouTube client. Encrypted sync, SponsorBlock, no tracking."
 	active="home"
 >
-	<main id="top">
+	<main id="top" class="home">
 		<section class="hero" aria-labelledby="hero-heading">
 			<div class="hero__signal" aria-hidden="true">
 				<svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
@@ -111,32 +115,100 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 						opacity="0.35"></path>
 				</svg>
 			</div>
-			<div class="hero__mesh" aria-hidden="true"></div>
 
 			<div class="hero__content">
-				<img
-					class="hero__logo"
-					data-logo
-					data-logo-dark={logoDarkSrc}
-					data-logo-light={logoLightSrc}
-					src={logoLightSrc}
-					alt="OpenTubeX"
-					width="420"
-					height="137"
-				/>
-				<h1 class="hero__headline" id="hero-heading">Your YouTube signal, sealed.</h1>
-				<p class="hero__lede">
-					A highly customizable, privacy-focused YouTube client that aims to provide the best UX.
-				</p>
-				<div class="cta-group">
-					<a class="btn btn--primary" href="/downloads/">
-						<Icon name="lucide:download" aria-hidden="true" />
-						Download now
-					</a>
-					<a class="btn btn--ghost" href="#pillars">
-						<Icon name="lucide:compass" aria-hidden="true" />
-						Why OpenTubeX
-					</a>
+				<div class="hero__copy">
+					<img
+						class="hero__logo"
+						data-logo
+						data-logo-dark={logoDarkSrc}
+						data-logo-light={logoLightSrc}
+						src={logoLightSrc}
+						alt="OpenTubeX"
+						width="420"
+						height="137"
+					/>
+					<h1 class="hero__headline" id="hero-heading">Watch YouTube.<br /><span>Make it yours.</span></h1>
+					<p class="hero__lede">
+						A highly customizable, privacy-focused YouTube client that aims to provide the best UX.
+					</p>
+					<div class="cta-group">
+						<a class="btn btn--primary" href="/downloads/">
+							<Icon name="lucide:download" aria-hidden="true" />
+							Download now
+						</a>
+						<a class="btn btn--ghost" href="#pillars">
+							<Icon name="lucide:compass" aria-hidden="true" />
+							Why OpenTubeX
+						</a>
+					</div>
+				</div>
+				<div class="hero__preview" id="screenshots">
+					<div class="shot-stage" data-shot-stage data-image-gallery>
+						<figure class="laptop" aria-label="OpenTubeX on a laptop">
+							<div class="laptop__lid">
+								<div class="laptop__bezel">
+									<span class="laptop__camera" aria-hidden="true"></span>
+									<div class="laptop__screen">
+										{
+											optimizedScreenshots.map((shot, index) => (
+												<picture>
+													{shot.sources.map(({ theme, format, image }) => (
+														<source
+															data-shot-theme={theme}
+															media={`(prefers-color-scheme: ${theme})`}
+															type={`image/${format}`}
+															srcset={image.srcSet.attribute}
+															sizes={screenshotSizes}
+														/>
+													))}
+													<img
+														class:list={['laptop__shot', { 'is-active': index === 0 }]}
+														src={shot.dark.src}
+														width={shot.dark.width}
+														height={shot.dark.height}
+														alt={shot.alt}
+														data-shot={shot.id}
+														style={`--shot-position: ${index}`}
+														data-full-src={shot.dark.src}
+														data-full-src-dark={shot.dark.src}
+														data-full-src-light={shot.light.src}
+														data-full-width={shot.dark.width}
+														data-full-height={shot.dark.height}
+														aria-hidden={index === 0 ? 'false' : 'true'}
+														loading={index === 0 ? 'eager' : 'lazy'}
+														fetchpriority={index === 0 ? 'high' : 'auto'}
+														decoding="async"
+													/>
+												</picture>
+											))
+										}
+									</div>
+								</div>
+							</div>
+							<div class="laptop__hinge" aria-hidden="true"></div>
+							<div class="laptop__base" aria-hidden="true">
+								<span class="laptop__notch"></span>
+							</div>
+							<div class="laptop__shadow" aria-hidden="true"></div>
+						</figure>
+
+						<div class="shot-tabs" role="group" aria-label="Screenshot views">
+							{
+								screenshots.map((shot, index) => (
+									<button
+										type="button"
+										class:list={['shot-tabs__tab', { 'is-active': index === 0 }]}
+										aria-pressed={index === 0 ? 'true' : 'false'}
+										data-shot-tab={shot.id}
+									>
+										<Icon name={shot.icon} aria-hidden="true" />
+										{shot.label}
+									</button>
+								))
+							}
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -144,7 +216,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 		<section class="section" id="pillars" aria-labelledby="pillars-heading">
 			<p class="section__eyebrow reveal">Why OpenTubeX</p>
 			<h2 class="section__title reveal" id="pillars-heading">Five reasons to switch</h2>
-			<p class="section__intro reveal">A client that stays private, flexible, and yours to shape.</p>
+			<p class="section__intro reveal">Keep your viewing private and set up the player to suit you.</p>
 
 			<div class="pillars">
 				<article class="pillar">
@@ -213,74 +285,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 			</div>
 		</section>
 
-		<section class="section section--shots" id="screenshots" aria-labelledby="shots-heading">
-			<p class="section__eyebrow reveal">Screenshots</p>
-			<h2 class="section__title reveal" id="shots-heading">What it looks like</h2>
-			<p class="section__intro reveal">Browse the feed, watch something, open settings.</p>
-
-			<div class="shot-stage reveal" data-shot-stage data-image-gallery>
-				<figure class="laptop" aria-label="OpenTubeX on a laptop">
-					<div class="laptop__lid">
-						<div class="laptop__bezel">
-							<span class="laptop__camera" aria-hidden="true"></span>
-							<div class="laptop__screen">
-								{
-									optimizedScreenshots.map((shot, index) => (
-										<picture>
-											{shot.sources.map(({ theme, format, image }) => (
-												<source
-													data-shot-theme={theme}
-													media={`(prefers-color-scheme: ${theme})`}
-													type={`image/${format}`}
-													srcset={image.srcSet.attribute}
-													sizes={screenshotSizes}
-												/>
-											))}
-											<img
-												class:list={['laptop__shot', { 'is-active': index === 0 }]}
-												src={shot.dark.src}
-												width={shot.dark.width}
-												height={shot.dark.height}
-												alt={shot.alt}
-												data-shot={shot.id}
-												data-full-src={shot.dark.src}
-												data-full-src-dark={shot.dark.src}
-												data-full-src-light={shot.light.src}
-												data-full-width={shot.dark.width}
-												data-full-height={shot.dark.height}
-												aria-hidden={index === 0 ? 'false' : 'true'}
-												loading="lazy"
-												decoding="async"
-											/>
-										</picture>
-									))
-								}
-							</div>
-						</div>
-					</div>
-					<div class="laptop__hinge" aria-hidden="true"></div>
-					<div class="laptop__base" aria-hidden="true">
-						<span class="laptop__notch"></span>
-					</div>
-					<div class="laptop__shadow" aria-hidden="true"></div>
-				</figure>
-
-				<div class="shot-tabs" role="group" aria-label="Screenshot views">
-					{
-						screenshots.map((shot, index) => (
-							<button
-								type="button"
-								class:list={['shot-tabs__tab', { 'is-active': index === 0 }]}
-								aria-pressed={index === 0 ? 'true' : 'false'}
-								data-shot-tab={shot.id}
-							>
-								{shot.label}
-							</button>
-						))
-					}
-				</div>
-			</div>
-
+		<section class="section section--about" aria-labelledby="ai-disclosure-heading">
 			<div class="ai-disclosure reveal" aria-labelledby="ai-disclosure-heading">
 				<p class="section__eyebrow">How OpenTubeX is built</p>
 				<h2 class="section__title" id="ai-disclosure-heading">AI-assisted development</h2>
@@ -355,6 +360,9 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 
 			var tabs = Array.prototype.slice.call(stage.querySelectorAll('[data-shot-tab]'));
 			var shots = Array.prototype.slice.call(stage.querySelectorAll('[data-shot]'));
+			var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+			var rotationTimer;
+			var manuallySelected = false;
 
 			function activate(id) {
 				tabs.forEach(function (tab) {
@@ -370,11 +378,37 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 				});
 			}
 
+			function pauseRotation() {
+				window.clearTimeout(rotationTimer);
+			}
+
+			function scheduleRotation() {
+				pauseRotation();
+				if (manuallySelected || reducedMotion.matches || document.hidden || stage.matches(':hover, :focus-within')) return;
+				rotationTimer = window.setTimeout(function () {
+					var current = tabs.findIndex(function (tab) { return tab.classList.contains('is-active'); });
+					activate(tabs[(current + 1) % tabs.length].getAttribute('data-shot-tab'));
+					scheduleRotation();
+				}, 3000);
+			}
+
 			tabs.forEach(function (tab) {
 				tab.addEventListener('click', function () {
+					manuallySelected = true;
+					pauseRotation();
 					activate(tab.getAttribute('data-shot-tab'));
 				});
 			});
+
+			stage.addEventListener('mouseenter', pauseRotation);
+			stage.addEventListener('mouseleave', scheduleRotation);
+			stage.addEventListener('focusin', pauseRotation);
+			stage.addEventListener('focusout', function () { queueMicrotask(scheduleRotation); });
+			document.addEventListener('visibilitychange', scheduleRotation);
+			reducedMotion.addEventListener('change', scheduleRotation);
+			window.addEventListener('pagehide', pauseRotation);
+			window.addEventListener('pageshow', scheduleRotation);
+			scheduleRotation();
 		})();
 	</script>
 </SignalLayout>

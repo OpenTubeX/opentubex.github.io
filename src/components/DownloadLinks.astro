@@ -1,0 +1,21 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { DownloadLink } from '../data/release';
+
+interface Props {
+	links: DownloadLink[];
+	label: string;
+}
+const { links, label } = Astro.props;
+---
+
+<ul class="format-list" aria-label={label}>
+	{links.map((link) => (
+		<li>
+			<a href={link.url} class:list={[{ 'is-preferred': link.preferred }]} rel={link.isExternal ? 'noopener noreferrer' : undefined}>
+				<Icon name={link.icon} aria-hidden="true" />
+				{link.label}
+			</a>
+		</li>
+	))}
+</ul>

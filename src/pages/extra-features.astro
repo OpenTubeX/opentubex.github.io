@@ -1,9 +1,16 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
 import { Icon } from 'astro-icon/components';
+import PageIndex, { type IndexGroup } from '../components/PageIndex.astro';
 import { Content, getHeadings } from '../content/extra-features.md';
 
-const headings = getHeadings().filter((heading) => heading.depth === 2);
+const headings = getHeadings();
+const groups: IndexGroup[] = [];
+for (const heading of headings) {
+	if (heading.depth === 2) groups.push({ label: heading.text, links: [] });
+	else if (heading.depth === 3) groups.at(-1)?.links.push({ label: heading.text, href: `#${heading.slug}` });
+}
+const featureCount = groups.reduce((total, group) => total + group.links.length, 0);
 ---
 
 <SignalLayout
@@ -11,7 +18,7 @@ const headings = getHeadings().filter((heading) => heading.depth === 2);
 	description="OpenTubeX extra features: encrypted sync, SponsorBlock, tabs, Auto PiP, and more."
 	active="features"
 >
-	<main>
+	<main class="resource-page resource-page--features">
 		<header class="page-hero page-hero--features">
 			<div class="page-hero__signal" aria-hidden="true">
 				<svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
@@ -50,31 +57,24 @@ const headings = getHeadings().filter((heading) => heading.depth === 2);
 
 		<section class="section section--features" id="features" aria-labelledby="features-heading">
 			<div class="features-layout">
-				{
-					headings.length > 0 && (
-						<nav class="feature-toc" aria-label="Feature sections">
-							<p class="feature-toc__label">On this page</p>
-							<div class="feature-toc__scroll">
-								<ol class="feature-toc__list">
-									{headings.map((heading) => (
-										<li>
-											<a href={`#${heading.slug}`}>{heading.text}</a>
-										</li>
-									))}
-								</ol>
-							</div>
-						</nav>
-					)
-				}
+				<PageIndex label="On this page" groups={groups} collapsibleGroups />
 
 				<div class="features-main">
 					<h2 class="section__title reveal" id="features-heading">
-						{headings.length} extras worth knowing
+						{featureCount} extras worth knowing
 					</h2>
 					<p class="section__intro reveal">
 						Screenshots and details for each feature.
 					</p>
 
+					<div class="feature-search" hidden>
+						<label for="feature-search">Search features</label>
+						<div class="feature-search__controls">
+							<input id="feature-search" type="search" placeholder="Search names and descriptions" autocomplete="off" />
+						</div>
+						<p role="status" aria-live="polite" data-search-status></p>
+					</div>
+					<p class="feature-search__empty" hidden data-search-empty>No features match your search. Try another term or clear the search.</p>
 					<article class="feature-doc" data-image-gallery>
 						<Content />
 					</article>
@@ -133,6 +133,7 @@ const headings = getHeadings().filter((heading) => heading.depth === 2);
 </SignalLayout>
 
 <script>
+	import '../scripts/feature-search';
 	function navOffsetPx() {
 		const navRaw =
 			getComputedStyle(document.documentElement).getPropertyValue('--nav-h').trim() || '4.25rem';
@@ -167,6 +168,8 @@ const headings = getHeadings().filter((heading) => heading.depth === 2);
 		if (!sections.length) return;
 
 		const setActive = (active: HTMLAnchorElement | null) => {
+			const group = active?.closest<HTMLDetailsElement>('details.page-index__group');
+			if (group) group.open = true;
 			links.forEach((link) => {
 				const on = link === active;
 				link.classList.toggle('is-active', on);

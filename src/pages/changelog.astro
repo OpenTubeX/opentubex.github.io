@@ -1,5 +1,6 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
+import PageIndex from '../components/PageIndex.astro';
 import { Icon } from 'astro-icon/components';
 import { allReleasesUrl } from '../data/release';
 import { renderChangelogBodies } from '../lib/changelog-markdown';
@@ -12,6 +13,16 @@ const entries = releases.map((release, index) => ({
 	...release,
 	html: htmlBodies[index] ?? '',
 }));
+
+const monthFormatter = new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const releaseMonth = (publishedAt: string) => publishedAt ? monthFormatter.format(new Date(publishedAt)) : 'Undated';
+const months = [...new Set(entries.map((entry) => releaseMonth(entry.publishedAt)))];
+const groups = months.map((month) => ({
+	label: month,
+	links: entries.filter((entry) => releaseMonth(entry.publishedAt) === month)
+		.map((entry) => ({ label: entry.name, href: `#${encodeURIComponent(entry.tag)}` })),
+}));
+
 ---
 
 <SignalLayout
@@ -57,18 +68,7 @@ const entries = releases.map((release, index) => ({
 					<p class="changelog-empty">No stable releases were found.</p>
 				) : (
 					<div class="features-layout">
-						<nav class="feature-toc" aria-label="Releases">
-							<p class="feature-toc__label">On this page</p>
-							<div class="feature-toc__scroll">
-								<ol class="feature-toc__list">
-									{entries.map((release) => (
-										<li>
-											<a href={`#${release.tag}`}>{release.name}</a>
-										</li>
-									))}
-								</ol>
-							</div>
-						</nav>
+						<PageIndex label="On this page" groups={groups} />
 
 						<div class="features-main">
 							<ol class="changelog">
