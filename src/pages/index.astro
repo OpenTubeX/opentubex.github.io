@@ -1,12 +1,15 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
-import { Picture } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import logoDark from '../assets/logo-dark.svg';
 import logoLight from '../assets/logo-light.svg';
-import shotMain from '../assets/screenshots/opentubex-1.webp';
-import shotWatch from '../assets/screenshots/opentubex-2.webp';
-import shotSettings from '../assets/screenshots/opentubex-3.webp';
+import shotMainDark from '../assets/screenshots/opentubex-1-dark.webp';
+import shotMainLight from '../assets/screenshots/opentubex-1-light.webp';
+import shotWatchDark from '../assets/screenshots/opentubex-2-dark.webp';
+import shotWatchLight from '../assets/screenshots/opentubex-2-light.webp';
+import shotSettingsDark from '../assets/screenshots/opentubex-3-dark.webp';
+import shotSettingsLight from '../assets/screenshots/opentubex-3-light.webp';
 
 const logoDarkSrc = typeof logoDark === 'string' ? logoDark : logoDark.src;
 const logoLightSrc = typeof logoLight === 'string' ? logoLight : logoLight.src;
@@ -15,28 +18,42 @@ const screenshots = [
 	{
 		id: 'main',
 		label: 'Feed',
-		src: shotMain,
-		width: shotMain.width,
-		height: shotMain.height,
+		dark: shotMainDark,
+		light: shotMainLight,
 		alt: 'OpenTubeX subscription feed',
 	},
 	{
 		id: 'watch',
 		label: 'Watching',
-		src: shotWatch,
-		width: shotWatch.width,
-		height: shotWatch.height,
+		dark: shotWatchDark,
+		light: shotWatchLight,
 		alt: 'OpenTubeX watching a video',
 	},
 	{
 		id: 'settings',
 		label: 'Settings',
-		src: shotSettings,
-		width: shotSettings.width,
-		height: shotSettings.height,
+		dark: shotSettingsDark,
+		light: shotSettingsLight,
 		alt: 'OpenTubeX settings',
 	},
 ] as const;
+
+const screenshotSizes = '(max-width: 742px) calc(100vw - 3.5rem), 686px';
+const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => ({
+	...shot,
+	sources: await Promise.all((['light', 'dark'] as const).flatMap((theme) =>
+		(['avif', 'webp'] as const).map(async (format) => ({
+			theme,
+			format,
+			image: await getImage({
+				src: shot[theme],
+				widths: [366, 732, 1098, 1464],
+				format,
+				quality: 'mid',
+			}),
+		})),
+	)),
+})));
 ---
 
 <SignalLayout
@@ -208,24 +225,34 @@ const screenshots = [
 							<span class="laptop__camera" aria-hidden="true"></span>
 							<div class="laptop__screen">
 								{
-									screenshots.map((shot, index) => (
-										<Picture
-											class:list={['laptop__shot', { 'is-active': index === 0 }]}
-											src={shot.src}
-											widths={[366, 732, 1098, 1464]}
-											sizes="(max-width: 742px) calc(100vw - 3.5rem), 686px"
-											formats={['avif']}
-											fallbackFormat="webp"
-											quality="mid"
-											alt={shot.alt}
-											data-shot={shot.id}
-											data-full-src={shot.src.src}
-											data-full-width={shot.width}
-											data-full-height={shot.height}
-											aria-hidden={index === 0 ? 'false' : 'true'}
-											loading="lazy"
-											decoding="async"
-										/>
+									optimizedScreenshots.map((shot, index) => (
+										<picture>
+											{shot.sources.map(({ theme, format, image }) => (
+												<source
+													data-shot-theme={theme}
+													media={`(prefers-color-scheme: ${theme})`}
+													type={`image/${format}`}
+													srcset={image.srcSet.attribute}
+													sizes={screenshotSizes}
+												/>
+											))}
+											<img
+												class:list={['laptop__shot', { 'is-active': index === 0 }]}
+												src={shot.dark.src}
+												width={shot.dark.width}
+												height={shot.dark.height}
+												alt={shot.alt}
+												data-shot={shot.id}
+												data-full-src={shot.dark.src}
+												data-full-src-dark={shot.dark.src}
+												data-full-src-light={shot.light.src}
+												data-full-width={shot.dark.width}
+												data-full-height={shot.dark.height}
+												aria-hidden={index === 0 ? 'false' : 'true'}
+												loading="lazy"
+												decoding="async"
+											/>
+										</picture>
 									))
 								}
 							</div>

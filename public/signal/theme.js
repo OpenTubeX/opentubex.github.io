@@ -65,6 +65,16 @@
     });
   }
 
+  function syncScreenshots(theme) {
+    document.querySelectorAll("source[data-shot-theme]").forEach(function (source) {
+      source.media = source.getAttribute("data-shot-theme") === theme ? "all" : "not all";
+    });
+    document.querySelectorAll("img[data-shot]").forEach(function (img) {
+      var src = img.getAttribute("data-full-src-" + theme);
+      if (src) img.setAttribute("data-full-src", src);
+    });
+  }
+
   function syncIcons(preference) {
     document.querySelectorAll("[data-theme-icon]").forEach(function (icon) {
       fillIcon(icon, preference);
@@ -130,6 +140,7 @@
     storePreference(preference);
     syncLogos(theme);
     syncChangelogPictures(theme);
+    syncScreenshots(theme);
     syncControls(preference);
   }
 
