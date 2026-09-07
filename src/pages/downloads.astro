@@ -2,6 +2,7 @@
 import SignalLayout from '../layouts/SignalLayout.astro';
 import CmdCode from '../components/CmdCode.astro';
 import SignalTabs from '../components/SignalTabs.astro';
+import DownloadLinks from '../components/DownloadLinks.astro';
 import { Icon } from 'astro-icon/components';
 import {
 	aptRepositoryUrl,
@@ -22,6 +23,21 @@ const platformMeta: Record<string, string> = {
 	macOS: '12+',
 	Android: '7.0+ · early preview',
 };
+
+const packageSections: Record<string, { id: string; label: string }> = {
+	Windows: { id: 'winget', label: 'winget instructions' },
+	'Ubuntu / Debian': { id: 'apt', label: 'APT instructions' },
+	'Fedora / Red Hat': { id: 'rpm', label: 'COPR / RPM instructions' },
+	openSUSE: { id: 'opensuse', label: 'RPM instructions' },
+	Flatpak: { id: 'flatpak', label: 'Flatpak instructions' },
+	Snap: { id: 'snap', label: 'Snap instructions' },
+	'Arch Linux': { id: 'aur', label: 'AUR instructions' },
+};
+const platforms = downloadGroups.map((group) => ({
+	...group,
+	id: `download-${group.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '')}`,
+	packageSection: packageSections[group.title],
+}));
 
 const aurTabs = [
 	{ id: 'paru', label: 'paru' },
@@ -103,7 +119,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 	active="downloads"
 	mono
 >
-	<main>
+	<main class="resource-page resource-page--downloads">
 		<header class="page-hero">
 			<div class="page-hero__signal" aria-hidden="true">
 				<svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
@@ -157,8 +173,14 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 
 			<div class="platforms">
 				{
-					downloadGroups.map((group) => (
-						<article class="platform">
+					platforms.map((group) => (
+						<article class="platform" id={group.id}>
+							{group.packageSection && (
+								<a class="platform__instructions" href={`#install-${group.packageSection.id}`} aria-label={group.packageSection.label}>
+									<Icon name="lucide:terminal" aria-hidden="true" />
+									<span class="platform__tooltip" aria-hidden="true">{group.packageSection.label}</span>
+								</a>
+							)}
 							<div class="platform__heading">
 								<span class="platform__icon" aria-hidden="true">
 									<Icon name={group.icon} />
@@ -171,20 +193,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								</h3>
 							</div>
 							<div class="platform__downloads">
-								<ul class="format-list" aria-label={`${group.title} formats`}>
-									{group.links.map((link) => (
-										<li>
-											<a
-												href={link.url}
-												class:list={[{ 'is-preferred': link.preferred }]}
-												rel={link.isExternal ? 'noopener noreferrer' : undefined}
-											>
-												<Icon name={link.icon} aria-hidden="true" />
-												{link.label}
-											</a>
-										</li>
-									))}
-								</ul>
+								<DownloadLinks links={group.links} label={`${group.title} downloads`} />
 							</div>
 						</article>
 					))
@@ -198,7 +207,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 			<p class="section__intro reveal">Ready-to-run commands for the usual package managers.</p>
 
 			<div class="pkg-list">
-				<article class="pkg">
+				<article class="pkg" id="install-winget">
 					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:windows" /></span>
 					<div>
 						<h3 class="pkg__title">Windows · winget</h3>
@@ -209,7 +218,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					</div>
 				</article>
 
-				<article class="pkg">
+				<article class="pkg" id="install-apt">
 					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:ubuntu" /></span>
 					<div>
 						<h3 class="pkg__title">Debian / Ubuntu · APT</h3>
@@ -220,7 +229,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					</div>
 				</article>
 
-				<article class="pkg">
+				<article class="pkg" id="install-rpm">
 					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:fedora" /></span>
 					<div>
 						<h3 class="pkg__title">Fedora / Red Hat · COPR or RPM</h3>
@@ -235,7 +244,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					</div>
 				</article>
 
-				<article class="pkg">
+				<article class="pkg" id="install-opensuse">
 					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:opensuse" /></span>
 					<div>
 						<h3 class="pkg__title">openSUSE · RPM</h3>
@@ -246,7 +255,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					</div>
 				</article>
 
-				<article class="pkg">
+				<article class="pkg" id="install-flatpak">
 					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:flatpak" /></span>
 					<div>
 						<h3 class="pkg__title">Flatpak</h3>
@@ -258,7 +267,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					</div>
 				</article>
 
-				<article class="pkg">
+				<article class="pkg" id="install-snap">
 					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:snapcraft" /></span>
 					<div>
 						<h3 class="pkg__title">Snap</h3>
@@ -273,7 +282,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					</div>
 				</article>
 
-				<article class="pkg">
+				<article class="pkg" id="install-aur">
 					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:archlinux" /></span>
 					<div>
 						<h3 class="pkg__title">Arch Linux · AUR</h3>
@@ -343,6 +352,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 									href="https://github.com/OpenTubeX/OpenTubeX/actions/workflows/build.yml"
 									rel="noopener noreferrer"
 								>
+									<Icon name="simple-icons:githubactions" aria-hidden="true" />
 									Build workflow (requires GitHub account)
 								</a>
 							</li>
@@ -351,6 +361,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 									href="https://nightly.link/OpenTubeX/OpenTubeX/workflows/build/development"
 									rel="noopener noreferrer"
 								>
+									<Icon name="lucide:download" aria-hidden="true" />
 									nightly.link (no account)
 								</a>
 							</li>

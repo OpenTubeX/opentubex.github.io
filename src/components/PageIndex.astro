@@ -1,0 +1,48 @@
+---
+export interface IndexGroup {
+	label: string;
+	links: { label: string; href: string }[];
+}
+
+interface Props {
+	label: string;
+	groups: IndexGroup[];
+	collapsibleGroups?: boolean;
+}
+
+const { label, groups, collapsibleGroups = false } = Astro.props;
+---
+
+<nav class="feature-toc page-index" aria-label={label}>
+	<label class="page-index__picker">
+		<span>{label}</span>
+		<select data-jump-select>
+			<option value="">Choose a section</option>
+			{groups.map((group) => (
+				<optgroup label={group.label}>
+					{group.links.map((link) => <option value={link.href}>{link.label}</option>)}
+				</optgroup>
+			))}
+		</select>
+	</label>
+	<div class="page-index__desktop">
+		<p class="feature-toc__label">On this page</p>
+		<div class="feature-toc__scroll">
+			{groups.map((group) => {
+				const Group = collapsibleGroups ? 'details' : 'div';
+				const Heading = collapsibleGroups ? 'summary' : 'p';
+				return (
+				<Group class="page-index__group" open={collapsibleGroups ? true : undefined}>
+					<Heading class="page-index__group-label">{group.label}</Heading>
+					<ol class="feature-toc__list">
+						{group.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+					</ol>
+				</Group>
+			); })}
+		</div>
+	</div>
+</nav>
+
+<script>
+	import '../scripts/jump-select';
+</script>
