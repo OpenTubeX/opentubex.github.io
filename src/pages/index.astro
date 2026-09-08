@@ -179,6 +179,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 														loading={index === 0 ? 'eager' : 'lazy'}
 														fetchpriority={index === 0 ? 'high' : 'auto'}
 														decoding="async"
+														draggable="false"
 													/>
 												</picture>
 											))
@@ -363,6 +364,9 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 			var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 			var rotationTimer;
 			var manuallySelected = false;
+			var screen = stage.querySelector('.laptop__screen');
+			var swipe = null;
+			var suppressClick = false;
 
 			function activate(id) {
 				tabs.forEach(function (tab) {
@@ -384,7 +388,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 
 			function scheduleRotation() {
 				pauseRotation();
-				if (manuallySelected || reducedMotion.matches || document.hidden || stage.matches(':hover, :focus-within')) return;
+				if (manuallySelected || swipe || reducedMotion.matches || document.hidden || stage.matches(':hover, :focus-within')) return;
 				rotationTimer = window.setTimeout(function () {
 					var current = tabs.findIndex(function (tab) { return tab.classList.contains('is-active'); });
 					activate(tabs[(current + 1) % tabs.length].getAttribute('data-shot-tab'));
@@ -399,6 +403,78 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 					activate(tab.getAttribute('data-shot-tab'));
 				});
 			});
+
+			screen.addEventListener('pointerdown', function (event) {
+				if (!event.isPrimary || event.button !== 0 || swipe) return;
+				var width = shots[0].getBoundingClientRect().width;
+				var shotStyle = getComputedStyle(shots[0]);
+				var transform = new DOMMatrixReadOnly(shotStyle.transform);
+				swipe = {
+					id: event.pointerId, x: event.clientX, y: event.clientY, dragging: false,
+					width: width, start: -transform.m41 / parseFloat(shotStyle.width),
+				};
+				suppressClick = false;
+				pauseRotation();
+			});
+			screen.addEventListener('pointermove', function (event) {
+				if (!swipe || event.pointerId !== swipe.id) return;
+				var dx = event.clientX - swipe.x;
+				var dy = event.clientY - swipe.y;
+				if (!swipe.dragging && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+					swipe.dragging = true;
+					stage.classList.add('is-dragging');
+					screen.setPointerCapture(event.pointerId);
+				}
+				if (swipe.dragging) {
+					var position = Math.max(0, Math.min(tabs.length - 1, swipe.start - dx / swipe.width));
+					stage.style.setProperty('--shot-index', position);
+				}
+			});
+			function endSwipe() {
+				if (!swipe) return;
+				var pointerId = swipe.id;
+				suppressClick = suppressClick || swipe.dragging;
+				swipe = null;
+				stage.classList.remove('is-dragging');
+				stage.style.removeProperty('--shot-index');
+				if (screen.hasPointerCapture(pointerId)) screen.releasePointerCapture(pointerId);
+				scheduleRotation();
+			}
+			screen.addEventListener('pointerup', function (event) {
+				if (!swipe || event.pointerId !== swipe.id) return;
+				var dx = event.clientX - swipe.x;
+				var dy = event.clientY - swipe.y;
+				suppressClick = swipe.dragging;
+				if (swipe.dragging && Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy)) {
+					var current = tabs.findIndex(function (tab) { return tab.classList.contains('is-active'); });
+					var next = Math.round(swipe.start - dx / swipe.width);
+					if (next === current) next += dx < 0 ? 1 : -1;
+					next = Math.max(0, Math.min(tabs.length - 1, next));
+					manuallySelected = true;
+					activate(tabs[next].getAttribute('data-shot-tab'));
+					if (screen.contains(document.activeElement)) {
+						shots[next].focus({ preventScroll: true });
+					}
+				}
+				endSwipe();
+			});
+			screen.addEventListener('pointercancel', function (event) {
+				if (swipe && event.pointerId === swipe.id) endSwipe();
+			});
+			screen.addEventListener('lostpointercapture', function (event) {
+				if (event.target === screen && swipe && event.pointerId === swipe.id) endSwipe();
+			});
+			screen.addEventListener('pointerleave', function () {
+				if (swipe && !swipe.dragging) {
+					endSwipe();
+				}
+			});
+			screen.addEventListener('click', function (event) {
+				if (!suppressClick || event.detail === 0) return;
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				suppressClick = false;
+			}, true);
 
 			stage.addEventListener('mouseenter', pauseRotation);
 			stage.addEventListener('mouseleave', scheduleRotation);

@@ -54,6 +54,21 @@
 .home .shot-stage:has([data-shot-tab='watch'].is-active) { --shot-index: 1; }
 .home .shot-stage:has([data-shot-tab='settings'].is-active) { --shot-index: 2; }
 
+.home .laptop {
+  perspective: 1200px;
+  perspective-origin: 50% 100%;
+}
+
+.home .laptop__lid {
+  transform-origin: 50% 100%;
+  backface-visibility: hidden;
+}
+
+.home .laptop__screen {
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+}
+
 .home .laptop__shot {
   opacity: 1;
   transform: translateX(calc((var(--shot-position) - var(--shot-index)) * 100%));
@@ -111,6 +126,20 @@
 @media (prefers-reduced-motion: no-preference) {
   .home .shot-tabs::before { transition: transform 0.3s var(--ease); }
   .home .laptop__shot { transition: transform 0.3s var(--ease); }
+  .home .laptop__lid { animation: laptop-open 1.1s var(--ease) 0.15s both; }
+}
+
+.home .shot-stage.is-dragging .laptop__shot,
+.home .shot-stage.is-dragging .shot-tabs::before {
+  transition: none;
+}
+
+.home .shot-stage.is-dragging .laptop__screen,
+.home .shot-stage.is-dragging .laptop__shot { cursor: grabbing; }
+
+@keyframes laptop-open {
+  from { transform: rotateX(-90deg); }
+  to { transform: rotateX(0deg); }
 }
 
 .home #pillars { scroll-margin-top: var(--nav-h); }
