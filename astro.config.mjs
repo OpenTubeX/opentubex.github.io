@@ -136,7 +136,7 @@ export default defineConfig({
 				{
 					icon: 'translate',
 					label: 'Weblate',
-					href: 'https://weblate.d3sox.me/engage/opentubex/',
+					href: 'https://weblate.opentubex.org/engage/opentubex/',
 				},
 				{
 					// Starlight has no Fluxer icon; remapped to simple-icons:fluxer in SocialIcons.
