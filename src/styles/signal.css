@@ -2918,52 +2918,8 @@ a.version-chip:hover .version-chip__dot {
   }
 }
 
-@media (max-width: 640px) {
-  .download__copy,
-  .strip__copy {
-    max-width: none;
-  }
-
-  .laptop__lid {
-    padding: 0.4rem 0.4rem 0.3rem;
-    border-radius: 0.65rem 0.65rem 0.28rem 0.28rem;
-  }
-
-  .laptop__bezel {
-    grid-template-rows: 1.1rem auto;
-    padding: 0 0.3rem 0.28rem;
-  }
-
-  .laptop__base {
-    height: 0.65rem;
-  }
-
-  .shot-tabs__tab {
-    padding: 0.4rem 0.7rem;
-    font-size: 0.78rem;
-  }
-
-  .nav__inner,
-  .hero__content,
-  .page-hero__content,
-  .section,
-  .download__inner,
-  .strip__inner,
-  .site-footer__inner {
-    width: min(1120px, calc(100% - 1.5rem));
-  }
-
-  .site-footer__inner {
-    min-height: 0;
-    padding-block: 1.25rem;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav__brand span {
-    font-size: 0.95rem;
-  }
-
+/* Collapse the nav before its links and theme control run out of room. */
+@media (max-width: 50rem) {
   .nav__actions {
     justify-content: space-between;
     gap: 0.75rem;
@@ -3047,6 +3003,49 @@ a.version-chip:hover .version-chip__dot {
 
   .nav__links > a::after {
     display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .download__copy,
+  .strip__copy {
+    max-width: none;
+  }
+
+  .laptop__lid {
+    padding: 0.4rem 0.4rem 0.3rem;
+    border-radius: 0.65rem 0.65rem 0.28rem 0.28rem;
+  }
+
+  .laptop__bezel {
+    grid-template-rows: 1.1rem auto;
+    padding: 0 0.3rem 0.28rem;
+  }
+
+  .laptop__base {
+    height: 0.65rem;
+  }
+
+  .shot-tabs__tab {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.78rem;
+  }
+
+  .nav__inner,
+  .hero__content,
+  .page-hero__content,
+  .section,
+  .download__inner,
+  .strip__inner,
+  .site-footer__inner {
+    width: min(1120px, calc(100% - 1.5rem));
+  }
+
+  .site-footer__inner {
+    min-height: 0;
+    padding-block: 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .hero__logo {
