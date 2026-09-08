@@ -325,7 +325,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 				</div>
 				<div class="dev-table__item" role="row">
 					<div class="dev-table__label" role="rowheader">Nightly package channels</div>
-					<div class="dev-table__value" role="cell">Every day at 02:15 UTC</div>
+					<div class="dev-table__value" role="cell">Every day at 02:15 UTC<span id="nightly-local-time"></span></div>
 				</div>
 			</div>
 
@@ -487,3 +487,17 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 		</section>
 	</main>
 </SignalLayout>
+
+<script>
+	const localTime = document.getElementById('nightly-local-time');
+	if (localTime) {
+		const nightly = new Date();
+		nightly.setUTCHours(2, 15, 0, 0);
+		const time = new Intl.DateTimeFormat(undefined, {
+			hour: '2-digit',
+			minute: '2-digit',
+			timeZoneName: 'short',
+		}).format(nightly);
+		localTime.textContent = ` (${time})`;
+	}
+</script>
