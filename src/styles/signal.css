@@ -1855,6 +1855,8 @@ a.version-chip:hover .version-chip__dot {
 }
 
 .sig-tabs__list {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   flex-wrap: wrap;
   gap: 0.25rem;
@@ -1863,6 +1865,21 @@ a.version-chip:hover .version-chip__dot {
   border: 1px solid var(--line);
   border-radius: 0.4rem;
   background: var(--surface);
+}
+
+.sig-tabs__list.has-indicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: var(--tab-width);
+  height: var(--tab-height);
+  transform: translate(var(--tab-x), var(--tab-y));
+  border: 1px solid var(--line);
+  border-radius: 0.3rem;
+  background: var(--white);
+  pointer-events: none;
 }
 
 .sig-tabs__tab {
@@ -1898,8 +1915,34 @@ a.version-chip:hover .version-chip__dot {
   border-color: var(--line);
 }
 
+.sig-tabs__list.has-indicator .sig-tabs__tab.is-active {
+  background: transparent;
+  border-color: transparent;
+}
+
+.sig-tabs__panels {
+  position: relative;
+  display: flow-root;
+}
+
+.sig-tabs__panel {
+  display: flow-root;
+}
+
+.sig-tabs__panels.is-transitioning {
+  overflow: clip;
+}
+
 .sig-tabs__panel[hidden] {
   display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sig-tabs[data-bound="true"] .sig-tabs__list::before {
+    transition: transform 0.3s var(--ease),
+      width 0.3s var(--ease),
+      height 0.3s var(--ease);
+  }
 }
 
 .sig-tabs__panel .cmd-block {
@@ -2851,6 +2894,7 @@ a.version-chip:hover .version-chip__dot {
   }
 
   .btn--ghost::after,
+  .sig-tabs__tab,
   .nav__links a::after {
     transition: none;
   }

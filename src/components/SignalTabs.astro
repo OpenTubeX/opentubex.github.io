@@ -37,24 +37,84 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 			))
 		}
 	</div>
-	{
-		tabs.map((tab, index) => (
-			<div
-				class:list={['sig-tabs__panel', { 'is-active': index === 0 }]}
-				role="tabpanel"
-				id={`${groupId}-panel-${tab.id}`}
-				aria-labelledby={`${groupId}-tab-${tab.id}`}
-				hidden={index !== 0}
-				tabindex={0}
-				data-panel={tab.id}
-			>
-				<slot name={tab.id} />
-			</div>
-		))
-	}
+	<div class="sig-tabs__panels">
+		{
+			tabs.map((tab, index) => (
+				<div
+					class:list={['sig-tabs__panel', { 'is-active': index === 0 }]}
+					role="tabpanel"
+					id={`${groupId}-panel-${tab.id}`}
+					aria-labelledby={`${groupId}-tab-${tab.id}`}
+					hidden={index !== 0}
+					tabindex={0}
+					data-panel={tab.id}
+				>
+					<slot name={tab.id} />
+				</div>
+			))
+		}
+	</div>
 </div>
 
 <script>
+	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+	const transitions = new Map<HTMLElement, () => void>();
+
+	function positionIndicator(root: HTMLElement) {
+		const list = root.querySelector<HTMLElement>('.sig-tabs__list');
+		const active = list?.querySelector<HTMLElement>('.is-active');
+		if (!list || !active) return;
+		list.style.setProperty('--tab-x', `${active.offsetLeft}px`);
+		list.style.setProperty('--tab-y', `${active.offsetTop}px`);
+		list.style.setProperty('--tab-width', `${active.offsetWidth}px`);
+		list.style.setProperty('--tab-height', `${active.offsetHeight}px`);
+		list.classList.add('has-indicator');
+	}
+
+	function switchPanels(root: HTMLElement, panels: HTMLElement[], tabId: string) {
+		const container = root.querySelector<HTMLElement>('.sig-tabs__panels');
+		const previous = panels.find((panel) => !panel.hidden);
+		const next = panels.find((panel) => panel.dataset.panel === tabId);
+		if (!container || !next || previous === next) return;
+
+		// Continue interrupted transitions from the height currently on screen.
+		const height = container.getBoundingClientRect().height;
+		transitions.get(root)?.();
+		panels.forEach((panel) => {
+			const active = panel === next;
+			panel.classList.toggle('is-active', active);
+			panel.hidden = !active;
+			panel.inert = !active;
+			panel.setAttribute('aria-hidden', active ? 'false' : 'true');
+		});
+
+		if (!previous || reducedMotion.matches || root.dataset.bound !== 'true') return;
+		const nextHeight = container.getBoundingClientRect().height;
+		if (Math.abs(height - nextHeight) <= 1) return;
+		container.classList.add('is-transitioning');
+		const animation = container.animate(
+			[{ height: `${height}px` }, { height: `${nextHeight}px` }],
+			{
+				duration: 300,
+				easing: getComputedStyle(container).getPropertyValue('--ease').trim(),
+				fill: 'both',
+			},
+		);
+		const cleanup = () => {
+			animation.cancel();
+			container.classList.remove('is-transitioning');
+			transitions.delete(root);
+		};
+		transitions.set(root, cleanup);
+		void animation.finished.then(() => {
+			if (transitions.get(root) === cleanup) cleanup();
+		}, () => { /* An interrupted transition is cleaned up before its replacement. */ });
+	}
+
+	reducedMotion.addEventListener('change', () => {
+		if (reducedMotion.matches) transitions.forEach((cleanup) => cleanup());
+	});
+
 	function activateTab(root: HTMLElement, tabId: string, persist: boolean) {
 		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
 		const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
@@ -68,11 +128,8 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 			tab.tabIndex = active ? 0 : -1;
 		});
 
-		panels.forEach((panel) => {
-			const active = panel.dataset.panel === tabId;
-			panel.classList.toggle('is-active', active);
-			panel.hidden = !active;
-		});
+		positionIndicator(root);
+		switchPanels(root, panels, tabId);
 
 		const syncKey = root.dataset.syncKey;
 		if (persist && syncKey) {
@@ -109,8 +166,14 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 
 	function bindTabs(root: HTMLElement) {
 		if (root.dataset.bound === 'true') return;
-		root.dataset.bound = 'true';
 		restoreSynced(root);
+		positionIndicator(root);
+		const resizeObserver = new ResizeObserver(() => {
+			transitions.get(root)?.();
+			positionIndicator(root);
+		});
+		root.querySelectorAll('.sig-tabs__list, .sig-tabs__tab').forEach((element) => resizeObserver.observe(element));
+		root.dataset.bound = 'true';
 
 		root.querySelectorAll<HTMLButtonElement>('[role="tab"]').forEach((tab) => {
 			tab.addEventListener('click', () => {
