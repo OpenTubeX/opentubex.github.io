@@ -3,6 +3,19 @@ title: Extra Features
 description: Extra features available in OpenTubeX.
 ---
 
+## Platforms
+
+### Android app support
+
+Android app preview for phones and tablets, with background playback, offline
+downloads, touch controls and sync with desktop devices.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-dark-dark-6d36048f51.webp">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-light-light-fcf25f28d8.webp">
+  <img width="162" height="300" style="max-width: min(100%, 162px); max-height: 300px;" alt="Mobile tab flow: page previews, hold actions, drag to reorder, and switch tabs" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-dark-dark-6d36048f51.webp">
+</picture>
+
 ## Playback
 
 ### Per-channel playback settings
@@ -16,6 +29,27 @@ player to save the current speed for that channel manually.
 ![Per-channel playback settings](https://github.com/user-attachments/assets/c713c463-93c3-4f21-96a2-4a653c2c8399)
 ![Per-channel speed indicator](https://github.com/user-attachments/assets/560a55c0-f653-4c21-ae30-5cdeff6ac428)
 ![Per-channel settings](https://github.com/user-attachments/assets/a802d400-0f41-4375-a252-9f5a157afb84)
+
+### Music player and visualizer
+
+YouTube Music audio tracks and audio-only formats use a dedicated artwork
+player with an optional animated audio visualizer.
+
+<img width="356" height="200" style="max-width: min(100%, 356px); max-height: 200px;" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T212640Z-opentubex-music-player-real-song-82408ea747.webp" alt="YouTube Music artwork player with an animated audio spectrum">
+
+### Preload upcoming videos and playlists
+
+Preload upcoming yt-dlp videos from the watch queue, playlist or
+recommendations, or prepare an entire playlist before watching. Choose how
+many videos to prepare and how many extractions to run concurrently.
+Preloading prepares stream URLs to reduce playback delays; use Downloads to
+save videos for offline playback.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T114447Z-playlist-preload-dark-dark-9a8ed3e374.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T114447Z-playlist-preload-light-light-2721e09f24.png">
+  <img width="700" height="177" style="max-width: min(100%, 700px); max-height: 177px;" alt="Playlist preload action and progress notification" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T114447Z-playlist-preload-dark-dark-9a8ed3e374.png">
+</picture>
 
 ### Optional seek-interval behavior
 
@@ -84,6 +118,11 @@ without interrupting playback.
 Show YouTube end-screen annotations inside the player.
 
 ![YouTube end-screen annotations](https://github.com/user-attachments/assets/53bee38f-6221-4463-b474-d9e5f6781d2a)
+
+### Recommendations when videos end
+
+When autoplay is off, finished videos show a darkened poster with up to six
+recommended videos if recommendations are enabled.
 
 ### Loop & Copy link in player context menu
 
@@ -198,6 +237,20 @@ Show dislike count using [Return YouTube Dislike](https://returnyoutubedislike.c
 ![Return YouTube Dislike in video view](https://github.com/user-attachments/assets/8ed84d30-9e6f-4e2e-a09e-c3dbd74f8c32)
 ![Return YouTube Dislike counts](https://github.com/user-attachments/assets/45987612-64a1-48b6-8254-bd8966b3178a)
 
+### Per-channel subscription feed controls
+
+Choose whether each channel appears in Videos, Shorts, Live and Posts, set a
+daily video limit, and enable members-only videos when playback cookies are
+configured. Batch-edit channel preferences in Subscription settings, add
+subscribed channels directly to Saved Channel Settings, or hide a channel's
+content type from the feed menu.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T111835Z-channel-feed-dark-dark-f534fb0d44.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T111835Z-channel-feed-light-light-063edf63b2.png">
+  <img width="624" height="250" style="max-width: min(100%, 624px); max-height: 250px;" alt="Per-channel subscription controls for feed types, members-only uploads, and the daily video limit" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T111835Z-channel-feed-dark-dark-f534fb0d44.png">
+</picture>
+
 ### Auto-refresh subscriptions
 
 Automatically refresh subscriptions on a schedule so your feed stays current
@@ -240,7 +293,9 @@ results.
 
 Choose an independent Grid or List view for playlist pages and switch it from
 Quick settings. Save YouTube playlists as read-only bookmarks in Your
-Playlists.
+Playlists. Copy complete YouTube playlists into editable local playlists, then
+append missing videos from the source while preserving local order and
+additions.
 
 ![Playlist view setting](https://github.com/user-attachments/assets/9fab29b3-0111-4e1c-9227-ff11b7aa6442)
 
@@ -426,9 +481,14 @@ Search selected text using your chosen search engine.
 ### Search history and channel filters
 
 Revisit searches with their filters restored, and use filter chips when
-searching within a channel.
+searching within a channel. Save the same search query with different filters
+as separate presets and restore each combination when selected.
 
-![Search history with restored filters](https://github.com/user-attachments/assets/2932ddbf-6ac3-4cca-b381-914509fe6ef2)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260901T182410Z-search-history-dark-dark-a2e6328d63.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260901T182410Z-search-history-light-light-c1e3d5c3bc.png">
+  <img width="440" height="119" style="max-width: min(100%, 440px); max-height: 119px;" alt="Search history entries for the same query with distinct saved filters" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260901T182410Z-search-history-dark-dark-a2e6328d63.png">
+</picture>
 
 ### Settings window and search
 
@@ -448,12 +508,21 @@ Add an ambient glow around the player based on the current video.
 ### Customizable Home page
 
 Resume videos and review recent subscriptions, queues, playlists, downloads,
-reminders, and weekly watch activity from configurable Home shelves.
+reminders, and weekly watch activity from configurable Home shelves. Enable
+personalized recommendations for unwatched videos, ranked locally from viewing
+activity, saved videos and feedback. Choose Familiar, Balanced or Explore
+discovery and reset learned feedback at any time.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260828T152427Z-opentubex-home-release-note-dark-dark-2c14b3da84.png">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260828T152427Z-opentubex-home-release-note-light-light-8a62aaf509.png">
   <img alt="Customizable Home page with recent activity shelves" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260828T152427Z-opentubex-home-release-note-dark-dark-2c14b3da84.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/01a7bfa4-bc19-4857-aef3-986aa0614795">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/41074e2c-25d3-4b48-9702-7a64d9975d94">
+  <img width="601" height="250" style="max-width: min(100%, 601px); max-height: 250px;" alt="Personalized Home recommendations with the discovery options open and a centered load-more button" src="https://github.com/user-attachments/assets/01a7bfa4-bc19-4857-aef3-986aa0614795">
 </picture>
 
 ### Configurable thumbnail sizes
@@ -533,21 +602,48 @@ independently of the app language.
   <img alt="Scroll speed setting" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114556Z-scroll-speed-dark-dark-1d2178fb7a.png">
 </picture>
 
+### Customizable navigation
+
+Add, remove and reorder navigation destinations for the desktop sidebar and
+mobile bottom bar from Appearance settings.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3e859256-a8d0-4b9d-8459-05c33d4840ca">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/ecae69dd-d6a6-4372-b141-7796af240e19">
+  <img width="468" height="300" style="max-width: min(100%, 468px); max-height: 300px;" alt="Navigation customization settings" src="https://github.com/user-attachments/assets/3e859256-a8d0-4b9d-8459-05c33d4840ca">
+</picture>
+
 ### Quick settings and profile icons
 
 Access profiles and common preferences from the top bar. Personalize profiles
-with emoji or interactively cropped image icons.
+with emoji or interactively cropped image icons. Choose which controls appear
+and reorder them, including autoplay, audio-only playback, DeArrow,
+translations, privacy preferences and light/dark theme selection.
 
 ![Quick-settings menu](https://github.com/user-attachments/assets/80cfe992-c400-4ecf-be56-f0685b1e9ecb)
 ![Custom profile icons](https://github.com/user-attachments/assets/a8e50f1b-383b-4865-a2d5-83ef18510b64)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T114449Z-quick-customization-dark-dark-90cdbcaee5.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T114449Z-quick-customization-light-light-086ae9337d.png">
+  <img width="462" height="300" style="max-width: min(100%, 462px); max-height: 300px;" alt="Quick Settings customization with selected controls and reorder buttons" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T114449Z-quick-customization-dark-dark-90cdbcaee5.png">
+</picture>
 
 ### Custom themes
 
 Create, import, export, edit, and share custom themes. Use transparent colors,
 backdrop blur, custom interaction and text-selection colors, and independent
-light and dark themes when following the system setting.
+light and dark themes when following the system setting. Import themes
+directly from the clipboard, or browse community screenshots and install,
+apply or update themes inside the app.
 
 ![Custom theme editor](https://github.com/user-attachments/assets/55b85fc1-04de-44d6-9a0c-1a5081b5d39a)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/579cc131-6ab7-4cfd-94a0-ed6130b4f119">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/f8135f2d-5d8f-4cc6-b8e3-bb03f897d0ad">
+  <img width="632" height="300" style="max-width: min(100%, 632px); max-height: 300px;" alt="Discover community themes with screenshots and one-click installation" src="https://github.com/user-attachments/assets/579cc131-6ab7-4cfd-94a0-ed6130b4f119">
+</picture>
 
 ### Selectable icon packs
 
@@ -609,12 +705,20 @@ Set a script to run when YouTube blocks your IP. OpenTubeX waits for the script 
 
 ### Authenticated playback
 
-Retry age-restricted and members-only videos through yt-dlp with cookies from a
-browser or file. Configured cookies can also request account-only formats for
-any video.
+Retry age-restricted and members-only videos through yt-dlp with cookies from
+a browser or file. Configured cookies can also request account-only formats
+for any video. Use the configured cookies for subtitles, transcripts and
+automatic caption translations, with a separate subtitle-only authentication
+setting.
 
 ![Cookie source settings](https://github.com/user-attachments/assets/a38336e6-9210-43c3-ab49-f8e889d4d9f1)
 ![Restricted video playback controls](https://github.com/user-attachments/assets/853fb879-ebeb-4d4e-b968-64beb8486bcf)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/f842285f-5ee9-4246-911f-2c2e17c061ab">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/b59e597c-8d52-4948-b6af-0ba25f4affc7">
+  <img width="426" height="150" style="max-width: min(100%, 426px); max-height: 150px;" alt="Subtitle cookie settings" src="https://github.com/user-attachments/assets/f842285f-5ee9-4246-911f-2c2e17c061ab">
+</picture>
 
 ### History retention and cleanup
 
@@ -645,7 +749,7 @@ settings.
 
 ### Encrypted sync
 
-Synchronize subscriptions, playlists, history, per-channel playback speeds,
+Synchronize subscriptions, playlists, history, saved channel settings,
 profiles, tabs, and settings with end-to-end encryption. LibreTube Sync
 servers are supported too. Pair another device by scanning a QR code or
 entering a text code without sharing account credentials or the privacy
