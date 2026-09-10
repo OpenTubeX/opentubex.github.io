@@ -55,8 +55,8 @@ const nightlyTabs = [
 ];
 
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
-const snapCode = 'sudo snap install opentubex';
-const snapMigrationCode = 'sudo snap refresh --amend opentubex';
+const snapCode = 'sudo snap install opentubex --beta';
+const snapMigrationCode = 'sudo snap refresh --amend opentubex --beta';
 const snapNightlyCode = 'sudo snap install opentubex --edge';
 const snapNightlyRefreshCode = 'sudo snap refresh opentubex --edge';
 const snapNightlyMigrationCode = 'sudo snap refresh --amend opentubex --edge';
@@ -272,7 +272,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					<div>
 						<h3 class="pkg__title">Snap</h3>
 						<p class="pkg__body">
-							Install OpenTubeX from the <a href={snapSiteUrl} rel="noopener noreferrer">Snap Store</a>.
+							Install OpenTubeX from the beta channel in the <a href={snapSiteUrl} rel="noopener noreferrer">Snap Store</a>.
 						</p>
 						<CmdCode code={snapCode} lang="shell" title="New installation" />
 						<p class="pkg__body pkg__body--follow">
