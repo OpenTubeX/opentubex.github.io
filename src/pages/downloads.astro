@@ -148,9 +148,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					Version {releaseVersion} beta
 				</a>
 				<div class="cta-group">
-					<a class="btn btn--primary" href="#platforms">
+					<a class="btn btn--primary" href="#platforms" data-os-download>
 						<Icon name="lucide:download" aria-hidden="true" />
-						Direct downloads
+						<span data-os-download-label>Direct downloads</span>
 					</a>
 					<a class="btn btn--ghost" href="#packages">
 						<Icon name="lucide:package" aria-hidden="true" />
@@ -500,4 +500,8 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 		}).format(nightly);
 		localTime.textContent = ` (${time})`;
 	}
+</script>
+
+<script>
+	import '../scripts/download-platform';
 </script>
