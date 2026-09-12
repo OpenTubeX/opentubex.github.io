@@ -167,3 +167,24 @@
   .resource-page .strip { width: calc(100% - 1.5rem); }
 
 }
+
+.feature-highlights {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem;
+}
+.feature-highlights article {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  align-content: start;
+  align-items: center;
+  gap: 0.75rem;
+}
+.feature-highlights article > svg { width: 1.5rem; height: 1.5rem; color: var(--teal-deep); }
+.feature-highlights h2 { margin: 0; font-size: 1.25rem; text-wrap: balance; }
+.feature-highlights h2 a { color: var(--ink); text-underline-offset: 0.2em; }
+.feature-highlights h2 a:hover { color: var(--teal-deep); }
+.feature-highlights p { grid-column: 1 / -1; color: var(--slate); max-width: 50ch; }
+@media (max-width: 640px) {
+  .feature-highlights { grid-template-columns: 1fr; gap: 2rem; }
+}

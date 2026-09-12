@@ -11,6 +11,21 @@ for (const heading of headings) {
 	else if (heading.depth === 3) groups.at(-1)?.links.push({ label: heading.text, href: `#${heading.slug}` });
 }
 const featureCount = groups.reduce((total, group) => total + group.links.length, 0);
+const highlights = [
+	{ title: 'Keep your devices in sync', detail: 'Encrypted sync', icon: 'lock-keyhole', body: 'Bring subscriptions, playlists, history, and settings to your other devices with end-to-end encryption.' },
+	{ title: 'Skip sponsored segments', detail: 'SponsorBlock enhancements', icon: 'skip-forward', body: 'Use SponsorBlock to skip sponsor segments and choose which categories to skip automatically.' },
+	{ title: 'Save videos for offline viewing', detail: 'Download support', icon: 'download', body: 'Download videos, audio, playlists, and subtitles, and manage them in one place.' },
+	{ title: 'Browse in tabs', detail: 'Tab support', icon: 'panels-top-left', body: 'Keep videos and channels open in separate tabs while you browse.' },
+	{ title: 'Keep watching while you browse', detail: 'Auto Picture-in-Picture', icon: 'picture-in-picture-2', body: 'Automatically move playback into a floating player when you switch away.' },
+	{ title: 'Set playback for each channel', detail: 'Per-channel playback settings', icon: 'sliders-horizontal', body: 'Remember the speed, quality, subtitles, and volume you prefer for individual channels.' },
+	{ title: 'Find a moment in the transcript', detail: 'Transcript panel', icon: 'captions', body: 'Search a video transcript and jump to the part you want to watch.' },
+	{ title: 'Watch on Android too', detail: 'Android app support', icon: 'smartphone', body: 'Try the Android preview with background playback, offline downloads, and sync with your desktop.' },
+].map((feature) => {
+	const heading = headings.find((heading) => heading.depth === 3 && heading.text === feature.detail);
+	if (!heading) throw new Error(`Missing feature heading: ${feature.detail}`);
+	return { ...feature, href: `#${heading.slug}` };
+});
+
 ---
 
 <SignalLayout
@@ -38,9 +53,9 @@ const featureCount = groups.reduce((total, group) => total + group.links.length,
 			<div class="page-hero__mesh" aria-hidden="true"></div>
 			<div class="page-hero__content">
 				<p class="page-hero__eyebrow">Features</p>
-				<h1 class="page-hero__title">More tools. Same OpenTubeX.</h1>
+				<h1 class="page-hero__title">What makes OpenTubeX different</h1>
 				<p class="page-hero__lede">
-					Extras that keep playback private, precise, and under your control.
+					Watch across devices, skip interruptions, and make playback work the way you want.
 				</p>
 				<div class="cta-group">
 					<a class="btn btn--primary" href="/downloads/">
@@ -49,11 +64,34 @@ const featureCount = groups.reduce((total, group) => total + group.links.length,
 					</a>
 					<a class="btn btn--ghost" href="#features">
 						<Icon name="lucide:list" aria-hidden="true" />
-						Browse the list
+						Browse all {featureCount} features
 					</a>
 				</div>
 			</div>
 		</header>
+
+		<section class="section section--page" aria-label="Feature highlights">
+			<div class="feature-highlights">
+				{highlights.map((feature) => (
+					<article>
+						<Icon name={`lucide:${feature.icon}`} aria-hidden="true" />
+						<h2><a href={feature.href}>{feature.title}</a></h2>
+						<p>{feature.body}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section class="section section--page" aria-labelledby="feature-request-heading">
+			<h2 class="section__title" id="feature-request-heading">Missing a feature?</h2>
+			<p class="section__intro">Have an idea for something you'd like OpenTubeX to do? Suggest it on GitHub.</p>
+			<div class="cta-group">
+				<a class="btn btn--ghost" href="https://github.com/OpenTubeX/OpenTubeX/issues/new?template=feature_request.yaml" rel="noopener noreferrer">
+					<Icon name="simple-icons:github" aria-hidden="true" />
+					Request a feature
+				</a>
+			</div>
+		</section>
 
 		<section class="section section--features" id="features" aria-labelledby="features-heading">
 			<div class="features-layout">
@@ -61,11 +99,8 @@ const featureCount = groups.reduce((total, group) => total + group.links.length,
 
 				<div class="features-main">
 					<h2 class="section__title reveal" id="features-heading">
-						{featureCount} extras worth knowing
+						Browse all {featureCount} features
 					</h2>
-					<p class="section__intro reveal">
-						Screenshots and details for each feature.
-					</p>
 
 					<div class="feature-search" hidden>
 						<label for="feature-search">Search features</label>

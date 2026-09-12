@@ -133,9 +133,9 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 						A highly customizable, privacy-focused YouTube client that aims to provide the best UX.
 					</p>
 					<div class="cta-group">
-						<a class="btn btn--primary" href="/downloads/">
+						<a class="btn btn--primary" href="/downloads/" data-os-download>
 							<Icon name="lucide:download" aria-hidden="true" />
-							Download now
+							<span data-os-download-label>Download now</span>
 						</a>
 						<a class="btn btn--ghost" href="#pillars">
 							<Icon name="lucide:compass" aria-hidden="true" />
@@ -286,24 +286,6 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 			</div>
 		</section>
 
-		<section class="section section--about" aria-labelledby="ai-disclosure-heading">
-			<div class="ai-disclosure reveal" aria-labelledby="ai-disclosure-heading">
-				<p class="section__eyebrow">How OpenTubeX is built</p>
-				<h2 class="section__title" id="ai-disclosure-heading">AI-assisted development</h2>
-				<div class="ai-disclosure__body">
-					<p>
-						OpenTubeX is developed extensively with AI-assisted tools. This allows our small maintainer team
-						to develop features, fix bugs, and iterate much more rapidly. The source code remains open for
-						anyone to inspect, review, modify, or fork.
-					</p>
-					<p>
-						This refers to how OpenTubeX is developed. It does not mean the app sends your viewing data to
-						an AI service. If AI-assisted development does not align with your preferences, OpenTubeX may
-						simply not be the right project for you.
-					</p>
-				</div>
-			</div>
-		</section>
 
 		<section class="download" id="download" aria-labelledby="download-heading">
 			<div class="download__inner">
@@ -313,9 +295,9 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 						Grab a signed build or install through the package manager you already use.
 					</p>
 					<div class="cta-group reveal">
-						<a class="btn btn--primary" href="/downloads/">
+						<a class="btn btn--primary" href="/downloads/" data-os-download>
 							<Icon name="lucide:download" aria-hidden="true" />
-							Go to downloads
+							<span data-os-download-label>Go to downloads</span>
 						</a>
 						<a class="btn btn--ghost" href="/extra-features/">
 							<Icon name="lucide:sparkles" aria-hidden="true" />
@@ -488,3 +470,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 		})();
 	</script>
 </SignalLayout>
+
+<script>
+	import '../scripts/download-platform';
+</script>

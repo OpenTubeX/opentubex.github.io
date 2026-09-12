@@ -7,7 +7,7 @@ import ThemeSelect from '../components/ThemeSelect.astro';
 import markDark from '../assets/mark-dark.svg';
 import markLight from '../assets/mark-light.svg';
 
-type Active = 'home' | 'downloads' | 'features' | 'changelog' | 'privacy';
+type Active = 'home' | 'downloads' | 'features' | 'changelog' | 'privacy' | 'ai-disclosure';
 
 interface Props {
 	title: string;
@@ -133,7 +133,8 @@ const primaryNav = [
 		<footer class="site-footer">
 			<div class="site-footer__inner">
 				<p>OpenTubeX · Privacy-first YouTube client</p>
-				<nav aria-label="Legal">
+				<nav aria-label="Legal and project information">
+					<a href="/ai-disclosure/" aria-current={active === 'ai-disclosure' ? 'page' : undefined}>AI disclosure</a>
 					<a href="/privacy/" aria-current={active === 'privacy' ? 'page' : undefined}>Privacy policy</a>
 				</nav>
 			</div>

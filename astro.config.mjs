@@ -69,6 +69,7 @@ export default defineConfig({
 			include: {
 				lucide: [
 					'boxes',
+					'captions',
 					'circle-play',
 					'copy',
 					'code-xml',
@@ -85,7 +86,11 @@ export default defineConfig({
 					'moon',
 					'package',
 					'package-check',
+					'panels-top-left',
+					'picture-in-picture-2',
+					'skip-forward',
 					'sliders-horizontal',
+					'smartphone',
 					'sparkles',
 					'terminal',
 					'triangle-alert',

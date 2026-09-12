@@ -3,19 +3,6 @@ title: Extra Features
 description: Extra features available in OpenTubeX.
 ---
 
-## Platforms
-
-### Android app support
-
-Android app preview for phones and tablets, with background playback, offline
-downloads, touch controls and sync with desktop devices.
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-dark-dark-6d36048f51.webp">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-light-light-fcf25f28d8.webp">
-  <img width="162" height="300" style="max-width: min(100%, 162px); max-height: 300px;" alt="Mobile tab flow: page previews, hold actions, drag to reorder, and switch tabs" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-dark-dark-6d36048f51.webp">
-</picture>
-
 ## Playback
 
 ### Per-channel playback settings
@@ -782,3 +769,16 @@ limits, and <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>J</kbd> opens Downloads.
 
 ![Automatic download templates and filters](https://github.com/user-attachments/assets/39df3b81-e95e-456c-887d-b2e634b76276)
 ![Download queue controls](https://github.com/user-attachments/assets/3298735c-ba0d-4a6a-8894-f924b1fffbfe)
+
+## Platforms
+
+### Android app support
+
+Android app preview for phones and tablets, with background playback, offline
+downloads, touch controls and sync with desktop devices.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-dark-dark-6d36048f51.webp">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-light-light-fcf25f28d8.webp">
+  <img width="162" height="300" style="max-width: min(100%, 162px); max-height: 300px;" alt="Mobile tab flow: page previews, hold actions, drag to reorder, and switch tabs" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-dark-dark-6d36048f51.webp">
+</picture>
