@@ -92,6 +92,7 @@ export default defineConfig({
 					'sliders-horizontal',
 					'smartphone',
 					'sparkles',
+					'star',
 					'terminal',
 					'triangle-alert',
 				],

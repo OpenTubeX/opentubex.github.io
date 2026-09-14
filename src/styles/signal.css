@@ -1129,12 +1129,39 @@ a.version-chip:hover .version-chip__dot {
   width: min(1120px, calc(100% - 2.5rem));
   min-height: 5rem;
   margin-inline: auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   color: var(--slate);
   font-size: 0.85rem;
+}
+
+.site-footer__inner > nav {
+  justify-self: end;
+}
+
+.site-footer__support {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  white-space: nowrap;
+}
+
+.site-footer__star {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  white-space: nowrap;
+}
+
+.site-footer__star svg {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
 }
 
 /* Privacy / feature pillars */
@@ -3074,8 +3101,15 @@ a.version-chip:hover .version-chip__dot {
   .site-footer__inner {
     min-height: 0;
     padding-block: 1.25rem;
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    gap: 0.25rem;
+    text-align: center;
+  }
+
+  .site-footer__inner > nav {
+    justify-content: center;
   }
 
   .hero__logo {
