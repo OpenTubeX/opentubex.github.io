@@ -108,6 +108,7 @@ export default defineConfig({
 					'githubactions',
 					'linux',
 					'matrix',
+					'nixos',
 					'opensuse',
 					'snapcraft',
 					'ubuntu',

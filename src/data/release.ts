@@ -14,6 +14,7 @@ export const flatpakSiteUrl = 'https://flatpak.opentubex.org';
 export const flatparkSiteUrl = 'https://flatpark.org/apps/org.opentubex.OpenTubeX/';
 const flatpakReleaseBaseUrl = `https://github.com/OpenTubeX/flatpak/releases/download/${releaseTag}`;
 export const snapSiteUrl = 'https://snapcraft.io/opentubex';
+export const nixRepositoryUrl = 'https://github.com/OpenTubeX/nix';
 const snapReleaseBaseUrl = `https://github.com/OpenTubeX/snap/releases/download/${releaseTag}`;
 export const fdroidSiteUrl = 'https://fdroid.opentubex.org/';
 export const obtainiumUrl =
@@ -358,6 +359,24 @@ export const downloadGroups: DownloadGroup[] = [
 				label: '.snap (arm64)',
 				url: `${snapReleaseBaseUrl}/opentubex_${releaseVersion}_arm64.snap`,
 				icon: 'lucide:package',
+				isExternal: true,
+			},
+		],
+	},
+	{
+		title: 'Nix',
+		icon: 'simple-icons:nixos',
+		links: [
+			{
+				label: 'Install on NixOS, Linux or macOS',
+				url: '/downloads/#install-nix',
+				icon: 'lucide:terminal',
+				preferred: true,
+			},
+			{
+				label: 'Official Nix flake',
+				url: nixRepositoryUrl,
+				icon: 'simple-icons:github',
 				isExternal: true,
 			},
 		],

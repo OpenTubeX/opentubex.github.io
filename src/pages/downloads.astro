@@ -12,6 +12,7 @@ import {
 	flatpakSiteUrl,
 	fdroidNightlyUrl,
 	obtainiumNightlyUrl,
+	nixRepositoryUrl,
 	releaseTag,
 	releaseVersion,
 	rpmRepositoryUrl,
@@ -32,6 +33,7 @@ const packageSections: Record<string, { id: string; label: string }> = {
 	openSUSE: { id: 'opensuse', label: 'RPM instructions' },
 	Flatpak: { id: 'flatpak', label: 'Flatpak instructions' },
 	Snap: { id: 'snap', label: 'Snap instructions' },
+	Nix: { id: 'nix', label: 'Nix instructions' },
 	'Arch Linux': { id: 'aur', label: 'AUR instructions' },
 };
 const platforms = downloadGroups.map((group) => ({
@@ -58,6 +60,7 @@ const nightlyTabs = [
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
 const homebrewCode = 'brew install --cask opentubex/tap/opentubex';
 const homebrewUpdateCode = 'brew update\nbrew upgrade --cask opentubex';
+const nixCode = 'nix profile install github:OpenTubeX/nix';
 const snapCode = 'sudo snap install opentubex --beta';
 const snapMigrationCode = 'sudo snap refresh --amend opentubex --beta';
 const snapNightlyCode = 'sudo snap install opentubex --edge';
@@ -237,6 +240,19 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							OpenTubeX is not notarized by Apple. If macOS blocks the first launch, allow OpenTubeX in
 							System Settings &gt; Privacy &amp; Security.
 						</p>
+					</div>
+				</article>
+
+				<article class="pkg" id="install-nix">
+					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:nixos" /></span>
+					<div>
+						<h3 class="pkg__title">Nix · NixOS, Linux &amp; macOS</h3>
+						<p class="pkg__body">
+							With Nix installed and flakes enabled, install the
+							{' '}<a href={nixRepositoryUrl} rel="noopener noreferrer">official OpenTubeX flake</a>.
+							Supports x86_64 and ARM64 on Linux, including NixOS, and Apple Silicon and Intel Macs.
+						</p>
+						<CmdCode code={nixCode} lang="shell" />
 					</div>
 				</article>
 
