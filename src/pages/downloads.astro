@@ -26,6 +26,7 @@ const platformMeta: Record<string, string> = {
 
 const packageSections: Record<string, { id: string; label: string }> = {
 	Windows: { id: 'winget', label: 'winget instructions' },
+	macOS: { id: 'homebrew', label: 'Homebrew instructions' },
 	'Ubuntu / Debian': { id: 'apt', label: 'APT instructions' },
 	'Fedora / Red Hat': { id: 'rpm', label: 'COPR / RPM instructions' },
 	openSUSE: { id: 'opensuse', label: 'RPM instructions' },
@@ -55,6 +56,8 @@ const nightlyTabs = [
 ];
 
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
+const homebrewCode = 'brew install --cask opentubex/tap/opentubex';
+const homebrewUpdateCode = 'brew update\nbrew upgrade --cask opentubex';
 const snapCode = 'sudo snap install opentubex --beta';
 const snapMigrationCode = 'sudo snap refresh --amend opentubex --beta';
 const snapNightlyCode = 'sudo snap install opentubex --edge';
@@ -215,6 +218,25 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							Install with <a href="https://learn.microsoft.com/windows/package-manager/winget/" rel="noopener noreferrer">winget</a>.
 						</p>
 						<CmdCode code={wingetCode} lang="powershell" />
+					</div>
+				</article>
+
+				<article class="pkg" id="install-homebrew">
+					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:apple" /></span>
+					<div>
+						<h3 class="pkg__title">macOS · Homebrew</h3>
+						<p class="pkg__body">
+							With <a href="https://brew.sh/" rel="noopener noreferrer">Homebrew</a> installed, use the
+							{' '}<a href="https://github.com/OpenTubeX/homebrew-tap" rel="noopener noreferrer">OpenTubeX tap</a>.
+							Supports Apple Silicon and Intel Macs.
+						</p>
+						<CmdCode code={homebrewCode} lang="shell" title="Install" />
+						<p class="pkg__body pkg__body--follow">To update an existing Homebrew installation:</p>
+						<CmdCode code={homebrewUpdateCode} lang="shell" title="Update" />
+						<p class="pkg__body pkg__body--follow">
+							OpenTubeX is not notarized by Apple. If macOS blocks the first launch, allow OpenTubeX in
+							System Settings &gt; Privacy &amp; Security.
+						</p>
 					</div>
 				</article>
 
