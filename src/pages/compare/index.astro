@@ -1,0 +1,21 @@
+---
+import SignalLayout from '../../layouts/SignalLayout.astro';
+import ComparisonTable from '../../components/ComparisonTable.astro';
+import '../../styles/comparisons.css';
+---
+
+<SignalLayout title="Compare YouTube clients | OpenTubeX" description="Compare OpenTubeX, FreeTube, Grayjay, NewPipe, LibreTube, and official YouTube at a glance: mobile apps, playback controls, sync, and privacy." active="compare">
+	<main class="resource-page comparison-page">
+		<header class="page-hero">
+			<div class="page-hero__content">
+				<p class="page-hero__eyebrow">Compare clients</p>
+				<h1 class="page-hero__title">Find the client that fits.</h1>
+				<p class="page-hero__lede">Compare devices, playback controls, sync, and privacy across six YouTube clients.</p>
+			</div>
+		</header>
+		<section class="section section--page" aria-label="Client features">
+			<ComparisonTable />
+			<p class="comparison-note">Maintained by OpenTubeX. Sources checked <time datetime="2026-09-15">15 September 2026</time>. Support can vary by release and platform.</p>
+		</section>
+	</main>
+</SignalLayout>

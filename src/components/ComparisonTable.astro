@@ -1,0 +1,114 @@
+---
+import { Icon } from 'astro-icon/components';
+import { clients, groups, support } from '../data/comparisons';
+---
+
+<div class="comparison-legend" aria-label="Support key">
+	{Object.entries(support).map(([status, { path, text }]) => (
+		<span><span class={`support-icon support-icon--${status}`} aria-hidden="true"><svg viewBox="0 0 24 24"><path d={path} /></svg></span>{text}</span>
+	))}
+</div>
+<p class="comparison-help" id="comparison-help">Select a symbol for details and sources. Scroll sideways on smaller screens.</p>
+<div class="comparison-frame">
+<div class="comparison-scroll" role="region" aria-label="YouTube client comparison" aria-describedby="comparison-help" tabindex="0">
+	<table class="comparison-table">
+		<caption class="sr-only">Documented support in {clients.map((client) => client.name).join(', ')}</caption>
+		<thead>
+			<tr>
+				<th scope="col"><span class="sr-only">Feature</span></th>
+				{clients.map((client) => <th scope="col"><a href={client.url}><img src={client.icon} alt="" width="24" height="24" />{client.name}</a></th>)}
+			</tr>
+		</thead>
+		{groups.map((group, groupIndex) => (
+			<tbody>
+				<tr class="comparison-group"><th colspan={clients.length + 1} scope="rowgroup"><span>{group.name}</span></th></tr>
+				{group.rows.map((row, rowIndex) => (
+					<tr>
+						<th scope="row"><span class="comparison-feature">{row.icon && <Icon name={row.icon} aria-hidden="true" />}{row.image && <img src={row.image} alt="" width="20" height="20" />}<span>{row.name}</span></span></th>
+						{row.cells.map((cell, clientIndex) => {
+							const client = clients[clientIndex];
+							const id = `detail-${groupIndex}-${rowIndex}-${clientIndex}`;
+							return (
+								<td>
+									<button type="button" class="support-button" popovertarget={id} aria-label={`${client.name}: ${row.name}. ${support[cell.status].text}. Show details`}>
+										<span class={`support-icon support-icon--${cell.status}`} aria-hidden="true"><svg viewBox="0 0 24 24"><path d={support[cell.status].path} /></svg></span>
+										{cell.label && <span class="support-label" aria-hidden="true">{cell.label}</span>}
+									</button>
+									<div popover id={id} class="comparison-detail" role="dialog" aria-labelledby={`${id}-heading`}>
+										<div class="comparison-detail__header">
+											<h3 id={`${id}-heading`}>{client.name} · {row.name}</h3>
+											<button type="button" popovertarget={id} popovertargetaction="hide" aria-label="Close details">×</button>
+										</div>
+										<p>{cell.note}</p>
+										<a href={cell.source ?? client.source}>Source</a>
+									</div>
+								</td>
+							);
+						})}
+					</tr>
+				))}
+			</tbody>
+		))}
+	</table>
+</div>
+</div>
+
+<script is:inline>
+	(function () {
+		const details = document.querySelectorAll('.comparison-detail');
+		const scroll = document.querySelector('.comparison-scroll');
+		const frame = scroll.parentElement;
+		const table = scroll.querySelector('table');
+		const header = table.querySelector('thead');
+		const nav = document.getElementById('nav');
+		function positionHeader() {
+			// Horizontal overflow prevents CSS sticky from following the page scroll.
+			const top = nav ? Math.max(0, nav.getBoundingClientRect().bottom) : 0;
+			const bounds = table.getBoundingClientRect();
+			const offset = Math.max(0, Math.min(top - bounds.top, bounds.height - header.offsetHeight));
+			header.style.transform = 'translateY(' + offset + 'px)';
+		}
+		window.addEventListener('scroll', positionHeader, { passive: true });
+		window.addEventListener('resize', positionHeader);
+		const headerObserver = new ResizeObserver(positionHeader);
+		headerObserver.observe(table);
+		if (nav) headerObserver.observe(nav);
+		positionHeader();
+		function updateEdges() {
+			frame.classList.toggle('can-scroll-left', scroll.scrollLeft > 1);
+			frame.classList.toggle('can-scroll-right', scroll.scrollLeft + scroll.clientWidth < scroll.scrollWidth - 1);
+		}
+		scroll.addEventListener('scroll', updateEdges, { passive: true });
+		new ResizeObserver(updateEdges).observe(scroll);
+		updateEdges();
+		function position(panel) {
+			const trigger = document.querySelector('.support-button[popovertarget="' + panel.id + '"]');
+			if (!trigger) return;
+			const rect = trigger.getBoundingClientRect();
+			const width = panel.offsetWidth;
+			const height = panel.offsetHeight;
+			const left = Math.max(12, Math.min(rect.left + rect.width / 2 - width / 2, window.innerWidth - width - 12));
+			const top = rect.bottom + height + 8 < window.innerHeight - 12 ? rect.bottom + 8 : Math.max(12, rect.top - height - 8);
+			panel.style.left = left + 'px';
+			panel.style.top = top + 'px';
+		}
+		details.forEach(function (panel) {
+			panel.addEventListener('beforetoggle', function (event) {
+				// The toggle event can arrive after the first paint, including on reopen.
+				if (event.newState === 'open') panel.style.visibility = 'hidden';
+			});
+			panel.addEventListener('toggle', function () {
+				if (panel.matches(':popover-open')) {
+					position(panel);
+					panel.style.visibility = '';
+				}
+			});
+		});
+		function reposition() {
+			const panel = document.querySelector('.comparison-detail:popover-open');
+			if (panel) position(panel);
+		}
+		window.addEventListener('resize', reposition);
+		document.addEventListener('scroll', reposition, true);
+	})();
+</script>
