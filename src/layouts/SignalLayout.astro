@@ -134,11 +134,22 @@ const primaryNav = [
 			<div class="site-footer__inner">
 				<p>OpenTubeX · Privacy-first YouTube client</p>
 				<p class="site-footer__support">
-					Like OpenTubeX?{' '}
-					<a class="site-footer__star" href="https://github.com/OpenTubeX/OpenTubeX" rel="noopener noreferrer">
-						<Icon name="lucide:star" aria-hidden="true" />
-						Star on GitHub
-					</a>
+					<span>Like OpenTubeX?</span>
+					<span class="site-footer__support-actions">
+						<a class="site-footer__support-link" href="https://github.com/OpenTubeX/OpenTubeX" rel="noopener noreferrer">
+							<Icon name="lucide:star" aria-hidden="true" />
+							Star on GitHub
+						</a>
+						<span class="site-footer__support-separator" aria-hidden="true">·</span>
+						<a
+							class="site-footer__support-link"
+							href="https://alternativeto.net/software/opentubex/about/"
+							rel="noopener noreferrer"
+						>
+							<Icon name="simple-icons:alternativeto" aria-hidden="true" />
+							Like and review on AlternativeTo
+						</a>
+					</span>
 				</p>
 				<nav aria-label="Legal and project information">
 					<a href="/ai-disclosure/" aria-current={active === 'ai-disclosure' ? 'page' : undefined}>AI disclosure</a>

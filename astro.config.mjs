@@ -97,6 +97,7 @@ export default defineConfig({
 					'triangle-alert',
 				],
 				'simple-icons': [
+					'alternativeto',
 					'android',
 					'appimage',
 					'apple',
