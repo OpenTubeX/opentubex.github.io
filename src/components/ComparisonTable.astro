@@ -118,6 +118,13 @@ import { clients, groups, support } from '../data/comparisons';
 		.comparison-scroll > .comparison-table > thead {
 			opacity: 0;
 		}
+
+		/* Keyboard focus must never land on an invisible client link. Let the
+		   semantic header paint above the aria-hidden copy while it owns focus. */
+		.comparison-scroll > .comparison-table > thead:focus-within {
+			opacity: 1;
+			z-index: 7;
+		}
 	}
 </style>
 
