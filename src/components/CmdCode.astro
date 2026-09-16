@@ -21,45 +21,53 @@ const { code, lang = 'shell', title } = Astro.props;
 </div>
 
 <style is:global>
-	/* Use the browser's own horizontal scroller, but pin its geometry so
-	   Chromium does not grow/reposition the thumb on hover. */
+	/* Native scrolling, with a fixed-size Chromium/WebKit track so hovering the
+	   thumb changes only color, never geometry. Firefox keeps the standard thin
+	   themed scrollbar fallback. */
 	.cmd-block .expressive-code pre {
-		scrollbar-width: auto !important;
+		scrollbar-width: thin !important;
 		scrollbar-color: var(--scrollbar-thumb) transparent;
 		-ms-overflow-style: auto !important;
 	}
 
-	.cmd-block .expressive-code pre::-webkit-scrollbar {
-		display: block !important;
-		width: 7px !important;
-		height: 7px !important;
-		background: transparent !important;
-	}
+	@supports selector(::-webkit-scrollbar-thumb) {
+		.cmd-block .expressive-code pre {
+			scrollbar-width: auto !important;
+			scrollbar-color: auto;
+		}
 
-	.cmd-block .expressive-code pre::-webkit-scrollbar-track {
-		background: transparent !important;
-	}
+		.cmd-block .expressive-code pre::-webkit-scrollbar {
+			display: block !important;
+			width: 7px !important;
+			height: 7px !important;
+			background: transparent !important;
+		}
 
-	.cmd-block .expressive-code pre::-webkit-scrollbar-thumb {
-		min-width: 36px;
-		border: 2px solid transparent !important;
-		border-radius: 999px !important;
-		background: var(--scrollbar-thumb) !important;
-		background-clip: padding-box !important;
-		cursor: grab;
-	}
+		.cmd-block .expressive-code pre::-webkit-scrollbar-track {
+			background: transparent !important;
+		}
 
-	.cmd-block .expressive-code pre::-webkit-scrollbar-thumb:hover {
-		border: 2px solid transparent !important;
-		background: var(--scrollbar-thumb-hover) !important;
-		background-clip: padding-box !important;
-		cursor: grab;
-	}
+		.cmd-block .expressive-code pre::-webkit-scrollbar-thumb {
+			min-width: 36px;
+			border: 2px solid transparent !important;
+			border-radius: 999px !important;
+			background: var(--scrollbar-thumb) !important;
+			background-clip: padding-box !important;
+			cursor: grab;
+		}
 
-	.cmd-block .expressive-code pre::-webkit-scrollbar-thumb:active {
-		border: 2px solid transparent !important;
-		background: var(--scrollbar-thumb-hover) !important;
-		background-clip: padding-box !important;
-		cursor: grabbing;
+		.cmd-block .expressive-code pre::-webkit-scrollbar-thumb:hover {
+			border: 2px solid transparent !important;
+			background: var(--scrollbar-thumb-hover) !important;
+			background-clip: padding-box !important;
+			cursor: grab;
+		}
+
+		.cmd-block .expressive-code pre::-webkit-scrollbar-thumb:active {
+			border: 2px solid transparent !important;
+			background: var(--scrollbar-thumb-hover) !important;
+			background-clip: padding-box !important;
+			cursor: grabbing;
+		}
 	}
 </style>
