@@ -29,19 +29,62 @@
 		const table = scroll.querySelector('table');
 		const header = table.querySelector('thead');
 		const nav = document.getElementById('nav');
+		let headerFrame = 0;
+		let stickyTop = 0;
+		let headerHeight = 0;
+		let tableHeight = 0;
+		let nativeSticky = false;
+
 		function positionHeader() {
-			// Horizontal overflow prevents CSS sticky from following the page scroll.
-			const top = nav ? Math.max(0, nav.getBoundingClientRect().bottom) : 0;
-			const bounds = table.getBoundingClientRect();
-			const offset = Math.max(0, Math.min(top - bounds.top, bounds.height - header.offsetHeight));
-			header.style.transform = 'translateY(' + offset + 'px)';
+			headerFrame = 0;
+			if (nativeSticky) return;
+
+			const tableTop = table.getBoundingClientRect().top;
+			const maxOffset = Math.max(0, tableHeight - headerHeight);
+			const rawOffset = Math.max(0, Math.min(stickyTop - tableTop, maxOffset));
+			const scale = window.devicePixelRatio || 1;
+			const offset = Math.round(rawOffset * scale) / scale;
+			header.style.transform = 'translate3d(0, ' + offset + 'px, 0)';
 		}
-		window.addEventListener('scroll', positionHeader, { passive: true });
-		window.addEventListener('resize', positionHeader);
-		const headerObserver = new ResizeObserver(positionHeader);
+
+		function scheduleHeader() {
+			if (!headerFrame) headerFrame = requestAnimationFrame(positionHeader);
+		}
+
+		function measureHeader() {
+			stickyTop = nav ? nav.offsetHeight : 0;
+
+			// When the table fits, remove the horizontal scroll container so the
+			// browser can handle the vertical sticky header without JavaScript.
+			const useNativeSticky = table.scrollWidth <= scroll.clientWidth + 1;
+			if (useNativeSticky !== nativeSticky) {
+				nativeSticky = useNativeSticky;
+				if (nativeSticky) {
+					scroll.style.overflowX = CSS.supports('overflow', 'clip') ? 'clip' : 'visible';
+					header.style.position = 'sticky';
+					header.style.transform = '';
+					header.style.willChange = 'auto';
+				} else {
+					scroll.style.overflowX = '';
+					header.style.position = '';
+					header.style.top = '';
+					header.style.willChange = 'transform';
+				}
+			}
+
+			if (nativeSticky) header.style.top = stickyTop + 'px';
+			headerHeight = header.offsetHeight;
+			tableHeight = table.offsetHeight;
+			scheduleHeader();
+		}
+
+		window.addEventListener('scroll', scheduleHeader, { passive: true });
+		window.addEventListener('resize', measureHeader);
+		const headerObserver = new ResizeObserver(measureHeader);
 		headerObserver.observe(table);
+		headerObserver.observe(scroll);
 		if (nav) headerObserver.observe(nav);
-		positionHeader();
+		measureHeader();
 		function updateEdges() {
 			frame.classList.toggle('can-scroll-left', scroll.scrollLeft > 1);
 			frame.classList.toggle('can-scroll-right', scroll.scrollLeft + scroll.clientWidth < scroll.scrollWidth - 1);
