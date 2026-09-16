@@ -56,6 +56,46 @@ import { clients, groups, support } from '../data/comparisons';
 <script is:inline>
 	(function () {
 		const details = document.querySelectorAll('.comparison-detail');
+		const scroll = document.querySelector('.comparison-scroll');
+		const table = scroll && scroll.querySelector('table');
+		const header = table && table.querySelector('thead');
+		const nav = document.getElementById('nav');
+		let headerFrame = 0;
+		let overflowSticky = false;
+		let stickyTop = 0;
+		let headerHeight = 0;
+		let tableHeight = 0;
+
+		function positionOverflowHeader() {
+			headerFrame = 0;
+			if (!overflowSticky || !table || !header) return;
+			const tableTop = table.getBoundingClientRect().top;
+			const maxOffset = Math.max(0, tableHeight - headerHeight);
+			const rawOffset = Math.max(0, Math.min(stickyTop - tableTop, maxOffset));
+			const scale = window.devicePixelRatio || 1;
+			const offset = Math.round(rawOffset * scale) / scale;
+			header.style.transform = 'translate3d(0, ' + offset + 'px, 0)';
+		}
+
+		function scheduleOverflowHeader() {
+			if (!headerFrame) headerFrame = requestAnimationFrame(positionOverflowHeader);
+		}
+
+		function measureOverflowHeader() {
+			if (!scroll || !table || !header) return;
+			overflowSticky = table.scrollWidth > scroll.clientWidth + 1;
+			stickyTop = nav ? nav.offsetHeight : 0;
+			headerHeight = header.offsetHeight;
+			tableHeight = table.offsetHeight;
+			header.style.willChange = overflowSticky ? 'transform' : '';
+			if (!overflowSticky) header.style.transform = '';
+			scheduleOverflowHeader();
+		}
+
+		window.addEventListener('scroll', scheduleOverflowHeader, { passive: true });
+		window.addEventListener('resize', measureOverflowHeader, { passive: true });
+		measureOverflowHeader();
+
 		function position(panel) {
 			const trigger = document.querySelector('.support-button[popovertarget="' + panel.id + '"]');
 			if (!trigger) return;
