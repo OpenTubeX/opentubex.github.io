@@ -10,91 +10,133 @@ import { clients, groups, support } from '../data/comparisons';
 </div>
 <p class="comparison-help" id="comparison-help">Select a symbol for details and sources. Scroll sideways on smaller screens.</p>
 <div class="comparison-frame">
-<div class="comparison-scroll" role="region" aria-label="YouTube client comparison" aria-describedby="comparison-help" tabindex="0">
-	<table class="comparison-table">
-		<caption class="sr-only">Documented support in {clients.map((client) => client.name).join(', ')}</caption>
-		<thead>
-			<tr>
-				<th scope="col"><span class="sr-only">Feature</span></th>
-				{clients.map((client) => <th scope="col"><a href={client.url}><img src={client.icon} alt="" width="24" height="24" />{client.name}</a></th>)}
-			</tr>
-		</thead>
-		{groups.map((group, groupIndex) => (
-			<tbody>
-				<tr class="comparison-group"><th colspan={clients.length + 1} scope="rowgroup"><span>{group.name}</span></th></tr>
-				{group.rows.map((row, rowIndex) => (
+	<div class="comparison-sticky-clients" aria-hidden="true">
+		<div class="comparison-sticky-clients__scroll">
+			<table class="comparison-table comparison-table--sticky" role="presentation">
+				<thead>
 					<tr>
-						<th scope="row"><span class="comparison-feature">{row.icon && <Icon name={row.icon} aria-hidden="true" />}{row.image && <img src={row.image} alt="" width="20" height="20" />}<span>{row.name}</span></span></th>
-						{row.cells.map((cell, clientIndex) => {
-							const client = clients[clientIndex];
-							const id = `detail-${groupIndex}-${rowIndex}-${clientIndex}`;
-							return (
-								<td>
-									<button type="button" class="support-button" popovertarget={id} aria-label={`${client.name}: ${row.name}. ${support[cell.status].text}. Show details`}>
-										<span class={`support-icon support-icon--${cell.status}`} aria-hidden="true"><svg viewBox="0 0 24 24"><path d={support[cell.status].path} /></svg></span>
-										{cell.label && <span class="support-label" aria-hidden="true">{cell.label}</span>}
-									</button>
-									<div popover id={id} class="comparison-detail" role="dialog" aria-labelledby={`${id}-heading`}>
-										<div class="comparison-detail__header">
-											<h3 id={`${id}-heading`}>{client.name} · {row.name}</h3>
-											<button type="button" popovertarget={id} popovertargetaction="hide" aria-label="Close details">×</button>
-										</div>
-										<p>{cell.note}</p>
-										<a href={cell.source ?? client.source}>Source</a>
-									</div>
-								</td>
-							);
-						})}
+						<th><span class="sr-only">Feature</span></th>
+						{clients.map((client) => (
+							<th>
+								<span class="comparison-client-label">
+									<img src={client.icon} alt="" width="24" height="24" />
+									{client.name}
+								</span>
+							</th>
+						))}
 					</tr>
-				))}
-			</tbody>
-		))}
-	</table>
+				</thead>
+			</table>
+		</div>
+	</div>
+
+	<div class="comparison-scroll" role="region" aria-label="YouTube client comparison" aria-describedby="comparison-help" tabindex="0">
+		<table class="comparison-table">
+			<caption class="sr-only">Documented support in {clients.map((client) => client.name).join(', ')}</caption>
+			<thead>
+				<tr>
+					<th scope="col"><span class="sr-only">Feature</span></th>
+					{clients.map((client) => <th scope="col"><a href={client.url}><img src={client.icon} alt="" width="24" height="24" />{client.name}</a></th>)}
+				</tr>
+			</thead>
+			{groups.map((group, groupIndex) => (
+				<tbody>
+					<tr class="comparison-group"><th colspan={clients.length + 1} scope="rowgroup"><span>{group.name}</span></th></tr>
+					{group.rows.map((row, rowIndex) => (
+						<tr>
+							<th scope="row"><span class="comparison-feature">{row.icon && <Icon name={row.icon} aria-hidden="true" />}{row.image && <img src={row.image} alt="" width="20" height="20" />}<span>{row.name}</span></span></th>
+							{row.cells.map((cell, clientIndex) => {
+								const client = clients[clientIndex];
+								const id = `detail-${groupIndex}-${rowIndex}-${clientIndex}`;
+								return (
+									<td>
+										<button type="button" class="support-button" popovertarget={id} aria-label={`${client.name}: ${row.name}. ${support[cell.status].text}. Show details`}>
+											<span class={`support-icon support-icon--${cell.status}`} aria-hidden="true"><svg viewBox="0 0 24 24"><path d={support[cell.status].path} /></svg></span>
+											{cell.label && <span class="support-label" aria-hidden="true">{cell.label}</span>}
+										</button>
+										<div popover id={id} class="comparison-detail" role="dialog" aria-labelledby={`${id}-heading`}>
+											<div class="comparison-detail__header">
+												<h3 id={`${id}-heading`}>{client.name} · {row.name}</h3>
+												<button type="button" popovertarget={id} popovertargetaction="hide" aria-label="Close details">×</button>
+											</div>
+											<p>{cell.note}</p>
+											<a href={cell.source ?? client.source}>Source</a>
+										</div>
+									</td>
+								);
+							})}
+						</tr>
+					))}
+				</tbody>
+			))}
+		</table>
+	</div>
 </div>
-</div>
+
+<style is:global>
+	/* Narrow layouts need a horizontal scrollport, which prevents the real
+	   thead from sticking to the page viewport. Keep an aria-hidden copy outside
+	   that scrollport so vertical stickiness stays entirely browser-driven. */
+	.comparison-sticky-clients {
+		display: none;
+	}
+
+	@container (max-width: 65.124rem) {
+		.comparison-sticky-clients {
+			display: block;
+			position: sticky;
+			top: var(--nav-h);
+			z-index: 6;
+			height: 0;
+			pointer-events: none;
+		}
+
+		.comparison-sticky-clients__scroll {
+			overflow: hidden;
+			width: 100%;
+		}
+
+		.comparison-table--sticky {
+			margin: 0;
+		}
+
+		.comparison-table--sticky .comparison-client-label {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			min-height: 44px;
+			color: var(--ink);
+		}
+
+		.comparison-table--sticky .comparison-client-label img {
+			flex: none;
+			object-fit: contain;
+		}
+
+		/* Keep the semantic header in the table for column relationships and its
+		   layout height, but paint only the sticky copy in overflow mode. */
+		.comparison-scroll > .comparison-table > thead {
+			opacity: 0;
+		}
+	}
+</style>
 
 <script is:inline>
 	(function () {
 		const details = document.querySelectorAll('.comparison-detail');
 		const scroll = document.querySelector('.comparison-scroll');
-		const table = scroll && scroll.querySelector('table');
-		const header = table && table.querySelector('thead');
-		const nav = document.getElementById('nav');
-		let headerFrame = 0;
-		let overflowSticky = false;
-		let stickyTop = 0;
-		let headerHeight = 0;
-		let tableHeight = 0;
+		const stickyScroll = document.querySelector('.comparison-sticky-clients__scroll');
 
-		function positionOverflowHeader() {
-			headerFrame = 0;
-			if (!overflowSticky || !table || !header) return;
-			const tableTop = table.getBoundingClientRect().top;
-			const maxOffset = Math.max(0, tableHeight - headerHeight);
-			const rawOffset = Math.max(0, Math.min(stickyTop - tableTop, maxOffset));
-			const scale = window.devicePixelRatio || 1;
-			const offset = Math.round(rawOffset * scale) / scale;
-			header.style.transform = 'translate3d(0, ' + offset + 'px, 0)';
+		// Horizontal scrolling is the only state that needs synchronizing. Vertical
+		// position is native CSS sticky, avoiding compositor-vs-JS scroll jitter on
+		// mobile Chrome.
+		if (scroll && stickyScroll) {
+			const syncHeaderX = function () {
+				stickyScroll.scrollLeft = scroll.scrollLeft;
+			};
+			scroll.addEventListener('scroll', syncHeaderX, { passive: true });
+			syncHeaderX();
 		}
-
-		function scheduleOverflowHeader() {
-			if (!headerFrame) headerFrame = requestAnimationFrame(positionOverflowHeader);
-		}
-
-		function measureOverflowHeader() {
-			if (!scroll || !table || !header) return;
-			overflowSticky = table.scrollWidth > scroll.clientWidth + 1;
-			stickyTop = nav ? nav.offsetHeight : 0;
-			headerHeight = header.offsetHeight;
-			tableHeight = table.offsetHeight;
-			header.style.willChange = overflowSticky ? 'transform' : '';
-			if (!overflowSticky) header.style.transform = '';
-			scheduleOverflowHeader();
-		}
-
-		window.addEventListener('scroll', scheduleOverflowHeader, { passive: true });
-		window.addEventListener('resize', measureOverflowHeader, { passive: true });
-		measureOverflowHeader();
 
 		function position(panel) {
 			const trigger = document.querySelector('.support-button[popovertarget="' + panel.id + '"]');
