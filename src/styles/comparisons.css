@@ -33,21 +33,29 @@
 .comparison-help, .comparison-note { color: var(--slate); font-size: 0.9375rem; line-height: 1.65; }
 .comparison-help { margin-block: 1rem; }
 .comparison-note { max-width: 90ch; margin-top: 1.5rem; }
-.comparison-frame { position: relative; }
+.comparison-frame {
+  position: relative;
+  container-type: inline-size;
+  overflow: clip;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
 .comparison-frame::before, .comparison-frame::after {
   content: '';
   position: absolute;
-  top: 1px;
-  bottom: 1px;
+  top: 0;
+  bottom: 0;
   width: 24px;
   z-index: 2;
   pointer-events: none;
-  opacity: 0;
+  opacity: 1;
 }
-.comparison-frame::before { left: calc(var(--comparison-label-width) + 1px); background: linear-gradient(to right, var(--white), transparent); }
-.comparison-frame::after { right: 1px; background: linear-gradient(to left, var(--surface), transparent); border-radius: 0 1rem 1rem 0; }
-.comparison-frame.can-scroll-left::before, .comparison-frame.can-scroll-right::after { opacity: 1; }
-.comparison-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 1rem; }
+.comparison-frame::before { left: var(--comparison-label-width); background: linear-gradient(to right, var(--white), transparent); }
+.comparison-frame::after { right: 0; background: linear-gradient(to left, var(--surface), transparent); }
+.comparison-scroll {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
 .comparison-table { width: 100%; min-width: 1040px; border-collapse: separate; border-spacing: 0; table-layout: fixed; color: var(--ink); }
 .comparison-table th, .comparison-table td { border-bottom: 1px solid var(--line); padding: 0.75rem 0.5rem; }
 .comparison-table tr > :first-child:not([colspan]) { width: var(--comparison-label-width); text-align: left; padding-inline: 1.25rem; }
@@ -88,6 +96,17 @@
 .comparison-detail__header button:hover { background: var(--mist-2); }
 .comparison-detail p { margin-top: 0.5rem; }
 .comparison-detail > a { display: inline-flex; align-items: center; min-height: 44px; color: var(--teal-deep); text-underline-offset: 0.2em; }
+
+/* When the table fits in its container, there is no need for an inner scrollport.
+   Removing it lets the browser handle vertical stickiness natively. The outer
+   frame owns the rounded clipping, so the header is rounded only at rest and
+   naturally square once it sticks below the navigation. */
+@container (min-width: 65.125rem) {
+  .comparison-frame::before, .comparison-frame::after { display: none; }
+  .comparison-scroll { overflow: visible; }
+  .comparison-table thead { position: sticky; top: var(--nav-h); }
+}
+
 @media (max-width: 40rem) {
   .comparison-page { --comparison-label-width: 150px; }
   .comparison-table tr > :first-child:not([colspan]) { padding-inline: 0.75rem; }
