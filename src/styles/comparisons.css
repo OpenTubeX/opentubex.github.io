@@ -33,7 +33,7 @@
 .comparison-help, .comparison-note { color: var(--slate); font-size: 0.9375rem; line-height: 1.65; }
 .comparison-help { margin-block: 1rem; }
 .comparison-note { max-width: 90ch; margin-top: 1.5rem; }
-.comparison-frame { position: relative; }
+.comparison-frame { position: relative; container-type: inline-size; }
 .comparison-frame::before, .comparison-frame::after {
   content: '';
   position: absolute;
@@ -42,17 +42,23 @@
   width: 24px;
   z-index: 2;
   pointer-events: none;
-  opacity: 0;
+  opacity: 1;
 }
 .comparison-frame::before { left: calc(var(--comparison-label-width) + 1px); background: linear-gradient(to right, var(--white), transparent); }
 .comparison-frame::after { right: 1px; background: linear-gradient(to left, var(--surface), transparent); border-radius: 0 1rem 1rem 0; }
-.comparison-frame.can-scroll-left::before, .comparison-frame.can-scroll-right::after { opacity: 1; }
-.comparison-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 1rem; }
+.comparison-scroll {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
 .comparison-table { width: 100%; min-width: 1040px; border-collapse: separate; border-spacing: 0; table-layout: fixed; color: var(--ink); }
 .comparison-table th, .comparison-table td { border-bottom: 1px solid var(--line); padding: 0.75rem 0.5rem; }
 .comparison-table tr > :first-child:not([colspan]) { width: var(--comparison-label-width); text-align: left; padding-inline: 1.25rem; }
 .comparison-table thead { position: relative; z-index: 4; }
 .comparison-table thead th { background: var(--white); font-family: var(--font-display); }
+.comparison-table thead th:first-child { border-start-start-radius: calc(1rem - 1px); }
+.comparison-table thead th:last-child { border-start-end-radius: calc(1rem - 1px); }
 .comparison-table thead a { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; color: var(--ink); text-underline-offset: 0.25em; }
 .comparison-table thead img { flex: none; object-fit: contain; }
 .comparison-table tbody th[scope='row'] { font-size: 0.9375rem; font-weight: 500; line-height: 1.45; }
@@ -62,6 +68,8 @@
 .comparison-table .comparison-group th { padding: 0; }
 .comparison-group th > span { display: inline-block; position: sticky; left: 0; z-index: 3; padding: 0.75rem 1.25rem; }
 .comparison-table tbody:last-child tr:last-child > * { border-bottom: 0; }
+.comparison-table tbody:last-child tr:last-child > :first-child { border-end-start-radius: calc(1rem - 1px); }
+.comparison-table tbody:last-child tr:last-child > :last-child { border-end-end-radius: calc(1rem - 1px); }
 .support-button { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.35rem; min-width: 44px; min-height: 44px; max-width: 100%; padding: 0.25rem; border: 0; border-radius: 0.5rem; background: transparent; color: var(--ink); font: inherit; cursor: pointer; }
 .support-button:hover { background: var(--mist-2); }
 .support-label { font-size: 0.75rem; line-height: 1.3; color: var(--slate); }
@@ -88,6 +96,15 @@
 .comparison-detail__header button:hover { background: var(--mist-2); }
 .comparison-detail p { margin-top: 0.5rem; }
 .comparison-detail > a { display: inline-flex; align-items: center; min-height: 44px; color: var(--teal-deep); text-underline-offset: 0.2em; }
+
+/* When the table fits in its container, there is no need for an inner scrollport.
+   Removing it lets the browser handle vertical stickiness natively. */
+@container (min-width: 65.125rem) {
+  .comparison-frame::before, .comparison-frame::after { display: none; }
+  .comparison-scroll { overflow: visible; }
+  .comparison-table thead { position: sticky; top: var(--nav-h); }
+}
+
 @media (max-width: 40rem) {
   .comparison-page { --comparison-label-width: 150px; }
   .comparison-table tr > :first-child:not([colspan]) { padding-inline: 0.75rem; }
