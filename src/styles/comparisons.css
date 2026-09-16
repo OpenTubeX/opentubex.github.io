@@ -103,6 +103,8 @@
   .comparison-frame::before, .comparison-frame::after { display: none; }
   .comparison-scroll { overflow: visible; }
   .comparison-table thead { position: sticky; top: var(--nav-h); }
+  .comparison-table thead th:first-child { border-start-start-radius: 0; }
+  .comparison-table thead th:last-child { border-start-end-radius: 0; }
 }
 
 @media (max-width: 40rem) {
