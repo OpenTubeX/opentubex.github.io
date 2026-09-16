@@ -20,6 +20,22 @@ const { code, lang = 'shell', title } = Astro.props;
 	}
 </div>
 
+<style is:global>
+	/* The visual thumb is intentionally thin, but the whole track is the drag
+	   target. Make that larger hit area advertise and behave like the thumb. */
+	.cmd-block .cmd-hscroll {
+		cursor: grab;
+	}
+
+	.cmd-block .cmd-hscroll.is-dragging {
+		cursor: grabbing;
+	}
+
+	.cmd-block .cmd-hscroll .cmd-hscroll__thumb {
+		cursor: inherit;
+	}
+</style>
+
 <script>
 	function syncThumb(pre: HTMLElement, thumb: HTMLElement, track: HTMLElement) {
 		const max = pre.scrollWidth - pre.clientWidth;
@@ -95,16 +111,30 @@ const { code, lang = 'shell', title } = Astro.props;
 			pre.scrollLeft = startScroll + (delta / maxThumb) * max;
 		};
 
-		thumb.addEventListener('pointerdown', (event) => {
+		track.addEventListener('pointerdown', (event) => {
+			const max = pre.scrollWidth - pre.clientWidth;
+			if (max <= 0) return;
+
+			/* Clicking the wider invisible track should grab the scrollbar too. Move
+			   the thumb under the pointer first, then continue as a normal drag. */
+			if (event.target === track) {
+				const rect = track.getBoundingClientRect();
+				const thumbW = thumb.offsetWidth;
+				const maxThumb = Math.max(1, track.clientWidth - thumbW);
+				const x = event.clientX - rect.left - thumbW / 2;
+				pre.scrollLeft = (Math.min(maxThumb, Math.max(0, x)) / maxThumb) * max;
+				refresh();
+			}
+
 			dragging = true;
 			startX = event.clientX;
 			startScroll = pre.scrollLeft;
-			thumb.setPointerCapture(event.pointerId);
+			track.setPointerCapture(event.pointerId);
 			track.classList.add('is-dragging');
 			event.preventDefault();
 		});
 
-		thumb.addEventListener('pointermove', (event) => {
+		track.addEventListener('pointermove', (event) => {
 			if (!dragging) return;
 			onMove(event.clientX);
 		});
@@ -114,26 +144,14 @@ const { code, lang = 'shell', title } = Astro.props;
 			dragging = false;
 			track.classList.remove('is-dragging');
 			try {
-				thumb.releasePointerCapture(event.pointerId);
+				track.releasePointerCapture(event.pointerId);
 			} catch {
 				/* already released */
 			}
 		};
 
-		thumb.addEventListener('pointerup', endDrag);
-		thumb.addEventListener('pointercancel', endDrag);
-
-		track.addEventListener('pointerdown', (event) => {
-			if (event.target !== track) return;
-			const max = pre.scrollWidth - pre.clientWidth;
-			if (max <= 0) return;
-			const rect = track.getBoundingClientRect();
-			const thumbW = thumb.offsetWidth;
-			const maxThumb = Math.max(1, track.clientWidth - thumbW);
-			const x = event.clientX - rect.left - thumbW / 2;
-			pre.scrollLeft = (Math.min(maxThumb, Math.max(0, x)) / maxThumb) * max;
-			refresh();
-		});
+		track.addEventListener('pointerup', endDrag);
+		track.addEventListener('pointercancel', endDrag);
 
 		thumb.addEventListener('keydown', (event) => {
 			const step = Math.max(48, Math.round(pre.clientWidth * 0.25));
