@@ -23,7 +23,7 @@
 .docs-topic h2 { margin: 0 0 0.65rem; font-size: 1.2rem; color: var(--ink); }
 .docs-topic p { color: var(--slate); }
 .docs-topic span { margin-top: auto; text-decoration: underline; text-underline-offset: 0.2em; }
-.docs-next { border-top: 1px solid var(--line); padding-top: 1.5rem; margin-top: 2.5rem !important; }
+.docs-content .docs-next { border-top: 1px solid var(--line); padding-top: 1.5rem; margin-top: 2.5rem; }
 .docs-skip { position: fixed; top: -10rem; left: 1rem; z-index: 200; padding: 0.75rem 1rem; background: var(--white); color: var(--ink); }
 .docs-skip:focus { top: 1rem; }
 .docs-layout a:focus-visible { outline: 2px solid var(--teal-deep); outline-offset: 3px; }

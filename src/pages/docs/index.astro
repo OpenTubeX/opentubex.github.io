@@ -7,7 +7,7 @@ const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.d
   <p>New to OpenTubeX? Start with <a href="/docs/installing/">installation</a>, then <a href="/docs/getting-started/">subscribe to your first channel</a>. You can browse and build a local library without a YouTube account.</p>
   <div class="docs-topics">
     {guides.map((guide) => (
-      <a class="docs-topic" href={`/docs/${guide.id}/`}>
+      <a class="docs-topic" href={`/docs/${guide.id}/`} aria-label={guide.data.title}>
         <h2>{guide.data.title}</h2>
         <p>{guide.data.description}</p>
         <span aria-hidden="true">Read guide →</span>
