@@ -750,12 +750,11 @@ settings.
 ### Encrypted sync
 
 Synchronize subscriptions, playlists, history, saved channel settings,
-profiles, tabs, and settings with end-to-end encryption. To sync watch
-statistics, open **Settings → Sync** and enable **Sync statistics**. This requires
-a server that supports encrypted statistics sync. LibreTube Sync servers are
-supported too. Pair another device by scanning a QR code or
-entering a text code without sharing account credentials or the privacy
-passphrase.
+profiles, tabs, and settings with end-to-end encryption. **Sync statistics** is
+enabled by default in **Settings → Sync**; turn it off to keep watch statistics
+on this device. LibreTube Sync servers are supported too. Pair another device
+by scanning a QR code or entering a text code without sharing account
+credentials or the privacy passphrase.
 
 ![Encrypted synchronization settings](https://github.com/user-attachments/assets/15144ab2-0111-4e38-b011-c7a57417fcd0)
 
