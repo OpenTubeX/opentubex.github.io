@@ -2,6 +2,10 @@ export {};
 
 document.querySelectorAll<HTMLSelectElement>('[data-jump-select]').forEach((select) => {
 	select.addEventListener('change', () => {
+		if (select.value.startsWith('/') && !select.value.startsWith('//')) {
+			window.location.assign(select.value);
+			return;
+		}
 		if (!select.value.startsWith('#')) return;
 		const target = document.getElementById(decodeURIComponent(select.value.slice(1)));
 		if (!target) return;

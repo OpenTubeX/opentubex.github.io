@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import PageIndex, { type IndexGroup } from '../components/PageIndex.astro';
+import SignalLayout from './SignalLayout.astro';
+import '../styles/docs.css';
+
+interface Props {
+  title: string;
+  description: string;
+  id?: string;
+  headings?: MarkdownHeading[];
+}
+const { title, description, id, headings = [] } = Astro.props;
+const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
+const index = guides.findIndex((guide) => guide.id === id);
+const next = index >= 0 ? guides[index + 1] : undefined;
+const topics = [{ href: '/docs/', label: 'Documentation home', current: !id }, ...guides.map((guide) => ({
+  href: `/docs/${guide.id}/`, label: guide.data.title, current: id === guide.id,
+}))];
+const groups: IndexGroup[] = [{ label: 'Guides', links: topics }];
+const sections = headings.filter((heading) => heading.depth === 2);
+if (sections.length) groups.push({ label: 'On this page', links: sections.map((heading) => ({ label: heading.text, href: `#${heading.slug}` })) });
+---
+
+<SignalLayout title={`${title} – OpenTubeX`} description={description} active="docs">
+  <a class="docs-skip" href="#docs-content">Skip to documentation</a>
+  <main class="resource-page">
+    <header class="page-hero">
+      <div class="page-hero__content">
+        <p class="page-hero__eyebrow">User documentation</p>
+        <h1 class="page-hero__title">{title}</h1>
+        <p class="page-hero__lede">{description}</p>
+      </div>
+    </header>
+    <div class="docs-layout">
+      <PageIndex label="Documentation" groups={groups} />
+      <article class="docs-content" id="docs-content" data-image-gallery tabindex="-1">
+        <slot />
+        {next && <p class="docs-next">Next: <a href={`/docs/${next.id}/`}>{next.data.title} →</a></p>}
+      </article>
+    </div>
+  </main>
+</SignalLayout>
