@@ -102,6 +102,9 @@ import { Icon } from 'astro-icon/components';
 			if (event.target === dialog) dialog.close();
 		});
 		input.addEventListener('input', () => { void search(); });
+		results.addEventListener('click', (event) => {
+			if (event.target instanceof Element && event.target.closest('a')) dialog.close();
+		});
 		input.addEventListener('keydown', (event) => {
 			if (event.key === 'ArrowDown') {
 				const first = results.querySelector('a');
