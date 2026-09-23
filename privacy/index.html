@@ -43,11 +43,12 @@
 <p>OpenTubeX reduces the browser-based tracking surface by providing a local interface instead of loading the standard YouTube website and its page JavaScript. It does not provide anonymity: the services that answer a request can observe it, and network intermediaries can observe connection metadata.</p>
 <p>This section describes the data exposed by OpenTubeX itself. It assumes that your device is trusted, HTTPS is not compromised, and any enhanced-privacy sync passphrase remains secret. It does not protect against malware on your device, traffic-correlation attacks, or information you deliberately share through submissions, exports, external players, or custom download arguments.</p>
 <h3 id="data-stored-by-opentubex">Data stored by OpenTubeX</h3>
-<p>By default, subscriptions, playlists, settings including saved channel settings, history, profiles, and open tabs remain on your device. Enabling synchronization sends copies of the selected categories to the configured sync server:</p>
+<p>By default, subscriptions, playlists, settings including saved channel settings, history, watch statistics, profiles, and open tabs remain on your device. Enabling synchronization sends copies of the selected categories to the configured sync server:</p>
 <ul>
 <li>Enhanced-privacy sync encrypts the selected data on your device before upload. The server still receives account and traffic metadata.</li>
 <li>A legacy sync server does not support this encryption. Synced data is visible to that server’s operator.</li>
 </ul>
+<p>With enhanced-privacy sync, watch statistics are included by default; turn off <strong>Sync statistics</strong> to exclude them.</p>
 <p>The public OpenTubeX sync service has a <a href="https://github.com/OpenTubeX/sync-server/blob/main/PRIVACY.md">separate privacy policy</a>. Other sync-server operators are responsible for their own notices and practices.</p>
 <h3 id="network-exposure">Network exposure</h3>
 <p>Rows for optional services apply only when the feature is enabled. An IP address in the table means your direct address unless the request is routed through a correctly configured proxy, VPN, or Tor.</p>
