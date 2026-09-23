@@ -15,7 +15,7 @@ import { Icon } from 'astro-icon/components';
 	</div>
 	<p class="docs-search__status" role="status" aria-live="polite">Type to search guides and sections.</p>
 	<ul class="docs-search__results" aria-label="Search results"></ul>
-	<p class="docs-search__hint">Press <kbd>Ctrl</kbd> + <kbd>K</kbd> to search · <kbd>Esc</kbd> to close</p>
+	<p class="docs-search__hint">Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>K</kbd> to search · <kbd>Esc</kbd> to close</p>
 </dialog>
 
 <script>
@@ -74,6 +74,7 @@ import { Icon } from 'astro-icon/components';
 					const start = Math.max(0, (textMatch?.indices[0]?.[0] ?? 0) - 55);
 					const snippet = item.text.slice(start, start + 150).trim();
 					link.href = item.href;
+					link.setAttribute('aria-label', item.href.includes('#') ? `${item.pageTitle}: ${item.title}` : item.title);
 					page.className = 'docs-search__page';
 					page.textContent = item.pageTitle;
 					title.textContent = item.title;
