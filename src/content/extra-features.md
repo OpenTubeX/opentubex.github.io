@@ -412,8 +412,8 @@ settings from one command palette.
 Place browser-style tabs at the top, bottom, left, or right of the window. Pin,
 color, preview, duplicate, unload, group, select, reorder, and move tabs between
 windows. A searchable organizer provides bulk actions and recently closed tab
-history. Internal links support browser-style middle-click, Ctrl/Cmd-click, and
-Shift-click behavior.
+history. Choose an icon for a tab group in the organizer. Internal links support
+browser-style middle-click, Ctrl/Cmd-click, and Shift-click behavior.
 
 ![Experimental tab support](https://github.com/user-attachments/assets/2ddbedea-5997-4a3c-af9e-6a36d3a21d04)
 ![Horizontal and vertical tab layouts](https://github.com/user-attachments/assets/486f0119-ca74-40ec-835a-dd6f53cf1f56)
@@ -423,6 +423,12 @@ Shift-click behavior.
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T130522Z-opentubex-tab-organizer-dark-dark-e96041e52b.png">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T130522Z-opentubex-tab-organizer-light-light-9e74e5c5cc.png">
   <img alt="Searchable tab organizer" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T130522Z-opentubex-tab-organizer-dark-dark-e96041e52b.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260923T085243Z-tab-group-picker-wide-dark-dark-f854ca9084.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260923T085243Z-tab-group-picker-wide-light-light-349c616b66.png">
+  <img alt="Tab group icon picker" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260923T085243Z-tab-group-picker-wide-dark-dark-f854ca9084.png">
 </picture>
 
 ### Playback speed toggle shortcut
