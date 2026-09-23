@@ -205,23 +205,6 @@ body.signal-body {
   outline-offset: 4px;
 }
 
-/* Bridge Starlight tokens used by Expressive Code (must be on :root) */
-:root,
-[data-theme="light"],
-[data-theme="dark"] {
-  --sl-color-text: var(--ink);
-  --sl-color-black: var(--mist-2);
-  --sl-color-gray-5: color-mix(in srgb, var(--ink) 18%, transparent);
-  --sl-color-gray-6: var(--surface);
-  --sl-color-gray-7: var(--white);
-  --sl-color-accent: var(--teal);
-  --sl-color-accent-high: var(--teal);
-  --__sl-font: var(--font-body);
-  --__sl-font-mono: var(--font-mono);
-  --sl-text-code: 0.85rem;
-  --sl-line-height: 1.55;
-}
-
 /* ——— Atmospheric field ——— */
 .page-bg {
   position: fixed;

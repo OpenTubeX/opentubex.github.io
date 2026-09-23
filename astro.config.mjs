@@ -2,7 +2,8 @@
 import { fileURLToPath } from 'node:url';
 import { unified } from '@astrojs/markdown-remark';
 import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
+import sitemap from '@astrojs/sitemap';
+import expressiveCode from 'astro-expressive-code';
 import icon from 'astro-icon';
 import rehypeFeatureSections from './src/plugins/rehype-feature-sections.mjs';
 import remarkBundleGitHubImages, {
@@ -65,6 +66,8 @@ export default defineConfig({
 	},
 	integrations: [
 		cachedImages(),
+		expressiveCode(),
+		sitemap(),
 		icon({
 			include: {
 				lucide: [
@@ -124,47 +127,6 @@ export default defineConfig({
 					'windows',
 				],
 			},
-		}),
-		starlight({
-			title: 'OpenTubeX',
-			disable404Route: true,
-			pagefind: false,
-			customCss: ['./src/styles/theme.css'],
-			// Night Owl Light collapses shell tokens; vitesse-light keeps command/flag/path contrast.
-			expressiveCode: {
-				themes: ['starlight-dark', 'vitesse-light'],
-			},
-			components: {
-				Hero: './src/components/Hero.astro',
-				PageFrame: './src/components/PageFrame.astro',
-				SocialIcons: './src/components/SocialIcons.astro',
-			},
-			logo: {
-				light: './src/assets/logo-light.svg',
-				dark: './src/assets/logo-dark.svg',
-				alt: 'OpenTubeX',
-				replacesTitle: true,
-			},
-			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/OpenTubeX/OpenTubeX' },
-				{
-					icon: 'translate',
-					label: 'Weblate',
-					href: 'https://weblate.opentubex.org/engage/opentubex/',
-				},
-				{
-					// Starlight has no Fluxer icon; remapped to simple-icons:fluxer in SocialIcons.
-					icon: 'discord',
-					label: 'Fluxer',
-					href: 'https://fluxer.opentubex.org',
-				},
-				{
-					icon: 'matrix',
-					label: 'Matrix',
-					href: 'https://matrix.opentubex.org',
-				},
-			],
-			sidebar: [],
 		}),
 	],
 });
