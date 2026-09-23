@@ -19,7 +19,7 @@ import { Icon } from 'astro-icon/components';
 </dialog>
 
 <script>
-	import Fuse from 'fuse.js';
+	import Fuse, { type RangeTuple } from 'fuse.js';
 
 	type SearchEntry = { pageTitle: string; title: string; description: string; href: string; text: string };
 	const trigger = document.querySelector<HTMLButtonElement>('.docs-search-trigger');
@@ -71,7 +71,11 @@ import { Icon } from 'astro-icon/components';
 					const title = document.createElement('strong');
 					const excerpt = document.createElement('span');
 					const textMatch = fieldMatches?.find((match) => match.key === 'text');
-					const start = Math.max(0, (textMatch?.indices[0]?.[0] ?? 0) - 55);
+					const best = textMatch?.indices.reduce<RangeTuple | undefined>(
+						(longest, range) => !longest || range[1] - range[0] > longest[1] - longest[0] ? range : longest,
+						undefined,
+					);
+					const start = Math.max(0, (best?.[0] ?? 0) - 55);
 					const snippet = item.text.slice(start, start + 150).trim();
 					link.href = item.href;
 					link.setAttribute('aria-label', item.href.includes('#') ? `${item.pageTitle}: ${item.title}` : item.title);
@@ -103,7 +107,21 @@ import { Icon } from 'astro-icon/components';
 		});
 		input.addEventListener('input', () => { void search(); });
 		results.addEventListener('click', (event) => {
-			if (event.target instanceof Element && event.target.closest('a')) dialog.close();
+			if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+			const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a') : null;
+			if (!link) return;
+
+			const samePage = link.origin === location.origin
+				&& link.pathname.replace(/\/$/, '') === location.pathname.replace(/\/$/, '')
+				&& link.search === location.search;
+			const target = samePage && link.hash ? document.getElementById(decodeURIComponent(link.hash.slice(1))) : null;
+			if (target) event.preventDefault();
+			dialog.close();
+			if (target) {
+				location.hash = link.hash;
+				target.tabIndex = -1;
+				target.focus({ preventScroll: true });
+			}
 		});
 		input.addEventListener('keydown', (event) => {
 			if (event.key === 'ArrowDown') {
