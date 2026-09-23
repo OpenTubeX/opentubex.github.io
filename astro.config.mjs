@@ -96,6 +96,7 @@ export default defineConfig({
 					'panels-top-left',
 					'picture-in-picture-2',
 					'refresh-cw',
+					'search',
 					'rss',
 					'skip-forward',
 					'sliders-horizontal',
@@ -104,6 +105,7 @@ export default defineConfig({
 					'star',
 					'terminal',
 					'triangle-alert',
+					'x',
 				],
 				'simple-icons': [
 					'alternativeto',

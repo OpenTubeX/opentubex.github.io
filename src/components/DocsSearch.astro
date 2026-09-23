@@ -1,0 +1,126 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<button class="docs-search-trigger" type="button" aria-label="Search documentation" aria-keyshortcuts="Control+K Meta+K" hidden>
+	<Icon name="lucide:search" aria-hidden="true" />
+</button>
+
+<dialog class="docs-search" aria-label="Search documentation">
+	<div class="docs-search__top">
+		<Icon name="lucide:search" aria-hidden="true" />
+		<label class="sr-only" for="docs-search-input">Search documentation</label>
+		<input id="docs-search-input" type="search" placeholder="Search documentation…" autocomplete="off" spellcheck="false" />
+		<button class="docs-search__close" type="button" aria-label="Close search"><Icon name="lucide:x" aria-hidden="true" /></button>
+	</div>
+	<p class="docs-search__status" role="status" aria-live="polite">Type to search guides and sections.</p>
+	<ul class="docs-search__results" aria-label="Search results"></ul>
+	<p class="docs-search__hint">Press <kbd>Ctrl</kbd> + <kbd>K</kbd> to search · <kbd>Esc</kbd> to close</p>
+</dialog>
+
+<script>
+	import Fuse from 'fuse.js';
+
+	type SearchEntry = { pageTitle: string; title: string; description: string; href: string; text: string };
+	const trigger = document.querySelector<HTMLButtonElement>('.docs-search-trigger');
+	const dialog = document.querySelector<HTMLDialogElement>('.docs-search');
+	const input = document.querySelector<HTMLInputElement>('#docs-search-input');
+	const close = dialog?.querySelector<HTMLButtonElement>('.docs-search__close');
+	const status = dialog?.querySelector<HTMLElement>('.docs-search__status');
+	const results = dialog?.querySelector<HTMLUListElement>('.docs-search__results');
+
+	if (trigger && dialog && input && close && status && results) {
+		let index: Promise<Fuse<SearchEntry>> | undefined;
+		const load = () => index ??= fetch('/docs/search-index.json')
+			.then((response) => {
+				if (!response.ok) throw new Error(`Search index unavailable (${response.status})`);
+				return response.json() as Promise<SearchEntry[]>;
+			})
+			.then((entries) => new Fuse(entries, {
+				keys: [
+					{ name: 'title', weight: 0.45 },
+					{ name: 'pageTitle', weight: 0.3 },
+					{ name: 'text', weight: 0.2 },
+					{ name: 'description', weight: 0.05 },
+				],
+				threshold: 0.4,
+				ignoreLocation: true,
+				includeMatches: true,
+				ignoreFieldNorm: true,
+			}));
+
+		let request = 0;
+		async function search() {
+			if (!input || !status || !results) return;
+			const query = input.value.trim();
+			const current = ++request;
+			results.replaceChildren();
+			if (!query) {
+				status.textContent = 'Type to search guides and sections.';
+				return;
+			}
+			status.textContent = 'Searching…';
+			try {
+				const matches = (await load()).search(query, { limit: 8 });
+				if (current !== request) return;
+				status.textContent = matches.length ? `${matches.length} result${matches.length === 1 ? '' : 's'}` : 'No matching documentation found.';
+				for (const { item, matches: fieldMatches } of matches) {
+					const row = document.createElement('li');
+					const link = document.createElement('a');
+					const page = document.createElement('span');
+					const title = document.createElement('strong');
+					const excerpt = document.createElement('span');
+					const textMatch = fieldMatches?.find((match) => match.key === 'text');
+					const start = Math.max(0, (textMatch?.indices[0]?.[0] ?? 0) - 55);
+					const snippet = item.text.slice(start, start + 150).trim();
+					link.href = item.href;
+					page.className = 'docs-search__page';
+					page.textContent = item.pageTitle;
+					title.textContent = item.title;
+					excerpt.className = 'docs-search__excerpt';
+					excerpt.textContent = `${start ? '…' : ''}${snippet}${item.text.length > start + 150 ? '…' : ''}` || item.description;
+					link.append(page, title, excerpt);
+					row.append(link);
+					results.append(row);
+				}
+			} catch {
+				if (current !== request) return;
+				index = undefined;
+				status.textContent = 'Search is unavailable. Please try again.';
+			}
+		}
+
+		trigger.hidden = false;
+		trigger.addEventListener('click', () => {
+			dialog.showModal();
+			input.focus();
+			void load().catch(() => { index = undefined; });
+		});
+		close.addEventListener('click', () => dialog.close());
+		dialog.addEventListener('click', (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+		input.addEventListener('input', () => { void search(); });
+		input.addEventListener('keydown', (event) => {
+			if (event.key === 'ArrowDown') {
+				const first = results.querySelector('a');
+				if (first) { event.preventDefault(); first.focus(); }
+			}
+		});
+		results.addEventListener('keydown', (event) => {
+			if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+			const links = [...results.querySelectorAll('a')];
+			const position = links.indexOf(document.activeElement as HTMLAnchorElement);
+			const next = links[position + (event.key === 'ArrowDown' ? 1 : -1)];
+			if (next) { event.preventDefault(); next.focus(); }
+			else if (event.key === 'ArrowUp') { event.preventDefault(); input.focus(); }
+		});
+		document.addEventListener('keydown', (event) => {
+			if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+				event.preventDefault();
+				if (!dialog.open) trigger.click();
+				else input.focus();
+			}
+		});
+	}
+</script>
