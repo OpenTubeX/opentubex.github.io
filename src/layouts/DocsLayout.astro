@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import type { MarkdownHeading } from 'astro';
 import PageIndex, { type IndexGroup } from '../components/PageIndex.astro';
+import DocsSearch from '../components/DocsSearch.astro';
 import SignalLayout from './SignalLayout.astro';
 import '../styles/docs.css';
 
@@ -28,6 +29,7 @@ if (sections.length) groups.push({ label: 'On this page', links: sections.map((h
   <main class="resource-page">
     <header class="page-hero">
       <div class="page-hero__content">
+        <DocsSearch />
         <p class="page-hero__eyebrow">User documentation</p>
         <h1 class="page-hero__title">{title}</h1>
         <p class="page-hero__lede">{description}</p>
