@@ -7,7 +7,7 @@ import ThemeSelect from '../components/ThemeSelect.astro';
 import markDark from '../assets/mark-dark.svg';
 import markLight from '../assets/mark-light.svg';
 
-type Active = 'home' | 'downloads' | 'features' | 'compare' | 'changelog' | 'privacy' | 'ai-disclosure';
+type Active = 'home' | 'docs' | 'downloads' | 'features' | 'compare' | 'changelog' | 'privacy' | 'ai-disclosure';
 
 interface Props {
 	title: string;
@@ -36,6 +36,7 @@ const primaryNav = [
 	{ href: '/', label: 'Home', id: 'home' },
 	{ href: '/downloads/', label: 'Downloads', id: 'downloads' },
 	{ href: '/extra-features/', label: 'Features', id: 'features' },
+	{ href: '/docs/', label: 'Docs', id: 'docs' },
 	{ href: '/compare/', label: 'Compare', id: 'compare' },
 	{ href: '/changelog/', label: 'Changelog', id: 'changelog' },
 ] as const;

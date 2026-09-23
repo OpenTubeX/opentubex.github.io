@@ -1,7 +1,7 @@
 ---
 export interface IndexGroup {
 	label: string;
-	links: { label: string; href: string }[];
+	links: { label: string; href: string; current?: boolean }[];
 }
 
 interface Props {
@@ -20,13 +20,13 @@ const { label, groups, collapsibleGroups = false } = Astro.props;
 			<option value="">Choose a section</option>
 			{groups.map((group) => (
 				<optgroup label={group.label}>
-					{group.links.map((link) => <option value={link.href}>{link.label}</option>)}
+					{group.links.map((link) => <option value={link.href} selected={link.current}>{link.label}</option>)}
 				</optgroup>
 			))}
 		</select>
 	</label>
 	<div class="page-index__desktop">
-		<p class="feature-toc__label">On this page</p>
+		<p class="feature-toc__label">{label}</p>
 		<div class="feature-toc__scroll">
 			{groups.map((group) => {
 				const Group = collapsibleGroups ? 'details' : 'div';
@@ -35,7 +35,7 @@ const { label, groups, collapsibleGroups = false } = Astro.props;
 				<Group class="page-index__group" open={collapsibleGroups ? true : undefined}>
 					<Heading class="page-index__group-label">{group.label}</Heading>
 					<ol class="feature-toc__list">
-						{group.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+						{group.links.map((link) => <li><a href={link.href} class:list={[{ 'is-active': link.current }]} aria-current={link.current ? 'page' : undefined}>{link.label}</a></li>)}
 					</ol>
 				</Group>
 			); })}
