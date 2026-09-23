@@ -247,9 +247,16 @@ without a manual refresh.
 
 ### Watch time statistics
 
-Explore your viewing activity with daily and weekly watch-time charts.
+Explore your viewing activity with daily and weekly watch-time charts. When
+statistics sync is enabled, choose a device or **All devices** above the charts.
+The combined view adds each device's recorded watch time. To reset or adjust
+imported watch time, select the current device.
 
-![Watch time statistics](https://github.com/user-attachments/assets/61942468-a351-4a8c-813e-a7504828121f)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e0d2162c-99e9-4ddb-8073-9f6a283dcd9b">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/11d21c44-1838-4af2-b41a-e5894f1c387f">
+  <img alt="Watch time statistics with a device switcher" src="https://github.com/user-attachments/assets/e0d2162c-99e9-4ddb-8073-9f6a283dcd9b">
+</picture>
 
 ### Additional video metadata
 
@@ -743,7 +750,9 @@ settings.
 ### Encrypted sync
 
 Synchronize subscriptions, playlists, history, saved channel settings,
-profiles, tabs, and settings with end-to-end encryption. LibreTube Sync
+profiles, tabs, and settings with end-to-end encryption. Watch statistics have
+a separate opt-in switch and require a server that supports encrypted statistics
+sync. LibreTube Sync
 servers are supported too. Pair another device by scanning a QR code or
 entering a text code without sharing account credentials or the privacy
 passphrase.
