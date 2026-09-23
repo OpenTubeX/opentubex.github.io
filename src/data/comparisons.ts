@@ -72,7 +72,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Dedicated official Android app, with an interface designed for phones and tablets.', source: 'https://support.google.com/youtube/answer/3227660?hl=en' },
 			] },
 			{ name: 'Services beyond YouTube', icon: 'lucide:layers', cells: [
-				{ status: 'no', note: 'Focuses on YouTube, not a combined feed from other video services.' },
+				{ status: 'partial', label: 'Limited', note: 'Paste an individual media URL from a yt-dlp-supported service to play it. Browsing, search, subscriptions, and feeds for other services are not supported.', source: 'https://github.com/OpenTubeX/OpenTubeX/pull/1514' },
 				{ status: 'no', note: 'Focuses on YouTube.' },
 				{ status: 'yes', note: 'Source plugins cover services such as Twitch, PeerTube, and SoundCloud. Availability depends on each plugin.', source: 'https://plugins.grayjay.app/' },
 				{ status: 'yes', note: 'Also supports SoundCloud, Bandcamp, PeerTube, and media.ccc.de.' },
