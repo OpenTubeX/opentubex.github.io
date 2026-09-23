@@ -426,9 +426,9 @@ browser-style middle-click, Ctrl/Cmd-click, and Shift-click behavior.
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/57c171d7-df3f-44fb-a715-316930b0c0ac">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/324eb5f8-b93d-414d-a297-c372348466d4">
-  <img alt="Tab group icon picker with 17 choices" src="https://github.com/user-attachments/assets/57c171d7-df3f-44fb-a715-316930b0c0ac">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260923T085243Z-tab-group-picker-wide-dark-dark-f854ca9084.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260923T085243Z-tab-group-picker-wide-light-light-349c616b66.png">
+  <img alt="Tab group icon picker" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260923T085243Z-tab-group-picker-wide-dark-dark-f854ca9084.png">
 </picture>
 
 ### Playback speed toggle shortcut
