@@ -255,7 +255,7 @@ imported watch time, select the current device.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e0d2162c-99e9-4ddb-8073-9f6a283dcd9b">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/11d21c44-1838-4af2-b41a-e5894f1c387f">
-  <img alt="Watch time statistics with a device switcher" src="https://github.com/user-attachments/assets/e0d2162c-99e9-4ddb-8073-9f6a283dcd9b">
+  <img width="800" height="450" style="max-width: min(100%, 800px); height: auto;" alt="Watch time statistics with a device switcher" src="https://github.com/user-attachments/assets/e0d2162c-99e9-4ddb-8073-9f6a283dcd9b">
 </picture>
 
 ### Additional video metadata
