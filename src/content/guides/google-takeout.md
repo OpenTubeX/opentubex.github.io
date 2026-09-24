@@ -8,7 +8,7 @@ Google Takeout exports your Google account data. OpenTubeX can import subscripti
 
 ## Choose your YouTube data
 
-1. Open [Google Takeout](https://takeout.google.com/) in your browser and sign in to the account you use for YouTube.
+1. Open [Google Takeout in English](https://takeout.google.com/?hl=en) in your browser and sign in to the account you use for YouTube.
 2. Choose **Deselect all**, then select **YouTube and YouTube Music**.
 3. Open **All YouTube data included**. Deselect everything in that dialog, then select **subscriptions**, **history**, and/or **playlists** for the data you want.
 4. Confirm with **OK**.
@@ -72,7 +72,7 @@ You can still extract the ZIP and import individual files from `Takeout/YouTube 
 ## If something is missing
 
 - **Only HTML history files:** create another export with History set to JSON.
-- **No supported YouTube data found:** check the account and the selected data categories. The archive's `archive_browser.html` is an index, not importable data.
+- **No supported YouTube data found:** check the account and the selected data categories. The ZIP importer recognizes English Takeout folder and file names; if yours are translated, use Google Takeout in English for a new export or extract the archive and try the supported individual file imports. The archive's `archive_browser.html` is an index, not importable data.
 - **Older history is missing:** the export can only contain data Google still retains. Previously deleted activity may not be recoverable.
 - **A channel is missing after import:** check the import result and your active [profile](/docs/profiles/). A removed channel or incomplete export may need investigation.
 - **A playlist video shows only its ID:** Takeout's playlist CSV includes video IDs and timestamps, but no video titles or durations.
