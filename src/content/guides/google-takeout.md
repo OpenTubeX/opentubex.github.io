@@ -19,7 +19,7 @@ Selecting only these categories keeps the export smaller. If you use more than o
 
 *Select history for watch and search history. You can also select subscriptions and playlists.*
 
-The screenshots show the relevant controls, but are not captures of today's interface.
+The screenshots show the relevant controls, but are not captures of today's interface. Google may change the layout and labels.
 
 ## Choose JSON for history
 
