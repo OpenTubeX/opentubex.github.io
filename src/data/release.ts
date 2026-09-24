@@ -179,6 +179,31 @@ export const downloadGroups: DownloadGroup[] = [
 				preferred: true,
 				isExternal: true,
 			},
+			{
+				label: '.apk (universal)',
+				url: downloadUrl(`org.opentubex.app-${releaseVersion}-alpha.apk`),
+				icon: 'lucide:package',
+			},
+			{
+				label: '.apk (arm64-v8a)',
+				url: downloadUrl(`org.opentubex.app-${releaseVersion}-alpha-arm64-v8a.apk`),
+				icon: 'lucide:package',
+			},
+			{
+				label: '.apk (armeabi-v7a)',
+				url: downloadUrl(`org.opentubex.app-${releaseVersion}-alpha-armeabi-v7a.apk`),
+				icon: 'lucide:package',
+			},
+			{
+				label: '.apk (x86)',
+				url: downloadUrl(`org.opentubex.app-${releaseVersion}-alpha-x86.apk`),
+				icon: 'lucide:package',
+			},
+			{
+				label: '.apk (x86_64)',
+				url: downloadUrl(`org.opentubex.app-${releaseVersion}-alpha-x86_64.apk`),
+				icon: 'lucide:package',
+			},
 		],
 	},
 	{
