@@ -19,7 +19,7 @@ Selecting only these categories keeps the export smaller. If you use more than o
 
 *Select history for watch and search history. You can also select subscriptions and playlists.*
 
-The Google Takeout screenshots below and above come from [Positroid's September 2025 walkthrough](https://positroid.tech/en/post/youtube-history-analyzer). They show the relevant controls, but are not captures of today's interface. Google may change the layout and labels. The screenshots retain Google's original light appearance; OpenTubeX screenshots follow your selected website theme.
+The screenshots show the relevant controls, but are not captures of today's interface.
 
 ## Choose JSON for history
 
