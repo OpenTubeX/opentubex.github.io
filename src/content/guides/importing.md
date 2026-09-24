@@ -40,7 +40,7 @@ Export a subscription file from your previous app, then transfer it to the devic
 2. Select the matching exported file and wait for the result.
 3. Open the corresponding library page to check the imported entries.
 
-**History** accepts OpenTubeX / FreeTube .db, YouTube Takeout .json, and LibreTube backup .json. **Search history** accepts OpenTubeX / FreeTube .db and YouTube Takeout .json. The separate **Import Playlists** action accepts OpenTubeX / FreeTube .db exports. To import YouTube Takeout playlists, use **Import YouTube Takeout ZIP**.
+**History** accepts OpenTubeX / FreeTube .db, YouTube Takeout .json, and LibreTube backup .json. **Search history** accepts OpenTubeX / FreeTube .db and YouTube Takeout .json. **Import Playlists** accepts OpenTubeX / FreeTube .db exports and individual YouTube Takeout playlist .csv files. To import multiple Takeout playlists together, use **Import YouTube Takeout ZIP**.
 
 ## Back up your library
 
