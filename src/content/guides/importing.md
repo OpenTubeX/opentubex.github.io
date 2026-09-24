@@ -22,7 +22,7 @@ order: 3
 
 1. Export subscriptions from your previous app. For YouTube, request a YouTube data export through [Google Takeout](https://takeout.google.com/), including subscriptions.
 2. For a YouTube Takeout ZIP, select **Import YouTube Takeout ZIP**, then choose the categories to import. For other exports, select **Import Subscriptions** and choose the individual file.
-4. Wait for the import result. Open **Subscriptions**, check the active profile, and refresh the feed.
+3. Wait for the import result. Open **Subscriptions**, check the active profile, and refresh the feed.
 
 Supported subscription formats include OpenTubeX / FreeTube **.db**, YouTube Takeout **.csv**, **.json**, or **.opml**, NewPipe **.json**, and LibreTube backup or FreeTube export **.json**. A JSON file must contain the expected export data; renaming a different file does not convert it.
 
