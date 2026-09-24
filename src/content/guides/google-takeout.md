@@ -81,6 +81,6 @@ Keep your original archive until you have checked the imported data. See [Import
 
 ## Sources and image credits
 
-Takeout instructions are adapted from FreeTube's [subscription](https://docs.freetubeapp.io/usage/importing-subscriptions/) and [history](https://docs.freetubeapp.io/usage/importing-history/) guides, with OpenTubeX-specific import steps. General export behavior is checked against [Google Account Help](https://support.google.com/accounts/answer/3024190).
+Takeout instructions are adapted from FreeTube's [subscription](https://docs.freetubeapp.io/usage/importing-subscriptions/) and [history](https://docs.freetubeapp.io/usage/importing-history/) guides ([MIT license](/docs-sources/freetube-license.txt)), with OpenTubeX-specific import steps. General export behavior is checked against [Google Account Help](https://support.google.com/accounts/answer/3024190).
 
 The three Google Takeout UI screenshots are reproduced unchanged from [positron48's source images](https://github.com/positron48/youtube-history-analyzer/tree/master/images), published with [Positroid's September 2025 walkthrough](https://positroid.tech/en/post/youtube-history-analyzer). Google product visuals belong to Google and are shown for instructional purposes. See [Google's educational-use guidance](https://about.google/brand-resource-center/guidance/). OpenTubeX is not affiliated with Google.
