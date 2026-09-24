@@ -8,28 +8,27 @@ order: 3
 
 1. Open your profile menu and select **All settings**.
 2. Select **Data & Storage**.
-3. Open the **Data** tab. Each data type has its own import and export action.
+3. Open the **Data** tab. Use **Import YouTube Takeout ZIP** for a downloaded YouTube archive, or choose a separate import or export action for individual files.
 
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/data-dark.webp" type="image/webp" />
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/data-light.webp" type="image/webp" />
-  <img src="/docs-images/data-light.webp" alt="Data & Storage settings with separate import and export buttons for subscriptions, history, playlists, search history, and settings." width="1232" height="820" loading="lazy" decoding="async" />
+  <img src="/docs-images/data-light.webp" alt="Data settings with a YouTube Takeout ZIP import button and separate import and export actions." width="1232" height="820" loading="lazy" decoding="async" />
 </picture>
 
-*Desktop Data & Storage settings. Choose the action for the type of data you are moving.*
+*Desktop Data settings. Import a YouTube Takeout ZIP directly, or use an action for an individual file.*
 
 ## Import subscriptions
 
 1. Export subscriptions from your previous app. For YouTube, request a YouTube data export through [Google Takeout](https://takeout.google.com/), including subscriptions.
-2. Extract any downloaded archive first. You need the subscriptions file inside it, not the ZIP archive.
-3. In OpenTubeX, select **Import Subscriptions** in the Data tab and choose the file.
+2. For a YouTube Takeout ZIP, select **Import YouTube Takeout ZIP**, then choose the categories to import. For other exports, select **Import Subscriptions** and choose the individual file.
 4. Wait for the import result. Open **Subscriptions**, check the active profile, and refresh the feed.
 
 Supported subscription formats include OpenTubeX / FreeTube **.db**, YouTube Takeout **.csv**, **.json**, or **.opml**, NewPipe **.json**, and LibreTube backup or FreeTube export **.json**. A JSON file must contain the expected export data; renaming a different file does not convert it.
 
 ### Get your subscriptions from YouTube
 
-Follow the [Google Takeout walkthrough](/docs/google-takeout/) to export subscriptions as CSV and watch/search history as JSON. It covers export selection, the history format, and exactly which extracted file to import.
+Follow the [Google Takeout walkthrough](/docs/google-takeout/) to export subscriptions, history, and playlists. It covers export selection, the JSON history format, and importing the ZIP directly.
 
 ### Move from another app
 
@@ -41,7 +40,7 @@ Export a subscription file from your previous app, then transfer it to the devic
 2. Select the matching exported file and wait for the result.
 3. Open the corresponding library page to check the imported entries.
 
-**History** accepts OpenTubeX / FreeTube .db, YouTube Takeout .json, and LibreTube backup .json. **Search history** accepts OpenTubeX / FreeTube .db and YouTube Takeout .json. **Playlists** accepts OpenTubeX / FreeTube .db exports; the playlist importer does not accept a YouTube Takeout archive.
+**History** accepts OpenTubeX / FreeTube .db, YouTube Takeout .json, and LibreTube backup .json. **Search history** accepts OpenTubeX / FreeTube .db and YouTube Takeout .json. The separate **Import Playlists** action accepts OpenTubeX / FreeTube .db exports. To import YouTube Takeout playlists, use **Import YouTube Takeout ZIP**.
 
 ## Back up your library
 
@@ -55,4 +54,4 @@ Exports contain your personal viewing data. Store them privately. Settings expor
 
 ## If an import fails
 
-Check the file type against the supported formats above, extract archives, and make sure you selected the correct data action. Keep the original export unchanged. If an import reports skipped items, inspect the result before assuming everything transferred. See [Troubleshooting](/docs/troubleshooting/#imports-or-subscriptions-look-incomplete) for the next steps.
+Check the file type against the supported formats above and make sure you selected the correct action. For YouTube Takeout ZIPs, check that the archive contains the selected data and that history was exported as JSON. Keep the original export unchanged. If an import reports skipped items, inspect the result before assuming everything transferred. See [Troubleshooting](/docs/troubleshooting/#imports-or-subscriptions-look-incomplete) for the next steps.
