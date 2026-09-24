@@ -59,7 +59,7 @@ You do not need to upload the archive to another website. Creating an export doe
   <img src="/docs-images/takeout-selection-light.webp" alt="Takeout ZIP import screen with checkboxes for detected subscriptions, watch history, playlists, and search history." width="1232" height="820" loading="lazy" decoding="async" />
 </picture>
 
-You can still extract the ZIP and use the separate import buttons for individual subscription or JSON history files.
+You can still extract the ZIP and import individual files from `Takeout/YouTube and YouTube Music/`: choose `subscriptions/subscriptions.csv` with **Import Subscriptions**, `history/watch-history.json` with **Import History**, or `history/search-history.json` with **Import search history**.
 
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/data-dark.webp" type="image/webp" />
