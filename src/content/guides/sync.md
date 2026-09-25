@@ -37,7 +37,7 @@ Keep the privacy passphrase somewhere private that you can recover independently
 
 In **Settings → Sync**, review **Subscriptions**, **Playlists**, **History**, **Profiles**, **Open tabs and session**, and **Settings**. A hidden or disabled option may be unsupported by your server. Settings sync does not transfer every device-specific preference or credential.
 
-Desktop and mobile tab sessions stay separate by default. Enable **Use one shared tab set across devices** only if you want those devices to use the same session; this replaces the current tab set on connected devices.
+Each device keeps its own open tab set by default, including devices of the same type. Enabling **Use one shared tab set across devices** makes the current device's tabs the shared set. Other devices replace their open tabs with that set when they sync; tabs from different devices are not combined.
 
 **Watch stats** sync requires a compatible enhanced-privacy server. It is enabled by default; turn it off to keep statistics on the device. It is separate from the **History** toggle.
 
