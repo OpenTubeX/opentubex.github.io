@@ -1,6 +1,6 @@
 ---
 title: Choose a content provider
-description: Understand Local API, Invidious, fallback, and video proxying.
+description: Understand metadata providers, stream extraction, fallback, and video proxying.
 order: 7
 ---
 
@@ -31,6 +31,27 @@ Neither option requires you to transfer your local subscriptions to a YouTube ac
 *Preferred API Backend and fallback are in the Video and metadata providers section of Advanced settings.*
 
 Use settings search if the controls are not immediately visible. Choose an instance you trust rather than pasting an unknown server address solely because it appears in an error workaround.
+
+## Choose a stream extraction method
+
+In **Settings → Advanced → Video and metadata providers**, find **Stream extraction method**. This chooses how the app obtains playable streams; **Preferred API Backend** controls the provider used for video and channel information. A page loading successfully does not necessarily mean its media streams can be extracted.
+
+| Method | When to use it |
+| --- | --- |
+| Built-in | Use the app's included stream extraction. This path does not support seeking in livestreams and premieres. |
+| yt-dlp | Use yt-dlp for stream extraction. It must be available, and videos may take longer to start. |
+
+<picture>
+  <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/stream-extraction-dark.webp" type="image/webp" />
+  <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/stream-extraction-light.webp" type="image/webp" />
+  <img src="/docs-images/stream-extraction-light.webp" alt="Stream extraction method menu offering yt-dlp and Built-in beside the separate Preferred API Backend control." width="656" height="182" loading="lazy" decoding="async" />
+</picture>
+
+*Stream extraction method selects how to obtain playable streams; Preferred API Backend is a separate choice.*
+
+On desktop, configure or update yt-dlp under **Settings → Advanced → External Software**. Android manages its own tool integration and does not use desktop executable paths.
+
+If search and channel pages work but playback fails, note the current extraction method, try the other one, and retry the same public video. Record which method worked when reporting the problem. The method does not download a permanent offline copy; use [Downloads](/docs/downloads/) for that.
 
 ## Understand fallback
 

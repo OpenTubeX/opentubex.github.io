@@ -22,6 +22,8 @@ This is more reliable than assuming a fixed path: portable apps, sandboxed packa
 | `settings.db` | Application preferences |
 | `playlists.db` | Local playlists and saved videos |
 | `history.db` | Watch history and saved progress |
+| `watch-stats.db` | Watch-time statistics |
+| `tab-session.db` | Saved tab sessions |
 | `search-history.db` | Saved searches |
 | `subscription-cache.db` | Cached subscription-feed entries |
 
@@ -30,6 +32,8 @@ These are application data files, not downloaded video files. Downloads are save
 ## Back up or move to another device
 
 For normal transfers, use the [export and import actions](/docs/importing/#back-up-your-library). They let you choose what to transfer without copying device-specific settings indiscriminately.
+
+Those exports do not include watch statistics or saved tab sessions. A full desktop profile backup includes their database files along with the rest of the profile; it can also contain credentials and sync keys, so keep the whole backup private.
 
 If you need a full desktop profile backup, close OpenTubeX before copying its profile directory to a private backup location. Copy downloaded media separately. Do not edit or replace live database files while the app is running.
 

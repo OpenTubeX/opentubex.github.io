@@ -59,8 +59,6 @@ You do not need to upload the archive to another website. Creating an export doe
   <img src="/docs-images/takeout-selection-light.webp" alt="Takeout ZIP import screen with checkboxes for detected subscriptions, watch history, playlists, and search history." width="1232" height="820" loading="lazy" decoding="async" />
 </picture>
 
-You can still extract the ZIP and import individual files from `Takeout/YouTube and YouTube Music/`: choose `subscriptions/subscriptions.csv` with **Import Subscriptions**, `history/watch-history.json` with **Import History**, `history/search-history.json` with **Import search history**, or a CSV in `playlists/` with **Import Playlists**.
-
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/data-dark.webp" type="image/webp" />
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/data-light.webp" type="image/webp" />
@@ -69,11 +67,21 @@ You can still extract the ZIP and import individual files from `Takeout/YouTube 
 
 *Choose Import YouTube Takeout ZIP to select the archive directly.*
 
+## Import individual files
+
+1. Extract the downloaded ZIP and open `Takeout/YouTube and YouTube Music/`.
+2. In OpenTubeX, open **Settings → Data & Storage → Data**.
+3. Choose **Import Subscriptions** for `subscriptions/subscriptions.csv`, **Import History** for `history/watch-history.json`, or **Import search history** for `history/search-history.json`.
+4. Check the imported data and refresh the subscription feed.
+
+For a Takeout playlist CSV, choose **Import Playlists** and select an individual file in `playlists/`, or use ZIP import for several playlists together.
+
 ## If something is missing
 
 - **Only HTML history files:** create another export with History set to JSON.
 - **No supported YouTube data found:** check the account and the selected data categories. The ZIP importer recognizes English Takeout folder and file names; if yours are translated, use Google Takeout in English for a new export or extract the archive and try the supported individual file imports. The archive's `archive_browser.html` is an index, not importable data.
 - **Older history is missing:** the export can only contain data Google still retains. Previously deleted activity may not be recoverable.
+- **Imported history has missing details or incorrect LIVE labels:** use [Repair History](/docs/troubleshooting/#repair-imported-history) to fetch the available details without changing watched status or progress.
 - **A channel is missing after import:** check the import result and your active [profile](/docs/profiles/). A removed channel or incomplete export may need investigation.
 - **A playlist video shows only its ID:** Takeout's playlist CSV includes video IDs and timestamps, but no video titles or durations.
 

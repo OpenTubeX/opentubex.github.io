@@ -14,6 +14,8 @@ order: 6
 
 For buffering, try a lower quality in the player. If you use a proxy or an alternative provider, check whether the problem also happens without that configuration. Note which setting made a difference.
 
+If search and channel pages work but videos fail, compare the **Built-in** and **yt-dlp** [stream extraction methods](/docs/providers/#choose-a-stream-extraction-method). Include the failing method in your report.
+
 ## Imports or subscriptions look incomplete
 
 1. Check the active profile and try **All Channels**.
@@ -22,6 +24,25 @@ For buffering, try a lower quality in the player. If you use a proxy or an alter
 4. Keep the original export so you can retry or investigate missing entries.
 
 An imported channel list does not instantly contain every video. Refreshing the feed needs a working connection. Do not clear your data as a first troubleshooting step.
+
+## Repair imported history
+
+If imported history entries have missing titles, channels, or publication dates, incorrect durations, or incorrect LIVE labels:
+
+1. Open **History** and choose **Repair History**.
+2. Review the description, then choose **Start repair**.
+3. Keep a working internet connection and let the repair run. Large histories can take time; failed requests are retried automatically.
+4. Check the repaired and failed counts, then review the affected entries.
+
+<picture>
+  <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/history-repair-dark.webp" type="image/webp" />
+  <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/history-repair-light.webp" type="image/webp" />
+  <img src="/docs-images/history-repair-light.webp" alt="Repair History dialog explaining which details are checked, that watch progress stays unchanged, and the Start repair action." width="520" height="396" loading="lazy" decoding="async" />
+</picture>
+
+*Review what Repair History changes, then select Start repair.*
+
+Repair fetches video details while preserving watch progress and watched status. Deleted or private videos may remain incomplete. It cannot recover watch events that were absent from your export. Keep the original export while investigating missing data.
 
 ## Downloads fail or saved files are missing
 

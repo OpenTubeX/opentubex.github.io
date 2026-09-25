@@ -37,10 +37,10 @@ For storage and cache cleanup, see [Data and storage](/docs/storage/). Avoid cle
 
 ## Understand network privacy
 
-- Local extraction and downloads can contact YouTube directly.
+- Local extraction and downloads can contact YouTube directly. Playback and downloads from [external media links](/docs/playback/#play-a-link-from-another-site) also contact the selected site and its media services.
 - Invidious sends relevant requests to the chosen instance; video proxying and fallback affect which other connections occur.
 - SponsorBlock, DeArrow, and other add-ons contact their respective services when used.
-- Sync sends the selected data to your configured server; review the sync mode and its encryption before relying on it.
+- Sync sends the selected data to your configured server. Enhanced-privacy servers receive encrypted data; legacy servers can read it. See [Sync between devices](/docs/sync/) for setup and category selection.
 - **Internet connectivity checks** sends small requests to a GrapheneOS-hosted service to check internet access. Review its toggle in Privacy settings.
 
 A receiving service can observe your IP address and request details unless the relevant connection is routed through an intermediary. Profiles are not separate security identities. See [Choose a content provider](/docs/providers/) for the provider settings, and the [network exposure table](/privacy/#network-exposure) for service-specific details.

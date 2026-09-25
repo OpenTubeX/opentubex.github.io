@@ -92,33 +92,13 @@ export const downloadGroups: DownloadGroup[] = [
 				preferred: true,
 			},
 			{
-				label: '.exe portable (x64)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-x64-portable.exe`),
-				icon: 'lucide:download',
-			},
-			{
-				label: '.exe portable (arm64)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-arm64-portable.exe`),
-				icon: 'lucide:download',
-			},
-			{
-				label: '.zip (x64)',
+				label: '.zip portable (x64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-x64-portable.zip`),
 				icon: 'lucide:file-archive',
 			},
 			{
-				label: '.zip (arm64)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-arm64-portable.zip`),
-				icon: 'lucide:file-archive',
-			},
-			{
-				label: '.7z (x64)',
+				label: '.7z portable (x64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-x64-portable.7z`),
-				icon: 'lucide:file-archive',
-			},
-			{
-				label: '.7z (arm64)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-arm64-portable.7z`),
 				icon: 'lucide:file-archive',
 			},
 		],

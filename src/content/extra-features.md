@@ -252,6 +252,9 @@ statistics sync is enabled, choose a device or **All devices** above the charts.
 The combined view adds each device's recorded watch time. To reset or adjust
 imported watch time, select the current device.
 
+Statistics sync and the device comparison require a compatible enhanced-privacy
+sync server. See [sync setup](/docs/sync/#choose-what-to-sync).
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e0d2162c-99e9-4ddb-8073-9f6a283dcd9b">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/11d21c44-1838-4af2-b41a-e5894f1c387f">
@@ -750,11 +753,17 @@ settings.
 ### Encrypted sync
 
 Synchronize subscriptions, playlists, history, saved channel settings,
-profiles, tabs, and settings with end-to-end encryption. **Sync statistics** is
-enabled by default in **Settings → Sync**; turn it off to keep watch statistics
-on this device. LibreTube Sync servers are supported too. Pair another device
-by scanning a QR code or entering a text code without sharing account
-credentials or the privacy passphrase.
+profiles, tabs, and settings with end-to-end encryption when using a server
+that supports enhanced privacy. Legacy servers, including those without
+encrypted-sync support, can read the data you sync. LibreTube Sync servers are
+supported, but available features depend on the server.
+
+**Watch stats** sync requires a compatible enhanced-privacy server. It is
+enabled by default in **Settings → Sync**; turn it off to keep statistics
+on this device. On servers supporting secure pairing, add another device by
+scanning a QR code or entering a text code without typing the account password
+or privacy passphrase on it. Follow [Sync between devices](/docs/sync/) for
+setup, pairing, and recovery limitations.
 
 ![Encrypted synchronization settings](https://github.com/user-attachments/assets/15144ab2-0111-4e38-b011-c7a57417fcd0)
 

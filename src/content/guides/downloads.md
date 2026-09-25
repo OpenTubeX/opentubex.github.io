@@ -29,6 +29,24 @@ Android uses its own storage picker and download implementation. Grant access to
 
 Downloads need a working connection until they finish. Higher-quality video usually uses more storage. Subtitles can be downloaded when offered for the selected video.
 
+## Download from another site
+
+1. Open **Downloads** and select **Add download**. If downloads are unavailable, check **Settings → Downloads → Enable Downloads**.
+2. Paste the full media page URL into **URL** and select **Next**.
+3. Choose the video or audio download options, confirm, and follow progress in **Downloads**.
+
+<picture>
+  <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/external-download-dark.webp" type="image/webp" />
+  <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/external-download-light.webp" type="image/webp" />
+  <img src="/docs-images/external-download-light.webp" alt="Add download dialog with a Vimeo media URL entered and a Next button." width="452" height="238" loading="lazy" decoding="async" />
+</picture>
+
+*Paste the media page URL in Downloads → Add download, then select Next.*
+
+You can also [open the link in the player](/docs/playback/#play-a-link-from-another-site) first and select **Download Video** below it.
+
+Available formats depend on the site and yt-dlp. A supported playback link does not guarantee every download format will work. External-site downloads do not currently offer **Play download** inside OpenTubeX; open the saved file with a compatible media player. On desktop, use **Show in Folder** to find it.
+
 ## Play a completed download
 
 1. Open **Downloads** and find a completed item.

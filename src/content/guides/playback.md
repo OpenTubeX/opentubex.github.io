@@ -14,6 +14,14 @@ order: 4
 
 Some controls move into the player's overflow menu when space is limited. Live streams may not support seeking through the full video.
 
+## Play a link from another site
+
+1. Paste the full media page URL into OpenTubeX's search field and submit it.
+2. OpenTubeX uses yt-dlp to extract the media. On desktop, allow any required managed tool download to finish; tool settings are under **Settings → Advanced → External Software**.
+3. Use the player controls as usual. Details, chapters, captions, and formats depend on what the source provides.
+
+Support depends on yt-dlp and the site; some links require authentication or are unavailable, and DRM-protected media is unsupported. Opening a link contacts that site and its media services. See [Downloads](/docs/downloads/#download-from-another-site) to save supported media offline.
+
 ## Set your playback defaults
 
 1. Open **Settings → Playback**.
@@ -44,7 +52,7 @@ Shortcuts can be customized, so the displayed bindings are the source of truth. 
 - **Add-ons:** configure SponsorBlock and other optional services. Choose which SponsorBlock categories should be skipped automatically.
 - **Privacy:** review viewing privacy options.
 - **Data & Storage:** [import or export your library](/docs/importing/) and inspect storage usage.
-- **Sync:** connect your devices for encrypted synchronization. Keep recovery information private and make a backup before changing your setup.
+- **Sync:** [connect and pair your devices](/docs/sync/). Enhanced-privacy servers support end-to-end encryption; legacy servers can read synced data. Keep the privacy passphrase private and make a backup before changing your setup.
 
 See the [SponsorBlock guide](/docs/sponsorblock/) for skip behaviors and [Privacy and watch history](/docs/privacy/) for recording controls.
 
