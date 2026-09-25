@@ -74,6 +74,23 @@ const linuxPortableDownloads: DownloadLink[] = [
 	},
 ];
 
+// ARM64 portable archives return with 0.35.1; 0.35.0 has no matching assets.
+const windowsArm64PortableDownloads: DownloadLink[] =
+	releaseVersion.localeCompare('0.35.1', 'en', { numeric: true }) >= 0
+		? [
+				{
+					label: '.zip portable (arm64)',
+					url: downloadUrl(`opentubex-${releaseVersion}-beta-win-arm64-portable.zip`),
+					icon: 'lucide:file-archive',
+				},
+				{
+					label: '.7z portable (arm64)',
+					url: downloadUrl(`opentubex-${releaseVersion}-beta-win-arm64-portable.7z`),
+					icon: 'lucide:file-archive',
+				},
+			]
+		: [];
+
 export const downloadGroups: DownloadGroup[] = [
 	{
 		title: 'Windows',
@@ -101,6 +118,7 @@ export const downloadGroups: DownloadGroup[] = [
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-win-x64-portable.7z`),
 				icon: 'lucide:file-archive',
 			},
+			...windowsArm64PortableDownloads,
 		],
 	},
 	{
