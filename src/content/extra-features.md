@@ -788,7 +788,7 @@ limits, and <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>J</kbd> opens Downloads.
 
 ### Android app support
 
-Android app preview for phones and tablets, with background playback, offline
+Android app for phones and tablets, with background playback, offline
 downloads, touch controls and sync with desktop devices.
 
 <picture>

@@ -22,7 +22,7 @@ import {
 const platformMeta: Record<string, string> = {
 	Windows: '10+',
 	macOS: '12+',
-	Android: '8.0+ · early preview',
+	Android: '8.0+',
 };
 
 const packageSections: Record<string, { id: string; label: string }> = {
@@ -445,7 +445,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
 							</div>
 							<div slot="android">
-								<p class="pkg__body">Install and update the Android nightly preview through F-Droid or Obtainium:</p>
+								<p class="pkg__body">Install and update the Android nightly through F-Droid or Obtainium:</p>
 								<ul class="format-list" aria-label="Android nightly install links">
 									<li>
 										<a class="is-preferred" href={fdroidNightlyUrl} rel="noopener noreferrer">

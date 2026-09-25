@@ -48,7 +48,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Web app', note: 'Use YouTube in a desktop browser, including installation as a web app where the browser supports it. This is not a separate desktop player.', source: 'https://www.youtube.com/' },
 			] },
 			{ name: 'Android app', icon: 'simple-icons:android', cells: [
-				{ status: 'partial', label: 'Preview', note: 'Early Android preview. Features may be incomplete; desktop availability does not imply the same mobile maturity.', source: otxMobile },
+				{ status: 'yes', note: 'Available for Android phones and tablets; some desktop features differ.', source: otxMobile },
 				{ status: 'partial', label: 'Unofficial fork', note: 'FreeTubeAndroid is a separately maintained, unofficial port. FreeTube itself does not publish an Android app.', source: 'https://github.com/MarmadileManteater/FreeTubeAndroid' },
 				{ status: 'yes', note: 'Dedicated Android app, alongside separate desktop releases.' },
 				{ status: 'yes', note: 'Built for Android. The project still labels its releases beta.' },

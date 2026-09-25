@@ -10,7 +10,7 @@ order: 1
 2. Choose your operating system and processor. Use **arm64** for Apple Silicon and most recent Android phones; **x64** is for Intel or AMD desktop processors. If you are unsure on Android, choose the universal APK.
 3. Use a regular release for everyday use. Development and nightly builds may contain unfinished changes.
 
-The Downloads page lists current requirements and package-manager commands. OpenTubeX supports Windows, macOS, Linux, and an **Android preview**. There is no iOS build listed.
+The Downloads page lists current requirements and package-manager commands. OpenTubeX supports Windows, macOS, Linux, and an **Android app**. There is no iOS build listed.
 
 ## Windows
 
@@ -36,13 +36,13 @@ OpenTubeX is not notarized by Apple. If the first launch is blocked, allow the a
 
 For an AppImage, open the file's properties, allow it to run as a program, then launch it. For a portable archive, extract it first and run the included OpenTubeX executable. Repository installations are convenient when you want updates through your normal package manager.
 
-## Android preview
+## Android
 
 1. On the [Downloads page](/downloads/), choose **F-Droid** or **Obtainium**. For a manual installation, download an APK from [GitHub Releases](https://github.com/OpenTubeX/OpenTubeX/releases).
 2. Follow the selected installer's prompts. For a direct APK, Android may ask you to allow installation from the browser or file manager you used.
 3. Open the app. Allow notifications if you want download progress and playback controls in Android's notification area.
 
-The preview has a phone layout, background playback, and offline downloads. Desktop integrations, window controls, and external software settings can differ or be unavailable.
+The Android app has a phone layout, background playback, and offline downloads. Desktop integrations, window controls, and external software settings can differ or be unavailable.
 
 ## Update without starting over
 

@@ -34,7 +34,7 @@ Check the chosen download folder, storage permission, and free space. Moving or 
 3. Check notification permission if media controls are missing.
 4. Test again with the screen locked and note whether the problem happens on Wi-Fi, mobile data, or both.
 
-Include your Android version and device model in a report. The Android app is a preview, so desktop behavior is not always identical.
+Include your Android version and device model in a report. Desktop and Android behavior may differ.
 
 ## The app will not open after installation
 

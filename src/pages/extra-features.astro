@@ -19,7 +19,7 @@ const highlights = [
 	{ title: 'Keep watching while you browse', detail: 'Auto Picture-in-Picture', icon: 'picture-in-picture-2', body: 'Automatically move playback into a floating player when you switch away.' },
 	{ title: 'Set playback for each channel', detail: 'Per-channel playback settings', icon: 'sliders-horizontal', body: 'Remember the speed, quality, subtitles, and volume you prefer for individual channels.' },
 	{ title: 'Find a moment in the transcript', detail: 'Transcript panel', icon: 'captions', body: 'Search a video transcript and jump to the part you want to watch.' },
-	{ title: 'Watch on Android too', detail: 'Android app support', icon: 'smartphone', body: 'Try the Android preview with background playback, offline downloads, and sync with your desktop.' },
+	{ title: 'Watch on Android too', detail: 'Android app support', icon: 'smartphone', body: 'Use the Android app with background playback, offline downloads, and sync with your desktop.' },
 ].map((feature) => {
 	const heading = headings.find((heading) => heading.depth === 3 && heading.text === feature.detail);
 	if (!heading) throw new Error(`Missing feature heading: ${feature.detail}`);
