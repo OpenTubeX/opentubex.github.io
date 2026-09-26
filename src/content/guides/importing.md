@@ -13,7 +13,7 @@ order: 3
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/data-dark.webp" type="image/webp" />
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/data-light.webp" type="image/webp" />
-  <img src="/docs-images/data-light.webp" alt="Data settings with a YouTube Takeout ZIP import button and separate import and export actions." width="1232" height="820" loading="lazy" decoding="async" />
+  <img src="/docs-images/data-light.webp" alt="Data settings with unified backup controls, a YouTube Takeout ZIP import button, and individual import and export actions." width="1280" height="820" loading="lazy" decoding="async" />
 </picture>
 
 *Desktop Data settings. Import a YouTube Takeout ZIP directly, or choose an action for an individual file.*

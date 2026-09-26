@@ -33,7 +33,7 @@ These are application data files, not downloaded video files. Downloads are save
 
 For normal transfers, use the [export and import actions](/docs/importing/#back-up-your-library). They let you choose what to transfer without copying device-specific settings indiscriminately.
 
-Those exports do not include watch statistics or saved tab sessions. A full desktop profile backup includes their database files along with the rest of the profile; it can also contain credentials and sync keys, so keep the whole backup private.
+The unified ZIP backup includes watch statistics, but individual category exports and the ZIP do not include saved tab sessions. A full desktop profile backup includes their database files along with the rest of the profile; it can also contain credentials and sync keys, so keep the whole backup private.
 
 If you need a full desktop profile backup, close OpenTubeX before copying its profile directory to a private backup location. Copy downloaded media separately. Do not edit or replace live database files while the app is running.
 
