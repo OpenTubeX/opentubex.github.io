@@ -8,12 +8,12 @@ order: 3
 
 1. Open your profile menu and select **All settings**.
 2. Select **Data & Storage**.
-3. Open the **Data** tab. Choose an import or export action for individual files. Use **Import YouTube Takeout ZIP** for a downloaded YouTube archive.
+3. Open the **Data** tab. Choose **Export backup** or **Import backup** for one OpenTubeX ZIP, an action for an individual file, or **Import YouTube Takeout ZIP** for a downloaded YouTube archive.
 
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/data-dark.webp" type="image/webp" />
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/data-light.webp" type="image/webp" />
-  <img src="/docs-images/data-light.webp" alt="Data settings with a YouTube Takeout ZIP import button and separate import and export actions." width="1232" height="820" loading="lazy" decoding="async" />
+  <img src="/docs-images/data-light.webp" alt="Data settings with unified backup controls, a YouTube Takeout ZIP import button, and individual import and export actions." width="1280" height="820" loading="lazy" decoding="async" />
 </picture>
 
 *Desktop Data settings. Import a YouTube Takeout ZIP directly, or choose an action for an individual file.*
@@ -46,13 +46,13 @@ If imported history has missing details or incorrect LIVE labels, use [Repair Hi
 
 ## Back up your library
 
-1. Open **Settings → Data & Storage → Data**.
-2. Select **Export Subscriptions**, then **Export OpenTubeX** to keep OpenTubeX profiles and subscriptions.
-3. Export **History**, **Playlists**, **search history**, and **Settings** separately if you want to keep those too.
-4. Save the files in a backup location you can find on your other device.
-5. To restore, use the matching import actions on that device.
+1. Open **Settings → Data & Storage → Data** and select **Export backup**.
+2. Save the ZIP file in a backup location you can find on your other device.
+3. On that device, select **Import backup**, choose the ZIP, select the categories to import, and select **Import selected data**.
 
-These exports cover the selected categories, not the entire application profile. They do not include watch statistics or open tab sessions. Settings exports also omit device-specific options and sync credentials, such as proxy configuration, external-player paths, screenshot folders, and the sync privacy key. Configure sync separately on the other device using the [sync setup guide](/docs/sync/).
+The ZIP contains separate JSON files for profiles and subscriptions, playlists, watch history, search history, watch statistics, and transferable settings. Importing merges the selected categories with data already on the device; records with matching IDs or dates are updated. You can still export or import individual categories using the separate actions.
+
+The ZIP does not include open tab sessions or the entire application profile. Transferable settings omit device-specific options and sync credentials, such as proxy configuration, external-player paths, screenshot folders, and the sync privacy key. Configure sync separately on the other device using the [sync setup guide](/docs/sync/).
 
 Exports contain your personal viewing data; store them privately. For a full desktop profile backup, follow [Back up or move to another device](/docs/storage/#back-up-or-move-to-another-device). Downloaded video and audio files are separate from these exports and the profile backup; copy those files separately if you need them.
 
