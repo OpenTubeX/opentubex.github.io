@@ -4,6 +4,8 @@ description: Save video or audio, manage the queue, and find your downloaded fil
 order: 5
 ---
 
+Media downloads are currently unavailable in the experimental iOS/iPadOS app. The instructions below apply to desktop and Android.
+
 ## Set up downloads
 
 1. Open **Settings → Downloads** and turn on **Enable Downloads** if needed.

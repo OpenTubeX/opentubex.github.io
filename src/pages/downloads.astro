@@ -23,9 +23,11 @@ const platformMeta: Record<string, string> = {
 	Windows: '10+',
 	macOS: '12+',
 	Android: '8.0+',
+	'iOS / iPadOS': '17.4+ · Experimental',
 };
 
 const packageSections: Record<string, { id: string; label: string }> = {
+	'iOS / iPadOS': { id: 'ios', label: 'iOS signing instructions' },
 	Windows: { id: 'winget', label: 'winget instructions' },
 	macOS: { id: 'homebrew', label: 'Homebrew instructions' },
 	'Ubuntu / Debian': { id: 'apt', label: 'APT instructions' },
@@ -55,6 +57,7 @@ const nightlyTabs = [
 	{ id: 'flatpak', label: 'Flatpak', icon: 'simple-icons:flatpak' },
 	{ id: 'snap', label: 'Snap', icon: 'simple-icons:snapcraft' },
 	{ id: 'android', label: 'Android', icon: 'simple-icons:android' },
+	{ id: 'ios', label: 'iOS / iPadOS', icon: 'simple-icons:apple' },
 ];
 
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
@@ -121,7 +124,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 
 <SignalLayout
 	title="Downloads – OpenTubeX"
-	description={`Download OpenTubeX ${releaseVersion} beta for Windows, macOS, Linux, and Android. Package managers and GitHub releases.`}
+	description={`Download OpenTubeX ${releaseVersion} beta for Windows, macOS, Linux, Android, and iOS/iPadOS. Package managers and GitHub releases.`}
 	active="downloads"
 	mono
 >
@@ -147,7 +150,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 				<p class="page-hero__eyebrow">Downloads</p>
 				<h1 class="page-hero__title">Choose your install path</h1>
 				<p class="page-hero__lede">
-					Grab a signed build or install through the package manager you already use.
+					Choose a build for your device or install through your package manager. iOS builds require signing.
 				</p>
 				<a class="version-chip" href={`/changelog/#${releaseTag}`}>
 					<span class="version-chip__dot" aria-hidden="true"></span>
@@ -205,6 +208,24 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					))
 				}
 			</div>
+		</section>
+
+		<section class="section section--page section--tight" id="install-ios" aria-labelledby="ios-heading">
+			<h2 class="section__title" id="ios-heading">iOS / iPadOS · Sideload the IPA</h2>
+			<p class="section__intro">
+				Experimental support for iOS/iPadOS 17.4 and newer. The IPA is unsigned and must be signed
+				with your Apple Account before installation; it is not an App Store download.
+			</p>
+			<p>
+				We recommend <a href="https://docs.sidestore.io/docs/installation/prerequisites">SideStore</a>
+				for refreshing on the device after initial computer setup.
+				<a href="https://iloader.app/">iloader</a> is a tested alternative for installing OpenTubeX
+				from Linux, macOS, or Windows. Free accounts must refresh within seven days with either tool.
+			</p>
+			<p>
+				<a href="/docs/installing/#ios--ipados-experimental">Follow the signing, Developer Mode, and update instructions</a>.
+				Downloads and some other platform features are currently unavailable on iOS; the guide lists the limitations.
+			</p>
 		</section>
 
 		<section class="section section--page section--tight" id="packages" aria-labelledby="packages-heading">
@@ -460,6 +481,16 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 										</a>
 									</li>
 								</ul>
+							</div>
+							<div slot="ios">
+								<p class="pkg__body">
+									Download the <code>opentubex-…-ios-unsigned.ipa</code> asset from the
+									<a href="https://github.com/OpenTubeX/OpenTubeX/releases/tag/nightly">nightly release</a>,
+									or the IPA artifact from a successful
+									<a href="https://github.com/OpenTubeX/OpenTubeX/actions/workflows/build.yml">Build workflow run</a>.
+									Use the same <a href="/docs/installing/#ios--ipados-experimental">signing instructions</a>.
+									The iOS nightly uses the same app identity as the regular release and replaces it.
+								</p>
 							</div>
 						</SignalTabs>
 					</div>

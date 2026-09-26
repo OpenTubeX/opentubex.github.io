@@ -197,6 +197,23 @@ export const downloadGroups: DownloadGroup[] = [
 		],
 	},
 	{
+		title: 'iOS / iPadOS',
+		icon: 'simple-icons:apple',
+		links: [
+			{
+				label: '.ipa (unsigned)',
+				url: downloadUrl(`opentubex-${releaseVersion}-ios-unsigned.ipa`),
+				icon: 'lucide:package',
+			},
+			{
+				label: 'Signing and installation guide',
+				url: '/docs/installing/#ios--ipados-experimental',
+				icon: 'lucide:list',
+				preferred: true,
+			},
+		],
+	},
+	{
 		title: 'Ubuntu / Debian',
 		icon: 'simple-icons:ubuntu',
 		links: [
