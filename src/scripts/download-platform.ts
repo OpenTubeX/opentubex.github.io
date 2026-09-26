@@ -6,9 +6,10 @@ const targets = {
 	macOS: '#download-macos',
 	Linux: '#download-ubuntu-debian',
 	Android: '#download-android',
+	iOS: '#download-ios-ipados',
 } as const;
 
-if (os && os !== 'iOS') {
+if (os) {
 	document.querySelectorAll<HTMLAnchorElement>('[data-os-download]').forEach((link) => {
 		const label = link.querySelector<HTMLElement>('[data-os-download-label]');
 		if (!label) return;

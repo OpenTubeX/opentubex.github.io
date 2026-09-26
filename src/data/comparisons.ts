@@ -56,7 +56,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Official Android app available from Google Play.', source: 'https://support.google.com/youtube/answer/3227660?hl=en' },
 			] },
 			{ name: 'iOS app', icon: 'simple-icons:apple', cells: [
-				{ status: 'no', label: 'Planned', note: 'iOS support is planned, but there is no released iOS app yet. Planned work is not counted as available support.', source: 'https://github.com/OpenTubeX/OpenTubeX#download-links' },
+				{ status: 'partial', label: 'Experimental', note: 'An unsigned IPA is available for iOS/iPadOS 17.4+. Requires sideloading and periodic signing refreshes; several features, including downloads, are unavailable.', source: 'https://opentubex.org/docs/installing/#ios--ipados-experimental' },
 				{ status: 'no', note: 'Official FreeTube releases are desktop-only.' },
 				{ status: 'no', note: 'Grayjay offers Android and desktop apps, but no official iOS app.', source: 'https://grayjay.app/desktop/' },
 				{ status: 'no', note: 'NewPipe is an Android app; there is no official iOS release.' },
