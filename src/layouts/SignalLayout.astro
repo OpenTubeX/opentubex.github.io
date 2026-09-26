@@ -223,6 +223,7 @@ const primaryNav = [
 				const href = atob(link.dataset.email ?? '');
 				link.href = href;
 				link.textContent = href.slice('mailto:'.length).split('?')[0];
+				link.removeAttribute('data-email');
 			}
 		</script>
 	</body>

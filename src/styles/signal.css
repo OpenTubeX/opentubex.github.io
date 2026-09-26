@@ -1059,6 +1059,11 @@ a.version-chip:hover .version-chip__dot {
   text-underline-offset: 0.18em;
 }
 
+.privacy-doc a[data-email] {
+	color: inherit;
+	text-decoration: none;
+}
+
 .privacy-doc a:hover,
 .site-footer a:hover {
   color: var(--teal);
