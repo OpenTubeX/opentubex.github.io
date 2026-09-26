@@ -6,6 +6,7 @@ import sitemap from '@astrojs/sitemap';
 import expressiveCode from 'astro-expressive-code';
 import icon from 'astro-icon';
 import rehypeFeatureSections from './src/plugins/rehype-feature-sections.mjs';
+import rehypeObfuscateEmail from './src/plugins/rehype-obfuscate-email.mjs';
 import remarkBundleGitHubImages, {
 	clearExposedGitHubImages,
 	copyExposedGitHubImages,
@@ -70,7 +71,7 @@ export default defineConfig({
 	markdown: {
 		processor: unified({
 			remarkPlugins: [[remarkBundleGitHubImages, featureImageOptions]],
-			rehypePlugins: [rehypeFeatureSections],
+			rehypePlugins: [rehypeFeatureSections, rehypeObfuscateEmail],
 		}),
 	},
 	integrations: [

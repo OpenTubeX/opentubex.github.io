@@ -218,5 +218,12 @@ const primaryNav = [
 			})();
 		</script>
 		<script is:inline src="/signal/theme.js"></script>
+		<script>
+			for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-email]')) {
+				const href = atob(link.dataset.email ?? '');
+				link.href = href;
+				link.textContent = href.slice('mailto:'.length).split('?')[0];
+			}
+		</script>
 	</body>
 </html>
