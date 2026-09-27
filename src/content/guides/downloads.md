@@ -45,7 +45,7 @@ Downloads need a working connection until they finish. Higher-quality video usua
 
 You can also [open the link in the player](/docs/playback/#play-a-link-from-another-site) first and select **Download Video** below it.
 
-Available formats depend on the site and yt-dlp. A supported playback link does not guarantee every download format will work. External-site downloads do not currently offer **Play download** inside OpenTubeX; open the saved file with a compatible media player. On desktop, use **Show in Folder** to find it.
+Available formats depend on the site and yt-dlp. A supported playback link does not guarantee every download format will work. On iOS, compatible external-site downloads offer **Play download** inside OpenTubeX. On desktop, open the saved file with a compatible media player; use **Show in Folder** to find it.
 
 ## Play a completed download
 
