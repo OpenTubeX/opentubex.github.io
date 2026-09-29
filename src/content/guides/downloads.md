@@ -4,6 +4,8 @@ description: Save video or audio, manage the queue, and find your downloaded fil
 order: 5
 ---
 
+The [download comparison](/compare/#offline-downloads) covers FreeTube and OpenTubeX.
+
 ## Set up downloads
 
 1. Open **Settings → Downloads** and turn on **Enable Downloads** if needed.

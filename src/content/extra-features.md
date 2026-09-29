@@ -475,6 +475,8 @@ windows. A searchable organizer provides bulk actions and recently closed tab
 history. Choose an icon for a tab group in the organizer. Internal links support
 browser-style middle-click, Ctrl/Cmd-click, and Shift-click behavior.
 
+The [tab comparison](/compare/#tabs) shows how other clients keep videos open.
+
 ![Experimental tab support](https://github.com/user-attachments/assets/2ddbedea-5997-4a3c-af9e-6a36d3a21d04)
 ![Horizontal and vertical tab layouts](https://github.com/user-attachments/assets/486f0119-ca74-40ec-835a-dd6f53cf1f56)
 ![Tab position setting](https://github.com/user-attachments/assets/358e09be-feb3-4dd2-809e-d868f93c7da5)

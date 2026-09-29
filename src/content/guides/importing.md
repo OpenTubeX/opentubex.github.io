@@ -34,6 +34,8 @@ Follow the [Google Takeout walkthrough](/docs/google-takeout/) to export subscri
 
 Export a subscription file from your previous app, then transfer it to the device running OpenTubeX. Use a subscriptions export rather than a full archive when your app offers both. For OpenTubeX or FreeTube, keep the original .db file; for NewPipe, use its subscriptions .json export. Import the file with the steps above.
 
+The [client comparison](/compare/#import) lists the FreeTube data that OpenTubeX can import.
+
 ## Import history or playlists
 
 1. In the Data tab, choose **Import History**, **Import Playlists**, or **Import search history**.
