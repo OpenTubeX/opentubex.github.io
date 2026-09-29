@@ -33,12 +33,12 @@ const social = [
 ] as const;
 
 const primaryNav = [
-	{ href: '/', label: 'Home', id: 'home' },
-	{ href: '/downloads/', label: 'Downloads', id: 'downloads' },
-	{ href: '/extra-features/', label: 'Features', id: 'features' },
-	{ href: '/docs/', label: 'Docs', id: 'docs' },
-	{ href: '/compare/', label: 'Compare', id: 'compare' },
-	{ href: '/changelog/', label: 'Changelog', id: 'changelog' },
+	{ href: '/', label: 'Home', id: 'home', icon: 'lucide:house' },
+	{ href: '/downloads/', label: 'Downloads', id: 'downloads', icon: 'lucide:download' },
+	{ href: '/extra-features/', label: 'Features', id: 'features', icon: 'lucide:sparkles' },
+	{ href: '/docs/', label: 'Docs', id: 'docs', icon: 'lucide:book-open' },
+	{ href: '/compare/', label: 'Compare', id: 'compare', icon: 'lucide:columns-2' },
+	{ href: '/changelog/', label: 'Changelog', id: 'changelog', icon: 'lucide:history' },
 ] as const;
 ---
 
@@ -98,12 +98,13 @@ const primaryNav = [
 				</a>
 				<nav class="nav__links" id="nav-links" aria-label="Primary">
 					{
-						primaryNav.map(({ href, label, id }) => (
+						primaryNav.map(({ href, label, id, icon }) => (
 							<a
 								href={href}
 								class:list={[{ 'is-active': active === id }]}
 								aria-current={active === id ? 'page' : undefined}
 							>
+								<Icon class="nav__link-icon" name={icon} aria-hidden="true" />
 								{label}
 							</a>
 						))
