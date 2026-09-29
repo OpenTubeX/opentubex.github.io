@@ -134,7 +134,8 @@ Show YouTube end-screen annotations inside the player.
 ### Recommendations when videos end
 
 When autoplay is off, finished videos show a darkened poster with up to six
-recommended videos if recommendations are enabled.
+recommended videos if recommendations are enabled and **Hide End-Screen
+Recommendations** is off in Distraction Free settings.
 
 ### Loop & Copy link in player context menu
 
