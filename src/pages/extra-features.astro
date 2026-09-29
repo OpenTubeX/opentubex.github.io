@@ -180,7 +180,8 @@ const highlights = [
 	}
 
 	function scrollToSection(el: HTMLElement) {
-		const top = el.getBoundingClientRect().top + window.scrollY - navOffsetPx() - 12;
+		const offset = parseFloat(getComputedStyle(el).scrollMarginTop) || navOffsetPx() + 12;
+		const top = el.getBoundingClientRect().top + window.scrollY - offset;
 		window.scrollTo({ top, behavior: 'instant' });
 	}
 

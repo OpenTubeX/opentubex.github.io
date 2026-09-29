@@ -181,6 +181,11 @@ body.signal-body,
 }
 
 body.signal-body {
+  --page-background:
+    radial-gradient(ellipse 80% 50% at 15% 10%, var(--bg-glow-teal), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 90% 20%, var(--bg-glow-ink), transparent 50%),
+    radial-gradient(ellipse 70% 40% at 50% 100%, var(--bg-glow-teal-soft), transparent 55%),
+    linear-gradient(165deg, var(--bg-grad-start) 0%, var(--mist) 40%, var(--bg-grad-end) 100%);
   font-family: var(--font-body);
   color: var(--ink);
   background: var(--mist);
@@ -210,11 +215,7 @@ body.signal-body {
   position: fixed;
   inset: 0;
   z-index: -2;
-  background:
-    radial-gradient(ellipse 80% 50% at 15% 10%, var(--bg-glow-teal), transparent 55%),
-    radial-gradient(ellipse 60% 45% at 90% 20%, var(--bg-glow-ink), transparent 50%),
-    radial-gradient(ellipse 70% 40% at 50% 100%, var(--bg-glow-teal-soft), transparent 55%),
-    linear-gradient(165deg, var(--bg-grad-start) 0%, var(--mist) 40%, var(--bg-grad-end) 100%);
+  background: var(--page-background);
 }
 
 .page-bg::after {
