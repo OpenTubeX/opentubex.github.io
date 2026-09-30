@@ -81,12 +81,14 @@ export default defineConfig({
 		icon({
 			include: {
 				lucide: [
+					'book-open',
 					'boxes',
 					'captions',
 					'chart-column',
 					'circle-play',
 					'copy',
 					'code-xml',
+					'columns-2',
 					'compass',
 					'download',
 					'external-link',

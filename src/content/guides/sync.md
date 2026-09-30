@@ -6,6 +6,8 @@ order: 3.75
 
 Sync shares selected library data between your OpenTubeX installations. [Export your library](/docs/importing/#back-up-your-library) before connecting devices or changing your setup. Sync can propagate changes and deletions; keep a separate backup.
 
+See the [device sync comparison](/compare/#sync).
+
 ## Choose a server and privacy mode
 
 OpenTubeX supports OpenTubeX and LibreTube sync servers. The available categories and pairing controls depend on the server's capabilities.

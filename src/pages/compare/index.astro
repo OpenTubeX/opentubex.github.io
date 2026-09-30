@@ -4,18 +4,44 @@ import ComparisonTable from '../../components/ComparisonTable.astro';
 import '../../styles/comparisons.css';
 ---
 
-<SignalLayout title="Compare YouTube Clients: OpenTubeX, FreeTube, Grayjay & More" description="Compare OpenTubeX, FreeTube, Grayjay, NewPipe, LibreTube, and official YouTube at a glance: mobile apps, playback controls, sync, and privacy." active="compare">
+<SignalLayout title="YouTube client alternatives | OpenTubeX" description="Compare desktop and Android YouTube clients by privacy, data import, sync, downloads, and tabs. Each table entry links to a source where possible." active="compare">
 	<main class="resource-page comparison-page">
 		<header class="page-hero">
 			<div class="page-hero__content">
 				<p class="page-hero__eyebrow">Compare clients</p>
-				<h1 class="page-hero__title">Find the client that fits.</h1>
-				<p class="page-hero__lede">Compare OpenTubeX with FreeTube, Grayjay, NewPipe, LibreTube and YouTube. This table focuses on practical differences including platform support, playback controls, downloads, device sync, library features and privacy. Each comparison is linked to its source where possible.</p>
+				<h1 class="page-hero__title">Compare YouTube clients</h1>
+				<p class="page-hero__lede">This table compares OpenTubeX with FreeTube, Grayjay, NewPipe, LibreTube, and YouTube. It covers platforms, privacy, playback, and library tools for people looking at FreeTube alternatives.</p>
 			</div>
 		</header>
-		<section class="section section--page" aria-label="Client features">
+		<section class="section section--page comparison-results" aria-labelledby="comparison-results-heading">
+			<h2 class="section__title" id="comparison-results-heading">Compare client features</h2>
 			<ComparisonTable />
 			<p class="comparison-note">Maintained by OpenTubeX. Sources checked <time datetime="2026-09-15">15 September 2026</time>. Support can vary by release and platform.</p>
+		</section>
+		<section class="section section--page comparison-guide" aria-labelledby="comparison-guide-heading">
+			<h2 class="section__title" id="comparison-guide-heading">What to check before switching</h2>
+			<div class="comparison-guide__grid">
+				<article id="import">
+					<h3>Move your library</h3>
+					<p>OpenTubeX imports FreeTube <code>.db</code> data for subscriptions, watch history, search history, and playlists. Export the database from FreeTube, then use the matching import actions in OpenTubeX. Copy downloaded files separately; open tabs do not transfer.</p>
+					<p><a href="/docs/importing/#move-from-another-app">Import instructions</a></p>
+				</article>
+				<article id="sync">
+					<h3>Use more than one device</h3>
+					<p>FreeTube's official app runs on desktop and stores data locally. OpenTubeX runs on desktop and Android. Its optional sync encrypts selected data before upload when the server supports enhanced privacy.</p>
+					<p><a href="/docs/sync/">OpenTubeX sync guide</a> · <a href="https://docs.freetubeapp.io/usage/data-location/">FreeTube data storage</a></p>
+				</article>
+				<article id="offline-downloads">
+					<h3>Offline downloads</h3>
+					<p>FreeTube removed its built-in downloader in version 0.24.0 and recommends separate download tools. OpenTubeX supports video, audio, playlist, and available subtitle downloads. File formats and quality depend on the video and platform.</p>
+					<p><a href="/docs/downloads/">OpenTubeX download guide</a> · <a href="https://github.com/FreeTubeApp/FreeTube/releases/tag/v0.24.0-beta">FreeTube 0.24.0 release notes</a></p>
+				</article>
+				<article id="tabs">
+					<h3>Tabs and windows</h3>
+					<p>FreeTube supports separate windows but has no browser-style tabs. OpenTubeX keeps videos and channels open in tabs within the app. Its tab organizer lets you find an open tab.</p>
+					<p><a href="/extra-features/#tab-support">OpenTubeX tab controls</a> · <a href="https://github.com/FreeTubeApp/FreeTube/issues/333">FreeTube tabs discussion</a></p>
+				</article>
+			</div>
 		</section>
 	</main>
 </SignalLayout>

@@ -24,6 +24,19 @@ player with an optional animated audio visualizer.
 
 <img width="356" height="200" style="max-width: min(100%, 356px); max-height: 200px;" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T212640Z-opentubex-music-player-real-song-82408ea747.webp" alt="YouTube Music artwork player with an animated audio spectrum">
 
+### Play media from other sites
+
+Paste a compatible video or audio link from another site to play it in a Watch
+tab through yt-dlp. Available creator and media details appear alongside
+the player. This supports individual links, not browsing or playlists from
+other sites.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/12642eee-54a1-46ae-9d0f-ecfbc9826905">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/ba162225-f92d-40dd-a1fd-42b3c5b92d4d">
+  <img alt="Creator and media details for a video opened from another site" src="https://github.com/user-attachments/assets/12642eee-54a1-46ae-9d0f-ecfbc9826905">
+</picture>
+
 ### Preload upcoming videos and playlists
 
 Preload upcoming yt-dlp videos from the watch queue, playlist or
@@ -86,6 +99,18 @@ or switch windows.
 
 ![Auto Picture-in-Picture window options](https://github.com/user-attachments/assets/4c1f1f7b-7614-41c8-abd3-5c5179d75cee)
 
+### Cast to DLNA devices
+
+On desktop, send a compatible MP4 video to a DLNA or UPnP device on your local
+network. Choose a device from the optional player control, then stop casting
+to return to playback in OpenTubeX.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3e93e4e5-047e-47d0-8b5f-447a0dc0fecc">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/51e9de75-86de-4f64-a886-b26315c51566">
+  <img alt="DLNA device menu in the video player" src="https://github.com/user-attachments/assets/3e93e4e5-047e-47d0-8b5f-447a0dc0fecc">
+</picture>
+
 ### Scroll mini-player
 
 Keep watching in a mini-player when you scroll away from a video or switch to
@@ -109,7 +134,8 @@ Show YouTube end-screen annotations inside the player.
 ### Recommendations when videos end
 
 When autoplay is off, finished videos show a darkened poster with up to six
-recommended videos if recommendations are enabled.
+recommended videos if recommendations are enabled and **Hide End-Screen
+Recommendations** is off in Distraction Free settings.
 
 ### Loop & Copy link in player context menu
 
@@ -286,6 +312,18 @@ results.
   <img alt="Age-restricted and unlisted video badges" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-949-watch-page-badges-dark-dark-bfe40a3411.png">
 </picture>
 
+### YouTube AI video summaries
+
+Choose whether summaries supplied by YouTube are hidden, collapsed, or
+expanded below video descriptions. They are hidden by default, and the same
+preference applies to Shorts.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/cbf325b9-6c94-4837-9938-5f16633dbd49">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/59c40f1d-c647-443e-affd-e61c22aea4e5">
+  <img alt="YouTube AI video summary beneath a video description" src="https://github.com/user-attachments/assets/cbf325b9-6c94-4837-9938-5f16633dbd49">
+</picture>
+
 ### Playlist browsing and saved YouTube playlists
 
 Choose an independent Grid or List view for playlist pages and switch it from
@@ -300,6 +338,18 @@ additions.
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260830T075432Z-saved-playlist-dark-dark-815812ca6c.png">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260830T075432Z-saved-playlist-light-light-fdb2f428ab.png">
   <img alt="Saved YouTube playlist in Your Playlists" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260830T075432Z-saved-playlist-dark-dark-815812ca6c.png">
+</picture>
+
+### Unavailable playlist videos
+
+Optionally skip known unavailable videos while playing a playlist. You can
+also scan an editable local playlist for confirmed unavailable entries and
+choose whether to remove them. Videos that could not be checked are kept.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/73508c60-e037-452c-bf29-93e7af0bffe6">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/57e45347-b684-40a2-a83c-4a2998b7e3d3">
+  <img alt="Confirmation before removing unavailable videos from a local playlist" src="https://github.com/user-attachments/assets/73508c60-e037-452c-bf29-93e7af0bffe6">
 </picture>
 
 ### Comment tools
@@ -425,6 +475,8 @@ windows. A searchable organizer provides bulk actions and recently closed tab
 history. Choose an icon for a tab group in the organizer. Internal links support
 browser-style middle-click, Ctrl/Cmd-click, and Shift-click behavior.
 
+The [tab comparison](/compare/#tabs) shows how other clients keep videos open.
+
 ![Experimental tab support](https://github.com/user-attachments/assets/2ddbedea-5997-4a3c-af9e-6a36d3a21d04)
 ![Horizontal and vertical tab layouts](https://github.com/user-attachments/assets/486f0119-ca74-40ec-835a-dd6f53cf1f56)
 ![Tab position setting](https://github.com/user-attachments/assets/358e09be-feb3-4dd2-809e-d868f93c7da5)
@@ -499,6 +551,18 @@ Open settings in a draggable, resizable window with integrated subpages and
 search across every category.
 
 ![Settings window](https://github.com/user-attachments/assets/be196edf-e84f-4bae-ab59-89a31e507a6c)
+
+### Desktop tray controls
+
+Use the system tray to show or hide OpenTubeX and control previous, play or
+pause, and next. Choose separately whether minimizing or closing the window
+sends it to the tray.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e5a11835-97ad-4c0c-8a93-c0dac329dbfd">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/5858545a-19d5-4c50-a8d4-d160ac5437cc">
+  <img alt="Settings for using the tray icon and sending windows to the tray" src="https://github.com/user-attachments/assets/e5a11835-97ad-4c0c-8a93-c0dac329dbfd">
+</picture>
 
 ## Appearance
 
@@ -659,9 +723,21 @@ Choose between Material Symbols and Remix Icon throughout the interface.
 ### SponsorBlock side panel
 
 Open a side panel with segment details, a temporary auto-skip toggle, and an
-option to whitelist the current channel.
+option to exclude the current channel from automatic skips.
 
 ![SponsorBlock side panel](https://github.com/user-attachments/assets/c62bf50f-aeb7-47fb-9639-63547ac6538d)
+
+### SponsorBlock channel exclusions
+
+Exclude individual channels from automatic SponsorBlock skips while keeping
+their segments visible on the seekbar. Add channels from a video or manage
+the list in SponsorBlock settings.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/eff4b809-fc39-44c6-a669-07cf9d7812b6">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/4f52fbcb-a79e-4ce2-b87d-135a1279c257">
+  <img alt="Excluded SponsorBlock channel listed by name and avatar" src="https://github.com/user-attachments/assets/eff4b809-fc39-44c6-a669-07cf9d7812b6">
+</picture>
 
 ### SponsorBlock tooltips (unskip / reskip / prompt to skip)
 
@@ -743,12 +819,36 @@ then review how they changed over time.
 Import subscriptions and watch history from
 [LibreTube](https://github.com/libre-tube/LibreTube).
 
+### YouTube Takeout ZIP import
+
+Import subscriptions, watch history, search history, and playlists directly
+from a YouTube Takeout ZIP. Select the categories you want to bring in without
+extracting the archive or importing each file separately.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a7ac2133-09a8-4438-af82-c6e5341034d8">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/6d0ed9c8-8d62-4636-8729-9f120583850c">
+  <img alt="Selecting data categories to import from a YouTube Takeout ZIP" src="https://github.com/user-attachments/assets/a7ac2133-09a8-4438-af82-c6e5341034d8">
+</picture>
+
 ### Data and storage controls
 
 Review disk usage and clean individual caches or saved data from Data & Storage
 settings.
 
 ![Data and Storage settings](https://github.com/user-attachments/assets/77e6bc25-bc34-43a3-a8e3-75e28e1e0db4)
+
+### Complete ZIP backup
+
+Export profiles, playlists, watch and search history, watch statistics, and
+transferable settings in one ZIP file. When importing, choose which categories
+to restore; matching records merge with data already on the device.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a5e0c0fc-3a3f-4879-9abf-185a05470006">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/5d6e7136-48d2-489e-89ed-6abedf60964d">
+  <img alt="Import and export controls for a complete ZIP backup" src="https://github.com/user-attachments/assets/a5e0c0fc-3a3f-4879-9abf-185a05470006">
+</picture>
 
 ### Encrypted sync
 
@@ -758,6 +858,12 @@ that supports enhanced privacy. Legacy servers, including those without
 encrypted-sync support, can read the data you sync. LibreTube Sync servers are
 supported, but available features depend on the server.
 
+Compatible servers can send changes as they happen. Account activity shows
+which device added, removed, or changed items, and **Open on another device**
+sends a video to another device. Upcoming live-stream and premiere reminders
+can also sync across desktop and Android when the server supports that
+collection and notifications are allowed on the receiving device.
+
 **Watch stats** sync requires a compatible enhanced-privacy server. It is
 enabled by default in **Settings → Sync**; turn it off to keep statistics
 on this device. On servers supporting secure pairing, add another device by
@@ -766,6 +872,12 @@ or privacy passphrase on it. Follow [Sync between devices](/docs/sync/) for
 setup, pairing, and recovery limitations.
 
 ![Encrypted synchronization settings](https://github.com/user-attachments/assets/15144ab2-0111-4e38-b011-c7a57417fcd0)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3ddee31f-b82d-4755-b2ee-821da774095b">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/5ab5391f-cde8-44db-abe4-901e24afadc2">
+  <img alt="Account activity describing changes made on another device" src="https://github.com/user-attachments/assets/3ddee31f-b82d-4755-b2ee-821da774095b">
+</picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-943-device-pairing-dark-dark-9a0bd2458f.png">
@@ -779,10 +891,18 @@ setup, pairing, and recovery limitations.
 
 Use yt-dlp for reliable playback and advanced video, audio, and playlist
 downloads. Download subtitles separately as SRT, VTT, ASS, or LRC files, and
-manage active and completed downloads from a dedicated page.
+manage active and completed downloads from a dedicated page. On desktop and
+Android, paste an individual supported media URL from another site into
+Downloads or use the download action on its Watch page.
 
 ![Updated download options](https://github.com/user-attachments/assets/1460f265-5b22-40b6-8958-73b4d3a89e83)
 ![Downloads manager](https://github.com/user-attachments/assets/d42c04c5-eca4-477f-bcd7-3c8a3bd5a272)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/16dff1d6-c43b-4dd3-8df0-4167fad6bd18">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/e417f6f4-5ffd-424d-94f7-ffd500d4755e">
+  <img alt="Add download URL dialog for media from another site" src="https://github.com/user-attachments/assets/16dff1d6-c43b-4dd3-8df0-4167fad6bd18">
+</picture>
 
 ### Automatic downloads and download queue
 
@@ -805,3 +925,11 @@ downloads, touch controls and sync with desktop devices.
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-light-light-fcf25f28d8.webp">
   <img width="162" height="300" style="max-width: min(100%, 162px); max-height: 300px;" alt="Mobile tab flow: page previews, hold actions, drag to reorder, and switch tabs" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-dark-dark-6d36048f51.webp">
 </picture>
+
+### Experimental iPhone and iPad app
+
+Use OpenTubeX on iOS and iPadOS 17.4 or later with touch controls, background
+playback, and on-device yt-dlp playback and downloads. Experimental builds are
+available as unsigned IPAs that you sign and sideload with an Apple Account.
+
+<img width="169" height="300" style="max-width: min(100%, 169px); max-height: 300px;" src="/extra-features/ios-iphone-playback.webp" alt="OpenTubeX Watch page playing a video on iPhone">

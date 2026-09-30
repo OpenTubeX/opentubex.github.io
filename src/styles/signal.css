@@ -181,6 +181,11 @@ body.signal-body,
 }
 
 body.signal-body {
+  --page-background:
+    radial-gradient(ellipse 80% 50% at 15% 10%, var(--bg-glow-teal), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 90% 20%, var(--bg-glow-ink), transparent 50%),
+    radial-gradient(ellipse 70% 40% at 50% 100%, var(--bg-glow-teal-soft), transparent 55%),
+    linear-gradient(165deg, var(--bg-grad-start) 0%, var(--mist) 40%, var(--bg-grad-end) 100%);
   font-family: var(--font-body);
   color: var(--ink);
   background: var(--mist);
@@ -210,11 +215,7 @@ body.signal-body {
   position: fixed;
   inset: 0;
   z-index: -2;
-  background:
-    radial-gradient(ellipse 80% 50% at 15% 10%, var(--bg-glow-teal), transparent 55%),
-    radial-gradient(ellipse 60% 45% at 90% 20%, var(--bg-glow-ink), transparent 50%),
-    radial-gradient(ellipse 70% 40% at 50% 100%, var(--bg-glow-teal-soft), transparent 55%),
-    linear-gradient(165deg, var(--bg-grad-start) 0%, var(--mist) 40%, var(--bg-grad-end) 100%);
+  background: var(--page-background);
 }
 
 .page-bg::after {
@@ -285,6 +286,24 @@ body.signal-body {
 
 .nav__links a:hover,
 .nav__links a.is-active { color: var(--ink); }
+
+.nav__links > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.nav__link-icon {
+  display: none;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 70rem) {
+  .nav__link-icon { display: block; }
+}
 
 .nav__links > a::after {
   content: "";
@@ -1257,6 +1276,7 @@ a.version-chip:hover .version-chip__dot {
   font-size: 0.98rem;
 }
 
+.section__intro a,
 .pillar__body a {
   color: var(--teal-deep);
   font-weight: 500;
@@ -1265,6 +1285,7 @@ a.version-chip:hover .version-chip__dot {
   text-underline-offset: 0.15em;
 }
 
+.section__intro a:hover,
 .pillar__body a:hover {
   text-decoration-color: var(--teal);
 }
@@ -2993,7 +3014,7 @@ a.version-chip:hover .version-chip__dot {
 }
 
 /* Collapse the nav before its links and theme control run out of room. */
-@media (max-width: 50rem) {
+@media (max-width: 60rem) {
   .nav__actions {
     justify-content: space-between;
     gap: 0.75rem;

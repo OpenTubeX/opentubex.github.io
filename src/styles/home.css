@@ -150,6 +150,7 @@
 }
 
 .home .section__intro { max-width: 55ch; }
+.home .pillars + .section__intro { margin: 1rem 0 0; }
 
 .home .pillars {
   display: grid;

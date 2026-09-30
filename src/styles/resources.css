@@ -116,7 +116,23 @@
 .page-index [hidden] { display: none !important; }
 
 /* Feature categories keep the original descriptions and media together. */
-.feature-search { margin: 0 0 2.5rem; }
+.feature-search {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 2;
+  margin: 0 0 2.5rem;
+}
+.feature-search::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 -2rem;
+  z-index: -1;
+  background-image: var(--page-background);
+  background-attachment: fixed;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 2rem), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 2rem), transparent);
+  pointer-events: none;
+}
 .feature-search > label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
 .feature-search__controls { display: flex; gap: 0.65rem; }
 /* Keep the browser's built-in search clear control. */
@@ -146,7 +162,7 @@
   font-size: clamp(1.1rem, 2vw, 1.35rem);
   line-height: 1.3;
   letter-spacing: -0.02em;
-  scroll-margin-top: calc(var(--nav-h) + 1rem);
+  scroll-margin-top: calc(var(--nav-h) + 9rem);
 }
 
 .resource-page .feature-doc :is(img, video) { border-radius: 0.75rem; }

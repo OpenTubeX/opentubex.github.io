@@ -4,7 +4,7 @@ description: Save video or audio, manage the queue, and find your downloaded fil
 order: 5
 ---
 
-Media downloads are currently unavailable in the experimental iOS/iPadOS app. The instructions below apply to desktop and Android.
+The [download comparison](/compare/#offline-downloads) covers FreeTube and OpenTubeX.
 
 ## Set up downloads
 
