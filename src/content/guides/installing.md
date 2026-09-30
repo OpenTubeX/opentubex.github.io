@@ -80,7 +80,7 @@ For updates, import the newer OpenTubeX IPA with the same signing tool and Apple
 
 ### Current iOS limitations
 
-The port is experimental. Playback, fullscreen, touch menus, and settings have been tested on a physical iPad, but broader device coverage is still in progress. Downloads, authenticated playback, translated audio, app-managed proxies, alternate icons, and closed-app subscription refresh are unavailable on iOS. Track progress in [the iOS port issue](https://github.com/OpenTubeX/OpenTubeX/issues/1279).
+The port is experimental. Playback, fullscreen, touch menus, and settings have been tested on a physical iPad, but broader device coverage is still in progress. Authenticated playback, translated audio, app-managed proxies, alternate icons, and closed-app subscription refresh are unavailable on iOS. Track progress in [the iOS port issue](https://github.com/OpenTubeX/OpenTubeX/issues/1279).
 
 ## Update without starting over
 
