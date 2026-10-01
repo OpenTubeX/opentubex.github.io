@@ -38,7 +38,7 @@ In **Settings → Advanced → Video and metadata providers**, find **Stream ext
 
 | Method | When to use it |
 | --- | --- |
-| Built-in | Use the app's included stream extraction. This path does not support seeking in livestreams and premieres. |
+| Built-in | Use the app's included stream extraction. Seeking in livestreams and premieres works when YouTube provides a rewindable stream. |
 | yt-dlp | Use yt-dlp for stream extraction. It must be available, and videos may take longer to start. |
 
 <picture>
