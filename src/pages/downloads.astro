@@ -27,7 +27,6 @@ const platformMeta: Record<string, string> = {
 };
 
 const packageSections: Record<string, { id: string; label: string }> = {
-	'iOS / iPadOS': { id: 'ios', label: 'iOS signing instructions' },
 	Windows: { id: 'winget', label: 'winget instructions' },
 	macOS: { id: 'homebrew', label: 'Homebrew instructions' },
 	'Ubuntu / Debian': { id: 'apt', label: 'APT instructions' },
@@ -208,24 +207,6 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					))
 				}
 			</div>
-		</section>
-
-		<section class="section section--page section--tight" id="install-ios" aria-labelledby="ios-heading">
-			<h2 class="section__title" id="ios-heading">iOS / iPadOS · Sideload the IPA</h2>
-			<p class="section__intro">
-				Experimental support for iOS/iPadOS 17.4 and newer. The IPA is unsigned and must be signed
-				with your Apple Account before installation; it is not an App Store download.
-			</p>
-			<p>
-				We recommend <a href="https://docs.sidestore.io/docs/installation/prerequisites">SideStore</a>
-				for refreshing on the device after initial computer setup.
-				<a href="https://iloader.app/">iloader</a> is a tested alternative for installing OpenTubeX
-				from Linux, macOS, or Windows. Free accounts must refresh within seven days with either tool.
-			</p>
-			<p>
-				<a href="/docs/installing/#ios--ipados-experimental">Follow the signing, Developer Mode, and update instructions</a>.
-				Some platform features are currently unavailable on iOS; the guide lists the limitations.
-			</p>
 		</section>
 
 		<section class="section section--page section--tight" id="packages" aria-labelledby="packages-heading">
