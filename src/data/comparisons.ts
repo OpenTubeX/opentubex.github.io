@@ -1,11 +1,9 @@
 export type Support = 'yes' | 'partial' | 'no';
 
-interface Cell {
-	status: Support;
-	label?: string;
+type Cell = ({ status: Support; label?: string } | { status?: never; label: string }) & {
 	note: string | (string | { text: string; href: string })[];
 	source?: string;
-}
+};
 
 interface Row {
 	name: string;
@@ -84,6 +82,14 @@ export const groups: { name: string; rows: Row[] }[] = [
 	{
 		name: 'Watching & listening',
 		rows: [
+			{ name: 'Downloads', icon: 'lucide:download', cells: [
+				{ status: 'yes', note: 'Download videos, audio, playlists, and subtitles for offline use.', source: 'https://opentubex.org/extra-features/#download-support' },
+				{ status: 'no', label: 'Removed in 0.24', note: 'FreeTube removed its built-in downloader in 0.24.0. External download tools are separate from the app.', source: 'https://github.com/FreeTubeApp/FreeTube/releases/tag/v0.24.0-beta' },
+				{ status: 'yes', note: 'Download videos and playlists for offline viewing on supported sources.', source: 'https://grayjay.app/' },
+				{ status: 'yes', note: 'Download video, audio, or captions; choose formats and quality.' },
+				{ status: 'yes', note: 'Includes downloads for offline playback.' },
+				{ status: 'partial', label: 'Plan / region limits', note: ['Premium offers in-app offline downloads; ', { text: 'Premium Lite', href: 'https://support.google.com/youtube/answer/15968883?hl=en' }, ' includes eligible non-music videos, excluding Shorts. Some regions allow selected videos without a paid plan. Downloads stay within YouTube, rather than becoming freely exportable media files.'], source: 'https://support.google.com/youtube/answer/7381437?hl=en' },
+			] },
 			{ name: 'Per-channel playback settings', icon: 'lucide:sliders-horizontal', cells: [
 				{ status: 'yes', note: 'Save and automatically apply playback speed, quality, subtitles, and volume separately for each channel.', source: 'https://opentubex.org/extra-features/#per-channel-playback-settings' },
 				{ status: 'no', note: 'Global player preferences are available, but no per-channel playback presets are documented.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/static/locales/en-US.yaml' },
@@ -132,13 +138,37 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Background playback is included.' },
 				{ status: 'partial', label: 'Premium', note: 'Mobile background playback requires a paid plan. Premium Lite includes eligible non-music videos, excluding Shorts; full Premium covers music too. Desktop browser audio can continue in another tab.', source: 'https://support.google.com/youtube/answer/15968883?hl=en' },
 			] },
-			{ name: 'Downloads', icon: 'lucide:download', cells: [
-				{ status: 'yes', note: 'Download videos, audio, playlists, and subtitles for offline use.', source: 'https://opentubex.org/extra-features/#download-support' },
-				{ status: 'no', label: 'Removed in 0.24', note: 'FreeTube removed its built-in downloader in 0.24.0. External download tools are separate from the app.', source: 'https://github.com/FreeTubeApp/FreeTube/releases/tag/v0.24.0-beta' },
-				{ status: 'yes', note: 'Download videos and playlists for offline viewing on supported sources.', source: 'https://grayjay.app/' },
-				{ status: 'yes', note: 'Download video, audio, or captions; choose formats and quality.' },
-				{ status: 'yes', note: 'Includes downloads for offline playback.' },
-				{ status: 'partial', label: 'Plan / region limits', note: ['Premium offers in-app offline downloads; ', { text: 'Premium Lite', href: 'https://support.google.com/youtube/answer/15968883?hl=en' }, ' includes eligible non-music videos, excluding Shorts. Some regions allow selected videos without a paid plan. Downloads stay within YouTube, rather than becoming freely exportable media files.'], source: 'https://support.google.com/youtube/answer/7381437?hl=en' },
+			{ name: 'Distraction-free toggles', icon: 'lucide:list-filter', cells: [
+				{ status: 'yes', note: 'Hide Shorts, recommendations, comments, counts, and navigation sections. Filter subscription feeds by videos, Shorts, live streams, and posts; hide watched content or block channels and title keywords.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/development/static/locales/en-US.yaml' },
+				{ status: 'yes', note: 'Hide recommendations, comments, counts, and channel tabs such as Shorts. Filter subscription feeds by content type, hide watched videos, and block channels or title keywords.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/static/locales/en-US.yaml' },
+				{ status: 'partial', label: 'Limited controls', note: 'Android can hide the recommendations tab and customize visible navigation tabs. These are narrower controls than a full set of Shorts, comments, and subscription-content hiding toggles.', source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/java/com/futo/platformplayer/Settings.kt' },
+				{ status: 'partial', label: 'Player / home controls', note: 'Hide related videos, comments, and metadata boxes; choose the tabs on the home page and disable automatic queueing. A global toggle to hide Shorts is not documented.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/dev/app/src/main/res/values/strings.xml' },
+				{ status: 'partial', label: 'Feed / player controls', note: ['Released version 32.1 filters feeds by videos, Shorts, and live streams, and can hide watched or upcoming videos. ', { text: 'App settings', href: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/res/xml/general_settings.xml' }, ' can also hide related videos and search suggestions. These controls do not hide Shorts everywhere.'], source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/sheets/FilterSortBottomSheet.kt' },
+				{ status: 'partial', label: 'Recommendation controls', note: 'Show fewer Shorts and mark recommendations as Not interested or Don\'t recommend channel. Removing and disabling watch history can remove Home recommendations; there is no equivalent general set of interface-hiding toggles.', source: 'https://support.google.com/youtube/answer/6342839?hl=en' },
+			] },
+			{ name: 'Watch queue', icon: 'lucide:list-video', cells: [
+				{ status: 'yes', note: 'Add videos to the watch queue or play them next, then remove or reorder items in the side panel.', source: 'https://opentubex.org/extra-features/#watch-queue' },
+				{ status: 'no', note: 'Playlists and autoplay are available, but a separate watch queue remains an open feature request.', source: 'https://github.com/FreeTubeApp/FreeTube/issues/547' },
+				{ status: 'yes', note: 'Add videos to a playback queue. Android includes a queue editor for managing the upcoming videos.', source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/java/com/futo/platformplayer/views/overlays/QueueEditorOverlay.kt' },
+				{ status: 'yes', note: 'Enqueue videos, choose a video to play next, and manage the player queue. Automatic addition of related videos is optional.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/dev/app/src/main/res/values/strings.xml' },
+				{ status: 'yes', note: 'Released version 32.1 includes Add to queue and queue controls, with optional insertion of related videos.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/res/values/strings.xml' },
+				{ status: 'partial', label: 'Mobile requires Premium', note: 'Queue videos for free on desktop and the web. Queueing on phones and tablets requires YouTube Premium; a browser queue is lost when the browser closes unless saved as a playlist.', source: 'https://support.google.com/youtube/answer/9546304?hl=en' },
+			] },
+			{ name: 'Sleep timer', icon: 'lucide:timer', cells: [
+				{ status: 'yes', note: 'Stop playback after a chosen duration, when the current chapter ends, or when the current video ends.', source: 'https://opentubex.org/extra-features/#sleep-timer' },
+				{ status: 'no', note: 'No built-in sleep timer is documented in the player or settings.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/static/locales/en-US.yaml' },
+				{ status: 'no', note: 'No built-in sleep timer is documented. Using a separate system or media timer is an external workflow.', source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/res/values/strings.xml' },
+				{ status: 'no', note: 'No built-in sleep timer is documented in the official app. Separate Android sleep-timer apps are an external workflow.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/dev/app/src/main/res/values/strings.xml' },
+				{ status: 'yes', note: 'Released version 32.1 includes a sleep timer with a custom duration and quick choices of 10, 20, 30, 45, or 60 minutes.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/sheets/SleepTimerSheet.kt' },
+				{ status: 'yes', note: 'Use the player\'s Sleep timer setting to pause the video automatically after a chosen duration.', source: 'https://support.google.com/youtube/answer/15397997?hl=en' },
+			] },
+			{ name: 'Cast to a TV', icon: 'lucide:cast', cells: [
+				{ status: 'partial', label: 'Desktop DLNA', note: 'On desktop, send compatible MP4 videos to DLNA or UPnP devices on your local network. This does not provide Chromecast or AirPlay support.', source: 'https://opentubex.org/extra-features/#cast-to-dlna-devices' },
+				{ status: 'no', note: 'No built-in TV casting. DLNA and UPnP support remains an open feature request; casting through an external player is a separate workflow.', source: 'https://github.com/FreeTubeApp/FreeTube/issues/437' },
+				{ status: 'yes', label: 'Multiple protocols', note: 'Supports FCast, Chromecast, and AirPlay. FCast is recommended; Chromecast may need the phone to proxy separate audio and video streams, while AirPlay does not support those separated streams.', source: 'https://grayjay.app/faq.html' },
+				{ status: 'partial', label: 'Kodi via Kore', note: 'The Play with Kodi option sends playback to a Kodi media center through the separate Kore remote app. This is not built-in Chromecast or AirPlay casting.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/dev/app/src/main/res/values/strings.xml' },
+				{ status: 'no', note: 'Released version 32.1 has no built-in TV casting. Opening a video in a separate casting-capable player is an external workflow.', source: 'https://github.com/libre-tube/LibreTube/discussions/3493' },
+				{ status: 'yes', note: 'Cast from the mobile app or a supported desktop browser to compatible TVs and streaming devices. The mobile app can also link to the TV app using a TV code.', source: 'https://support.google.com/youtube/answer/7640706?hl=en' },
 			] },
 		],
 	},
@@ -197,6 +227,14 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'No automatic usage reporting. Bug reports are sent only when you choose to submit them. Media services still receive playback requests.', source: 'https://newpipe.net/legal/privacy/' },
 				{ status: 'yes', note: 'Its privacy policy states that it does not gather app-usage data or use tracking libraries. Direct playback and optional Piped services still receive requests.', source: ltPrivacy },
 				{ status: 'no', label: 'Activity collection', note: 'Google collects activity such as videos watched, searches, and interactions. History and personalization controls affect storage and use; Premium does not remove this data collection.', source: 'https://policies.google.com/privacy?hl=en' },
+			] },
+			{ name: 'License', icon: 'lucide:scale', cells: [
+				{ label: 'AGPLv3', note: 'Open-source app licensed under the GNU Affero General Public License version 3.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/development/LICENSE' },
+				{ label: 'AGPLv3', note: 'Open-source app licensed under the GNU Affero General Public License version 3.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/LICENSE' },
+				{ label: 'Source First 1.1', note: ['Source-available under FUTO\'s Source First License 1.1, with restrictions on commercial use and redistribution. Both Android and ', { text: 'desktop', href: 'https://github.com/futo-org/Grayjay.Desktop/blob/master/LICENSE.md' }, ' use this license.'], source: 'https://github.com/futo-org/grayjay-android/blob/master/LICENSE.md' },
+				{ label: 'GPLv3', note: 'Open-source app licensed under the GNU General Public License version 3 or later.', source: 'https://github.com/TeamNewPipe/NewPipe' },
+				{ label: 'GPLv3', note: 'Open-source app licensed under the GNU General Public License version 3 or later.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/README.md' },
+				{ label: 'Proprietary', note: 'The official YouTube service and apps are proprietary and governed by YouTube\'s Terms of Service; they are not published under an open-source app license.', source: 'https://www.youtube.com/static?template=terms' },
 			] },
 		],
 	},

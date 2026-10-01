@@ -182,7 +182,8 @@ Remember the player volume between sessions. Enabled by default.
 
 ### Sleep timer
 
-Stop playback after a chosen duration or when the current video ends.
+Stop playback after a chosen duration, when the current chapter ends, or when
+the current video ends.
 
 ![Sleep timer control](https://github.com/user-attachments/assets/54fcc8cf-4bc4-49f7-b803-0340c9c218c6)
 ![Sleep timer options](https://github.com/user-attachments/assets/15440d77-f504-4982-a026-957ed13a07a9)
