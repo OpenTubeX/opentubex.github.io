@@ -759,7 +759,7 @@ category label, and choose a custom color for each segment category.
 ### SponsorBlock submission
 
 Submit SponsorBlock segments directly from the player and review your
-submissions, contributed skips, and time saved. Submission is experimental.
+submissions, contributed skips, and time saved.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-953-sponsorblock-stats-dark-dark-aa05727bab.png">

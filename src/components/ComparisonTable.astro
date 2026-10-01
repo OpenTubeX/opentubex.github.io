@@ -59,7 +59,7 @@ import { clients, groups, support } from '../data/comparisons';
 												<h3 id={`${id}-heading`}>{client.name} · {row.name}</h3>
 												<button type="button" popovertarget={id} popovertargetaction="hide" aria-label="Close details">×</button>
 											</div>
-											<p>{cell.note}</p>
+											<p>{(Array.isArray(cell.note) ? cell.note : [cell.note]).map((part) => typeof part === 'string' ? part : <a href={part.href}>{part.text}</a>)}</p>
 											<a href={cell.source ?? client.source}>Source</a>
 										</div>
 									</td>

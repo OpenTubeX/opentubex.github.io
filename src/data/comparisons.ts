@@ -3,7 +3,7 @@ export type Support = 'yes' | 'partial' | 'no';
 interface Cell {
 	status: Support;
 	label?: string;
-	note: string;
+	note: string | (string | { text: string; href: string })[];
 	source?: string;
 }
 
@@ -31,7 +31,7 @@ export const support = {
 
 const otxMobile = 'https://github.com/OpenTubeX/OpenTubeX#download-links';
 const otxSync = 'https://opentubex.org/extra-features/#encrypted-sync';
-const ltPrivacy = 'https://github.com/libre-tube/LibreTube/blob/master/PRIVACY_POLICY.md';
+const ltPrivacy = 'https://github.com/libre-tube/LibreTube/blob/v32.1/PRIVACY_POLICY.md';
 const gjSync = 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/java/com/futo/platformplayer/states/StateSync.kt';
 const localOnly = 'https://docs.freetubeapp.io/usage/data-location/';
 
@@ -63,16 +63,16 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'LibreTube is an Android app; there is no official iOS release.' },
 				{ status: 'yes', note: 'Official YouTube app for iPhone and iPad.', source: 'https://support.google.com/youtube/answer/3227660?co=GENIE.Platform%3DiOS&hl=en' },
 			] },
-			{ name: 'Native Android interface', icon: 'lucide:smartphone', cells: [
-				{ status: 'no', label: 'Web-based', note: 'Uses Capacitor with a shared web interface and native integrations. It is an installable Android app, but not a native Android UI.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/development/package.json' },
-				{ status: 'no', label: 'Web-based fork', note: 'The unofficial FreeTubeAndroid port uses Cordova and a web interface, not a native Android UI.', source: 'https://github.com/MarmadileManteater/FreeTubeAndroid' },
-				{ status: 'yes', note: 'Android interface implemented in its dedicated Android codebase.', source: 'https://github.com/futo-org/grayjay-android' },
-				{ status: 'yes', note: 'Uses Android UI components, rather than a desktop web interface.', source: 'https://github.com/TeamNewPipe/NewPipe' },
-				{ status: 'yes', note: 'Native Android app with Material Design.' },
-				{ status: 'yes', note: 'Dedicated official Android app, with an interface designed for phones and tablets.', source: 'https://support.google.com/youtube/answer/3227660?hl=en' },
+			{ name: 'Native mobile interface', icon: 'lucide:smartphone', cells: [
+				{ status: 'no', label: 'Web-based', note: 'The Android and experimental iOS/iPadOS apps use Capacitor with a shared web interface and native integrations. The interface is web-based on both platforms.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/development/package.json' },
+				{ status: 'no', label: 'Web-based fork', note: 'Official FreeTube releases are desktop-only. The unofficial FreeTubeAndroid port uses Cordova with a web-based mobile interface.', source: 'https://github.com/MarmadileManteater/FreeTubeAndroid' },
+				{ status: 'yes', note: 'Native mobile interface on Android only, implemented in its dedicated Android codebase.', source: 'https://github.com/futo-org/grayjay-android' },
+				{ status: 'yes', note: 'Native mobile interface built with Android UI components. Available on Android only.', source: 'https://github.com/TeamNewPipe/NewPipe' },
+				{ status: 'yes', note: 'Native mobile interface with Material Design. Available on Android only.' },
+				{ status: 'yes', note: 'Native mobile interfaces in the official Android and iOS apps, designed for phones and tablets.', source: 'https://support.google.com/youtube/answer/3227660?hl=en' },
 			] },
 			{ name: 'Services beyond YouTube', icon: 'lucide:layers', cells: [
-				{ status: 'partial', label: 'Limited', note: 'Paste an individual media URL from a yt-dlp-supported service to play it. Browsing, search, subscriptions, and feeds for other services are not supported.', source: 'https://github.com/OpenTubeX/OpenTubeX/pull/1514' },
+				{ status: 'partial', label: 'Limited', note: ['Paste an individual media URL from a ', { text: 'yt-dlp-supported service', href: 'https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md' }, ' to play it. Browsing, search, subscriptions, and feeds for other services are not supported.'], source: 'https://github.com/OpenTubeX/OpenTubeX/pull/1514' },
 				{ status: 'no', note: 'Focuses on YouTube.' },
 				{ status: 'yes', note: 'Source plugins cover services such as Twitch, PeerTube, and SoundCloud. Availability depends on each plugin.', source: 'https://plugins.grayjay.app/' },
 				{ status: 'yes', note: 'Also supports SoundCloud, Bandcamp, PeerTube, and media.ccc.de.' },
@@ -102,19 +102,19 @@ export const groups: { name: string; rows: Row[] }[] = [
 			] },
 			{ name: 'SponsorBlock', image: '/compare-icons/sponsorblock.png', cells: [
 				{ status: 'yes', label: 'Extended controls', note: 'Category skipping, mute segments, full-video labels, channel whitelisting, and in-player submissions.', source: 'https://opentubex.org/extra-features/#sponsorblock-submission' },
-				{ status: 'partial', label: 'Segment skipping', note: 'Supports segment skipping and category controls. It does not provide the broader mute-segment, full-video-label, and submission workflow described for OpenTubeX.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/src/renderer/helpers/sponsorblock.js' },
-				{ status: 'yes', label: 'YouTube plugin', note: 'Enable SponsorBlock in the YouTube source settings; manual and automatic skipping are available.', source: 'https://plugins.grayjay.app/Youtube/YoutubeConfig.json' },
+				{ status: 'partial', label: 'Segment skipping', note: 'Supports SponsorBlock segment skipping and category controls. In-player submissions, mute segments, and full-video labels are not documented.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/src/renderer/helpers/sponsorblock.js' },
+				{ status: 'partial', label: 'YouTube plugin', note: 'Enable SponsorBlock in the YouTube source settings for category-based manual or automatic skipping. In-player submissions, mute segments, and full-video labels are not documented.', source: 'https://plugins.grayjay.app/Youtube/YoutubeConfig.json' },
 				{ status: 'partial', label: 'Unofficial forks', note: 'The official NewPipe app does not include SponsorBlock. Unofficial forks add support for it.', source: 'https://newpipe.net/blog/pinned/newpipe-and-online-advertising/' },
-				{ status: 'yes', note: 'SponsorBlock is included.' },
+				{ status: 'partial', label: 'Limited controls', note: 'Includes segment skipping, voting, submissions, and full-video labels. Released version 32.1 does not offer mute-segment or full-video-label submission controls.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/dialogs/SubmitSegmentDialog.kt' },
 				{ status: 'partial', label: 'Web extension', note: 'SponsorBlock works on the YouTube website through a browser extension. It is not built into YouTube and does not add SponsorBlock to the official Android or iOS app.', source: 'https://sponsor.ajay.app/' },
 			] },
 			{ name: 'Auto picture-in-picture', icon: 'lucide:picture-in-picture-2', cells: [
 				{ status: 'yes', note: 'Automatically enter picture-in-picture when switching tabs or windows, or minimizing the app.', source: 'https://opentubex.org/extra-features/#auto-picture-in-picture' },
 				{ status: 'no', note: 'Picture-in-picture can be activated manually. Automatic entry when switching away is not documented.', source: 'https://docs.freetubeapp.io/usage/keyboard-shortcuts/' },
-				{ status: 'yes', note: 'On Android, choose picture-in-picture as the background behavior to enter it when leaving the app.', source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/java/com/futo/platformplayer/Settings.kt' },
+				{ status: 'yes', note: 'On Android, choose Player Overlay under Background Behavior to enter picture-in-picture when leaving the app.', source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/java/com/futo/platformplayer/Settings.kt' },
 				{ status: 'yes', note: 'Set Minimize on app switch to the popup player. This uses a floating overlay and requires permission to display over other apps.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/dev/app/src/main/res/values/strings.xml' },
 				{ status: 'yes', note: 'Enters picture-in-picture when leaving the player while playback is active, with PiP enabled.', source: 'https://github.com/libre-tube/LibreTube/blob/master/app/src/main/java/com/github/libretube/ui/fragments/PlayerFragment.kt' },
-				{ status: 'partial', label: 'Content limits', note: 'Leaving the mobile app starts picture-in-picture when enabled. Non-music PiP is rolling out globally; music content requires Premium.', source: 'https://support.google.com/youtube/thread/425771437' },
+				{ status: 'partial', label: 'Content limits', note: 'Leaving the Android or iOS app starts picture-in-picture when enabled. Non-music videos and Shorts support PiP without a paid plan; music content requires Premium.', source: 'https://support.google.com/youtube/answer/7552722?hl=en' },
 			] },
 			{ name: 'Tabs', icon: 'lucide:panels-top-left', cells: [
 				{ status: 'yes', note: 'Keep separate videos and channels open in tabs within the app.', source: 'https://opentubex.org/extra-features/#tab-support' },
@@ -130,7 +130,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Android supports background playback.', source: 'https://grayjay.app/' },
 				{ status: 'yes', note: 'Background player supports audio playback while using other apps.' },
 				{ status: 'yes', note: 'Background playback is included.' },
-				{ status: 'partial', label: 'Premium', note: 'Mobile background playback requires a paid plan. Premium Lite includes eligible non-music videos where available; full Premium covers music too. Desktop browser audio can continue in another tab.', source: 'https://support.google.com/youtube/thread/414266287/launching-background-play-downloads-for-premium-lite?hl=en' },
+				{ status: 'partial', label: 'Premium', note: 'Mobile background playback requires a paid plan. Premium Lite includes eligible non-music videos, excluding Shorts; full Premium covers music too. Desktop browser audio can continue in another tab.', source: 'https://support.google.com/youtube/answer/15968883?hl=en' },
 			] },
 			{ name: 'Downloads', icon: 'lucide:download', cells: [
 				{ status: 'yes', note: 'Download videos, audio, playlists, and subtitles for offline use.', source: 'https://opentubex.org/extra-features/#download-support' },
@@ -138,7 +138,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Download videos and playlists for offline viewing on supported sources.', source: 'https://grayjay.app/' },
 				{ status: 'yes', note: 'Download video, audio, or captions; choose formats and quality.' },
 				{ status: 'yes', note: 'Includes downloads for offline playback.' },
-				{ status: 'partial', label: 'Plan / region limits', note: 'Premium offers in-app offline downloads; some regions allow selected videos without Premium. Downloads stay within YouTube, rather than becoming freely exportable media files.', source: 'https://support.google.com/youtube/answer/7381437?hl=en' },
+				{ status: 'partial', label: 'Plan / region limits', note: ['Premium offers in-app offline downloads; ', { text: 'Premium Lite', href: 'https://support.google.com/youtube/answer/15968883?hl=en' }, ' includes eligible non-music videos, excluding Shorts. Some regions allow selected videos without a paid plan. Downloads stay within YouTube, rather than becoming freely exportable media files.'], source: 'https://support.google.com/youtube/answer/7381437?hl=en' },
 			] },
 		],
 	},
@@ -158,7 +158,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', label: 'Local data', note: 'No built-in account sync. Copying database files or using an external file-sync tool is a separate workflow.', source: localOnly },
 				{ status: 'yes', label: 'Device pairing', note: 'Paired-device sync includes subscriptions, playlists, watch later, subscription groups, and history. Devices need a working connection to each other.', source: gjSync },
 				{ status: 'no', label: 'Manual backup', note: 'Import and export transfer your data manually; they are not automatic device sync.', source: 'https://github.com/TeamNewPipe/NewPipe#installation-and-updates' },
-				{ status: 'partial', label: 'Piped account', note: 'Published documentation describes Piped account sync for subscriptions and playlists. Watch history and settings stay local; this is not whole-library sync.', source: ltPrivacy },
+				{ status: 'partial', label: 'Piped account', note: 'Released version 32.1 supports Piped account sync for subscriptions and playlists. Watch history and settings stay local; the new LibreTube sync server is not included in this release.', source: ltPrivacy },
 				{ status: 'yes', label: 'Google account', note: 'Subscriptions and playlists follow your signed-in Google account across devices. This does not mean every device-specific preference is synced.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
 			] },
 			{ name: 'Watch statistics', icon: 'lucide:chart-column', cells: [
@@ -167,14 +167,14 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Watch metrics show watch time and views for each creator in the Creators tab.', source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/res/values/strings.xml' },
 				{ status: 'partial', label: 'Most played', note: 'The Most Played view summarizes frequently played videos. It is not a daily or weekly watch-time dashboard.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/dev/app/src/main/res/values/strings.xml' },
 				{ status: 'no', note: 'Watch history and playback positions are available, but no personal watch-time dashboard is documented.', source: 'https://github.com/libre-tube/LibreTube/blob/master/app/src/main/res/values/strings.xml' },
-				{ status: 'yes', label: 'Account required', note: 'Time watched shows daily average, today, yesterday, and the past seven days. Requires sign-in and enabled watch history; deleted history and private viewing are excluded.', source: 'https://support.google.com/youtube/answer/9052667?hl=en' },
+				{ status: 'yes', label: 'Account required', note: 'Time watched shows daily average, today, yesterday, and the past seven days for signed-in users with watch history enabled. Excludes deleted history, private viewing, YouTube Music, and YouTube TV. YouTube reports a known error in desktop watch-time totals.', source: 'https://support.google.com/youtube/answer/9052667?hl=en' },
 			] },
 			{ name: 'Sync watch history', icon: 'lucide:history', cells: [
 				{ status: 'yes', note: 'History is one of the optional sync categories.', source: otxSync },
 				{ status: 'no', note: 'History is stored in a local database, without built-in sync.', source: localOnly },
 				{ status: 'yes', note: 'The device-sync implementation exchanges recent history.', source: gjSync },
 				{ status: 'no', note: 'History can be included in manual database backups, not automatically synced between devices.', source: 'https://github.com/TeamNewPipe/NewPipe#installation-and-updates' },
-				{ status: 'no', note: 'The documented Piped account sync does not include watch history or timestamps; these remain local.', source: ltPrivacy },
+				{ status: 'no', note: 'In released version 32.1, Piped account sync does not include watch history or timestamps; these remain local.', source: ltPrivacy },
 				{ status: 'yes', label: 'History enabled', note: 'Signed-in watch history is saved to your Google account when enabled. You can pause or delete it.', source: 'https://support.google.com/youtube/answer/95725?hl=en' },
 			] },
 		],
@@ -185,9 +185,9 @@ export const groups: { name: string; rows: Row[] }[] = [
 			{ name: 'No telemetry', icon: 'lucide:eye-off', cells: [
 				{ status: 'yes', note: 'Viewing statistics and history stay local by default. Optional sync sends selected data to your chosen server; playback and optional services still expose network metadata.', source: 'https://opentubex.org/privacy/#desktop-app' },
 				{ status: 'yes', note: 'Viewing data stays local. YouTube and optional services can still see requests and your IP address; this is not anonymity.', source: 'https://docs.freetubeapp.io/usage/privacy/' },
-				{ status: 'partial', label: 'Startup telemetry', note: 'Sends startup telemetry with a random identifier, device details, and enabled source IDs. This payload does not include watched videos or searches; watch history stays local unless synced. This is narrower than YouTube activity collection.', source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/java/com/futo/platformplayer/states/StateTelemetry.kt' },
+				{ status: 'partial', label: 'Startup telemetry', note: ['Android and desktop send startup telemetry with a persistent random identifier and app/platform information. Android also includes device details and enabled source IDs. These payloads exclude watched videos and searches. See the ', { text: 'desktop implementation', href: 'https://github.com/futo-org/Grayjay.Desktop/blob/master/Grayjay.ClientServer/States/StateTelemetry.cs' }, '.'], source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/java/com/futo/platformplayer/states/StateTelemetry.kt' },
 				{ status: 'yes', note: 'No automatic usage reporting. Bug reports are sent only when you choose to submit them. Media services still receive playback requests.', source: 'https://newpipe.net/legal/privacy/' },
-				{ status: 'yes', note: 'Its privacy policy states that it does not gather app-usage data or use tracking libraries. Direct playback and optional Piped services still receive requests.', source: 'https://github.com/libre-tube/LibreTube/blob/master/PRIVACY_POLICY.md' },
+				{ status: 'yes', note: 'Its privacy policy states that it does not gather app-usage data or use tracking libraries. Direct playback and optional Piped services still receive requests.', source: ltPrivacy },
 				{ status: 'no', label: 'Activity collection', note: 'Google collects activity such as videos watched, searches, and interactions. History and personalization controls affect storage and use; Premium does not remove this data collection.', source: 'https://policies.google.com/privacy?hl=en' },
 			] },
 		],

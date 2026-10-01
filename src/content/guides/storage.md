@@ -1,6 +1,6 @@
 ---
 title: Data and storage
-description: Locate your desktop profile, understand stored files, and clean up safely.
+description: Locate desktop and mobile app data, understand stored files, and clean up safely.
 order: 9
 ---
 
@@ -12,9 +12,24 @@ Use data exports to transfer your library between devices. Use the storage view 
 2. Select **Storage**.
 3. Choose **Open profile directory** to open the current profile folder in your file manager.
 
-This is more reliable than assuming a fixed path: portable apps, sandboxed packages, and development builds can use different locations. Android uses its own application storage and does not offer the same desktop file-manager workflow.
+This is more reliable than assuming a fixed path: portable apps, sandboxed packages, and development builds can use different locations. Android and iOS use private application storage and do not offer the same desktop file-manager workflow.
 
-## Understand the files
+## Default data locations
+
+| Operating system or package | Data directory |
+| --- | --- |
+| Windows (Installer) | `%APPDATA%/OpenTubeX/` |
+| Windows (Portable) | `OpenTubeX-data/` beside the executable |
+| macOS | `~/Library/Application Support/OpenTubeX/` |
+| Linux | `~/.config/OpenTubeX/`, or `$XDG_CONFIG_HOME/OpenTubeX/` if `XDG_CONFIG_HOME` is set |
+| Linux (Flatpak) | `~/.var/app/org.opentubex.OpenTubeX/config/OpenTubeX/` |
+| Linux (Snap) | `~/snap/opentubex/current/.config/OpenTubeX/` |
+| Android | `/data/user/0/org.opentubex.app/` |
+| iOS / iPadOS | `/var/mobile/Containers/Data/Application/<UUID>/Library/` |
+
+The Android path shown is for the device's primary user; other users and work profiles have a different user number in place of `0`. On iOS and iPadOS, `<UUID>` is the system-assigned identifier for this installation's app container. These mobile directories are not accessible through normal file managers. Use [data exports](/docs/importing/#back-up-your-library) to back up or transfer your library.
+
+## Understand the desktop files
 
 | File | Contents |
 | --- | --- |
