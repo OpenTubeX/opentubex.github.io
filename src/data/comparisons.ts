@@ -161,14 +161,6 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Piped account', note: 'Released version 32.1 supports Piped account sync for subscriptions and playlists. Watch history and settings stay local; the new LibreTube sync server is not included in this release.', source: ltPrivacy },
 				{ status: 'yes', label: 'Google account', note: 'Subscriptions and playlists follow your signed-in Google account across devices. This does not mean every device-specific preference is synced.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
 			] },
-			{ name: 'Watch statistics', icon: 'lucide:chart-column', cells: [
-				{ status: 'yes', note: 'Daily and weekly watch-time charts show your viewing activity.', source: 'https://opentubex.org/extra-features/#watch-time-statistics' },
-				{ status: 'no', note: 'Watch history is available, but no personal watch-time dashboard is documented. Video playback statistics describe the current stream, not your viewing habits.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/static/locales/en-US.yaml' },
-				{ status: 'yes', note: 'Watch metrics show watch time and views for each creator in the Creators tab.', source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/res/values/strings.xml' },
-				{ status: 'partial', label: 'Most played', note: 'The Most Played view summarizes frequently played videos. It is not a daily or weekly watch-time dashboard.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/dev/app/src/main/res/values/strings.xml' },
-				{ status: 'no', note: 'Watch history and playback positions are available, but no personal watch-time dashboard is documented.', source: 'https://github.com/libre-tube/LibreTube/blob/master/app/src/main/res/values/strings.xml' },
-				{ status: 'yes', label: 'Account required', note: 'Time watched shows daily average, today, yesterday, and the past seven days for signed-in users with watch history enabled. Excludes deleted history, private viewing, YouTube Music, and YouTube TV. YouTube reports a known error in desktop watch-time totals.', source: 'https://support.google.com/youtube/answer/9052667?hl=en' },
-			] },
 			{ name: 'Sync watch history', icon: 'lucide:history', cells: [
 				{ status: 'yes', note: 'History is one of the optional sync categories.', source: otxSync },
 				{ status: 'no', note: 'History is stored in a local database, without built-in sync.', source: localOnly },
@@ -177,11 +169,27 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'In released version 32.1, Piped account sync does not include watch history or timestamps; these remain local.', source: ltPrivacy },
 				{ status: 'yes', label: 'History enabled', note: 'Signed-in watch history is saved to your Google account when enabled. You can pause or delete it.', source: 'https://support.google.com/youtube/answer/95725?hl=en' },
 			] },
+			{ name: 'Watch statistics', icon: 'lucide:chart-column', cells: [
+				{ status: 'yes', note: 'Daily and weekly watch-time charts show your viewing activity.', source: 'https://opentubex.org/extra-features/#watch-time-statistics' },
+				{ status: 'no', note: 'Watch history is available, but no personal watch-time dashboard is documented. Video playback statistics describe the current stream, not your viewing habits.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/static/locales/en-US.yaml' },
+				{ status: 'yes', note: 'Watch metrics show watch time and views for each creator in the Creators tab.', source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/res/values/strings.xml' },
+				{ status: 'partial', label: 'Most played', note: 'The Most Played view summarizes frequently played videos. It is not a daily or weekly watch-time dashboard.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/dev/app/src/main/res/values/strings.xml' },
+				{ status: 'no', note: 'Watch history and playback positions are available, but no personal watch-time dashboard is documented.', source: 'https://github.com/libre-tube/LibreTube/blob/master/app/src/main/res/values/strings.xml' },
+				{ status: 'yes', label: 'Account required', note: 'Time watched shows daily average, today, yesterday, and the past seven days for signed-in users with watch history enabled. Excludes deleted history, private viewing, YouTube Music, and YouTube TV. YouTube reports a known error in desktop watch-time totals.', source: 'https://support.google.com/youtube/answer/9052667?hl=en' },
+			] },
 		],
 	},
 	{
 		name: 'Privacy',
 		rows: [
+			{ name: 'Local-first', icon: 'lucide:hard-drive', cells: [
+				{ status: 'yes', note: 'Subscriptions, playlists, history, and settings are stored on your device. An account is only needed if you choose to sync.', source: 'https://opentubex.org/privacy/#desktop-app' },
+				{ status: 'yes', note: 'Subscriptions, playlists, history, and settings are stored locally, without an account.', source: localOnly },
+				{ status: 'yes', note: 'Subscriptions, playlists, and history are stored on your device. Platform sign-in and paired-device sync are optional.', source: 'https://grayjay.app/' },
+				{ status: 'yes', note: 'Subscriptions, playlists, and history are stored on your device, without an account.', source: 'https://newpipe.net/' },
+				{ status: 'yes', note: 'Library data stays on your device when signed out. Optional Piped accounts store subscriptions and playlists on the selected instance; history stays local.', source: ltPrivacy },
+				{ status: 'no', label: 'Cloud account', note: 'Subscriptions and playlists depend on a Google account. Signed-in watch history is stored in that account when enabled.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
+			] },
 			{ name: 'No telemetry', icon: 'lucide:eye-off', cells: [
 				{ status: 'yes', note: 'Viewing statistics and history stay local by default. Optional sync sends selected data to your chosen server; playback and optional services still expose network metadata.', source: 'https://opentubex.org/privacy/#desktop-app' },
 				{ status: 'yes', note: 'Viewing data stays local. YouTube and optional services can still see requests and your IP address; this is not anonymity.', source: 'https://docs.freetubeapp.io/usage/privacy/' },
