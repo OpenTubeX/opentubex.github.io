@@ -6,8 +6,8 @@ const attachmentPattern =
 	/^https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)$/;
 const cacheDirectory = resolve('node_modules/.astro/github-images');
 const publicDirectory = resolve('public/feature-images');
-const previousAssetsDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
-	? resolve(process.env.OPENTUBEX_PREVIOUS_SITE, '_astro')
+const previousSiteDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
+	? resolve(process.env.OPENTUBEX_PREVIOUS_SITE)
 	: undefined;
 const downloads = new Map();
 const reusedAssets = new Map();
@@ -24,7 +24,8 @@ async function downloadImage(url, id, cachedFiles) {
 	const cachedFile = cachedFiles.find((file) => file.startsWith(`${id}.`));
 	if (cachedFile) return { path: resolve(cacheDirectory, cachedFile) };
 
-	if (previousAssetsDirectory) {
+	for (const directory of previousSiteDirectory ? ['_astro', 'feature-images'] : []) {
+		const previousAssetsDirectory = resolve(previousSiteDirectory, directory);
 		const previousFiles = await readdir(previousAssetsDirectory).catch((error) => {
 			if (error?.code === 'ENOENT') return [];
 			throw error;
@@ -35,9 +36,10 @@ async function downloadImage(url, id, cachedFiles) {
 		if (previousFile) {
 			const previousPath = resolve(previousAssetsDirectory, previousFile);
 			const metadata = await sharp(previousPath).metadata();
-			reusedAssets.set(previousFile, previousPath);
+			const outputPath = `${directory}/${previousFile}`;
+			reusedAssets.set(outputPath, previousPath);
 			return {
-				url: `/_astro/${previousFile}`,
+				url: `/${outputPath}`,
 				width: metadata.width,
 				height: metadata.pageHeight ?? metadata.height,
 				pages: metadata.pages,
@@ -143,10 +145,12 @@ export default function remarkBundleGitHubImages(options = {}) {
 export async function copyReusedGitHubImages(distDirectory) {
 	if (reusedAssets.size === 0) return 0;
 
-	const outputDirectory = resolve(distDirectory, '_astro');
-	await mkdir(outputDirectory, { recursive: true });
 	await Promise.all(
-		[...reusedAssets].map(([file, source]) => copyFile(source, resolve(outputDirectory, file))),
+		[...reusedAssets].map(async ([file, source]) => {
+			const outputPath = resolve(distDirectory, file);
+			await mkdir(dirname(outputPath), { recursive: true });
+			await copyFile(source, outputPath);
+		}),
 	);
 	return reusedAssets.size;
 }

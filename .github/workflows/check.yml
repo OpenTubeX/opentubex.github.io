@@ -24,6 +24,7 @@ jobs:
           sparse-checkout: |
             _astro
             changelog-images
+            feature-images
           sparse-checkout-cone-mode: false
 
       - name: Set up Bun
