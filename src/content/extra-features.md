@@ -500,7 +500,7 @@ Press <kbd>G</kbd> to toggle between 1× playback speed and your last used speed
 
 ### Configurable thumbnail action
 
-Choose an extra action button to show on video thumbnails.
+On desktop, choose an extra action button to show on video thumbnails.
 
 ![Thumbnail action setting](https://github.com/user-attachments/assets/2d7d7549-db79-4d9d-9063-77124d3a9750)
 ![Extra thumbnail action](https://github.com/user-attachments/assets/1f74350c-11cc-4515-8e0e-9abedcebaa71)
