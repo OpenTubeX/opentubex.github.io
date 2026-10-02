@@ -44,14 +44,11 @@
 <p>OpenTubeX reduces the browser-based tracking surface by providing a local interface instead of loading the standard YouTube website and its page JavaScript. It does not provide anonymity: the services that answer a request can observe it, and network intermediaries can observe connection metadata.</p>
 <p>This section describes the data exposed by OpenTubeX itself. It assumes that your device is trusted, HTTPS is not compromised, and any enhanced-privacy sync passphrase remains secret. It does not protect against malware on your device, traffic-correlation attacks, or information you deliberately share through submissions, exports, external players, or custom download arguments.</p>
 <h3 id="data-stored-by-opentubex">Data stored by OpenTubeX</h3>
-<p>By default, subscriptions, playlists, settings including saved channel settings, history, watch statistics, profiles, and open tabs remain on your device. Enabling synchronization sends copies of the selected categories to the configured sync server:</p>
-<ul>
-<li>Enhanced-privacy sync encrypts the selected data on your device before upload. This mode requires a server with live-sync support. The server still receives account and traffic metadata.</li>
-<li>A legacy sync server does not support this encryption. Synced data is visible to that server’s operator.</li>
-</ul>
-<p>With a compatible enhanced-privacy server, watch statistics are included in sync by default; turn off <strong>Watch stats</strong> in <strong>Settings → Sync</strong> to exclude them. See <a href="/docs/sync/">sync setup</a> for privacy modes and category selection.</p>
+<p>By default, subscriptions, playlists, settings including saved channel settings, history, watch statistics, profiles, and open tabs remain on your device. Enabling synchronization sends copies of the selected categories to the configured sync server.</p>
+<p>The default public OpenTubeX sync server uses end-to-end encryption: the app encrypts the selected data on your device before upload. The server still receives account and traffic metadata.</p>
+<p>Watch statistics are included in sync by default; turn off <strong>Watch stats</strong> in <strong>Settings → Sync</strong> to exclude them. See <a href="/docs/sync/">sync setup</a> for setup and category selection.</p>
 <p>The public OpenTubeX sync service has a <a href="https://github.com/OpenTubeX/sync-server/blob/main/PRIVACY.md">separate privacy policy</a>. Other sync-server operators are responsible for their own notices and practices.</p>
-<p>On compatible servers, enhanced-privacy sync also uploads encrypted account activity, including changed setting keys, scalar values, and bounded details about subscriptions, playlists, profiles, saved playlists, channel preferences, caption appearance, and custom themes. Watch history and frequent playback changes are excluded. Full object values are omitted from activity. Item names and scalar setting strings longer than 128 bytes are also omitted. Opening a video on another device sends an encrypted request containing its video ID, title, and playback position. The OpenTubeX sync server retains up to 100 activity batches per account for 30 days and up to 100 pending device requests per account for 24 hours; acknowledged requests are deleted, and expired records are normally removed within one hour.</p>
+<p>Sync also uploads encrypted account activity, including changed setting keys, scalar values, and bounded details about subscriptions, playlists, profiles, saved playlists, channel preferences, caption appearance, and custom themes. Watch history and frequent playback changes are excluded. Full object values are omitted from activity. Item names and scalar setting strings longer than 128 bytes are also omitted. Opening a video on another device sends an encrypted request containing its video ID, title, and playback position. The OpenTubeX sync server retains up to 100 activity batches per account for 30 days and up to 100 pending device requests per account for 24 hours; acknowledged requests are deleted, and expired records are normally removed within one hour.</p>
 <h3 id="network-exposure">Network exposure</h3>
 <p>Rows for optional services apply only when the feature is enabled. An IP address in the table means your direct address unless the request is routed through a correctly configured proxy, VPN, or Tor.</p>
 
@@ -127,7 +124,7 @@
 <h3 id="choosing-a-setup">Choosing a setup</h3>
 <ul>
 <li>To keep app data local, leave synchronization disabled.</li>
-<li>To prevent a sync operator from reading synced data, use a server that supports enhanced-privacy sync and use a separate, strong privacy passphrase.</li>
+<li>End-to-end encryption prevents the sync operator from reading your synced data. Use a separate, strong privacy passphrase and keep it private.</li>
 <li>To avoid sending requests to optional services, disable internet connectivity checks, SponsorBlock, DeArrow, Return YouTube Dislike, voice-over translation, and synchronization.</li>
 <li>To hide your direct IP address from YouTube or optional services, route the relevant requests through a trusted VPN or Tor and verify the proxy configuration.</li>
 </ul>
