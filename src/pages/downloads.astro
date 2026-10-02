@@ -465,12 +465,17 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							</div>
 							<div slot="ios">
 								<p class="pkg__body">
+									Install <strong>OpenTubeX Nightly</strong> from the
+									<a href="https://sidestore.opentubex.org/">official SideStore source</a>.
+									Stable and nightly install as separate apps with independent settings and libraries.
+								</p>
+								<p class="pkg__body pkg__body--follow">
 									Download the <code>opentubex-…-ios-unsigned.ipa</code> asset from the
 									<a href="https://github.com/OpenTubeX/OpenTubeX/releases/tag/nightly">nightly release</a>,
 									or the IPA artifact from a successful
 									<a href="https://github.com/OpenTubeX/OpenTubeX/actions/workflows/build.yml">Build workflow run</a>.
 									Use the same <a href="/docs/installing/#ios--ipados-experimental">signing instructions</a>.
-									The iOS nightly uses the same app identity as the regular release and replaces it.
+									Older nightly IPAs shared the regular app's identity; the SideStore nightly has its own identity.
 								</p>
 							</div>
 						</SignalTabs>
