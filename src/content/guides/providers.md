@@ -36,15 +36,19 @@ Use settings search if the controls are not immediately visible. Choose an insta
 
 In **Settings → Advanced → Video and metadata providers**, find **Stream extraction method**. This chooses how the app obtains playable streams; **Preferred API Backend** controls the provider used for video and channel information. A page loading successfully does not necessarily mean its media streams can be extracted.
 
+<div class="stream-extraction-methods">
+
 | Method | When to use it |
 | --- | --- |
 | Built-in | Use the app's included stream extraction. Seeking in livestreams and premieres works when YouTube provides a rewindable stream. |
 | yt-dlp | Use yt-dlp for stream extraction. It must be available, and videos may take longer to start. |
 
+</div>
+
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/stream-extraction-dark.webp" type="image/webp" />
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/stream-extraction-light.webp" type="image/webp" />
-  <img src="/docs-images/stream-extraction-light.webp" alt="Stream extraction method menu offering yt-dlp and Built-in beside the separate Preferred API Backend control." width="656" height="182" loading="lazy" decoding="async" />
+  <img src="/docs-images/stream-extraction-light.webp" alt="Stream extraction method menu offering Built-in and yt-dlp beside the separate Preferred API Backend control." width="656" height="182" loading="lazy" decoding="async" />
 </picture>
 
 *Stream extraction method selects how to obtain playable streams; Preferred API Backend is a separate choice.*

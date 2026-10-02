@@ -86,4 +86,5 @@
 .docs-content table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.95rem; }
 .docs-content :is(th, td) { padding: 0.65rem; border-bottom: 1px solid var(--line); text-align: start; vertical-align: top; }
 .docs-content th { background: var(--surface); }
+.docs-content .stream-extraction-methods :is(th, td):first-child { width: 6rem; white-space: nowrap; }
 .docs-content code { overflow-wrap: anywhere; }
