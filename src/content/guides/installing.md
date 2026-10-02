@@ -46,8 +46,6 @@ The Android app has a phone layout, background playback, and offline downloads. 
 
 ## iOS / iPadOS (experimental)
 
-Download the unsigned `.ipa` from the [iOS / iPadOS download card](/downloads/#download-ios-ipados). One IPA supports both iPhone and iPad. Opening it in Files does not install it: a sideloading tool must sign it with your Apple Account first.
-
 ### SideStore: refresh without a computer
 
 We recommend [SideStore](https://sidestore.io/) for regular use because refreshes can run on your device after initial computer setup. OpenTubeX installation has been tested with iloader; the SideStore recommendation is based on its documented refresh workflow.
@@ -60,7 +58,11 @@ We recommend [SideStore](https://sidestore.io/) for regular use because refreshe
 
 SideStore does not remove Apple's expiry requirement. If SideStore itself expires, reinstall it from your computer. You may also need the computer to replace an expired pairing file, for example after an OS update or reset. See [SideStore troubleshooting](https://docs.sidestore.io/docs/troubleshooting).
 
-### iloader: tested computer installation
+### Manual IPA installation
+
+Download the unsigned `.ipa` from the [iOS / iPadOS download card](/downloads/#download-ios-ipados). One IPA supports both iPhone and iPad. Opening it in Files does not install it: a sideloading tool must sign it with your Apple Account first.
+
+#### iloader: tested computer installation
 
 [iloader](https://iloader.app/) has been used to install and update OpenTubeX on a physical iPad. It runs on Linux, macOS, and Windows.
 
@@ -70,7 +72,7 @@ SideStore does not remove Apple's expiry requirement. If SideStore itself expire
 4. Trust your developer account and enable Developer Mode as described above, then open OpenTubeX.
 5. With a free account, reconnect to your computer and install the IPA again before its seven-day signature expires.
 
-### Other signing options and limits
+#### Other signing options and limits
 
 [AltStore Classic](https://faq.altstore.io/altstore-classic/your-altstore) can also install IPAs, but refreshing still needs a computer running AltServer over Wi-Fi or USB. **AltStore PAL cannot install arbitrary IPA files** and is not an installation option for this build.
 
