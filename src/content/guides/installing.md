@@ -55,7 +55,7 @@ We recommend [SideStore](https://sidestore.io/) for regular use because refreshe
 1. Follow SideStore's [prerequisites](https://docs.sidestore.io/docs/installation/prerequisites) and [installation guide](https://docs.sidestore.io/docs/installation/install). The guide uses iloader on your computer for initial installation and sets up the required pairing file and local VPN.
 2. Trust your Apple Account under **Settings → General → VPN & Device Management**. Enable **Settings → Privacy & Security → Developer Mode**, restart, and confirm when prompted.
 3. Connect the local VPN required by SideStore, open SideStore, and complete its initial refresh.
-4. Import the downloaded OpenTubeX IPA from **My Apps** using the **+** button, then launch OpenTubeX.
+4. Open the [official OpenTubeX SideStore source](https://sidestore.opentubex.org/) on your device and tap **Add to SideStore**. Alternatively, paste `https://sidestore.opentubex.org/source.json` into **Browse → Sources → +**. Choose **OpenTubeX** for stable beta releases or **OpenTubeX Nightly** for development builds, then install it. You can also import a downloaded IPA from **My Apps** using the **+** button.
 5. With a free Apple Account, refresh **both SideStore and OpenTubeX within seven days**. Check their expiry counters; background refresh is not a guarantee. Keep SideStore's required local VPN available when refreshing.
 
 SideStore does not remove Apple's expiry requirement. If SideStore itself expires, reinstall it from your computer. You may also need the computer to replace an expired pairing file, for example after an OS update or reset. See [SideStore troubleshooting](https://docs.sidestore.io/docs/troubleshooting).
@@ -74,9 +74,9 @@ SideStore does not remove Apple's expiry requirement. If SideStore itself expire
 
 [AltStore Classic](https://faq.altstore.io/altstore-classic/your-altstore) can also install IPAs, but refreshing still needs a computer running AltServer over Wi-Fi or USB. **AltStore PAL cannot install arbitrary IPA files** and is not an installation option for this build.
 
-Free Apple Accounts allow three active sideloaded apps, including SideStore or AltStore itself. A paid Apple Developer membership provides longer signing periods; it is optional.
+Free Apple Accounts allow three active sideloaded apps, including SideStore or AltStore itself. OpenTubeX and OpenTubeX Nightly install as separate apps with independent settings and libraries; keeping both alongside SideStore uses all three slots. A paid Apple Developer membership provides longer signing periods; it is optional.
 
-For updates, import the newer OpenTubeX IPA with the same signing tool and Apple Account, over the existing app. Avoid uninstalling it: that removes its local data. [Export your library](/docs/importing/#back-up-your-library) before switching signing tools or accounts. Refreshing renews the signature; it does not necessarily update OpenTubeX to a newer release.
+For updates, use the update offered by the OpenTubeX source in SideStore, or import the newer IPA with the same signing tool and Apple Account over the existing app. Avoid uninstalling it: that removes its local data. Older nightly IPAs shared the stable app's identity; installing the new separate nightly app does not transfer that library. [Export your library](/docs/importing/#back-up-your-library) before switching channels, signing tools, or accounts. Refreshing renews the signature; it does not necessarily update OpenTubeX to a newer release.
 
 ### Current iOS limitations
 
