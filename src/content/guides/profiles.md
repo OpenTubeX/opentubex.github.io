@@ -37,7 +37,7 @@ To add a new channel, switch to your desired profile, open the channel, and sele
 
 To organize channels you already follow:
 
-1. Open **Manage Subscriptions** and choose the profile you want to edit.
+1. Open **Manage Subscriptions**, choose the profile you want to edit, and open the **Manage profile subscriptions** tab.
 2. Select channels from the available channel list.
 3. Choose **Add Selected To Profile**.
 4. Return to your subscription feed and check the active profile.
