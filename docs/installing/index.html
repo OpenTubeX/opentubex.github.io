@@ -57,7 +57,6 @@
 </ol>
 <p>The Android app has a phone layout, background playback, and offline downloads. Desktop integrations, window controls, and external software settings can differ or be unavailable.</p>
 <h2 id="ios--ipados-experimental">iOS / iPadOS (experimental)</h2>
-<p>Download the unsigned <code>.ipa</code> from the <a href="/downloads/#download-ios-ipados">iOS / iPadOS download card</a>. One IPA supports both iPhone and iPad. Opening it in Files does not install it: a sideloading tool must sign it with your Apple Account first.</p>
 <h3 id="sidestore-refresh-without-a-computer">SideStore: refresh without a computer</h3>
 <p>We recommend <a href="https://sidestore.io/">SideStore</a> for regular use because refreshes can run on your device after initial computer setup. OpenTubeX installation has been tested with iloader; the SideStore recommendation is based on its documented refresh workflow.</p>
 <ol>
@@ -68,7 +67,9 @@
 <li>With a free Apple Account, refresh <strong>both SideStore and OpenTubeX within seven days</strong>. Check their expiry counters; background refresh is not a guarantee. Keep SideStore’s required local VPN available when refreshing.</li>
 </ol>
 <p>SideStore does not remove Apple’s expiry requirement. If SideStore itself expires, reinstall it from your computer. You may also need the computer to replace an expired pairing file, for example after an OS update or reset. See <a href="https://docs.sidestore.io/docs/troubleshooting">SideStore troubleshooting</a>.</p>
-<h3 id="iloader-tested-computer-installation">iloader: tested computer installation</h3>
+<h3 id="manual-ipa-installation">Manual IPA installation</h3>
+<p>Download the unsigned <code>.ipa</code> from the <a href="/downloads/#download-ios-ipados">iOS / iPadOS download card</a>. One IPA supports both iPhone and iPad. Opening it in Files does not install it: a sideloading tool must sign it with your Apple Account first.</p>
+<h4 id="iloader-tested-computer-installation">iloader: tested computer installation</h4>
 <p><a href="https://iloader.app/">iloader</a> has been used to install and update OpenTubeX on a physical iPad. It runs on Linux, macOS, and Windows.</p>
 <ol>
 <li>Install iloader from its <a href="https://iloader.app/">official website</a> or <a href="https://github.com/nab138/iloader/releases">GitHub releases</a> and follow its platform prerequisites.</li>
@@ -77,7 +78,7 @@
 <li>Trust your developer account and enable Developer Mode as described above, then open OpenTubeX.</li>
 <li>With a free account, reconnect to your computer and install the IPA again before its seven-day signature expires.</li>
 </ol>
-<h3 id="other-signing-options-and-limits">Other signing options and limits</h3>
+<h4 id="other-signing-options-and-limits">Other signing options and limits</h4>
 <p><a href="https://faq.altstore.io/altstore-classic/your-altstore">AltStore Classic</a> can also install IPAs, but refreshing still needs a computer running AltServer over Wi-Fi or USB. <strong>AltStore PAL cannot install arbitrary IPA files</strong> and is not an installation option for this build.</p>
 <p>Free Apple Accounts allow three active sideloaded apps, including SideStore or AltStore itself. OpenTubeX and OpenTubeX Nightly install as separate apps with independent settings and libraries; keeping both alongside SideStore uses all three slots. A paid Apple Developer membership provides longer signing periods; it is optional.</p>
 <p>For updates, use the update offered by the OpenTubeX source in SideStore, or import the newer IPA with the same signing tool and Apple Account over the existing app. Avoid uninstalling it: that removes its local data. Older nightly IPAs shared the stable app’s identity; installing the new separate nightly app does not transfer that library. <a href="/docs/importing/#back-up-your-library">Export your library</a> before switching channels, signing tools, or accounts. Refreshing renews the signature; it does not necessarily update OpenTubeX to a newer release.</p>
