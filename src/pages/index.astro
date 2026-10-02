@@ -118,16 +118,10 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 
 			<div class="hero__content">
 				<div class="hero__copy">
-					<img
-						class="hero__logo"
-						data-logo
-						data-logo-dark={logoDarkSrc}
-						data-logo-light={logoLightSrc}
-						src={logoLightSrc}
-						alt="OpenTubeX"
-						width="420"
-						height="137"
-					/>
+					<picture>
+						<source data-logo-theme="dark" media="(prefers-color-scheme: dark)" srcset={logoDarkSrc} type="image/svg+xml" />
+						<img class="hero__logo" src={logoLightSrc} alt="OpenTubeX" width="420" height="137" />
+					</picture>
 					<h1 class="hero__headline" id="hero-heading">Watch YouTube.<br /><span>Make it yours.</span></h1>
 					<p class="hero__lede">
 						A highly customizable, privacy-focused YouTube client that aims to provide the best UX.

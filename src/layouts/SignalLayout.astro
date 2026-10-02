@@ -85,15 +85,10 @@ const primaryNav = [
 		<header class="nav" id="nav">
 			<div class="nav__inner">
 				<a class="nav__brand" href="/" aria-label="OpenTubeX home">
-					<img
-						data-logo
-						data-logo-dark={markDarkSrc}
-						data-logo-light={markLightSrc}
-						src={markLightSrc}
-						alt=""
-						width="32"
-						height="32"
-					/>
+					<picture>
+						<source data-logo-theme="dark" media="(prefers-color-scheme: dark)" srcset={markDarkSrc} type="image/svg+xml" />
+						<img src={markLightSrc} alt="" width="32" height="32" />
+					</picture>
 					<span>OpenTubeX</span>
 				</a>
 				<nav class="nav__links" id="nav-links" aria-label="Primary">
