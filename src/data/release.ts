@@ -17,8 +17,7 @@ export const snapSiteUrl = 'https://snapcraft.io/opentubex';
 export const nixRepositoryUrl = 'https://github.com/OpenTubeX/nix';
 const snapReleaseBaseUrl = `https://github.com/OpenTubeX/snap/releases/download/${releaseTag}`;
 export const fdroidSiteUrl = 'https://fdroid.opentubex.org/';
-export const sidestoreInstallUrl =
-	'sidestore://source?url=https%3A%2F%2Fsidestore.opentubex.org%2Fsource.json';
+export const sidestoreSiteUrl = 'https://sidestore.opentubex.org/';
 export const obtainiumUrl =
 	'https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/OpenTubeX/OpenTubeX';
 export const fdroidNightlyUrl = 'https://fdroid.opentubex.org/#release-channels';
@@ -204,8 +203,8 @@ export const downloadGroups: DownloadGroup[] = [
 		links: [
 			{
 				label: 'Add to SideStore',
-				url: sidestoreInstallUrl,
-				icon: 'lucide:download',
+				url: sidestoreSiteUrl,
+				icon: 'sidestore',
 				preferred: true,
 			},
 			{
