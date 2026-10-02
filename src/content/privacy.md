@@ -48,7 +48,7 @@ By default, subscriptions, playlists, settings including saved channel settings,
 
 The default public OpenTubeX sync server uses end-to-end encryption: the app encrypts the selected data on your device before upload. The server still receives account and traffic metadata.
 
-Watch statistics are included in sync by default; turn off **Watch stats** in **Settings → Sync** to exclude them. See [sync setup](/docs/sync/) for setup and category selection.
+When you enable synchronization, the default selection includes subscriptions, playlists, history, watch statistics, live reminders, profiles, open tabs and session, and settings. You can turn individual categories off in **Settings → Sync**. See [sync setup](/docs/sync/) for setup and category selection.
 
 The public OpenTubeX sync service has a [separate privacy policy](https://github.com/OpenTubeX/sync-server/blob/main/PRIVACY.md). Other sync-server operators are responsible for their own notices and practices.
 
