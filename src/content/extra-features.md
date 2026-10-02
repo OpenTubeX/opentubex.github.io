@@ -862,7 +862,7 @@ supported, but available features depend on the server.
 Compatible servers can send changes as they happen. Account activity shows
 which device added, removed, or changed items, and **Open on another device**
 sends a video to another device. Upcoming live-stream and premiere reminders
-can also sync across desktop and Android when the server supports that
+can also sync across desktop and mobile when the server supports that
 collection and notifications are allowed on the receiving device.
 
 **Watch stats** sync requires a compatible enhanced-privacy server. It is
@@ -893,7 +893,7 @@ setup, pairing, and recovery limitations.
 Use yt-dlp for reliable playback and advanced video, audio, and playlist
 downloads. Download subtitles separately as SRT, VTT, ASS, or LRC files, and
 manage active and completed downloads from a dedicated page. On desktop and
-Android, paste an individual supported media URL from another site into
+mobile, paste an individual supported media URL from another site into
 Downloads or use the download action on its Watch page.
 
 ![Updated download options](https://github.com/user-attachments/assets/1460f265-5b22-40b6-8958-73b4d3a89e83)
@@ -916,10 +916,11 @@ limits, and <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>J</kbd> opens Downloads.
 
 ## Platforms
 
-### Android app support
+### Mobile app support
 
-Android app for phones and tablets, with background playback, offline
-downloads, touch controls and sync with desktop devices.
+Mobile apps for phones and tablets, with background playback, offline
+downloads, touch controls and sync with desktop devices. Android builds and
+experimental iOS/iPadOS builds are available.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-dark-dark-6d36048f51.webp">

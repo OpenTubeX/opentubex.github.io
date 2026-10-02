@@ -20,7 +20,7 @@ The [download comparison](/compare/#offline-downloads) covers FreeTube and OpenT
 
 *Select the folder icon in Download Folder to choose where files are saved.*
 
-Android uses its own storage picker and download implementation. Grant access to your chosen folder when prompted; desktop executable paths and the choice of system-installed tools do not apply there.
+The mobile apps use their own storage pickers and download implementations. Grant access to your chosen folder when prompted; desktop executable paths and the choice of system-installed tools do not apply there.
 
 ## Download a video or audio
 

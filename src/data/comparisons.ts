@@ -131,7 +131,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Browser tabs', note: 'The website can be opened in multiple browser tabs. The mobile app does not provide tabs for keeping separate videos or channels open.', source: 'https://www.youtube.com/' },
 			] },
 			{ name: 'Background audio', icon: 'lucide:headphones', cells: [
-				{ status: 'yes', note: 'Continue listening while using other apps or with the screen off.', source: 'https://opentubex.org/extra-features/#android-app-support' },
+				{ status: 'yes', note: 'Continue listening while using other apps or with the screen off.', source: 'https://opentubex.org/extra-features/#mobile-app-support' },
 				{ status: 'yes', note: 'Background audio playback is supported.', source: 'https://docs.freetubeapp.io/usage/video-formats/' },
 				{ status: 'yes', note: 'Android supports background playback.', source: 'https://grayjay.app/' },
 				{ status: 'yes', note: 'Background player supports audio playback while using other apps.' },
@@ -213,7 +213,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 		name: 'Privacy',
 		rows: [
 			{ name: 'Local-first', icon: 'lucide:hard-drive', cells: [
-				{ status: 'yes', note: 'Subscriptions, playlists, history, and settings are stored on your device. An account is only needed if you choose to sync.', source: 'https://opentubex.org/privacy/#desktop-app' },
+				{ status: 'yes', note: 'Subscriptions, playlists, history, and settings are stored on your device. An account is only needed if you choose to sync.', source: 'https://opentubex.org/privacy/#desktop-and-mobile-apps' },
 				{ status: 'yes', note: 'Subscriptions, playlists, history, and settings are stored locally, without an account.', source: localOnly },
 				{ status: 'yes', note: 'Subscriptions, playlists, and history are stored on your device. Platform sign-in and paired-device sync are optional.', source: 'https://grayjay.app/' },
 				{ status: 'yes', note: 'Subscriptions, playlists, and history are stored on your device, without an account.', source: 'https://newpipe.net/' },
@@ -221,7 +221,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', label: 'Cloud account', note: 'Subscriptions and playlists depend on a Google account. Signed-in watch history is stored in that account when enabled.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
 			] },
 			{ name: 'No telemetry', icon: 'lucide:eye-off', cells: [
-				{ status: 'yes', note: 'Viewing statistics and history stay local by default. Optional sync sends selected data to your chosen server; playback and optional services still expose network metadata.', source: 'https://opentubex.org/privacy/#desktop-app' },
+				{ status: 'yes', note: 'Viewing statistics and history stay local by default. Optional sync sends selected data to your chosen server; playback and optional services still expose network metadata.', source: 'https://opentubex.org/privacy/#desktop-and-mobile-apps' },
 				{ status: 'yes', note: 'Viewing data stays local. YouTube and optional services can still see requests and your IP address; this is not anonymity.', source: 'https://docs.freetubeapp.io/usage/privacy/' },
 				{ status: 'partial', label: 'Startup telemetry', note: ['Android and desktop send startup telemetry with a persistent random identifier and app/platform information. Android also includes device details and enabled source IDs. These payloads exclude watched videos and searches. See the ', { text: 'desktop implementation', href: 'https://github.com/futo-org/Grayjay.Desktop/blob/master/Grayjay.ClientServer/States/StateTelemetry.cs' }, '.'], source: 'https://github.com/futo-org/grayjay-android/blob/master/app/src/main/java/com/futo/platformplayer/states/StateTelemetry.kt' },
 				{ status: 'yes', note: 'No automatic usage reporting. Bug reports are sent only when you choose to submit them. Media services still receive playback requests.', source: 'https://newpipe.net/legal/privacy/' },

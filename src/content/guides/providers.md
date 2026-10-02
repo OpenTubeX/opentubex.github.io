@@ -49,7 +49,7 @@ In **Settings → Advanced → Video and metadata providers**, find **Stream ext
 
 *Stream extraction method selects how to obtain playable streams; Preferred API Backend is a separate choice.*
 
-On desktop, configure or update yt-dlp under **Settings → Advanced → External Software**. Android manages its own tool integration and does not use desktop executable paths.
+On desktop, configure or update yt-dlp under **Settings → Advanced → External Software**. The mobile apps manage their own tool integrations and do not use desktop executable paths.
 
 If search and channel pages work but playback fails, note the current extraction method, try the other one, and retry the same public video. Record which method worked when reporting the problem. The method does not download a permanent offline copy; use [Downloads](/docs/downloads/) for that.
 

@@ -67,7 +67,7 @@ Before reinstalling or clearing storage, [export your data](/docs/importing/#bac
 
 1. Search the [OpenTubeX issue tracker](https://github.com/OpenTubeX/OpenTubeX/issues) for your error or symptoms.
 2. If no existing issue matches, select **New issue** and use the bug-report template.
-3. Include the OpenTubeX version, operating system/version, installation method, and whether you use a regular release or nightly build. For Android, include the device model.
+3. Include the OpenTubeX version, operating system/version, installation method, and whether you use a regular release or nightly build. For mobile apps, include the device model.
 4. Write numbered steps that reproduce the problem, what you expected, and what happened instead. Include the affected video URL if it is public and relevant.
 5. Copy the exact error text and attach a screenshot or short recording if it explains the problem. Mention any settings changes or workarounds you tested.
 

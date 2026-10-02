@@ -1,6 +1,6 @@
-Last updated: September 25, 2026
+Last updated: October 2, 2026
 
-This policy explains how the OpenTubeX website, desktop app, and Android app handle data. It does not cover independently operated services or websites that OpenTubeX links to.
+This policy explains how the OpenTubeX website, desktop app, and mobile app handle data. It does not cover independently operated services or websites that OpenTubeX links to.
 
 ## Operator and contact
 
@@ -32,11 +32,9 @@ GitHub, Inc. and its affiliates provide the website hosting and determine how lo
 
 OpenTubeX does not sell website visitor data, use it for advertising, or make automated decisions with legal or similarly significant effects.
 
-<span id="desktop-app"></span>
+## Desktop and mobile apps
 
-## Desktop and Android apps
-
-The following applies to both platforms where the described feature is available. Android stores the library in application storage and uses Android's storage picker for downloaded media; desktop profile paths and executable settings do not apply there.
+The following applies to desktop, Android, and iOS/iPadOS where the described feature is available. The mobile apps store the library in private application storage and use the platform's storage picker for downloaded media; desktop profile paths and executable settings do not apply there.
 
 ### Privacy and threat model
 
@@ -48,12 +46,14 @@ This section describes the data exposed by OpenTubeX itself. It assumes that you
 
 By default, subscriptions, playlists, settings including saved channel settings, history, watch statistics, profiles, and open tabs remain on your device. Enabling synchronization sends copies of the selected categories to the configured sync server:
 
-- Enhanced-privacy sync encrypts the selected data on your device before upload. The server still receives account and traffic metadata.
+- Enhanced-privacy sync encrypts the selected data on your device before upload. This mode requires a server with live-sync support. The server still receives account and traffic metadata.
 - A legacy sync server does not support this encryption. Synced data is visible to that server's operator.
 
 With a compatible enhanced-privacy server, watch statistics are included in sync by default; turn off **Watch stats** in **Settings → Sync** to exclude them. See [sync setup](/docs/sync/) for privacy modes and category selection.
 
 The public OpenTubeX sync service has a [separate privacy policy](https://github.com/OpenTubeX/sync-server/blob/main/PRIVACY.md). Other sync-server operators are responsible for their own notices and practices.
+
+On compatible servers, enhanced-privacy sync also uploads encrypted account activity, including changed setting keys, scalar values, and bounded details about subscriptions, playlists, profiles, saved playlists, channel preferences, caption appearance, and custom themes. Watch history and frequent playback changes are excluded. Full object values are omitted from activity. Item names and scalar setting strings longer than 128 bytes are also omitted. Opening a video on another device sends an encrypted request containing its video ID, title, and playback position. The OpenTubeX sync server retains up to 100 activity batches per account for 30 days and up to 100 pending device requests per account for 24 hours; acknowledged requests are deleted, and expired records are normally removed within one hour.
 
 ### Network exposure
 
@@ -69,13 +69,13 @@ Rows for optional services apply only when the feature is enabled. An IP address
 | DeArrow | Configured SponsorBlock/DeArrow and thumbnail-service operators | IP address, timing, video-ID hash prefixes for branding lookups, and full video identifiers and timestamps for generated-thumbnail requests |
 | Return YouTube Dislike | Configured Return YouTube Dislike operator | IP address, video identifiers, and timing |
 | Voice-over translation | Unofficial Yandex voice-over translation service | IP address, YouTube video identifier and URL, video duration, requested output language, and timing |
-| Enhanced-privacy sync | Configured sync operator | IP address, OpenTubeX application version from Electron desktop builds, account identifier, authentication data, encrypted payloads, collection names, payload sizes, revisions, and timing; not the decrypted selected data |
+| Enhanced-privacy sync | Configured sync operator | IP address, OpenTubeX application version from Electron desktop builds, account identifier, authentication data, encrypted payloads, collection names, payload sizes, revisions, event IDs, recipient device IDs, creation and expiry times, and request timing; not the decrypted selected data, activity details, or video requests |
 | Legacy sync | Configured sync operator | IP address, OpenTubeX application version from Electron desktop builds, account identifier, authentication data, selected synced data, and timing |
-| `yt-dlp` playback and downloads | The requested site (YouTube or another supported site), its media services, and the configured proxy, if any | IP address, requested page and media resources, media identifiers, formats, and timing. Configured authentication cookies may identify your account to the relevant site. OpenTubeX's proxy setting is passed to `yt-dlp` |
+| `yt-dlp` playback and downloads | YouTube or the media site you open, its media hosts, and the configured proxy, if any | IP address, requested page and media resources, media identifiers, formats, and timing. Media hosts also receive the request headers and cookies needed for extracted streams. Configured authentication cookies may identify your account to the relevant site. OpenTubeX's proxy setting is passed to `yt-dlp`. |
 
 Opening an external media link can contact the selected site and its media services directly; selecting Invidious for YouTube metadata does not proxy these other sites. See [external media playback](/docs/playback/#play-a-link-from-another-site).
 
-Connectivity checks may run at startup, when returning to the app, after connection changes, or during network recovery. Failed checks are retried while the system reports an internet connection. You can turn them off under Settings > Privacy > Internet connectivity checks.
+Connectivity checks may run at startup, when returning to the app, after connection changes, or during network recovery. Failed checks are retried while the system reports an internet connection. You can turn them off under **Settings → Privacy → Internet connectivity checks**.
 
 Voice-over translation is disabled by default. When it is enabled, no translation-service request is made until you request a translation. The separate background-preparation option is also disabled by default; enabling it requests a translation whenever a supported non-live video loads. These requests omit browser credentials and cookies.
 

@@ -58,8 +58,8 @@ See the [SponsorBlock guide](/docs/sponsorblock/) for skip behaviors and [Privac
 
 Use settings search when you know an option's name but not its category. The [Features page](/extra-features/) explains additional options such as transcripts and per-channel playback settings.
 
-## Android and Linux differences
+## Mobile and Linux differences
 
-On Android, tap to show player controls. Background playback can continue when you switch apps; Android's media notification provides playback controls. If it stops after the screen locks, see [background playback troubleshooting](/docs/troubleshooting/#android-background-playback-stops).
+On Android and iOS/iPadOS, tap to show player controls. Background playback can continue when you switch apps. Android's media notification provides playback controls; on iOS/iPadOS, use the lock-screen or Control Center media controls. If Android playback stops after the screen locks, see [background playback troubleshooting](/docs/troubleshooting/#android-background-playback-stops).
 
-On Linux Wayland, the automatic Picture-in-Picture trigger for minimizing the window is unavailable. Use **When the window loses focus or is switched away** instead. Desktop window and external-player options do not all apply to Android.
+On Linux Wayland, the automatic Picture-in-Picture trigger for minimizing the window is unavailable. Use **When the window loses focus or is switched away** instead. Desktop window and external-player options do not all apply to the mobile apps.
