@@ -51,11 +51,8 @@
   }
 
   function syncLogos(theme) {
-    document.querySelectorAll("[data-logo]").forEach(function (img) {
-      var darkSrc = img.getAttribute("data-logo-dark");
-      var lightSrc = img.getAttribute("data-logo-light");
-      if (!darkSrc || !lightSrc) return;
-      img.src = theme === "dark" ? darkSrc : lightSrc;
+    document.querySelectorAll("picture source[data-logo-theme]").forEach(function (source) {
+      source.media = source.getAttribute("data-logo-theme") === theme ? "all" : "not all";
     });
   }
 
