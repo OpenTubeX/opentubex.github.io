@@ -12,7 +12,7 @@ order: 4
 4. Use the captions control to select a subtitle track when one is available.
 5. Use fullscreen for a larger view. On desktop, Picture-in-Picture keeps a floating player visible while you work elsewhere.
 
-Some controls move into the player's overflow menu when space is limited. Live streams may not support seeking through the full video.
+Some controls move into the player's overflow menu when space is limited. Built-in playback does not support seeking in live streams or premieres. To rewind, choose [yt-dlp as the stream extraction method](/docs/providers/#choose-a-stream-extraction-method); seeking is available when YouTube provides a rewindable stream, and the available window may not cover the full broadcast.
 
 ## Play a link from another site
 

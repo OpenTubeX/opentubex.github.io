@@ -202,8 +202,10 @@ in full-window or fullscreen mode.
 
 ### Rewind live streams and premieres
 
-Experimentally rewind live streams and premieres instead of being limited to
-the live edge.
+Use **yt-dlp** as the [stream extraction method](/docs/providers/#choose-a-stream-extraction-method)
+to rewind live streams and premieres when YouTube provides a rewindable stream.
+Streams with DVR disabled cannot be rewound. The built-in method plays live
+streams and premieres at the live edge without seeking.
 
 ### YouTube-style Shorts
 
