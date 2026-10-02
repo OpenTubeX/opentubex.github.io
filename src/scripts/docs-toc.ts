@@ -30,7 +30,7 @@ if (sections.length) {
 			if (link === active) link.setAttribute('aria-current', 'location');
 			else link.removeAttribute('aria-current');
 		}
-		if (select) select.value = active.hash;
+		if (select) select.value = active.getAttribute('href') ?? '';
 	}
 
 	function scheduleUpdate() {

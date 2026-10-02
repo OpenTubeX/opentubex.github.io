@@ -6,7 +6,7 @@ const script = new Bun.Transpiler({ loader: 'ts', target: 'browser' }).transform
 	readFileSync('src/scripts/docs-toc.ts', 'utf8').replace('export {};', ''),
 );
 
-function setup(initialScroll = 0, ids = ['first', 'second', 'last']) {
+function setup(initialScroll = 0, ids = ['first', 'second', 'last'], headingIds = ids) {
 	const listeners = new Map<string, () => void>();
 	const frames: (() => void)[] = [];
 	const window = {
@@ -16,9 +16,10 @@ function setup(initialScroll = 0, ids = ['first', 'second', 'last']) {
 	};
 	const links = ids.map((id) => {
 		const classes = new Set<string>();
-		const attributes = new Map<string, string>();
+		const attributes = new Map<string, string>([['href', `#${id}`]]);
 		return {
-			hash: `#${id}`,
+			hash: new URL(`#${id}`, 'https://opentubex.org').hash,
+			getAttribute: (name: string) => attributes.get(name) ?? null,
 			classList: { toggle: (name: string, on: boolean) => { on ? classes.add(name) : classes.delete(name); } },
 			setAttribute: (name: string, value: string) => { attributes.set(name, value); },
 			removeAttribute: (name: string) => { attributes.delete(name); },
@@ -28,7 +29,7 @@ function setup(initialScroll = 0, ids = ['first', 'second', 'last']) {
 	});
 	const guide = { active: true, current: 'page' };
 	const select = { value: '/docs/installing/' };
-	const headings = ['first', 'second', 'last'].map((id, index) => ({
+	const headings = headingIds.map((id, index) => ({
 		id,
 		getBoundingClientRect: () => ({ top: [300, 1300, 2800][index] - window.scrollY }),
 	}));
@@ -84,6 +85,13 @@ test('a restored scroll position highlights the section on initialization', () =
 	expect(setup(1500).links[1].active).toBe(true);
 });
 
+test('non-ASCII fragments keep the picker on the matching rendered option value', () => {
+	const { links, select } = setup(1500, ['first', 'café', 'last']);
+	expect(links[1].hash).toBe('#caf%C3%A9');
+	expect(links[1].active).toBe(true);
+	expect(select.value).toBe('#café');
+});
+
 test('the last section becomes active at the bottom even if its heading cannot reach the top', () => {
 	const { links, scroll } = setup();
 	scroll(2400);
@@ -103,7 +111,7 @@ test('resizing reevaluates the heading offset and scroll events share one animat
 });
 
 test('pages with no section targets keep their guide selection and add no listeners', () => {
-	const { select, listeners } = setup(0, ['missing']);
+	const { select, listeners } = setup(0, ['missing'], []);
 	expect(select.value).toBe('/docs/installing/');
 	expect(listeners.size).toBe(0);
 });
