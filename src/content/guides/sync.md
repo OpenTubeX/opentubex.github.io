@@ -8,12 +8,11 @@ Sync shares selected library data between your OpenTubeX installations. [Export 
 
 See the [device sync comparison](/compare/#sync).
 
-## Choose a server and privacy mode
+## Choose a server
 
-OpenTubeX supports OpenTubeX and LibreTube sync servers. The available categories and pairing controls depend on the server's capabilities.
+The default public OpenTubeX sync server supports all sync features with end-to-end encryption. The app encrypts synced data on your device before uploading it; only your devices hold the key. The server still receives account and connection metadata.
 
-- **Enhanced privacy:** the app encrypts synced data on your device before uploading it. The server still receives account and connection metadata.
-- **Legacy servers:** the app warns that enhanced privacy is unsupported. The operator can read the data you sync. Choose a server with enhanced privacy if you need end-to-end encryption.
+You can also use a self-hosted OpenTubeX server. LibreTube sync servers are supported, but do not support end-to-end encryption or certain sync features.
 
 Read the **Privacy policy for this server** link when available. The [network exposure table](/privacy/#network-exposure) explains what a sync operator can observe.
 
@@ -21,7 +20,7 @@ Read the **Privacy policy for this server** link when available. The [network ex
 
 1. Open **Settings → Sync** and turn on **Enable Sync**.
 2. Enter or select the **Server URL** and wait for the server check.
-3. Enter your **Username** and account **Password**. For enhanced privacy, also enter a separate **Privacy passphrase**. Use the same privacy passphrase when signing in to an existing encrypted account.
+3. Enter your **Username** and account **Password**. For encrypted sync, also enter a separate **Privacy passphrase**. Use the same privacy passphrase when signing in to an existing encrypted account.
 4. Choose **Register** to create an account if the server allows registration, or **Log in** for an existing account.
 5. Check the connection and privacy status, then review the categories described below. Use **Sync now** and wait for synchronization to finish before pairing another device.
 
@@ -37,11 +36,11 @@ Keep the privacy passphrase somewhere private that you can recover independently
 
 ## Choose what to sync
 
-In **Settings → Sync**, review **Subscriptions**, **Playlists**, **History**, **Profiles**, **Open tabs and session**, and **Settings**. A hidden or disabled option may be unsupported by your server. Settings sync does not transfer every device-specific preference or credential.
+In **Settings → Sync**, review **Subscriptions**, **Playlists**, **History**, **Profiles**, **Open tabs and session**, and **Settings**. Settings sync does not transfer every device-specific preference or credential.
 
 Each device keeps its own open tab set by default, including devices of the same type. Enabling **Use one shared tab set across devices** makes the current device's tabs the shared set. Other devices replace their open tabs with that set when they sync; tabs from different devices are not combined.
 
-**Watch stats** sync requires a compatible enhanced-privacy server. It is enabled by default; turn it off to keep statistics on the device. It is separate from the **History** toggle.
+**Watch stats** sync is enabled by default; turn it off to keep statistics on the device. It is separate from the **History** toggle.
 
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/sync-categories-dark.webp" type="image/webp" />
@@ -55,7 +54,7 @@ Use **Sync now** for a manual sync, or enable **Sync automatically**. If the app
 
 ## Pair another device
 
-Secure pairing requires a server that supports pairing over HTTPS and an existing device connected with enhanced privacy.
+Secure pairing transfers the encryption key from a device already connected to your sync account.
 
 1. On the new device, open **Settings → Sync**, enable sync, and select the same **Server URL** as the connected device.
 2. Choose **Pair with an existing device**, enter a recognizable **Device name**, and choose **Create pairing code**.
@@ -73,7 +72,7 @@ Secure pairing requires a server that supports pairing over HTTPS and an existin
 
 Pairing transfers account access and the privacy key without typing your account password or privacy passphrase on the new device. Show the pairing code only to your trusted device. It expires after two minutes; create a new code if it expires, and clear text codes from clipboard history afterward.
 
-If no pairing control is available, check the server's capabilities and privacy mode. You can instead sign in on the second device with the same server, username, account password, and privacy passphrase. If pairing reports that it cannot verify the key, sync the existing device first and retry.
+You can also sign in on the second device with the same server, username, account password, and privacy passphrase. If pairing reports that it cannot verify the key, sync the existing device first and retry.
 
 ## Disconnect or remove the account
 

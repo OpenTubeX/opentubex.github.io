@@ -44,16 +44,15 @@ This section describes the data exposed by OpenTubeX itself. It assumes that you
 
 ### Data stored by OpenTubeX
 
-By default, subscriptions, playlists, settings including saved channel settings, history, watch statistics, profiles, and open tabs remain on your device. Enabling synchronization sends copies of the selected categories to the configured sync server:
+By default, subscriptions, playlists, settings including saved channel settings, history, watch statistics, profiles, and open tabs remain on your device. Enabling synchronization sends copies of the selected categories to the configured sync server.
 
-- Enhanced-privacy sync encrypts the selected data on your device before upload. This mode requires a server with live-sync support. The server still receives account and traffic metadata.
-- A legacy sync server does not support this encryption. Synced data is visible to that server's operator.
+The default public OpenTubeX sync server uses end-to-end encryption: the app encrypts the selected data on your device before upload. The server still receives account and traffic metadata.
 
-With a compatible enhanced-privacy server, watch statistics are included in sync by default; turn off **Watch stats** in **Settings → Sync** to exclude them. See [sync setup](/docs/sync/) for privacy modes and category selection.
+Watch statistics are included in sync by default; turn off **Watch stats** in **Settings → Sync** to exclude them. See [sync setup](/docs/sync/) for setup and category selection.
 
 The public OpenTubeX sync service has a [separate privacy policy](https://github.com/OpenTubeX/sync-server/blob/main/PRIVACY.md). Other sync-server operators are responsible for their own notices and practices.
 
-On compatible servers, enhanced-privacy sync also uploads encrypted account activity, including changed setting keys, scalar values, and bounded details about subscriptions, playlists, profiles, saved playlists, channel preferences, caption appearance, and custom themes. Watch history and frequent playback changes are excluded. Full object values are omitted from activity. Item names and scalar setting strings longer than 128 bytes are also omitted. Opening a video on another device sends an encrypted request containing its video ID, title, and playback position. The OpenTubeX sync server retains up to 100 activity batches per account for 30 days and up to 100 pending device requests per account for 24 hours; acknowledged requests are deleted, and expired records are normally removed within one hour.
+Sync also uploads encrypted account activity, including changed setting keys, scalar values, and bounded details about subscriptions, playlists, profiles, saved playlists, channel preferences, caption appearance, and custom themes. Watch history and frequent playback changes are excluded. Full object values are omitted from activity. Item names and scalar setting strings longer than 128 bytes are also omitted. Opening a video on another device sends an encrypted request containing its video ID, title, and playback position. The OpenTubeX sync server retains up to 100 activity batches per account for 30 days and up to 100 pending device requests per account for 24 hours; acknowledged requests are deleted, and expired records are normally removed within one hour.
 
 ### Network exposure
 
@@ -84,7 +83,7 @@ HTTPS encrypts request paths and payloads in transit, but DNS providers and netw
 ### Choosing a setup
 
 - To keep app data local, leave synchronization disabled.
-- To prevent a sync operator from reading synced data, use a server that supports enhanced-privacy sync and use a separate, strong privacy passphrase.
+- End-to-end encryption prevents the sync operator from reading your synced data. Use a separate, strong privacy passphrase and keep it private.
 - To avoid sending requests to optional services, disable internet connectivity checks, SponsorBlock, DeArrow, Return YouTube Dislike, voice-over translation, and synchronization.
 - To hide your direct IP address from YouTube or optional services, route the relevant requests through a trusted VPN or Tor and verify the proxy configuration.
 

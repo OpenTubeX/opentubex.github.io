@@ -279,8 +279,7 @@ statistics sync is enabled, choose a device or **All devices** above the charts.
 The combined view adds each device's recorded watch time. To reset or adjust
 imported watch time, select the current device.
 
-Statistics sync and the device comparison require a compatible enhanced-privacy
-sync server. See [sync setup](/docs/sync/#choose-what-to-sync).
+See [sync setup](/docs/sync/#choose-what-to-sync) to choose what to synchronize.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e0d2162c-99e9-4ddb-8073-9f6a283dcd9b">
@@ -854,20 +853,19 @@ to restore; matching records merge with data already on the device.
 ### Encrypted sync
 
 Synchronize subscriptions, playlists, history, saved channel settings,
-profiles, tabs, and settings with end-to-end encryption when using a server
-that supports enhanced privacy. Legacy servers, including those without
-encrypted-sync support, can read the data you sync. LibreTube Sync servers are
-supported, but available features depend on the server.
+profiles, tabs, and settings with end-to-end encryption.
 
-Compatible servers can send changes as they happen. Account activity shows
+LibreTube sync servers are also supported, but do not support end-to-end
+encryption or certain sync features.
+
+Sync sends changes as they happen. Account activity shows
 which device added, removed, or changed items, and **Open on another device**
 sends a video to another device. Upcoming live-stream and premiere reminders
-can also sync across desktop and mobile when the server supports that
-collection and notifications are allowed on the receiving device.
+can also sync across desktop and mobile when notifications are allowed on the
+receiving device.
 
-**Watch stats** sync requires a compatible enhanced-privacy server. It is
-enabled by default in **Settings → Sync**; turn it off to keep statistics
-on this device. On servers supporting secure pairing, add another device by
+**Watch stats** sync is enabled by default in **Settings → Sync**; turn it off
+to keep statistics on this device. Add another device by
 scanning a QR code or entering a text code without typing the account password
 or privacy passphrase on it. Follow [Sync between devices](/docs/sync/) for
 setup, pairing, and recovery limitations.
