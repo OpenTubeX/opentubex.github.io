@@ -23,7 +23,7 @@
     "hast-util-sanitize": "^5.0.2",
     "hast-util-to-html": "^9.0.5",
     "photoswipe": "^5.4.4",
-    "sharp": "^0.35.4"
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2"
