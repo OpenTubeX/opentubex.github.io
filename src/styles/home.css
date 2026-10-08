@@ -45,32 +45,6 @@
 
 .home .cta-group { gap: 0.75rem; }
 
-.home .promo {
-  padding-bottom: 0;
-}
-
-.home .promo .section__title {
-  max-width: none;
-  margin-bottom: 2rem;
-}
-
-.promo__video {
-  display: block;
-  width: 100%;
-  max-width: 800px;
-  margin-inline: auto;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  border: 1px solid var(--line);
-  border-radius: 1rem;
-  background: var(--surface);
-}
-
-.promo__video:focus-visible {
-  outline: 2px solid var(--teal);
-  outline-offset: 4px;
-}
-
 .hero__preview {
   padding: 2rem 0 0;
   scroll-margin-top: calc(var(--nav-h) + 2rem);
@@ -79,6 +53,7 @@
 .hero__preview .shot-stage { --shot-index: 0; gap: 1.75rem; }
 .home .shot-stage:has([data-shot-tab='watch'].is-active) { --shot-index: 1; }
 .home .shot-stage:has([data-shot-tab='settings'].is-active) { --shot-index: 2; }
+.home .shot-stage:has([data-shot-tab='promo'].is-active) { --shot-index: 3; }
 
 .home .laptop {
   perspective: 1200px;
@@ -100,10 +75,21 @@
   transform: translateX(calc((var(--shot-position) - var(--shot-index)) * 100%));
 }
 
+.home .laptop__video {
+  object-fit: cover;
+  background: inherit;
+  cursor: auto;
+}
+
+.home .laptop__video:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: -2px;
+}
+
 .home .shot-tabs {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   padding: 0.25rem;
   gap: 0.25rem;
   border: 1px solid var(--line);
@@ -116,7 +102,7 @@
   position: absolute;
   inset-block: 0.25rem;
   left: 0.25rem;
-  width: calc((100% - 1rem) / 3);
+  width: calc((100% - 1.25rem) / 4);
   border: 1px solid var(--line);
   border-radius: 0.6rem;
   background: var(--white);
@@ -233,4 +219,12 @@
   .home .pillars { grid-template-columns: 1fr; }
   .home .shot-tabs__tab { padding-inline: 0.6rem; }
   .home .download { width: calc(100% - 1.5rem); margin-bottom: 2rem; }
+}
+
+@media (max-width: 400px) {
+  .home .shot-tabs__tab {
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.5rem 0.25rem;
+  }
 }

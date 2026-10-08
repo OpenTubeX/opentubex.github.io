@@ -178,6 +178,24 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 												</picture>
 											))
 										}
+										<video
+											class="laptop__shot laptop__video"
+											data-shot="promo"
+											style={`--shot-position: ${screenshots.length}`}
+											controls
+											playsinline
+											preload="none"
+											poster="/videos/opentubex-promo.jpg"
+											width="1920"
+											height="1080"
+											aria-label="OpenTubeX promo video"
+											aria-hidden="true"
+											tabindex="-1"
+											inert
+										>
+											<source src="/videos/opentubex-promo.mp4" type="video/mp4" />
+											<a href="/videos/opentubex-promo.mp4">Download the OpenTubeX promo video</a>.
+										</video>
 									</div>
 								</div>
 							</div>
@@ -188,7 +206,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 							<div class="laptop__shadow" aria-hidden="true"></div>
 						</figure>
 
-						<div class="shot-tabs" role="group" aria-label="Screenshot views">
+						<div class="shot-tabs" role="group" aria-label="Preview views">
 							{
 								screenshots.map((shot, index) => (
 									<button
@@ -202,28 +220,14 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 									</button>
 								))
 							}
+							<button type="button" class="shot-tabs__tab" aria-pressed="false" data-shot-tab="promo">
+								<Icon name="lucide:clapperboard" aria-hidden="true" />
+								In action
+							</button>
 						</div>
 					</div>
 				</div>
 			</div>
-		</section>
-
-		<section class="section promo" id="promo" aria-labelledby="promo-heading">
-			<p class="section__eyebrow">A quick introduction</p>
-			<h2 class="section__title" id="promo-heading">See OpenTubeX in action</h2>
-			<video
-				class="promo__video"
-				controls
-				playsinline
-				preload="none"
-				poster="/videos/opentubex-promo.jpg"
-				width="1920"
-				height="1080"
-				aria-labelledby="promo-heading"
-			>
-				<source src="/videos/opentubex-promo.mp4" type="video/mp4" />
-				<a href="/videos/opentubex-promo.mp4">Download the OpenTubeX promo video</a>.
-			</video>
 		</section>
 
 		<section class="section" id="pillars" aria-labelledby="pillars-heading">
@@ -356,6 +360,8 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 
 			var tabs = Array.prototype.slice.call(stage.querySelectorAll('[data-shot-tab]'));
 			var shots = Array.prototype.slice.call(stage.querySelectorAll('[data-shot]'));
+			var screenshotTabs = tabs.filter(function (tab) { return tab.getAttribute('data-shot-tab') !== 'promo'; });
+			var video = stage.querySelector('video');
 			var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 			var rotationTimer;
 			var manuallySelected = false;
@@ -375,6 +381,8 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 					shot.setAttribute('aria-hidden', on ? 'false' : 'true');
 					shot.tabIndex = on ? 0 : -1;
 				});
+				video.inert = id !== 'promo';
+				if (video.inert) video.pause();
 			}
 
 			function pauseRotation() {
@@ -385,8 +393,8 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 				pauseRotation();
 				if (manuallySelected || swipe || reducedMotion.matches || document.hidden || stage.matches(':hover, :focus-within')) return;
 				rotationTimer = window.setTimeout(function () {
-					var current = tabs.findIndex(function (tab) { return tab.classList.contains('is-active'); });
-					activate(tabs[(current + 1) % tabs.length].getAttribute('data-shot-tab'));
+					var current = screenshotTabs.findIndex(function (tab) { return tab.classList.contains('is-active'); });
+					activate(screenshotTabs[(current + 1) % screenshotTabs.length].getAttribute('data-shot-tab'));
 					scheduleRotation();
 				}, 3000);
 			}
@@ -400,7 +408,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 			});
 
 			screen.addEventListener('pointerdown', function (event) {
-				if (!event.isPrimary || event.button !== 0 || swipe) return;
+				if (!event.isPrimary || event.button !== 0 || swipe || video.classList.contains('is-active')) return;
 				var width = shots[0].getBoundingClientRect().width;
 				var shotStyle = getComputedStyle(shots[0]);
 				var transform = new DOMMatrixReadOnly(shotStyle.transform);

@@ -87,6 +87,7 @@ export default defineConfig({
 					'cast',
 					'chart-column',
 					'circle-play',
+					'clapperboard',
 					'copy',
 					'code-xml',
 					'columns-2',
