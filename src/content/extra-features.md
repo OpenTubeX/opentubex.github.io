@@ -99,11 +99,11 @@ or switch windows.
 
 ![Auto Picture-in-Picture window options](https://github.com/user-attachments/assets/4c1f1f7b-7614-41c8-abd3-5c5179d75cee)
 
-### Cast to DLNA devices
+### Cast to Chromecast and DLNA devices
 
-On desktop, send a compatible MP4 video to a DLNA or UPnP device on your local
-network. Choose a device from the optional player control, then stop casting
-to return to playback in OpenTubeX.
+Chromecast and DLNA casting are supported on Android and desktop. Choose a
+device from the optional player control, then stop casting to return to
+playback in OpenTubeX.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3e93e4e5-047e-47d0-8b5f-447a0dc0fecc">

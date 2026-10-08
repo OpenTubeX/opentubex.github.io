@@ -163,7 +163,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Use the player\'s Sleep timer setting to pause the video automatically after a chosen duration.', source: 'https://support.google.com/youtube/answer/15397997?hl=en' },
 			] },
 			{ name: 'Cast to a TV', icon: 'lucide:cast', cells: [
-				{ status: 'partial', label: 'Desktop DLNA', note: 'On desktop, send compatible MP4 videos to DLNA or UPnP devices on your local network. This does not provide Chromecast or AirPlay support.', source: 'https://opentubex.org/extra-features/#cast-to-dlna-devices' },
+				{ status: 'yes', label: 'Chromecast & DLNA', note: 'Chromecast and DLNA casting are supported on Android and desktop.', source: 'https://opentubex.org/extra-features/#cast-to-chromecast-and-dlna-devices' },
 				{ status: 'no', note: 'No built-in TV casting. DLNA and UPnP support remains an open feature request; casting through an external player is a separate workflow.', source: 'https://github.com/FreeTubeApp/FreeTube/issues/437' },
 				{ status: 'yes', label: 'Multiple protocols', note: 'Supports FCast, Chromecast, and AirPlay. FCast is recommended; Chromecast may need the phone to proxy separate audio and video streams, while AirPlay does not support those separated streams.', source: 'https://grayjay.app/faq.html' },
 				{ status: 'partial', label: 'Kodi via Kore', note: 'The Play with Kodi option sends playback to a Kodi media center through the separate Kore remote app. This is not built-in Chromecast or AirPlay casting.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/dev/app/src/main/res/values/strings.xml' },
