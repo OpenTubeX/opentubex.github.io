@@ -7,6 +7,7 @@ Icons identify their respective projects; trademarks belong to their owners.
 - Grayjay: https://github.com/futo-org/grayjay-android/blob/master/app/src/main/res/mipmap-xhdpi/ic_launcher.png
 - NewPipe: https://github.com/TeamNewPipe/NewPipe/blob/dev/assets/new_pipe_icon_5.svg
 - LibreTube: https://github.com/libre-tube/LibreTube/blob/master/assets/icons/LibreTube.svg
+- Flow: https://github.com/Flow-Tube/Flow-Desktop/blob/v0.1.0-beta2/public/logo.svg
 - YouTube: Simple Icons, from the existing @iconify-json/simple-icons dependency (https://simpleicons.org/).
 
 - SponsorBlock: https://github.com/ajayyy/SponsorBlock/blob/master/public/icons/IconSponsorBlocker64px.png
