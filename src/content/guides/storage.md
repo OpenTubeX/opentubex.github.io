@@ -33,16 +33,14 @@ The Android path shown is for the device's primary user; other users and work pr
 
 | File | Contents |
 | --- | --- |
-| `profiles.db` | Profiles and subscriptions |
-| `settings.db` | Application preferences |
-| `playlists.db` | Local playlists and saved videos |
-| `history.db` | Watch history and saved progress |
-| `watch-stats.db` | Watch-time statistics |
-| `tab-session.db` | Saved tab sessions |
-| `search-history.db` | Saved searches |
-| `subscription-cache.db` | Cached subscription-feed entries |
+| `library.sqlite` | The live desktop library: profiles, subscriptions, preferences, playlists, history, watch statistics, tab sessions, saved searches, subscription feeds, and metadata history |
+| `library.sqlite.initialized` | Identifies the database belonging to this profile |
+| `library.sqlite-wal` and `library.sqlite-shm`, when present | SQLite transaction and shared-memory files; include them when copying the whole profile |
+| Older `.db` files | Retained originals from the desktop migration; the app no longer writes new activity to these files |
 
 These are application data files, not downloaded video files. Downloads are saved in your configured **Download Folder**. The profile folder may contain additional caches, session data, and files used by other features.
+
+For recovery, **quit OpenTubeX completely**, including any tray or background instance, then copy the **whole profile directory**, including the SQLite database and its accompanying files. Copying only an older `.db` file does not back up activity saved after migration. Keep the originals private: they still contain the data present before migration. Browser, Android, and iOS storage are unchanged by this desktop migration.
 
 ## Back up or move to another device
 
