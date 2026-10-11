@@ -63,7 +63,6 @@ export default defineConfig({
 		'/comparison': '/compare/',
 		'/comparisons': '/compare/',
 		'/privacy-policy': '/privacy/',
-		'/favicon.ico': '/favicon.svg',
 		'/features': '/extra-features/',
 		'/feature': '/extra-features/',
 		'/extra-feature': '/extra-features/',
