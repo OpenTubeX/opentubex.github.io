@@ -49,10 +49,10 @@ If imported history has missing details or incorrect LIVE labels, use [Repair Hi
 ## Back up your library
 
 1. Open **Settings → Data & Storage → Data** and select **Export backup**.
-2. Save the ZIP file in a backup location you can find on your other device.
+2. Choose the categories to include, select **Export selected data**, then save the ZIP file in a backup location you can find on your other device.
 3. On that device, select **Import backup**, choose the ZIP, select the categories to import, and select **Import selected data**.
 
-The ZIP contains separate JSON files for profiles and subscriptions, playlists, watch history, search history, watch statistics, and transferable settings. Importing merges the selected categories with data already on the device; records with matching IDs or dates are updated. You can still export or import individual categories using the separate actions.
+The ZIP contains separate JSON files for the selected categories: profiles and subscriptions, playlists, watch history, search history, watch statistics, and transferable settings. All categories are selected by default. Importing merges the selected categories with data already on the device; records with matching IDs or dates are updated. You can still export or import individual categories using the separate actions.
 
 The ZIP does not include open tab sessions or the entire application profile. Transferable settings omit device-specific options and sync credentials, such as proxy configuration, external-player paths, screenshot folders, and the sync privacy key. Configure sync separately on the other device using the [sync setup guide](/docs/sync/).
 
