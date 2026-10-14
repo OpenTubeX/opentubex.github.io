@@ -56,6 +56,7 @@ const nightlyTabs = [
 	{ id: 'opensuse', label: 'openSUSE', icon: 'simple-icons:opensuse' },
 	{ id: 'flatpak', label: 'Flatpak', icon: 'simple-icons:flatpak' },
 	{ id: 'snap', label: 'Snap', icon: 'simple-icons:snapcraft' },
+	{ id: 'arch', label: 'Arch Linux', icon: 'simple-icons:archlinux' },
 	{ id: 'android', label: 'Android', icon: 'simple-icons:android' },
 	{ id: 'ios', label: 'iOS / iPadOS', icon: 'simple-icons:apple' },
 ];
@@ -455,6 +456,17 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								<CmdCode code={snapNightlyRefreshCode} lang="shell" title="Existing Store installation" />
 								<p class="pkg__body pkg__body--follow">Switch an existing manual installation:</p>
 								<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
+							</div>
+							<div slot="arch">
+								<p class="pkg__body">
+									Install the prebuilt <a href="https://aur.archlinux.org/packages/opentubex-nightly-bin/" rel="noopener noreferrer"
+										><code>opentubex-nightly-bin</code></a
+									>{' '}package for x86_64 or aarch64. It is updated automatically after each nightly release;
+									use your AUR helper to install updates. It replaces the stable package and uses the same application data.
+								</p>
+								<CmdCode code="paru -S opentubex-nightly-bin" lang="shell" title="paru" />
+								<CmdCode code="yay -S opentubex-nightly-bin" lang="shell" title="yay" />
+								<CmdCode code="shelly -Ia opentubex-nightly-bin" lang="shell" title="shelly" />
 							</div>
 							<div slot="android">
 								<p class="pkg__body">Install and update the Android nightly through F-Droid or Obtainium:</p>
