@@ -7,9 +7,14 @@ export default function rehypeObfuscateEmail() {
 		function visit(node) {
 			if (node.type === 'element' && node.tagName === 'a') {
 				const href = node.properties?.href;
-				if (typeof href === 'string' && href.toLowerCase().startsWith('mailto:')) {
-					const address = href.slice('mailto:'.length).split('?')[0];
-					if (address) {
+				if (typeof href === 'string') {
+					let encoded;
+					if (href.startsWith('protected-email:')) {
+						encoded = href.slice('protected-email:'.length);
+					} else if (href.toLowerCase().startsWith('mailto:') && href.slice('mailto:'.length).split('?')[0]) {
+						encoded = href.split('').map(char => char.charCodeAt(0).toString(19)).join('.');
+					}
+					if (encoded) {
 						node.tagName = 'span';
 						node.properties = {};
 						node.children = [
@@ -17,7 +22,7 @@ export default function rehypeObfuscateEmail() {
 								type: 'element', tagName: 'button',
 								properties: {
 									type: 'button', hidden: true, className: ['email-reveal'],
-									dataEmailReveal: href.split('').map(char => char.charCodeAt(0).toString(19)).join('.'),
+									dataEmailReveal: encoded,
 								},
 								children: [
 									...fromHtml(`<svg viewBox="0 0 24 24" aria-hidden="true">${icons.icons.mail.body}</svg>`, { fragment: true }).children,

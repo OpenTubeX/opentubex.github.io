@@ -4,7 +4,7 @@ This policy explains how the OpenTubeX website, desktop app, and mobile app hand
 
 ## Operator and contact
 
-The OpenTubeX website and app are operated by [D3SOX](https://github.com/D3SOX). For privacy questions or requests, email [privacy@opentubex.org](mailto:privacy@opentubex.org).
+The OpenTubeX website and app are operated by [D3SOX](https://github.com/D3SOX). For privacy questions or requests, email [Show email address](protected-email:5e.52.5a.5d.62.5g.31.5h.60.5a.64.52.54.67.37.5g.5h.56.5f.62.63.53.56.66.28.5g.60.58).
 
 ## Website
 
@@ -89,6 +89,6 @@ HTTPS encrypts request paths and payloads in transit, but DNS providers and netw
 
 ## Your rights and policy changes
 
-Depending on applicable law, you may request access, correction, deletion, restriction, objection, or portability for personal data controlled by the operator. You may also complain to your local data protection authority. Contact [privacy@opentubex.org](mailto:privacy@opentubex.org) to make a request. A service provider or independently operated service must handle requests relating to data that it controls.
+Depending on applicable law, you may request access, correction, deletion, restriction, objection, or portability for personal data controlled by the operator. You may also complain to your local data protection authority. Contact [Show email address](protected-email:5e.52.5a.5d.62.5g.31.5h.60.5a.64.52.54.67.37.5g.5h.56.5f.62.63.53.56.66.28.5g.60.58) to make a request. A service provider or independently operated service must handle requests relating to data that it controls.
 
 This policy may change when the website, app, or their data practices change. The date at the top identifies the latest version.

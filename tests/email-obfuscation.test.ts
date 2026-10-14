@@ -4,13 +4,26 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import rehypeObfuscateEmail from '../src/plugins/rehype-obfuscate-email.mjs';
 
+test('privacy contact details stay encoded in checked-in content and tests', () => {
+	const content = readFileSync('src/content/privacy.md', 'utf8');
+	expect(content).not.toMatch(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/i);
+	expect(content.match(/protected-email:/g)).toHaveLength(2);
+	const encoded = content.match(/protected-email:([\da-i.]+)/)?.[1];
+	expect(encoded).toBeDefined();
+	const address = String.fromCharCode(...encoded!.split('.').map(value => parseInt(value, 19))).slice('mailto:'.length);
+	for (const directory of ['src', 'tests']) {
+		for (const file of new Bun.Glob('**/*').scanSync({ cwd: directory, onlyFiles: true })) {
+			expect(readFileSync(`${directory}/${file}`, 'utf8')).not.toContain(address);
+		}
+	}
+});
+
 test('email links reveal no readable address without JavaScript', async () => {
 	const processor = await createMarkdownProcessor({ rehypePlugins: [rehypeObfuscateEmail] });
 	const { code } = await processor.render(readFileSync('src/content/privacy.md', 'utf8'));
 
-	expect(code).not.toContain('privacy@opentubex.org');
-	expect(code).not.toContain('privacy [at]');
-	expect(code).not.toContain('opentubex [dot] org');
+	expect(code).not.toMatch(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/i);
+	expect(code).not.toContain('protected-email:');
 	expect(code.match(/<button[^>]*data-email-reveal=/g)).toHaveLength(2);
 	expect(code.match(/<button[^>]*hidden/g)).toHaveLength(2);
 	expect(code.match(/aria-hidden="true"/g)).toHaveLength(2);
@@ -22,7 +35,8 @@ test('email links reveal no readable address without JavaScript', async () => {
 test('email protection preserves the full destination and leaves other links unchanged', async () => {
 	const processor = await createMarkdownProcessor({ rehypePlugins: [rehypeObfuscateEmail] });
 	const href = 'mailto:hello@example.org?subject=Grüße%20👋';
-	const { code } = await processor.render(`[Email](${href}) [Website](https://example.org) [Empty](mailto:)`);
+	const encodedHref = href.split('').map(char => char.charCodeAt(0).toString(19)).join('.');
+	const { code } = await processor.render(`[Email](protected-email:${encodedHref}) [Website](https://example.org) [Empty](mailto:)`);
 	const encoded = code.match(/data-email-reveal="([^"]+)"/)?.[1];
 	expect(encoded).toBeDefined();
 	expect(decodeURI(String.fromCharCode(...encoded!.split('.').map(value => parseInt(value, 19))))).toBe(decodeURI(href));
@@ -33,7 +47,8 @@ test('email protection preserves the full destination and leaves other links unc
 test('page load keeps addresses encoded and activation reveals only the selected link with focus', async () => {
 	const processor = await createMarkdownProcessor({ rehypePlugins: [rehypeObfuscateEmail] });
 	const href = 'mailto:hello@example.org?subject=Feedback';
-	const { code } = await processor.render(`[Email](${href}) [Other](mailto:other@example.org)`);
+	const encodedHref = href.split('').map(char => char.charCodeAt(0).toString(19)).join('.');
+	const { code } = await processor.render(`[Email](protected-email:${encodedHref}) [Other](mailto:other@example.org)`);
 	const buttons = [...code.matchAll(/data-email-reveal="([^"]+)"/g)].map((match) => {
 		let click = () => {};
 		let replacement: typeof link | undefined;
