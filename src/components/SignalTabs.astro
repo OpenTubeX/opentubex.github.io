@@ -60,8 +60,12 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 	const transitions = new Map<HTMLElement, () => void>();
 
+	function getTabs(root: HTMLElement) {
+		return [...root.querySelectorAll<HTMLButtonElement>(':scope > .sig-tabs__list > [role="tab"]')];
+	}
+
 	function positionIndicator(root: HTMLElement) {
-		const list = root.querySelector<HTMLElement>('.sig-tabs__list');
+		const list = root.querySelector<HTMLElement>(':scope > .sig-tabs__list');
 		const active = list?.querySelector<HTMLElement>('.is-active');
 		if (!list || !active) return;
 		list.style.setProperty('--tab-x', `${active.offsetLeft}px`);
@@ -72,7 +76,7 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 	}
 
 	function switchPanels(root: HTMLElement, panels: HTMLElement[], tabId: string) {
-		const container = root.querySelector<HTMLElement>('.sig-tabs__panels');
+		const container = root.querySelector<HTMLElement>(':scope > .sig-tabs__panels');
 		const previous = panels.find((panel) => !panel.hidden);
 		const next = panels.find((panel) => panel.dataset.panel === tabId);
 		if (!container || !next || previous === next) return;
@@ -116,8 +120,8 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 	});
 
 	function activateTab(root: HTMLElement, tabId: string, persist: boolean) {
-		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
-		const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+		const tabs = getTabs(root);
+		const panels = [...root.querySelectorAll<HTMLElement>(':scope > .sig-tabs__panels > [role="tabpanel"]')];
 		const next = tabs.find((tab) => tab.dataset.tab === tabId);
 		if (!next) return;
 
@@ -141,7 +145,7 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 
 			document.querySelectorAll<HTMLElement>(`.sig-tabs[data-sync-key="${syncKey}"]`).forEach((other) => {
 				if (other === root) return;
-				const otherTab = [...other.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+				const otherTab = getTabs(other).find(
 					(tab) => tab.dataset.label === next.dataset.label,
 				);
 				if (otherTab?.dataset.tab) activateTab(other, otherTab.dataset.tab, false);
@@ -155,7 +159,7 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 		try {
 			const label = localStorage.getItem(`otx-synced-tabs__${syncKey}`);
 			if (!label) return;
-			const match = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+			const match = getTabs(root).find(
 				(tab) => tab.dataset.label === label,
 			);
 			if (match?.dataset.tab) activateTab(root, match.dataset.tab, false);
@@ -172,16 +176,17 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 			transitions.get(root)?.();
 			positionIndicator(root);
 		});
-		root.querySelectorAll('.sig-tabs__list, .sig-tabs__tab').forEach((element) => resizeObserver.observe(element));
+		root.querySelectorAll(':scope > .sig-tabs__list, :scope > .sig-tabs__list > .sig-tabs__tab')
+			.forEach((element) => resizeObserver.observe(element));
 		root.dataset.bound = 'true';
 
-		root.querySelectorAll<HTMLButtonElement>('[role="tab"]').forEach((tab) => {
+		getTabs(root).forEach((tab) => {
 			tab.addEventListener('click', () => {
 				if (tab.dataset.tab) activateTab(root, tab.dataset.tab, true);
 			});
 
 			tab.addEventListener('keydown', (event) => {
-				const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+				const tabs = getTabs(root);
 				const index = tabs.indexOf(tab);
 				let nextIndex = index;
 				if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (index + 1) % tabs.length;

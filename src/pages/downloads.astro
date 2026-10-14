@@ -464,9 +464,17 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 									>{' '}package for x86_64 or aarch64. It is updated automatically after each nightly release;
 									use your AUR helper to install updates. It replaces the stable package and uses the same application data.
 								</p>
-								<CmdCode code="paru -S opentubex-nightly-bin" lang="shell" title="paru" />
-								<CmdCode code="yay -S opentubex-nightly-bin" lang="shell" title="yay" />
-								<CmdCode code="shelly -Ia opentubex-nightly-bin" lang="shell" title="shelly" />
+								<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
+									<div slot="paru">
+										<CmdCode code="paru -S opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+										</div>
+									<div slot="yay">
+										<CmdCode code="yay -S opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+										</div>
+									<div slot="shelly">
+										<CmdCode code="shelly -Ia opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+									</div>
+								</SignalTabs>
 							</div>
 							<div slot="android">
 								<p class="pkg__body">Install and update the Android nightly through F-Droid or Obtainium:</p>
