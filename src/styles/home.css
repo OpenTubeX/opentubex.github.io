@@ -176,10 +176,12 @@
   border-bottom: 0;
 }
 
-.home .pillar__icon {
-  border-radius: 0.75rem;
-  background: var(--white);
+.home .pillar,
+.home .pillar--linked {
+  grid-template-columns: 3.6rem 1fr;
 }
+
+.home .pillar__mark { gap: 0.65rem; }
 
 .home .pillar__index { color: var(--slate); }
 

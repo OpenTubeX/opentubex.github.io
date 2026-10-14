@@ -72,7 +72,7 @@ const groups = months.map((month) => ({
 
 						<div class="features-main">
 							<ol class="changelog">
-								{entries.map((release) => (
+								{entries.map((release, index) => (
 									<li class="changelog__item" id={release.tag}>
 										<header class="changelog__head">
 											<h2 class="changelog__title">
@@ -82,6 +82,7 @@ const groups = months.map((month) => ({
 											</h2>
 											<p class="changelog__meta">
 												<span class="changelog__tag">{release.tag}</span>
+												{index === 0 && <span class="changelog__latest">Latest</span>}
 												{release.publishedAt && (
 													<time datetime={release.publishedAt}>{formatReleaseDate(release.publishedAt)}</time>
 												)}

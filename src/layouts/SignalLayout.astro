@@ -131,28 +131,39 @@ const primaryNav = [
 
 		<footer class="site-footer">
 			<div class="site-footer__inner">
-				<p>OpenTubeX · Privacy-first YouTube client</p>
-				<p class="site-footer__support">
-					<span>Like OpenTubeX?</span>
-					<span class="site-footer__support-actions">
-						<a class="site-footer__support-link" href="https://github.com/OpenTubeX/OpenTubeX" rel="noopener noreferrer">
-							<Icon name="lucide:star" aria-hidden="true" />
-							Star on GitHub
-						</a>
-						<span class="site-footer__support-separator" aria-hidden="true">·</span>
-						<a
-							class="site-footer__support-link"
-							href="https://alternativeto.net/software/opentubex/about/"
-							rel="noopener noreferrer"
-						>
-							<Icon name="simple-icons:alternativeto" aria-hidden="true" />
-							Like &amp; review on AlternativeTo
-						</a>
-					</span>
-				</p>
-				<nav aria-label="Legal and project information">
-					<a href="/ai-disclosure/" aria-current={active === 'ai-disclosure' ? 'page' : undefined}>AI disclosure</a>
-					<a href="/privacy/" aria-current={active === 'privacy' ? 'page' : undefined}>Privacy policy</a>
+				<div class="site-footer__about">
+					<a class="site-footer__brand" href="/">
+						<picture>
+							<source data-logo-theme="dark" media="(prefers-color-scheme: dark)" srcset={markDarkSrc} type="image/svg+xml" />
+							<img src={markLightSrc} alt="" width="28" height="28" />
+						</picture>
+						OpenTubeX
+					</a>
+					<p>Privacy-first YouTube client</p>
+				</div>
+				<div class="site-footer__col">
+					<h2>Like OpenTubeX?</h2>
+					<ul>
+						<li>
+							<a href="https://github.com/OpenTubeX/OpenTubeX" rel="noopener noreferrer">
+								<Icon name="lucide:star" aria-hidden="true" />
+								Star on GitHub
+							</a>
+						</li>
+						<li>
+							<a href="https://alternativeto.net/software/opentubex/about/" rel="noopener noreferrer">
+								<Icon name="simple-icons:alternativeto" aria-hidden="true" />
+								Like &amp; review on AlternativeTo
+							</a>
+						</li>
+					</ul>
+				</div>
+				<nav class="site-footer__col" aria-labelledby="footer-legal-heading">
+					<h2 id="footer-legal-heading">Legal</h2>
+					<ul>
+						<li><a href="/ai-disclosure/" aria-current={active === 'ai-disclosure' ? 'page' : undefined}>AI disclosure</a></li>
+						<li><a href="/privacy/" aria-current={active === 'privacy' ? 'page' : undefined}>Privacy policy</a></li>
+					</ul>
 				</nav>
 			</div>
 		</footer>

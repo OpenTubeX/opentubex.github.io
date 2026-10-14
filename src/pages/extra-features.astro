@@ -74,7 +74,7 @@ const highlights = [
 			<div class="feature-highlights">
 				{highlights.map((feature) => (
 					<article>
-						<Icon name={`lucide:${feature.icon}`} aria-hidden="true" />
+						<span class="pebble" aria-hidden="true"><Icon name={`lucide:${feature.icon}`} /></span>
 						<h2><a href={feature.href}>{feature.title}</a></h2>
 						<p>{feature.body}</p>
 					</article>

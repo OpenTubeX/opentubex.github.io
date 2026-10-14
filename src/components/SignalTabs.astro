@@ -99,7 +99,7 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 		const animation = container.animate(
 			[{ height: `${height}px` }, { height: `${nextHeight}px` }],
 			{
-				duration: 300,
+				duration: 180,
 				easing: getComputedStyle(container).getPropertyValue('--ease').trim(),
 				fill: 'both',
 			},
