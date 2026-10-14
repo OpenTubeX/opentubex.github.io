@@ -1071,6 +1071,7 @@ a.version-chip:hover .version-chip__dot {
 }
 
 .privacy-doc a,
+.email-reveal,
 .site-footer a {
   color: var(--teal-deep);
   text-decoration: underline;
@@ -1078,12 +1079,24 @@ a.version-chip:hover .version-chip__dot {
   text-underline-offset: 0.18em;
 }
 
-.privacy-doc a[data-email] {
-	color: inherit;
-	text-decoration: none;
+.email-reveal {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.email-reveal svg {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-inline-end: 0.35em;
+  vertical-align: -0.15em;
 }
 
 .privacy-doc a:hover,
+.email-reveal:hover,
 .site-footer a:hover {
   color: var(--teal);
 }
