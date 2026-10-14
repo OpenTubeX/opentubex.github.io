@@ -68,6 +68,12 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 		const list = root.querySelector<HTMLElement>(':scope > .sig-tabs__list');
 		const active = list?.querySelector<HTMLElement>('.is-active');
 		if (!list || !active) return;
+		// Tabs inside a hidden panel measure as zero. Drop the indicator so it appears in place
+		// once the panel is shown instead of transitioning from the top-left corner.
+		if (!active.offsetWidth) {
+			list.classList.remove('has-indicator');
+			return;
+		}
 		list.style.setProperty('--tab-x', `${active.offsetLeft}px`);
 		list.style.setProperty('--tab-y', `${active.offsetTop}px`);
 		list.style.setProperty('--tab-width', `${active.offsetWidth}px`);
