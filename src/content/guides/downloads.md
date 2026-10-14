@@ -2,6 +2,7 @@
 title: Downloads and offline viewing
 description: Save video or audio, manage the queue, and find your downloaded files.
 order: 5
+icon: lucide:hard-drive-download
 ---
 
 The [download comparison](/compare/#offline-downloads) covers FreeTube and OpenTubeX.

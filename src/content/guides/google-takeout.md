@@ -2,6 +2,7 @@
 title: Import from Google Takeout
 description: Import subscriptions, history, and playlists from a YouTube Takeout ZIP.
 order: 3.5
+icon: lucide:file-archive
 ---
 
 Google Takeout exports your Google account data. OpenTubeX can import subscriptions, watch history, search history, and playlists directly from the ZIP; you do not need to sign in to Google inside OpenTubeX.

@@ -2,6 +2,7 @@
 title: Organize channels with profiles
 description: Create focused subscription feeds and manage channels in bulk.
 order: 2.5
+icon: lucide:users
 ---
 
 Profiles group your subscribed channels into separate feeds, such as music, learning, or news. They are channel groups within the app, not separate Google accounts.

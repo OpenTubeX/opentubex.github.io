@@ -2,6 +2,7 @@
 title: Data and storage
 description: Locate desktop and mobile app data, understand stored files, and clean up safely.
 order: 9
+icon: lucide:hard-drive
 ---
 
 Use data exports to transfer your library between devices. Use the storage view when you need to locate the desktop profile or understand disk usage.

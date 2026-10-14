@@ -2,6 +2,7 @@
 title: Sync between devices
 description: Connect a sync server, pair another device, and choose what to synchronize.
 order: 3.75
+icon: lucide:refresh-cw
 ---
 
 Sync shares selected library data between your OpenTubeX installations. [Export your library](/docs/importing/#back-up-your-library) before connecting devices or changing your setup. Sync can propagate changes and deletions; keep a separate backup.

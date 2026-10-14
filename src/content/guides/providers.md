@@ -2,6 +2,7 @@
 title: Choose a content provider
 description: Understand metadata providers, stream extraction, fallback, and video proxying.
 order: 7
+icon: lucide:server
 ---
 
 A content provider retrieves video and channel information. It is separate from your local subscription library and from the player that plays the media.

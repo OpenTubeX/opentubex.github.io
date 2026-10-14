@@ -2,6 +2,7 @@
 title: Privacy and watch history
 description: Choose what the app remembers and understand which services receive requests.
 order: 8
+icon: lucide:eye-off
 ---
 
 OpenTubeX keeps its library on your device by default. It reduces reliance on the YouTube website, but it does not make network requests anonymous. For details, see the [privacy policy](/privacy/).

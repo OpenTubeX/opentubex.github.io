@@ -2,6 +2,7 @@
 title: SponsorBlock and other add-ons
 description: Choose which segments to skip and configure optional metadata services.
 order: 5.5
+icon: lucide:skip-forward
 ---
 
 SponsorBlock uses community-contributed segment timings to identify sponsors and other sections inside videos. Coverage depends on contributions: an unmarked segment cannot be skipped automatically.

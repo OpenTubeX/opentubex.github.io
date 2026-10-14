@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
 import type { MarkdownHeading } from 'astro';
 import PageIndex, { type IndexGroup } from '../components/PageIndex.astro';
 import DocsSearch from '../components/DocsSearch.astro';
@@ -10,12 +11,14 @@ interface Props {
   title: string;
   description: string;
   id?: string;
+  icon?: string;
   headings?: MarkdownHeading[];
 }
-const { title, description, id, headings = [] } = Astro.props;
+const { title, description, id, icon: pageIcon, headings = [] } = Astro.props;
 const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
 const index = guides.findIndex((guide) => guide.id === id);
 const next = index >= 0 ? guides[index + 1] : undefined;
+const icon = pageIcon ?? guides[index]?.data.icon;
 const topics = [{ href: '/docs/', label: 'Documentation home', current: !id }, ...guides.map((guide) => ({
   href: `/docs/${guide.id}/`, label: guide.data.title, current: id === guide.id,
 }))];
@@ -31,7 +34,10 @@ if (sections.length) groups.push({ label: 'On this page', links: sections.map((h
       <div class="page-hero__content">
         <DocsSearch />
         <p class="page-hero__eyebrow">User documentation</p>
-        <h1 class="page-hero__title">{title}</h1>
+        <h1 class="page-hero__title docs-title">
+          {icon && <span class="docs-icon docs-icon--hero" aria-hidden="true"><Icon name={icon} /></span>}
+          {title}
+        </h1>
         <p class="page-hero__lede">{description}</p>
       </div>
     </header>

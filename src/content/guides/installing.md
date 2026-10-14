@@ -2,6 +2,7 @@
 title: Installing and updating
 description: Choose a release for your device and keep it up to date.
 order: 1
+icon: lucide:download
 ---
 
 ## Choose your download

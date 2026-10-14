@@ -2,6 +2,7 @@
 title: Troubleshooting and bug reports
 description: Work through common problems and give maintainers the details they need.
 order: 6
+icon: lucide:bug
 ---
 
 ## A video will not play

@@ -2,6 +2,7 @@
 title: Subscriptions and playlists
 description: Find videos, follow channels, and organize your local library.
 order: 2
+icon: lucide:list-video
 ---
 
 ## Find a video or channel

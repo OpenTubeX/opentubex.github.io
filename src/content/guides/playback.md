@@ -2,6 +2,7 @@
 title: Playback and settings
 description: Control playback, captions, autoplay, and the options you use most.
 order: 4
+icon: lucide:circle-play
 ---
 
 ## Use the player

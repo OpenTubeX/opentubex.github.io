@@ -2,6 +2,7 @@
 title: Importing and backing up data
 description: Bring subscriptions and history with you, and save a copy of your library.
 order: 3
+icon: lucide:database-backup
 ---
 
 ## Find the import and export controls
