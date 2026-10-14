@@ -14,6 +14,32 @@ interface Props {
 
 const { tabs, syncKey } = Astro.props;
 const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
+
+// Runs right after the markup to select the remembered (or page-suggested) tab. The group stays
+// invisible until then, as browsers such as Firefox may paint streamed HTML before this script arrives.
+const restoreScript = `(function (root) {
+	try {
+		var key = root.dataset.syncKey, label;
+		try { label = localStorage.getItem('otx-synced-tabs__' + key); } catch (e) {}
+		label = label || (window.otxTabDefaults || {})[key];
+		var tabs = root.querySelectorAll(':scope > .sig-tabs__list > [role="tab"]');
+		var match = Array.prototype.find.call(tabs, function (tab) { return tab.dataset.label === label; });
+		if (!match) return;
+		tabs.forEach(function (tab) {
+			var active = tab === match;
+			tab.classList.toggle('is-active', active);
+			tab.setAttribute('aria-selected', active ? 'true' : 'false');
+			tab.tabIndex = active ? 0 : -1;
+		});
+		root.querySelectorAll(':scope > .sig-tabs__panels > [role="tabpanel"]').forEach(function (panel) {
+			var active = panel.dataset.panel === match.dataset.tab;
+			panel.classList.toggle('is-active', active);
+			panel.hidden = !active;
+		});
+	} finally {
+		root.dataset.restored = '';
+	}
+})(document.currentScript.previousElementSibling);`;
 ---
 
 <div class="sig-tabs" data-sync-key={syncKey || undefined}>
@@ -55,6 +81,7 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 		}
 	</div>
 </div>
+{syncKey && <script is:inline set:html={restoreScript} />}
 
 <script>
 	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -159,24 +186,12 @@ const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 		}
 	}
 
-	function restoreSynced(root: HTMLElement) {
-		const syncKey = root.dataset.syncKey;
-		if (!syncKey) return;
-		try {
-			const label = localStorage.getItem(`otx-synced-tabs__${syncKey}`);
-			if (!label) return;
-			const match = getTabs(root).find(
-				(tab) => tab.dataset.label === label,
-			);
-			if (match?.dataset.tab) activateTab(root, match.dataset.tab, false);
-		} catch {
-			/* ignore */
-		}
-	}
-
 	function bindTabs(root: HTMLElement) {
 		if (root.dataset.bound === 'true') return;
-		restoreSynced(root);
+		// Lets scripts open a tab, such as for a deep link, without saving it as the visitor's choice.
+		root.addEventListener('sig-tabs:select', (event) => {
+			if (event instanceof CustomEvent && typeof event.detail === 'string') activateTab(root, event.detail, false);
+		});
 		positionIndicator(root);
 		const resizeObserver = new ResizeObserver(() => {
 			transitions.get(root)?.();

@@ -23,7 +23,7 @@
 }
 
 .resource-page .format-list a { border-radius: 0.6rem; }
-.resource-page :is(.platform__icon, .pkg__icon) { border-radius: 0.75rem; }
+.resource-page .pkg__icon { border-radius: 0.75rem; }
 .resource-page .format-list a { min-height: 2.5rem; }
 
 .page-index__picker {
@@ -51,60 +51,56 @@
 .page-index select:focus-visible,
 .resource-page input:focus-visible { outline: 2px solid var(--teal-deep); outline-offset: 3px; }
 
-.resource-page .platforms {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
-  gap: 1rem;
-  border: 0;
+.cta-note {
+  flex-basis: 100%;
+  margin: -0.35rem 0 0;
+  color: var(--slate);
+  font-size: 0.88rem;
 }
+.cta-note a { color: var(--teal-deep); text-underline-offset: 0.15em; }
 
-.resource-page .platform {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 1.25rem;
+/* One tab per platform; the recommended option leads each panel. */
+.chooser {
   padding: 1.5rem;
   border: 1px solid var(--line);
   border-radius: 1rem;
   background: var(--surface);
 }
+.chooser > .sig-tabs { margin-top: 0; }
+.choice { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 0.85rem; scroll-margin-top: calc(var(--nav-h) + 1rem); }
+.choice > *, .choice .sig-tabs { max-width: 100%; }
+.choice .sig-tabs { width: 100%; }
+.choice [id^='install-'], .choice [id^='download-'] { scroll-margin-top: calc(var(--nav-h) + 1rem); }
+.choice__requires { color: var(--teal-deep); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.choice__lead { max-width: 60ch; color: var(--ink); }
+.choice__lead a { color: var(--teal-deep); text-decoration: underline; text-underline-offset: 0.15em; }
+.choice__note { max-width: 60ch; color: var(--slate); font-size: 0.9rem; }
+.choice__title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.choice .pkg__body { margin-bottom: 0; }
+.choice .cmd-block { width: 100%; }
 
-.resource-page :is(.platform, .pkg) { scroll-margin-top: calc(var(--nav-h) + 1rem); }
-.resource-page .platform__meta { color: var(--slate); }
-.resource-page .platform__downloads { gap: 1rem; }
-
-.resource-page .platform__heading { padding-inline-end: 2rem; }
-.platform__instructions {
-  position: absolute;
-  top: 0.65rem;
-  right: 0.65rem;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 0.6rem;
+.more-downloads { width: 100%; margin-top: 0.5rem; }
+.more-downloads > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
   color: var(--teal-deep);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
 }
-.platform__instructions svg { width: 1.15rem; height: 1.15rem; }
-.platform__instructions:hover { background: var(--white); }
-.platform__tooltip {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  z-index: 2;
-  width: max-content;
-  max-width: 13rem;
-  padding: 0.45rem 0.65rem;
-  border: 1px solid var(--line);
-  border-radius: 0.5rem;
-  background: var(--white);
-  color: var(--ink);
-  font-size: 0.8rem;
-  visibility: hidden;
-}
-.platform__instructions:is(:hover, :focus-visible) .platform__tooltip { visibility: visible; }
+.more-downloads > summary::-webkit-details-marker { display: none; }
+.more-downloads > summary svg { width: 1rem; height: 1rem; transition: transform 0.2s var(--ease); }
+.more-downloads[open] > summary svg { transform: rotate(90deg); }
+.more-downloads > summary:focus-visible { outline: 2px solid var(--teal-deep); outline-offset: 3px; border-radius: 0.3rem; }
+.more-downloads > :not(summary) { margin-top: 0.5rem; }
 
 /* Grouped desktop index, compact native picker on mobile. */
 .page-index .page-index__picker { display: none; }
@@ -178,8 +174,7 @@
 
 @media (max-width: 640px) {
   .resource-page .page-hero { padding-block: 1.75rem; }
-  .resource-page .platforms { grid-template-columns: 1fr; }
-  .resource-page .platform { padding: 1.25rem; }
+  .chooser { padding: 1rem; }
   .resource-page .strip { width: calc(100% - 1.5rem); }
 
 }

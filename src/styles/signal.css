@@ -1699,102 +1699,7 @@ a.version-chip:hover .version-chip__dot {
   margin: 0;
 }
 
-/* ——— Platform / package lists (downloads) ——— */
-.platforms {
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid var(--line);
-}
-
-.platform {
-  display: grid;
-  grid-template-columns: minmax(11rem, 14rem) minmax(0, 1fr);
-  gap: 1rem 2rem;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--line);
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-  min-width: 0;
-  align-items: center;
-}
-
-.js .platform {
-  opacity: 0;
-  transform: translateY(1rem);
-}
-
-.js .platform.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.platform__heading {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-width: 0;
-}
-
-.platform__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 2.6rem;
-  width: 2.6rem;
-  height: 2.6rem;
-  border-radius: 0.45rem;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  color: var(--teal-deep);
-}
-
-.platform__icon svg {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.platform__name {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.4rem 0.55rem;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.1rem;
-  letter-spacing: -0.02em;
-  margin: 0;
-  line-height: 1.25;
-}
-
-.platform__meta {
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--slate-muted);
-  letter-spacing: 0;
-}
-
-.platform__downloads {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  min-width: 0;
-}
-
-.platform__warning {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.4rem;
-  color: var(--slate);
-  font-size: 0.82rem;
-}
-
-.platform__warning svg {
-  flex: 0 0 auto;
-  width: 0.95rem;
-  height: 0.95rem;
-  margin-top: 0.15rem;
-  color: #c47b3a;
-}
-
+/* ——— Package lists (downloads) ——— */
 .format-list {
   display: flex;
   flex-wrap: wrap;
@@ -1946,6 +1851,10 @@ a.version-chip:hover .version-chip__dot {
 
 .sig-tabs {
   margin-top: 0.35rem;
+}
+
+.js .sig-tabs[data-sync-key]:not([data-restored]) {
+  visibility: hidden;
 }
 
 .sig-tabs__list {
@@ -2992,7 +2901,6 @@ a.version-chip:hover .version-chip__dot {
   .version-chip,
   .cta-group,
   .pillar,
-  .platform,
   .pkg,
   .reveal {
     opacity: 1;
@@ -3059,11 +2967,6 @@ a.version-chip:hover .version-chip__dot {
   .pillar--linked .pillar__link {
     grid-column: 2;
     padding-top: 0;
-  }
-
-  .platform {
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
   }
 
   .pkg {
@@ -3246,8 +3149,6 @@ a.version-chip:hover .version-chip__dot {
 
   .pkg,
   .pkg > div,
-  .platform,
-  .platforms,
   .format-list,
   .feature-doc,
   .feature-toc {

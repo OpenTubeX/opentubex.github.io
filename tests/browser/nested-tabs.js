@@ -1,6 +1,6 @@
 // Run in the browser console or preview_evaluate on /downloads/.
 (async () => {
-	const outer = document.querySelector('.sig-tabs[data-sync-key="nightly-platform"]');
+	const outer = document.querySelector('#development .sig-tabs[data-sync-key="package-platform"]');
 	const helpers = [...document.querySelectorAll('.sig-tabs[data-sync-key="aur-helper"]')];
 	const inner = outer?.querySelector('.sig-tabs[data-sync-key="aur-helper"]');
 	if (!inner) throw new Error('Open the downloads page with the nightly AUR helper tabs first.');

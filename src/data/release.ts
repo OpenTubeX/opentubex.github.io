@@ -262,7 +262,6 @@ export const downloadGroups: DownloadGroup[] = [
 				label: 'Install RPM repository',
 				url: rpmRepositoryUrl,
 				icon: 'lucide:boxes',
-				preferred: true,
 				isExternal: true,
 			},
 			{
@@ -425,3 +424,16 @@ export const downloadGroups: DownloadGroup[] = [
 		links: linuxPortableDownloads,
 	},
 ];
+
+export type CpuArchitecture = 'arm' | 'x86' | null;
+
+/** The single file the hero button downloads, or undefined when the visitor should choose. */
+export function recommendedDownload(os: string | null, arch: CpuArchitecture): DownloadLink | undefined {
+	const labels: Record<string, string> = {
+		Windows: arch === 'arm' ? '.exe installer (arm64)' : '.exe installer (x64)',
+		// Safari and Firefox do not expose the CPU; current Macs use Apple silicon.
+		macOS: arch === 'x86' ? '.dmg (Intel)' : '.dmg (Apple silicon)',
+	};
+	if (!os || !labels[os]) return undefined;
+	return downloadGroups.find(({ title }) => title === os)?.links.find(({ label }) => label === labels[os]);
+}

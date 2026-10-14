@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test';
-import { detectOS } from '../src/lib/detect-os';
+import { detectLinuxDistro, detectOS } from '../src/lib/detect-os';
 
 test.each([
 	['Mozilla/5.0 (Windows NT 10.0; Win64; x64)', 'Win32', 0, 'Windows'],
@@ -14,4 +14,13 @@ test.each([
 	['', '', 0, null],
 ] as const)('detects %s', (userAgent, platform, maxTouchPoints, expected) => {
 	expect(detectOS({ userAgent, platform, maxTouchPoints })).toBe(expected);
+});
+
+test.each([
+	['Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:131.0) Gecko/20100101 Firefox/131.0', 'debian'],
+	['Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:131.0) Gecko/20100101 Firefox/131.0', 'fedora'],
+	['Mozilla/5.0 (X11; openSUSE; Linux x86_64; rv:131.0) Gecko/20100101 Firefox/131.0', 'opensuse'],
+	['Mozilla/5.0 (X11; Linux x86_64; rv:131.0) Gecko/20100101 Firefox/131.0', null],
+] as const)('detects the Linux distribution in %s', (userAgent, expected) => {
+	expect(detectLinuxDistro(userAgent)).toBe(expected);
 });

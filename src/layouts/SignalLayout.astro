@@ -189,7 +189,7 @@ const primaryNav = [
 				});
 
 				var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-				var targets = Array.from(document.querySelectorAll('.pillar, .platform, .pkg, .reveal'));
+				var targets = Array.from(document.querySelectorAll('.pillar, .pkg, .reveal'));
 
 				if (reduce || !('IntersectionObserver' in window)) {
 					targets.forEach(function (el) {

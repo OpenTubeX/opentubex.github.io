@@ -1,0 +1,23 @@
+---
+import { Icon } from 'astro-icon/components';
+import DownloadLinks from './DownloadLinks.astro';
+import type { DownloadLink } from '../data/release';
+
+interface Props {
+	links: DownloadLink[];
+	label: string;
+	summary?: string;
+}
+const { links, label, summary = 'Other formats and architectures' } = Astro.props;
+---
+
+{links.length > 0 && (
+	<details class="more-downloads">
+		<summary>
+			<Icon name="lucide:chevron-right" aria-hidden="true" />
+			{summary}
+		</summary>
+		<slot />
+		<DownloadLinks links={links} label={label} />
+	</details>
+)}

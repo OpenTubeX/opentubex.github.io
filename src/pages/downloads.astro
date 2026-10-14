@@ -3,11 +3,14 @@ import SignalLayout from '../layouts/SignalLayout.astro';
 import CmdCode from '../components/CmdCode.astro';
 import SignalTabs from '../components/SignalTabs.astro';
 import DownloadLinks from '../components/DownloadLinks.astro';
+import MoreDownloads from '../components/MoreDownloads.astro';
 import { Icon } from 'astro-icon/components';
+import { detectLinuxDistro, detectOS } from '../lib/detect-os';
 import {
 	aptRepositoryUrl,
 	coprRepositoryUrl,
 	downloadGroups,
+	recommendedDownload,
 	flatparkSiteUrl,
 	flatpakSiteUrl,
 	fdroidNightlyUrl,
@@ -20,29 +23,59 @@ import {
 	snapSiteUrl,
 } from '../data/release';
 
-const platformMeta: Record<string, string> = {
-	Windows: '10+',
-	macOS: '12+',
-	Android: '8.0+',
-	'iOS / iPadOS': '17.4+ · Experimental',
-};
+// Applied before first paint: the hero button targets the visitor's platform, and synced tabs fall back
+// to it when no choice is remembered. The script only refines the architecture later.
+const osLabels = { Windows: 'Windows', macOS: 'macOS', Linux: 'Linux', Android: 'Android', iOS: 'iOS / iPadOS' };
+const distroLabels = { debian: 'Debian / Ubuntu', fedora: 'Fedora / Red Hat', opensuse: 'openSUSE' };
+const defaultDownloads = Object.fromEntries(
+	Object.keys(osLabels).flatMap((os) => {
+		const download = recommendedDownload(os, null);
+		return download ? [[os, { url: download.url, label: download.label }]] : [];
+	}),
+);
+const platformScript = `(function () {
+	var os = (${detectOS})(navigator);
+	if (!os) return;
+	var distro = os === 'Linux' ? (${detectLinuxDistro})(navigator.userAgent) : null;
+	var osLabels = ${JSON.stringify(osLabels)};
+	var distroLabels = ${JSON.stringify(distroLabels)};
+	window.otxTabDefaults = {
+		'download-platform': osLabels[os],
+		'package-platform': distroLabels[distro] || (os === 'Android' || os === 'iOS' ? osLabels[os] : undefined),
+	};
+	var link = document.querySelector('[data-os-download]');
+	link.querySelector('[data-os-download-label]').textContent = 'Download for ' + os;
+	var download = ${JSON.stringify(defaultDownloads)}[os];
+	if (!download) return;
+	link.href = download.url;
+	var note = document.querySelector('[data-os-download-note]');
+	note.querySelector('[data-os-download-detail]').textContent = download.label;
+	note.hidden = false;
+})();`;
 
-const packageSections: Record<string, { id: string; label: string }> = {
-	Windows: { id: 'winget', label: 'winget instructions' },
-	macOS: { id: 'homebrew', label: 'Homebrew instructions' },
-	'Ubuntu / Debian': { id: 'apt', label: 'APT instructions' },
-	'Fedora / Red Hat': { id: 'rpm', label: 'COPR / RPM instructions' },
-	openSUSE: { id: 'opensuse', label: 'RPM instructions' },
-	Flatpak: { id: 'flatpak', label: 'Flatpak instructions' },
-	Snap: { id: 'snap', label: 'Snap instructions' },
-	Nix: { id: 'nix', label: 'Nix instructions' },
-	'Arch Linux': { id: 'aur', label: 'AUR instructions' },
-};
-const platforms = downloadGroups.map((group) => ({
-	...group,
-	id: `download-${group.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '')}`,
-	packageSection: packageSections[group.title],
-}));
+const links = (title: string) => downloadGroups.find((group) => group.title === title)?.links ?? [];
+const recommended = (title: string) => links(title).filter((link) => link.preferred);
+const others = (title: string) => links(title).filter((link) => !link.preferred);
+const files = (title: string) => links(title).filter((link) => link.label.startsWith('.'));
+
+const platformTabs = [
+	{ id: 'windows', label: 'Windows', icon: 'simple-icons:windows' },
+	{ id: 'macos', label: 'macOS', icon: 'simple-icons:apple' },
+	{ id: 'linux', label: 'Linux', icon: 'simple-icons:linux' },
+	{ id: 'android', label: 'Android', icon: 'simple-icons:android' },
+	{ id: 'ios', label: 'iOS / iPadOS', icon: 'simple-icons:apple' },
+];
+
+const linuxTabs = [
+	{ id: 'flatpak', label: 'Flatpak', icon: 'simple-icons:flatpak' },
+	{ id: 'debian', label: 'Debian / Ubuntu', icon: 'simple-icons:ubuntu' },
+	{ id: 'fedora', label: 'Fedora / Red Hat', icon: 'simple-icons:fedora' },
+	{ id: 'opensuse', label: 'openSUSE', icon: 'simple-icons:opensuse' },
+	{ id: 'arch', label: 'Arch Linux', icon: 'simple-icons:archlinux' },
+	{ id: 'snap', label: 'Snap', icon: 'simple-icons:snapcraft' },
+	{ id: 'nix', label: 'Nix', icon: 'simple-icons:nixos' },
+	{ id: 'portable', label: 'AppImage & portable', icon: 'simple-icons:appimage' },
+];
 
 const aurTabs = [
 	{ id: 'paru', label: 'paru' },
@@ -160,196 +193,169 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 				<div class="cta-group">
 					<a class="btn btn--primary" href="#platforms" data-os-download>
 						<Icon name="lucide:download" aria-hidden="true" />
-						<span data-os-download-label>Direct downloads</span>
-					</a>
-					<a class="btn btn--ghost" href="#packages">
-						<Icon name="lucide:package" aria-hidden="true" />
-						Package managers
+						<span data-os-download-label>Choose a download</span>
 					</a>
 					<a class="btn btn--quiet" href="#development">
 						<Icon name="lucide:moon" aria-hidden="true" />
 						Nightly &amp; CI
 					</a>
+					<p class="cta-note" data-os-download-note hidden>
+						<span data-os-download-detail></span> · <a href="#platforms">Other platforms and formats</a>
+					</p>
 				</div>
+				<script is:inline set:html={platformScript} />
 			</div>
 		</header>
 
 		<section class="section section--page" id="platforms" aria-labelledby="platforms-heading">
-			<p class="section__eyebrow reveal">Direct builds</p>
-			<h2 class="section__title reveal" id="platforms-heading">Direct downloads by platform</h2>
+			<p class="section__eyebrow reveal">Stable release</p>
+			<h2 class="section__title reveal" id="platforms-heading">Choose your platform</h2>
 			<p class="section__intro reveal">
-				Installers, packages, and archives from the latest release.
+				The recommended option comes first. Other formats and architectures are one click away.
 			</p>
 
-			<div class="platforms">
-				{
-					platforms.map((group) => (
-						<article class="platform" id={group.id}>
-							{group.packageSection && (
-								<a class="platform__instructions" href={`#install-${group.packageSection.id}`} aria-label={group.packageSection.label}>
-									<Icon name="lucide:terminal" aria-hidden="true" />
-									<span class="platform__tooltip" aria-hidden="true">{group.packageSection.label}</span>
-								</a>
-							)}
-							<div class="platform__heading">
-								<span class="platform__icon" aria-hidden="true">
-									<Icon name={group.icon} />
-								</span>
-								<h3 class="platform__name">
-									{group.title}
-									{platformMeta[group.title] && (
-										<span class="platform__meta">{platformMeta[group.title]}</span>
-									)}
-								</h3>
-							</div>
-							<div class="platform__downloads">
-								<DownloadLinks links={group.links} label={`${group.title} downloads`} />
-							</div>
-						</article>
-					))
-				}
-			</div>
-		</section>
-
-		<section class="section section--page section--tight" id="packages" aria-labelledby="packages-heading">
-			<p class="section__eyebrow reveal">Package channels</p>
-			<h2 class="section__title reveal" id="packages-heading">Install with your package manager</h2>
-			<p class="section__intro reveal">Ready-to-run commands for the usual package managers.</p>
-
-			<div class="pkg-list">
-				<article class="pkg" id="install-winget">
-					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:windows" /></span>
-					<div>
-						<h3 class="pkg__title">Windows · winget</h3>
+			<div class="chooser">
+				<SignalTabs syncKey="download-platform" tabs={platformTabs}>
+					<div slot="windows" class="choice" id="download-windows">
+						<p class="choice__requires">Windows 10 or later</p>
+						<p class="choice__lead">Most PCs use x64. Choose arm64 for Snapdragon and other Windows on Arm devices.</p>
+						<DownloadLinks links={recommended('Windows')} label="Windows installers" />
+						<h3 class="choice__title" id="install-winget">Or install with winget</h3>
 						<p class="pkg__body">
-							Install with <a href="https://learn.microsoft.com/windows/package-manager/winget/" rel="noopener noreferrer">winget</a>.
+							Install and update through <a href="https://learn.microsoft.com/windows/package-manager/winget/" rel="noopener noreferrer">winget</a>.
 						</p>
 						<CmdCode code={wingetCode} lang="shell" />
+						<MoreDownloads links={others('Windows')} label="Windows portable downloads" summary="Portable archives" />
 					</div>
-				</article>
 
-				<article class="pkg" id="install-homebrew">
-					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:apple" /></span>
-					<div>
-						<h3 class="pkg__title">macOS · Homebrew</h3>
-						<p class="pkg__body">
-							With <a href="https://brew.sh/" rel="noopener noreferrer">Homebrew</a> installed, use the
-							{' '}<a href="https://github.com/OpenTubeX/homebrew-tap" rel="noopener noreferrer">OpenTubeX tap</a>.
-							Supports Apple Silicon and Intel Macs.
+					<div slot="macos" class="choice" id="download-macos">
+						<p class="choice__requires">macOS 12 or later</p>
+						<p class="choice__lead">
+							Choose Apple silicon for Macs with an M-series chip and Intel for older Macs. Not sure? Check
+							Apple menu → About This Mac.
 						</p>
-						<CmdCode code={homebrewCode} lang="shell" title="Install" />
-						<p class="pkg__body pkg__body--follow">To update an existing Homebrew installation:</p>
-						<CmdCode code={homebrewUpdateCode} lang="shell" title="Update" />
-						<p class="pkg__body pkg__body--follow">
+						<DownloadLinks links={recommended('macOS')} label="macOS disk images" />
+						<p class="choice__note">
 							OpenTubeX is not notarized by Apple. If macOS blocks the first launch, allow OpenTubeX in
 							System Settings → Privacy &amp; Security.
 						</p>
-					</div>
-				</article>
-
-				<article class="pkg" id="install-nix">
-					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:nixos" /></span>
-					<div>
-						<h3 class="pkg__title">Nix · NixOS, Linux &amp; macOS</h3>
+						<h3 class="choice__title" id="install-homebrew">Or install with Homebrew</h3>
 						<p class="pkg__body">
-							With Nix installed and flakes enabled, install the
-							{' '}<a href={nixRepositoryUrl} rel="noopener noreferrer">official OpenTubeX flake</a>.
-							Supports x86_64 and ARM64 on Linux, including NixOS, and Apple Silicon and Intel Macs.
+							With <a href="https://brew.sh/" rel="noopener noreferrer">Homebrew</a> installed, use the
+							{' '}<a href="https://github.com/OpenTubeX/homebrew-tap" rel="noopener noreferrer">OpenTubeX tap</a>.
+							Nix users can follow the <a href="#install-nix">Nix instructions</a>.
 						</p>
-						<CmdCode code={nixCode} lang="shell" />
+						<CmdCode code={homebrewCode} lang="shell" title="Install" />
+						<CmdCode code={homebrewUpdateCode} lang="shell" title="Update" />
+						<MoreDownloads links={others('macOS')} label="macOS archive downloads" summary="Archives" />
 					</div>
-				</article>
 
-				<article class="pkg" id="install-apt">
-					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:ubuntu" /></span>
-					<div>
-						<h3 class="pkg__title">Debian / Ubuntu · APT</h3>
-						<p class="pkg__body">
-							Add the signed <a href={aptRepositoryUrl} rel="noopener noreferrer">APT repository</a>, then install.
-						</p>
-						<CmdCode code={aptCode} lang="shell" />
-					</div>
-				</article>
-
-				<article class="pkg" id="install-rpm">
-					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:fedora" /></span>
-					<div>
-						<h3 class="pkg__title">Fedora / Red Hat · COPR or RPM</h3>
-						<p class="pkg__body">
-							Enable the official <a href={coprRepositoryUrl} rel="noopener noreferrer">COPR</a>, then install.
-						</p>
-						<CmdCode code={coprCode} lang="shell" />
-						<p class="pkg__body pkg__body--follow">
-							Or use the signed <a href={rpmRepositoryUrl} rel="noopener noreferrer">OpenTubeX-hosted RPM repository</a>:
-						</p>
-						<CmdCode code={rpmCode} lang="shell" />
-					</div>
-				</article>
-
-				<article class="pkg" id="install-opensuse">
-					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:opensuse" /></span>
-					<div>
-						<h3 class="pkg__title">openSUSE · RPM</h3>
-						<p class="pkg__body">
-							Add the signed <a href={rpmRepositoryUrl} rel="noopener noreferrer">RPM repository</a>, then install.
-						</p>
-						<CmdCode code={opensuseCode} lang="shell" />
-					</div>
-				</article>
-
-				<article class="pkg" id="install-flatpak">
-					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:flatpak" /></span>
-					<div>
-						<h3 class="pkg__title">Flatpak</h3>
-						<p class="pkg__body">
-							Add the <a href={flatpakSiteUrl} rel="noopener noreferrer">OpenTubeX Flatpak remote</a>, or
-							install through <a href={flatparkSiteUrl} rel="noopener noreferrer">Flatpark</a>.
-						</p>
-						<CmdCode code={flatpakCode} lang="shell" />
-					</div>
-				</article>
-
-				<article class="pkg" id="install-snap">
-					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:snapcraft" /></span>
-					<div>
-						<h3 class="pkg__title">Snap</h3>
-						<p class="pkg__body">
-							Install OpenTubeX from the beta channel in the <a href={snapSiteUrl} rel="noopener noreferrer">Snap Store</a>.
-						</p>
-						<CmdCode code={snapCode} lang="shell" title="New installation" />
-						<p class="pkg__body pkg__body--follow">
-							If you previously installed a downloaded <code>.snap</code> file, switch it to Store-managed updates:
-						</p>
-						<CmdCode code={snapMigrationCode} lang="shell" title="Existing manual installation" />
-					</div>
-				</article>
-
-				<article class="pkg" id="install-aur">
-					<span class="pkg__icon" aria-hidden="true"><Icon name="simple-icons:archlinux" /></span>
-					<div>
-						<h3 class="pkg__title">Arch Linux · AUR</h3>
-						<p class="pkg__body">
-							Install with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a>,
-							{' '}<a href="https://github.com/Jguer/yay" rel="noopener noreferrer">yay</a>, or
-							{' '}<a href="https://github.com/Seafoam-Labs/Shelly-ALPM" rel="noopener noreferrer">shelly</a>. Prefer{' '}
-							<code>opentubex-bin</code> for the prebuilt binary, or <code>opentubex</code> to build from source.
-						</p>
-						<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
-							<div slot="paru">
-								<CmdCode code="paru -S opentubex-bin" lang="shell" title="Prebuilt binary" />
-								<CmdCode code="paru -S opentubex" lang="shell" title="Build from source" />
+					<div slot="linux" class="choice" id="download-linux">
+						<SignalTabs syncKey="package-platform" tabs={linuxTabs}>
+							<div slot="flatpak" id="install-flatpak">
+								<p class="pkg__body">
+									Add the <a href={flatpakSiteUrl} rel="noopener noreferrer">OpenTubeX Flatpak remote</a>, or
+									install through <a href={flatparkSiteUrl} rel="noopener noreferrer">Flatpark</a>.
+								</p>
+								<CmdCode code={flatpakCode} lang="shell" />
+								<MoreDownloads links={files('Flatpak')} label="Flatpak bundles" summary="Offline bundles" />
 							</div>
-							<div slot="yay">
-								<CmdCode code="yay -S opentubex-bin" lang="shell" title="Prebuilt binary" />
-								<CmdCode code="yay -S opentubex" lang="shell" title="Build from source" />
+							<div slot="debian" id="install-apt">
+								<p class="pkg__body">
+									Add the signed <a href={aptRepositoryUrl} rel="noopener noreferrer">APT repository</a>, then install.
+								</p>
+								<CmdCode code={aptCode} lang="shell" />
+								<MoreDownloads links={files('Ubuntu / Debian')} label="Debian packages" summary="Standalone .deb packages" />
 							</div>
-							<div slot="shelly">
-								<CmdCode code="shelly -Ia opentubex-bin" lang="shell" title="Prebuilt binary" />
-								<CmdCode code="shelly -Ia opentubex" lang="shell" title="Build from source" />
+							<div slot="fedora" id="install-rpm">
+								<p class="pkg__body">
+									Enable the official <a href={coprRepositoryUrl} rel="noopener noreferrer">COPR</a>, then install.
+								</p>
+								<CmdCode code={coprCode} lang="shell" />
+								<p class="pkg__body pkg__body--follow">
+									Or use the signed <a href={rpmRepositoryUrl} rel="noopener noreferrer">OpenTubeX-hosted RPM repository</a>:
+								</p>
+								<CmdCode code={rpmCode} lang="shell" />
+								<MoreDownloads links={files('Fedora / Red Hat')} label="Fedora packages" summary="Standalone .rpm packages" />
+							</div>
+							<div slot="opensuse" id="install-opensuse">
+								<p class="pkg__body">
+									Add the signed <a href={rpmRepositoryUrl} rel="noopener noreferrer">RPM repository</a>, then install.
+								</p>
+								<CmdCode code={opensuseCode} lang="shell" />
+								<MoreDownloads links={files('openSUSE')} label="openSUSE packages" summary="Standalone .rpm packages" />
+							</div>
+							<div slot="arch" id="install-aur">
+								<p class="pkg__body">
+									Install from the AUR with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a>,
+									{' '}<a href="https://github.com/Jguer/yay" rel="noopener noreferrer">yay</a>, or
+									{' '}<a href="https://github.com/Seafoam-Labs/Shelly-ALPM" rel="noopener noreferrer">shelly</a>. Prefer{' '}
+									<code>opentubex-bin</code> for the prebuilt binary, or <code>opentubex</code> to build from source.
+								</p>
+								<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
+									<div slot="paru">
+										<CmdCode code="paru -S opentubex-bin" lang="shell" title="Prebuilt binary" />
+										<CmdCode code="paru -S opentubex" lang="shell" title="Build from source" />
+									</div>
+									<div slot="yay">
+										<CmdCode code="yay -S opentubex-bin" lang="shell" title="Prebuilt binary" />
+										<CmdCode code="yay -S opentubex" lang="shell" title="Build from source" />
+									</div>
+									<div slot="shelly">
+										<CmdCode code="shelly -Ia opentubex-bin" lang="shell" title="Prebuilt binary" />
+										<CmdCode code="shelly -Ia opentubex" lang="shell" title="Build from source" />
+									</div>
+								</SignalTabs>
+								<MoreDownloads links={files('Arch Linux')} label="Arch Linux packages" summary="Standalone package" />
+							</div>
+							<div slot="snap" id="install-snap">
+								<p class="pkg__body">
+									Install OpenTubeX from the beta channel in the <a href={snapSiteUrl} rel="noopener noreferrer">Snap Store</a>.
+								</p>
+								<CmdCode code={snapCode} lang="shell" title="New installation" />
+								<p class="pkg__body pkg__body--follow">
+									If you previously installed a downloaded <code>.snap</code> file, switch it to Store-managed updates:
+								</p>
+								<CmdCode code={snapMigrationCode} lang="shell" title="Existing manual installation" />
+								<MoreDownloads links={files('Snap')} label="Snap packages" summary="Standalone .snap packages" />
+							</div>
+							<div slot="nix" id="install-nix">
+								<p class="pkg__body">
+									With Nix installed and flakes enabled, install the
+									{' '}<a href={nixRepositoryUrl} rel="noopener noreferrer">official OpenTubeX flake</a>.
+									Supports x86_64 and ARM64 on Linux, including NixOS, and Apple Silicon and Intel Macs.
+								</p>
+								<CmdCode code={nixCode} lang="shell" />
+							</div>
+							<div slot="portable" id="download-portable">
+								<p class="pkg__body">
+									These builds run without installation but do not update automatically. Most PCs use x64.
+								</p>
+								<DownloadLinks links={links('AppImage')} label="AppImage downloads" />
+								<MoreDownloads links={links('Other Linux Distributions')} label="Portable Linux archives" summary="Portable archives" />
 							</div>
 						</SignalTabs>
 					</div>
-				</article>
+
+					<div slot="android" class="choice" id="download-android">
+						<p class="choice__requires">Android 8.0 or later</p>
+						<p class="choice__lead">F-Droid and Obtainium install OpenTubeX and keep it updated.</p>
+						<DownloadLinks links={recommended('Android')} label="Android stores" />
+						<MoreDownloads links={others('Android')} label="Android downloads" summary="APK files">
+							<p class="pkg__body">Not sure which APK to choose? The universal APK works on every device.</p>
+						</MoreDownloads>
+					</div>
+
+					<div slot="ios" class="choice" id="download-ios-ipados">
+						<p class="choice__requires">iOS / iPadOS 17.4 or later · Experimental</p>
+						<p class="choice__lead">
+							OpenTubeX is not in the App Store. Add the official source to SideStore, or follow the
+							{' '}<a href="/docs/installing/#ios--ipados-experimental">signing and installation guide</a>.
+						</p>
+						<DownloadLinks links={recommended('iOS / iPadOS')} label="iOS install links" />
+						<MoreDownloads links={files('iOS / iPadOS')} label="iOS downloads" summary="Unsigned IPA" />
+					</div>
+				</SignalTabs>
 			</div>
 		</section>
 
@@ -432,7 +438,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					<span class="pkg__index" aria-hidden="true">02</span>
 					<div>
 						<h3 class="pkg__title">Nightly package channels</h3>
-						<SignalTabs syncKey="nightly-platform" tabs={nightlyTabs}>
+						<SignalTabs syncKey="package-platform" tabs={nightlyTabs}>
 							<div slot="debian">
 								<p class="pkg__body">Add the signing key and select the <code>nightly</code> APT suite:</p>
 								<CmdCode code={aptNightlyCode} lang="shell" />
