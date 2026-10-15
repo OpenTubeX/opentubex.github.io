@@ -1336,7 +1336,8 @@ a.version-chip:hover .version-chip__dot {
 }
 
 .section__intro a,
-.pillar__body a {
+.pillar__body a,
+.caution a {
   color: var(--teal-deep);
   font-weight: 500;
   text-decoration: underline;
@@ -1345,7 +1346,8 @@ a.version-chip:hover .version-chip__dot {
 }
 
 .section__intro a:hover,
-.pillar__body a:hover {
+.pillar__body a:hover,
+.caution a:hover {
   text-decoration-color: var(--teal);
 }
 

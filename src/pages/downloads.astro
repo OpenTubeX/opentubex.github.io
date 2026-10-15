@@ -223,6 +223,20 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 				The recommended option comes first. Other formats and architectures are one click away.
 			</p>
 
+			<aside class="caution reveal" role="note">
+				<p class="caution__title">
+					<Icon name="lucide:shield-alert" aria-hidden="true" />
+					Official downloads only
+				</p>
+				<p>
+					Only download OpenTubeX from the official sources listed here. Third-party download sites repackage our builds
+					and often host outdated versions. One of them, YasDL, is on{' '}
+					<a href="https://fmhy.net/unsafe" rel="noopener noreferrer">FMHY's unsafe sites list</a> for uploading software
+					with malware. To check a file from GitHub Releases, compare its SHA-256 checksum with the digest GitHub shows next
+					to it on the release page.
+				</p>
+			</aside>
+
 			<div class="chooser">
 				<SignalTabs syncKey="download-platform" tabs={platformTabs}>
 					<div slot="windows" class="choice" id="download-windows">

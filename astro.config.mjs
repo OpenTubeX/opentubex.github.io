@@ -119,6 +119,7 @@ export default defineConfig({
 					'rss',
 					'scale',
 					'server',
+					'shield-alert',
 					'skip-forward',
 					'sliders-horizontal',
 					'smartphone',
