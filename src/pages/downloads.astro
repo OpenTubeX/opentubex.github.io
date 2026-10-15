@@ -6,6 +6,7 @@ import DownloadLinks from '../components/DownloadLinks.astro';
 import MoreDownloads from '../components/MoreDownloads.astro';
 import { Icon } from 'astro-icon/components';
 import fdroidBadge from '../assets/fdroid-badge.png';
+import githubBadge from '../assets/github-badge.png';
 import obtainiumBadge from '../assets/obtainium-badge.png';
 import { detectLinuxDistro, detectOS } from '../lib/detect-os';
 import {
@@ -17,6 +18,7 @@ import {
 	flatpakSiteUrl,
 	fdroidNightlyUrl,
 	fdroidSiteUrl,
+	githubReleaseUrl,
 	obtainiumNightlyUrl,
 	obtainiumUrl,
 	nixRepositoryUrl,
@@ -99,6 +101,9 @@ const nightlyTabs = [
 ];
 
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
+const wingetPackageUrl = 'https://github.com/microsoft/winget-pkgs/tree/master/manifests/o/OpenTubeX/OpenTubeX';
+const wingetBadgeUrl =
+	'https://img.shields.io/winget/v/OpenTubeX.OpenTubeX?label=WinGet&style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI%2BPHBhdGggZD0iTTExIDIxLjczYTIgMiAwIDAgMCAyIDBsNy00QTIgMiAwIDAgMCAyMSAxNlY4YTIgMiAwIDAgMC0xLTEuNzNsLTctNGEyIDIgMCAwIDAtMiAwbC03IDRBMiAyIDAgMCAwIDMgOHY4YTIgMiAwIDAgMCAxIDEuNzN6Ii8%2BPHBhdGggZD0iTTEyIDIyVjEyIi8%2BPHBvbHlsaW5lIHBvaW50cz0iMy4yOSA3IDEyIDEyIDIwLjcxIDciLz48cGF0aCBkPSJtNy41IDQuMjcgOSA1LjE1Ii8%2BPC9zdmc%2B';
 const homebrewCode = 'brew install --cask opentubex/tap/opentubex';
 const homebrewUpdateCode = 'brew update\nbrew upgrade --cask opentubex';
 const nixCode = 'nix profile install github:OpenTubeX/nix';
@@ -229,6 +234,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							Install and update through <a href="https://learn.microsoft.com/windows/package-manager/winget/" rel="noopener noreferrer">winget</a>.
 						</p>
 						<CmdCode code={wingetCode} lang="shell" />
+						<a class="pkg__badge" href={wingetPackageUrl} rel="noopener noreferrer">
+							<img alt="WinGet version" height="28" src={wingetBadgeUrl} />
+						</a>
 						<MoreDownloads links={others('Windows')} label="Windows portable downloads" summary="Portable archives" />
 					</div>
 
@@ -360,6 +368,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							</a>
 							<a class="pkg__badge" href={obtainiumUrl} rel="noopener noreferrer">
 								<img alt="Get it on Obtainium" width="188" height="56" src={obtainiumBadge.src} />
+							</a>
+							<a class="pkg__badge" href={githubReleaseUrl} rel="noopener noreferrer">
+								<img alt="Get it on GitHub" width="188" height="56" src={githubBadge.src} />
 							</a>
 						</div>
 						<MoreDownloads links={others('Android')} label="Android downloads" summary="APK files">
