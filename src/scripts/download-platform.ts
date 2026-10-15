@@ -35,6 +35,14 @@ async function detectArchitecture(): Promise<CpuArchitecture> {
 revealHash();
 addEventListener('hashchange', revealHash);
 
+// Platforms without a direct download send the hero button to the chooser, so open the visitor's tab there.
+document.querySelector('[data-os-download]')?.addEventListener('click', () => {
+	if (!os) return;
+	document
+		.querySelector('.sig-tabs[data-sync-key="download-platform"]')
+		?.dispatchEvent(new CustomEvent('sig-tabs:select', { detail: os.toLowerCase() }));
+});
+
 // The inline hero script assumed the default architecture; correct it where the browser reports the CPU.
 if (os) {
 	void detectArchitecture().then((architecture) => {
