@@ -5,6 +5,8 @@ import SignalTabs from '../components/SignalTabs.astro';
 import DownloadLinks from '../components/DownloadLinks.astro';
 import MoreDownloads from '../components/MoreDownloads.astro';
 import { Icon } from 'astro-icon/components';
+import fdroidBadge from '../assets/fdroid-badge.png';
+import obtainiumBadge from '../assets/obtainium-badge.png';
 import { detectLinuxDistro, detectOS } from '../lib/detect-os';
 import {
 	aptRepositoryUrl,
@@ -14,7 +16,9 @@ import {
 	flatparkSiteUrl,
 	flatpakSiteUrl,
 	fdroidNightlyUrl,
+	fdroidSiteUrl,
 	obtainiumNightlyUrl,
+	obtainiumUrl,
 	nixRepositoryUrl,
 	releaseTag,
 	releaseVersion,
@@ -258,6 +262,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 									install through <a href={flatparkSiteUrl} rel="noopener noreferrer">Flatpark</a>.
 								</p>
 								<CmdCode code={flatpakCode} lang="shell" />
+								<a class="pkg__badge" href={flatparkSiteUrl} rel="noopener noreferrer">
+									<img alt="Get it on FlatPark" width="154" height="56" src="https://flatpark.org/badges/get-it-on-flatpark.svg" />
+								</a>
 								<MoreDownloads links={files('Flatpak')} label="Flatpak bundles" summary="Offline bundles" />
 							</div>
 							<div slot="debian" id="install-apt">
@@ -317,6 +324,12 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 									If you previously installed a downloaded <code>.snap</code> file, switch it to Store-managed updates:
 								</p>
 								<CmdCode code={snapMigrationCode} lang="shell" title="Existing manual installation" />
+								<a class="pkg__badge" href={snapSiteUrl} rel="noopener noreferrer">
+									<picture>
+										<source data-logo-theme="dark" media="(prefers-color-scheme: dark)" srcset="https://snapcraft.io/en/dark/install.svg" type="image/svg+xml" />
+										<img alt="Get it from the Snap Store" width="188" height="56" src="https://snapcraft.io/en/light/install.svg" />
+									</picture>
+								</a>
 								<MoreDownloads links={files('Snap')} label="Snap packages" summary="Standalone .snap packages" />
 							</div>
 							<div slot="nix" id="install-nix">
@@ -341,6 +354,14 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 						<p class="choice__requires">Android 8.0 or later</p>
 						<p class="choice__lead">F-Droid and Obtainium install OpenTubeX and keep it updated.</p>
 						<DownloadLinks links={recommended('Android')} label="Android stores" />
+						<div class="pkg__badges">
+							<a class="pkg__badge" href={fdroidSiteUrl} rel="noopener noreferrer">
+								<img alt="Get it on F-Droid" width="188" height="56" src={fdroidBadge.src} />
+							</a>
+							<a class="pkg__badge" href={obtainiumUrl} rel="noopener noreferrer">
+								<img alt="Get it on Obtainium" width="188" height="56" src={obtainiumBadge.src} />
+							</a>
+						</div>
 						<MoreDownloads links={others('Android')} label="Android downloads" summary="APK files">
 							<p class="pkg__body">Not sure which APK to choose? The universal APK works on every device.</p>
 						</MoreDownloads>

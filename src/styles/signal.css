@@ -1845,6 +1845,22 @@ a.version-chip:hover .version-chip__dot {
 
 .pkg__body a:hover { text-decoration-color: var(--teal); }
 
+.pkg__badge {
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.pkg__badge img { display: block; }
+
+.pkg__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.pkg__badges .pkg__badge { margin-top: 0; }
+
 .pkg-list--dev {
   margin-top: 1.5rem;
 }
