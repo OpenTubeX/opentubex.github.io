@@ -43,7 +43,7 @@ The Android path shown is for the device's primary user; other users and work pr
 | `search-history.sqlite` | Saved searches |
 | `subscription-cache.sqlite` | Cached subscription-feed entries |
 
-Each database can have a `-wal` file beside it that holds recent changes, so copy both. A profile created by OpenTubeX 0.36.1 or earlier also keeps its earlier `.db` file for each of these. OpenTubeX imports it once and leaves it unchanged, so an older version can still open it.
+Each database can have a `-wal` file beside it that holds recent changes. Copy both, and only while OpenTubeX is closed. A profile created by OpenTubeX 0.36.1 or earlier also keeps its earlier `.db` file for each of these. OpenTubeX imports it once and leaves it unchanged, so an older version can still open it. That older version shows your library as it was when it was imported. On desktop, changes you make there are added back the next time you open the newer version.
 
 These are application data files, not downloaded video files. Downloads are saved in your configured **Download Folder**. The profile folder may contain additional caches, session data, and files used by other features.
 
