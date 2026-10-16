@@ -32,6 +32,9 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Install JPEG XL encoder
+        run: sudo apt-get update && sudo apt-get install -y libjxl-tools
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 

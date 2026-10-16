@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { unified } from '@astrojs/markdown-remark';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { generateJpegXl } from './src/plugins/jpeg-xl.mjs';
 import expressiveCode from 'astro-expressive-code';
 import icon from 'astro-icon';
 import rehypeFeatureSections from './src/plugins/rehype-feature-sections.mjs';
@@ -32,6 +33,8 @@ function cachedImages() {
 					copyReusedGitHubImages(distDirectory),
 					copyExposedGitHubImages(distDirectory),
 				]);
+				const jpegXl = await generateJpegXl(distDirectory);
+				console.log(`[images] Generated ${jpegXl.count} progressive JPEG XL alternatives (${jpegXl.savedBytes} net bytes saved)`);
 				if (changelogCount > 0) {
 					console.log(
 						`[changelog] Copied ${changelogCount} cached image(s) into dist/changelog-images`,
