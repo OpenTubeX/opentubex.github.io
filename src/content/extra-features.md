@@ -82,6 +82,15 @@ chapter list in the sidebar.
 ![Current chapter label](https://github.com/user-attachments/assets/cc653a3c-84b1-4541-8225-067d2c16a68e)
 ![Chapter sidebar](https://github.com/user-attachments/assets/e4986fdc-97f8-406f-8e0d-33cf8bbd31a2)
 
+### Most-replayed moments
+
+Hover over the seekbar to see YouTube's popularity graph when available.
+Peak previews identify the most-replayed moments alongside chapter and
+SponsorBlock labels. Hide the graph from Distraction Free settings if you
+prefer a simpler timeline.
+
+<img width="700" height="61" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/ef990bfe-bc17-4be6-9a66-22bda270fdd9" alt="Most-replayed graph appearing above the seekbar on hover">
+
 ### Transcript panel
 
 Follow a video's transcript in a dedicated panel.
@@ -90,13 +99,24 @@ Follow a video's transcript in a dedicated panel.
 
 ### Caption appearance and preferred language
 
-Customize caption appearance and choose a preferred caption language.
+Customize caption appearance and choose a preferred caption language. If
+captions appear too early or late, open **Adjust timing** in the Captions menu
+to shift them by a chosen number of seconds. Changes apply immediately to the
+current video; opening another video resets the offset.
 
 ![Caption preferences](https://github.com/user-attachments/assets/0098caa1-ccd6-40d5-bcb8-5daed8e0e15a)
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/b0c31f98-4ddd-4d3f-beab-76eec5e9765c">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/182741c5-00d3-4da4-8744-5ebc5cbde1dd">
+  <img width="389" height="269" style="max-width: min(100%, 389px); height: auto;" loading="lazy" decoding="async" alt="Per-video caption timing controls with Earlier, Later, and Reset" src="https://github.com/user-attachments/assets/b0c31f98-4ddd-4d3f-beab-76eec5e9765c">
+</picture>
+
 ### Prevent YouTube translations
 
-Option to prevent title and description translations from YouTube.
+Keep original titles and descriptions instead of YouTube's translations.
+The **Entire App** untranslated-text option also restores original channel
+names in search results.
 
 ![Prevent title and description translations](https://github.com/user-attachments/assets/4713b8eb-9933-45cb-81ca-8db950ebec71)
 
@@ -322,6 +342,19 @@ without a manual refresh.
 
 ![Auto-refresh subscriptions option](https://github.com/user-attachments/assets/31dfc690-b8a3-4ffd-994e-a53e59d0e71f)
 
+### Watch history filters
+
+Find watched videos by date range or channel alongside text search. Filters
+apply across your history, including entries on other pages. Collapse the
+filter controls without losing your selections, or return to History with
+your search, filters, and page restored.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3ef463be-15e1-4910-93f9-04ddcc92c376">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/86ff8f6b-4f3f-4d3b-82bd-f1550ca14185">
+  <img width="632" height="300" style="max-width: min(100%, 632px); height: auto;" loading="lazy" decoding="async" alt="Watch history with date range, channel, and text search filters" src="https://github.com/user-attachments/assets/3ef463be-15e1-4910-93f9-04ddcc92c376">
+</picture>
+
 ### Watch time statistics
 
 Explore your viewing activity with daily and weekly watch-time charts. When
@@ -367,8 +400,8 @@ results.
 ### YouTube AI video summaries
 
 Choose whether summaries supplied by YouTube are hidden, collapsed, or
-expanded below video descriptions. They are hidden by default, and the same
-preference applies to Shorts.
+expanded below video descriptions. New installations start with summaries
+collapsed, and the same preference applies to Shorts.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/cbf325b9-6c94-4837-9938-5f16633dbd49">
@@ -392,6 +425,29 @@ additions.
   <img alt="Saved YouTube playlist in Your Playlists" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260830T075432Z-saved-playlist-dark-dark-815812ca6c.png">
 </picture>
 
+### Playlist customization
+
+Choose an image for a local playlist's thumbnail, replace it later, or restore
+the default. Custom thumbnails appear in playlist cards, headers, Home, and
+playlist selection menus. They stay in backups and can sync between devices
+with a supporting sync server or Enhanced Privacy enabled.
+
+In **Edit Playlist Info**, choose whether new videos go to the top or bottom
+of that playlist's custom order. Existing videos stay in place, and bottom
+insertion remains the default.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e3803624-a338-4287-871e-dc15e87709e6">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/6240a3f3-e512-4dc6-a434-bfb04ece168f">
+  <img width="339" height="291" style="max-width: min(100%, 339px); height: auto;" loading="lazy" decoding="async" alt="Custom playlist thumbnail preview with Choose image and Restore default thumbnail controls" src="https://github.com/user-attachments/assets/e3803624-a338-4287-871e-dc15e87709e6">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/b7de98a5-61f2-4536-8202-f5afaa6fd448">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/a2d82c57-bb32-46d8-a93f-05d2b36b9791">
+  <img width="442" height="200" style="max-width: min(100%, 442px); height: auto;" loading="lazy" decoding="async" alt="Per-playlist insertion toggle in Edit Playlist Info" src="https://github.com/user-attachments/assets/b7de98a5-61f2-4536-8202-f5afaa6fd448">
+</picture>
+
 ### Unavailable playlist videos
 
 Optionally skip known unavailable videos while playing a playlist. You can
@@ -404,6 +460,20 @@ choose whether to remove them. Videos that could not be checked are kept.
   <img alt="Confirmation before removing unavailable videos from a local playlist" src="https://github.com/user-attachments/assets/73508c60-e037-452c-bf29-93e7af0bffe6">
 </picture>
 
+### Repair playlist metadata
+
+Restore missing video titles, channel details, publication dates, and durations
+after a YouTube Takeout import. Select individual playlists or repair them all
+from the Playlists page. Repair preserves playlist order, existing details,
+and watch progress, with progress reporting, cancellation, and optional
+configured yt-dlp cookies.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/b8eb6ba1-f713-497a-a47c-8a977b6f4a1f">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/61facc94-f4ab-48c4-a307-1e6d7f7d4019">
+  <img width="290" height="300" style="max-width: min(100%, 290px); height: auto;" loading="lazy" decoding="async" alt="Repair Playlists dialog with individual selection, Select all, and optional configured cookies" src="https://github.com/user-attachments/assets/b8eb6ba1-f713-497a-a47c-8a977b6f4a1f">
+</picture>
+
 ### Comment tools
 
 Render nested reply threads, show when comments were edited, reload comments,
@@ -411,6 +481,7 @@ or copy a comment's direct YouTube link. Translate comments and replies into
 the app language, search loaded comments, filter comments from the creator,
 and pin comments locally. On mobile, preview the first five loaded comments
 with author avatars below the video, then tap to open the full discussion.
+GIF attachments in comments and replies animate while hovered.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20261004T082407Z-opentubex-comment-preview-dark-dark-90cad7b700.webp">
@@ -419,7 +490,13 @@ with author avatars below the video, then tap to open the full discussion.
 </picture>
 
 ![Nested comment replies](https://github.com/user-attachments/assets/a3737645-e3c3-40e1-bc1b-a55e13ca44b1)
-![Comment tools](https://github.com/user-attachments/assets/81b94e05-e389-43c8-b01a-39f1d53f4932)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a79d9cd8-12db-4978-9910-332df29f5393">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/6d6e5737-2b82-4fe3-85a2-7770f2f7b7e8">
+  <img width="430" height="300" style="max-width: min(100%, 430px); height: auto;" loading="lazy" decoding="async" alt="Comment GIFs animate only while hovered" src="https://github.com/user-attachments/assets/a79d9cd8-12db-4978-9910-332df29f5393">
+</picture>
+
 ![Edited comment indicator](https://github.com/user-attachments/assets/a34dc28c-2103-454b-9e24-4e7f6df5b494)
 
 <picture>
@@ -472,7 +549,8 @@ Open a chatter's channel by clicking their handle in live chat.
 
 Queue videos from their three-dot menus, then manage and drag to reorder them
 in a side panel on the watch page. Downloaded videos and audio can also join
-the queue for offline playback on desktop and Android.
+the queue for offline playback on desktop and Android. Pending videos return
+in their saved order after restarting OpenTubeX, including downloaded entries.
 
 ![Add a video to the queue](https://github.com/user-attachments/assets/186215f1-f8de-4bfa-bcd8-188172448f69)
 ![Watch queue side panel](https://github.com/user-attachments/assets/e4496c03-6fa7-441b-85fd-e93019d429a9)
@@ -522,10 +600,16 @@ match navigation.
 
 ### Command palette
 
-Press <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>K</kbd> to search app actions and
-settings from one command palette.
+Press <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>K</kbd> to search app actions,
+settings, and individual videos from your history, playlists, downloads, and
+watch queue. Video results show their source and open the matching playlist,
+download, or queue entry. This library search stays on your device.
 
-![Command palette](https://github.com/user-attachments/assets/8ad0c18b-1a75-4fde-8010-57452fc58435)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/f1736f1a-998c-487e-b943-c95be078b0ad">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/08ff98b4-5439-4ce7-b8ca-cf2a3e7dbc86">
+  <img width="682" height="279" style="max-width: min(100%, 682px); height: auto;" loading="lazy" decoding="async" alt="Find local video downloads in the command palette" src="https://github.com/user-attachments/assets/f1736f1a-998c-487e-b943-c95be078b0ad">
+</picture>
 
 ### Tab support
 
@@ -536,6 +620,10 @@ history. Choose an icon for a tab group in the organizer. Internal links support
 browser-style middle-click, Ctrl/Cmd-click, and Shift-click behavior.
 
 On desktop, <kbd>Ctrl</kbd> + middle-click unloads a tab without closing it.
+Quick <kbd>Ctrl</kbd> + <kbd>Tab</kbd> presses switch tabs immediately; hold
+<kbd>Ctrl</kbd> to open the tab switcher. Choose a loading bar or classic dot
+for loading tabs in Appearance settings.
+
 On phones, swipe across the header to switch tabs or pull it down to open the
 organizer. Mobile tabs can be disabled in General settings for a single-page
 layout.
@@ -595,9 +683,14 @@ Optionally ask for confirmation before closing the app.
 
 ### Customizable keyboard shortcuts
 
-Choose the keyboard shortcuts used throughout the app.
+Choose the keyboard shortcuts used throughout the app. Search by action,
+section, or key combination to find the shortcut you want to change.
 
-![Keyboard shortcut settings](https://github.com/user-attachments/assets/5e21ef42-245b-4ea1-93fb-ef9d7c542d66)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/4140de12-214f-41c8-9ec9-f3ae9c13eac7">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/99a1c1ba-8a1d-470e-884f-cf91b2ceb1dd">
+  <img width="700" height="170" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Keyboard shortcuts with a labeled search field beside Reset to defaults" src="https://github.com/user-attachments/assets/4140de12-214f-41c8-9ec9-f3ae9c13eac7">
+</picture>
 
 ### Gamepad controls
 
@@ -640,7 +733,9 @@ without submitting it.
 
 Open settings in a draggable, resizable window with integrated subpages and
 search across every category. An optional compact category list hides the
-category descriptions to fit more settings on screen.
+category descriptions to fit more settings on screen. Reopening settings
+returns to the subpage you were using, including after unlocking protected
+settings.
 
 ![Settings window](https://github.com/user-attachments/assets/be196edf-e84f-4bae-ab59-89a31e507a6c)
 
@@ -648,12 +743,18 @@ category descriptions to fit more settings on screen.
 
 Use the system tray to show or hide OpenTubeX and control previous, play or
 pause, and next. Choose separately whether minimizing or closing the window
-sends it to the tray.
+sends it to the tray. Tray menu actions use icons from your selected icon pack.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e5a11835-97ad-4c0c-8a93-c0dac329dbfd">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/5858545a-19d5-4c50-a8d4-d160ac5437cc">
   <img alt="Settings for using the tray icon and sending windows to the tray" src="https://github.com/user-attachments/assets/e5a11835-97ad-4c0c-8a93-c0dac329dbfd">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/742aab75-cc01-470d-839d-de17d08bfc7c">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/d28c46e1-122a-405d-a0d2-ce5fb1ef7e39">
+  <img width="320" height="265" style="max-width: min(100%, 320px); height: auto;" loading="lazy" decoding="async" alt="Tray menu icons for window and playback actions" src="https://github.com/user-attachments/assets/742aab75-cc01-470d-839d-de17d08bfc7c">
 </picture>
 
 ## Appearance
@@ -715,8 +816,9 @@ including an optional shortcut to the download dialog.
 
 ### Animation controls
 
-Use the app's UI animations or force-enable or disable them independently of
-your system setting.
+Follow your system's reduced-motion preference, or enable or disable UI
+animations independently. Disabling animations also removes watched-thumbnail
+highlight fades and tab-loading motion.
 
 ![Animation settings](https://github.com/user-attachments/assets/673693fb-0ec2-430b-acb8-2d0b7ea06473)
 
@@ -745,7 +847,8 @@ indicators, and video thumbnails. Dismiss them by swiping or pressing
 ### Interface rounding and overlay scrollbars
 
 Adjust how rounded interface elements are and choose whether overlay scrollbars
-automatically hide or remain visible.
+automatically hide or remain visible. Tab bars use the same scrollbar
+preferences, with slim idle thumbs that expand on hover.
 
 ![Interface rounding setting](https://github.com/user-attachments/assets/1a5d4b45-307e-480b-8dcc-75a1502f4625)
 ![Always-show overlay scrollbar setting](https://github.com/user-attachments/assets/2158bbc6-8893-42be-a12b-8b75034bcd56)
@@ -775,7 +878,9 @@ independently of the app language.
 Add, remove and reorder navigation destinations for the desktop sidebar and
 mobile bottom bar from Appearance settings. On mobile, keep the bar visible
 while scrolling or choose compact icon-only labels. You can also keep the
-phone search bar visible in the header.
+phone search bar visible in the header. Navigation and tabs use Material 3
+active highlights. The mobile More menu and context menus open as bottom
+sheets; drag their handles down or tap outside to dismiss them.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3e859256-a8d0-4b9d-8459-05c33d4840ca">
@@ -784,9 +889,15 @@ phone search bar visible in the header.
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/d844bd47-8567-449d-9852-c7c4ab9fd59e">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/610b904d-fe2e-4416-82f4-95eb5527ac03">
-  <img width="700" height="122" style="max-width: min(100%, 700px); max-height: 122px;" loading="lazy" decoding="async" alt="Navigation settings" src="https://github.com/user-attachments/assets/d844bd47-8567-449d-9852-c7c4ab9fd59e">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/b528b76f-1e27-46b8-9d4e-02079341c8c2">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/4806ad4a-c364-473e-9542-dbedc598003d">
+  <img width="375" height="60" style="max-width: min(100%, 375px); height: auto;" loading="lazy" decoding="async" alt="Material 3 mobile navigation" src="https://github.com/user-attachments/assets/b528b76f-1e27-46b8-9d4e-02079341c8c2">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/48a5ab57-1f1d-4a19-8d8a-08844c1e3fc3">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/5baa3a19-f38f-4122-a1b4-dea099855eb2">
+  <img width="375" height="280" style="max-width: min(100%, 375px); height: auto;" loading="lazy" decoding="async" alt="Material 3 More menu sheet" src="https://github.com/user-attachments/assets/48a5ab57-1f1d-4a19-8d8a-08844c1e3fc3">
 </picture>
 
 ### Quick settings and profile icons
@@ -810,6 +921,19 @@ category; drag to reorder categories or controls within each group.
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/22e206ba-32d2-4fdc-9454-40c37a7b1525">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/6c76c039-000e-4a59-bf06-3182d604dab5">
   <img width="390" height="300" style="max-width: min(100%, 390px); max-height: 300px;" loading="lazy" decoding="async" alt="Quick settings grouped by category with category and individual reorder controls" src="https://github.com/user-attachments/assets/22e206ba-32d2-4fdc-9454-40c37a7b1525">
+</picture>
+
+### Material themes and system colors
+
+Choose Material Light, Dark, or Black with coordinated interface colors.
+Pick a preset or custom accent, or use Android wallpaper colors on supported
+devices. **Dynamic colors** follows the system accent on desktop or wallpaper
+on Android, along with the system's light or dark preference.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/2a8741f6-6ca9-4955-bd1a-81fa436f59a4">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/8652cb82-0b1f-43b1-baa2-7b9dd889d0ac">
+  <img width="594" height="300" style="max-width: min(100%, 594px); height: auto;" loading="lazy" decoding="async" alt="Material theme variants and accent palette" src="https://github.com/user-attachments/assets/2a8741f6-6ca9-4955-bd1a-81fa436f59a4">
 </picture>
 
 ### Custom themes
@@ -926,8 +1050,9 @@ Retry age-restricted and members-only videos through yt-dlp with cookies from
 a browser or file. Configured cookies can also request account-only formats
 for any video. Use the configured cookies for subtitles, transcripts and
 automatic caption translations, with a separate subtitle-only authentication
-setting. On desktop, age-restricted or empty Local API searches can be retried
-with your configured yt-dlp cookies when family-friendly search is off.
+setting. On desktop and Android, age-restricted or empty Local API searches can
+be retried with your configured yt-dlp cookies when family-friendly search is
+off. Android uses your saved YouTube session.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/c9e6b26c-1986-4f74-b1b3-575763682b4b">
@@ -968,12 +1093,15 @@ Import subscriptions and watch history from
 
 Import subscriptions, watch history, search history, and playlists directly
 from a YouTube Takeout ZIP. Select the categories you want to bring in without
-extracting the archive or importing each file separately.
+extracting the archive or importing each file separately. Before confirming,
+preview new, existing, and skipped records and see which data will merge or be
+replaced. Playlist titles and descriptions are preserved without Takeout's
+export-file suffixes.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a7ac2133-09a8-4438-af82-c6e5341034d8">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/6d0ed9c8-8d62-4636-8729-9f120583850c">
-  <img alt="Selecting data categories to import from a YouTube Takeout ZIP" src="https://github.com/user-attachments/assets/a7ac2133-09a8-4438-af82-c6e5341034d8">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a5a5c086-5aa1-4b85-b4f7-b21a502713e1">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/642db563-a423-4d80-b1d8-4445ea0626c0">
+  <img width="319" height="300" style="max-width: min(100%, 319px); height: auto;" loading="lazy" decoding="async" alt="Preview record counts and merge or replacement effects before importing selected backup or Takeout data" src="https://github.com/user-attachments/assets/a5a5c086-5aa1-4b85-b4f7-b21a502713e1">
 </picture>
 
 ### Data and storage controls
@@ -986,13 +1114,14 @@ settings.
 ### Complete ZIP backup
 
 Export profiles, playlists, watch and search history, watch statistics, and
-transferable settings in one ZIP file. When importing, choose which categories
-to restore; matching records merge with data already on the device.
+transferable settings in one ZIP file. Choose which categories to export or
+restore. Before importing, preview record counts and each category's merge or
+replacement behavior.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a5e0c0fc-3a3f-4879-9abf-185a05470006">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/5d6e7136-48d2-489e-89ed-6abedf60964d">
-  <img alt="Import and export controls for a complete ZIP backup" src="https://github.com/user-attachments/assets/a5e0c0fc-3a3f-4879-9abf-185a05470006">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/331d25bf-d8ba-43a0-bc93-48c4d16e9ee7">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/16152c28-897f-4785-a4e9-83964f4231d9">
+  <img width="441" height="300" style="max-width: min(100%, 441px); height: auto;" loading="lazy" decoding="async" alt="Choose which categories to include in a backup ZIP" src="https://github.com/user-attachments/assets/331d25bf-d8ba-43a0-bc93-48c4d16e9ee7">
 </picture>
 
 ### Encrypted sync
@@ -1068,7 +1197,12 @@ losing your selections.
 On desktop and Android, add downloaded videos or audio to the watch queue and
 play them in order without an internet connection. Available files from a
 downloaded playlist are added in playlist order. iOS downloads use a separate
-native player and do not support this queue action.
+native player and do not support this queue action. On Android, queued
+downloads continue while the phone is locked, including when automatic video
+startup is disabled.
+
+When the connection drops, the watch page switches Up Next to **Available
+offline**, with saved thumbnails to help you choose another download.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/29d7f9a8-8c86-4b68-a1fa-9608c5113a38">
