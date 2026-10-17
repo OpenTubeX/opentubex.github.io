@@ -102,8 +102,9 @@ const nightlyTabs = [
 
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
 const wingetPackageUrl = 'https://github.com/microsoft/winget-pkgs/tree/master/manifests/o/OpenTubeX/OpenTubeX';
-const wingetBadgeUrl =
-	'https://img.shields.io/winget/v/OpenTubeX.OpenTubeX?label=WinGet&style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI%2BPHBhdGggZD0iTTExIDIxLjczYTIgMiAwIDAgMCAyIDBsNy00QTIgMiAwIDAgMCAyMSAxNlY4YTIgMiAwIDAgMC0xLTEuNzNsLTctNGEyIDIgMCAwIDAtMiAwbC03IDRBMiAyIDAgMCAwIDMgOHY4YTIgMiAwIDAgMCAxIDEuNzN6Ii8%2BPHBhdGggZD0iTTEyIDIyVjEyIi8%2BPHBvbHlsaW5lIHBvaW50cz0iMy4yOSA3IDEyIDEyIDIwLjcxIDciLz48cGF0aCBkPSJtNy41IDQuMjcgOSA1LjE1Ii8%2BPC9zdmc%2B';
+const wingetBadgeUrl = 'https://opentubex-badges.withered-flower-f0f2.workers.dev/winget.svg';
+const aurPackageUrl = 'https://aur.archlinux.org/packages/opentubex-bin/';
+const aurBadgeUrl = 'https://opentubex-badges.withered-flower-f0f2.workers.dev/aur.svg';
 const homebrewCode = 'brew install --cask opentubex/tap/opentubex';
 const homebrewUpdateCode = 'brew update\nbrew upgrade --cask opentubex';
 const nixCode = 'nix profile install github:OpenTubeX/nix';
@@ -249,7 +250,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 						</p>
 						<CmdCode code={wingetCode} lang="shell" />
 						<a class="pkg__badge" href={wingetPackageUrl} rel="noopener noreferrer">
-							<img alt="WinGet version" height="28" src={wingetBadgeUrl} />
+							<img alt="WinGet version" height="32" src={wingetBadgeUrl} />
 						</a>
 						<MoreDownloads links={others('Windows')} label="Windows portable downloads" summary="Portable archives" />
 					</div>
@@ -335,6 +336,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 										<CmdCode code="shelly -Ia opentubex" lang="shell" title="Build from source" />
 									</div>
 								</SignalTabs>
+								<a class="pkg__badge" href={aurPackageUrl} rel="noopener noreferrer">
+									<img alt="AUR version" height="32" src={aurBadgeUrl} />
+								</a>
 								<MoreDownloads links={files('Arch Linux')} label="Arch Linux packages" summary="Standalone package" />
 							</div>
 							<div slot="snap" id="install-snap">
