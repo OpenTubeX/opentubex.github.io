@@ -30,7 +30,7 @@ test('theme changes keep phone screenshots limited to phone viewports', () => {
 			? { get matches() { return mobile; }, addEventListener: (_: string, listener: () => void) => { viewportChanged = listener; } }
 			: { matches: true, addEventListener() {} },
 	};
-	runInNewContext(readFileSync('public/signal/theme.js', 'utf8'), {
+	runInNewContext(readFileSync('src/scripts/theme.js', 'utf8'), {
 		window,
 		localStorage: { getItem: () => null, setItem() {}, removeItem() {} },
 		document: {

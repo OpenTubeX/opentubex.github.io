@@ -6,6 +6,8 @@ import ImageLightbox from '../components/ImageLightbox.astro';
 import ThemeSelect from '../components/ThemeSelect.astro';
 import markDark from '../assets/mark-dark.svg';
 import markLight from '../assets/mark-light.svg';
+// Hashed so cached copies never pair with newer markup.
+import themeScript from '../scripts/theme.js?url';
 
 type Active = 'home' | 'docs' | 'downloads' | 'features' | 'compare' | 'changelog' | 'privacy' | 'ai-disclosure';
 
@@ -225,7 +227,7 @@ const primaryNav = [
 				});
 			})();
 		</script>
-		<script is:inline src="/signal/theme.js"></script>
+		<script is:inline src={themeScript}></script>
 		<script>
 			import '../scripts/email-reveal';
 		</script>

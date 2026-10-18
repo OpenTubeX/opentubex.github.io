@@ -13,7 +13,7 @@ test('theme changes switch logo media without copying URLs from DOM attributes',
 		matchMedia: () => { matches: boolean; addEventListener: () => void };
 		otxTheme?: { apply: (preference: string) => void };
 	} = { matchMedia: () => ({ matches: true, addEventListener() {} }) };
-	runInNewContext(readFileSync('public/signal/theme.js', 'utf8'), {
+	runInNewContext(readFileSync('src/scripts/theme.js', 'utf8'), {
 		window,
 		localStorage: {
 			getItem: (key: string) => storage.get(key) ?? null,
