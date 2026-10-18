@@ -34,6 +34,13 @@ test('wraps standalone images and leaves SVG and unavailable variants alone', as
 	expect(incomplete).not.toContain('image/jxl');
 });
 
+test('keeps phone screenshot sources ahead of desktop sources', async () => {
+	const html = '<picture><source type="image/webp" data-shot-theme="dark" data-shot-viewport="(max-width: 640px)" media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="/phone.webp"><source type="image/webp" data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/laptop.webp"><img src="/laptop.webp" alt="Screenshot"></picture>';
+	const children = picture(await addJxlSources(html, convert)).children;
+	expect(children[0].properties).toMatchObject({ dataShotViewport: '(max-width: 640px)', srcSet: '/phone.webp.jxl' });
+	expect(children[1].properties.dataShotViewport).toBeUndefined();
+});
+
 test('generated progressive JXL preserves screenshot detail and keeps WebP fallback', async () => {
 	const directory = await mkdtemp(join(tmpdir(), 'jxl-test-'));
 	try {

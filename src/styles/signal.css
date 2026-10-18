@@ -3096,18 +3096,58 @@ a.version-chip:hover .version-chip__dot {
     max-width: none;
   }
 
+  /* The laptop becomes a phone showing portrait screenshots. */
+  .laptop {
+    width: 16rem;
+  }
+
   .laptop__lid {
-    padding: 0.4rem 0.4rem 0.3rem;
-    border-radius: 0.65rem 0.65rem 0.28rem 0.28rem;
+    padding: 0.3rem;
+    border-radius: 2.4rem;
+  }
+
+  .laptop__lid::after {
+    content: '';
+    position: absolute;
+    top: 22%;
+    right: -0.2rem;
+    width: 0.2rem;
+    height: 3rem;
+    border-radius: 0 0.2rem 0.2rem 0;
+    background: var(--laptop-shell-mid);
+    box-shadow: 0 0 0 1px var(--laptop-edge);
   }
 
   .laptop__bezel {
-    grid-template-rows: 1.1rem auto;
-    padding: 0 0.3rem 0.28rem;
+    display: block;
+    padding: 0.35rem;
+    border-radius: 2.1rem;
   }
 
+  .laptop__camera {
+    position: absolute;
+    z-index: 1;
+    top: 0.85rem;
+    left: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, #2a3636, #050808 70%);
+  }
+
+  .laptop__screen {
+    aspect-ratio: 1080 / 2340;
+    border-radius: 1.75rem;
+  }
+
+  .laptop__hinge,
   .laptop__base {
-    height: 0.65rem;
+    display: none;
+  }
+
+  .laptop__shadow {
+    left: 15%;
+    right: 15%;
   }
 
   .shot-tabs__tab {

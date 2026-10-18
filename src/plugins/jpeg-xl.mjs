@@ -27,7 +27,7 @@ export async function addJxlSources(html, convert) {
 			type: 'element', tagName: 'source', children: [],
 			properties: {
 				...Object.fromEntries(Object.entries(properties).filter(([key]) =>
-					['media', 'sizes', 'dataShotTheme'].includes(key))),
+					['media', 'sizes', 'dataShotTheme', 'dataShotViewport'].includes(key))),
 				type: 'image/jxl', srcSet: candidates.join(', '),
 			},
 		};

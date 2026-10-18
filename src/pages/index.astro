@@ -11,6 +11,12 @@ import shotWatchDark from '../assets/screenshots/opentubex-2-dark.webp';
 import shotWatchLight from '../assets/screenshots/opentubex-2-light.webp';
 import shotSettingsDark from '../assets/screenshots/opentubex-3-dark.webp';
 import shotSettingsLight from '../assets/screenshots/opentubex-3-light.webp';
+import shotMainMobileDark from '../assets/screenshots/opentubex-1-mobile-dark.webp';
+import shotMainMobileLight from '../assets/screenshots/opentubex-1-mobile-light.webp';
+import shotWatchMobileDark from '../assets/screenshots/opentubex-2-mobile-dark.webp';
+import shotWatchMobileLight from '../assets/screenshots/opentubex-2-mobile-light.webp';
+import shotSettingsMobileDark from '../assets/screenshots/opentubex-3-mobile-dark.webp';
+import shotSettingsMobileLight from '../assets/screenshots/opentubex-3-mobile-light.webp';
 
 const logoDarkSrc = typeof logoDark === 'string' ? logoDark : logoDark.src;
 const logoLightSrc = typeof logoLight === 'string' ? logoLight : logoLight.src;
@@ -22,6 +28,8 @@ const screenshots = [
 		icon: 'lucide:list',
 		dark: shotMainDark,
 		light: shotMainLight,
+		mobileDark: shotMainMobileDark,
+		mobileLight: shotMainMobileLight,
 		alt: 'OpenTubeX subscription feed',
 	},
 	{
@@ -30,6 +38,8 @@ const screenshots = [
 		icon: 'lucide:circle-play',
 		dark: shotWatchDark,
 		light: shotWatchLight,
+		mobileDark: shotWatchMobileDark,
+		mobileLight: shotWatchMobileLight,
 		alt: 'OpenTubeX watching a video',
 	},
 	{
@@ -38,24 +48,35 @@ const screenshots = [
 		icon: 'lucide:sliders-horizontal',
 		dark: shotSettingsDark,
 		light: shotSettingsLight,
+		mobileDark: shotSettingsMobileDark,
+		mobileLight: shotSettingsMobileLight,
 		alt: 'OpenTubeX settings',
 	},
 ] as const;
 
-const screenshotSizes = '(max-width: 640px) calc(100vw - 3.5rem), (max-width: 960px) 680px, (max-width: 1160px) 52vw, 600px';
+// Phones show portrait captures of the Android app in a phone frame.
+const mobileShotMedia = '(max-width: 640px)';
+const screenshotVariants = [
+	{ viewport: mobileShotMedia, sizes: '14.5rem', widths: [232, 464, 696, 928], images: { light: 'mobileLight', dark: 'mobileDark' } },
+	{ viewport: undefined, sizes: '(max-width: 960px) 680px, (max-width: 1160px) 52vw, 600px', widths: [366, 732, 1098, 1464], images: { light: 'light', dark: 'dark' } },
+] as const;
 const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => ({
 	...shot,
-	sources: await Promise.all((['light', 'dark'] as const).flatMap((theme) =>
-		(['avif', 'webp'] as const).map(async (format) => ({
-			theme,
-			format,
-			image: await getImage({
-				src: shot[theme],
-				widths: [366, 732, 1098, 1464],
+	sources: await Promise.all(screenshotVariants.flatMap(({ viewport, sizes, widths, images }) =>
+		(['light', 'dark'] as const).flatMap((theme) =>
+			(['avif', 'webp'] as const).map(async (format) => ({
+				theme,
 				format,
-				quality: 'mid',
-			}),
-		})),
+				viewport,
+				sizes,
+				image: await getImage({
+					src: shot[images[theme]],
+					widths: [...widths],
+					format,
+					quality: 'mid',
+				}),
+			})),
+		),
 	)),
 })));
 ---
@@ -139,7 +160,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 				</div>
 				<div class="hero__preview" id="screenshots">
 					<div class="shot-stage" data-shot-stage data-image-gallery>
-						<figure class="laptop" aria-label="OpenTubeX on a laptop">
+						<figure class="laptop" aria-label="OpenTubeX app preview">
 							<div class="laptop__lid">
 								<div class="laptop__bezel">
 									<span class="laptop__camera" aria-hidden="true"></span>
@@ -147,13 +168,14 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 										{
 											optimizedScreenshots.map((shot, index) => (
 												<picture>
-													{shot.sources.map(({ theme, format, image }) => (
+													{shot.sources.map(({ theme, format, viewport, sizes, image }) => (
 														<source
 															data-shot-theme={theme}
-															media={`(prefers-color-scheme: ${theme})`}
+															data-shot-viewport={viewport}
+															media={[viewport, `(prefers-color-scheme: ${theme})`].filter(Boolean).join(' and ')}
 															type={`image/${format}`}
 															srcset={image.srcSet.attribute}
-															sizes={screenshotSizes}
+															sizes={sizes}
 														/>
 													))}
 													<img
@@ -169,6 +191,10 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 														data-full-src-light={shot.light.src}
 														data-full-width={shot.dark.width}
 														data-full-height={shot.dark.height}
+														data-full-src-mobile-dark={shot.mobileDark.src}
+														data-full-src-mobile-light={shot.mobileLight.src}
+														data-full-size={`${shot.dark.width}x${shot.dark.height}`}
+														data-full-size-mobile={`${shot.mobileDark.width}x${shot.mobileDark.height}`}
 														aria-hidden={index === 0 ? 'false' : 'true'}
 														loading={index === 0 ? 'eager' : 'lazy'}
 														fetchpriority={index === 0 ? 'high' : 'auto'}
