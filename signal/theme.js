@@ -62,13 +62,23 @@
     });
   }
 
+  // Phone-sized viewports swap in portrait screenshots of the mobile app.
+  var MOBILE_SHOTS = window.matchMedia("(max-width: 640px)");
+
   function syncScreenshots(theme) {
     document.querySelectorAll("source[data-shot-theme]").forEach(function (source) {
-      source.media = source.getAttribute("data-shot-theme") === theme ? "all" : "not all";
+      var viewport = source.getAttribute("data-shot-viewport");
+      source.media = source.getAttribute("data-shot-theme") !== theme ? "not all" : viewport || "all";
     });
+    var variant = MOBILE_SHOTS.matches ? "-mobile" : "";
     document.querySelectorAll("img[data-shot]").forEach(function (img) {
-      var src = img.getAttribute("data-full-src-" + theme);
+      var src = img.getAttribute("data-full-src" + variant + "-" + theme) || img.getAttribute("data-full-src-" + theme);
+      var size = (img.getAttribute("data-full-size" + variant) || img.getAttribute("data-full-size") || "").split("x");
       if (src) img.setAttribute("data-full-src", src);
+      if (size.length === 2) {
+        img.setAttribute("data-full-width", size[0]);
+        img.setAttribute("data-full-height", size[1]);
+      }
     });
   }
 
@@ -227,6 +237,10 @@
     }
 
     if (event.key === "Escape") closeAllMenus();
+  });
+
+  MOBILE_SHOTS.addEventListener("change", function () {
+    syncScreenshots(resolve(loadPreference()));
   });
 
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
