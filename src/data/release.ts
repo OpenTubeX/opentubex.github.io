@@ -199,6 +199,31 @@ export const downloadGroups: DownloadGroup[] = [
 				url: downloadUrl(`org.opentubex.app-${releaseVersion}-beta-x86_64.apk`),
 				icon: 'lucide:package',
 			},
+			{
+				label: '.apk Lite (universal)',
+				url: downloadUrl(`org.opentubex.app-${releaseVersion}-beta-lite.apk`),
+				icon: 'lucide:package',
+			},
+			{
+				label: '.apk Lite (arm64-v8a)',
+				url: downloadUrl(`org.opentubex.app-${releaseVersion}-beta-lite-arm64-v8a.apk`),
+				icon: 'lucide:package',
+			},
+			{
+				label: '.apk Lite (armeabi-v7a)',
+				url: downloadUrl(`org.opentubex.app-${releaseVersion}-beta-lite-armeabi-v7a.apk`),
+				icon: 'lucide:package',
+			},
+			{
+				label: '.apk Lite (x86)',
+				url: downloadUrl(`org.opentubex.app-${releaseVersion}-beta-lite-x86.apk`),
+				icon: 'lucide:package',
+			},
+			{
+				label: '.apk Lite (x86_64)',
+				url: downloadUrl(`org.opentubex.app-${releaseVersion}-beta-lite-x86_64.apk`),
+				icon: 'lucide:package',
+			},
 		],
 	},
 	{
