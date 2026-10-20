@@ -19,6 +19,8 @@ import {
 	fdroidNightlyUrl,
 	fdroidSiteUrl,
 	githubReleaseUrl,
+	obtainiumLiteUrl,
+	obtainiumNightlyLiteUrl,
 	obtainiumNightlyUrl,
 	obtainiumUrl,
 	nixRepositoryUrl,
@@ -387,6 +389,10 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								<img alt="Get it on GitHub" width="188" height="56" src={githubBadge.src} />
 							</a>
 						</div>
+						<p class="pkg__body">
+							Low on storage? <a href={obtainiumLiteUrl} rel="noopener noreferrer">Install OpenTubeX Lite with Obtainium</a>.
+							Its smaller APKs leave out yt-dlp and FFmpeg, so downloads and other yt-dlp features are unavailable.
+						</p>
 						<MoreDownloads links={others('Android')} label="Android downloads" summary="APK files">
 							<p class="pkg__body">Not sure which APK to choose? The universal APK works on every device.</p>
 						</MoreDownloads>
@@ -541,6 +547,12 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 										<a class="is-preferred" href={obtainiumNightlyUrl} rel="noopener noreferrer">
 											<Icon name="lucide:package-check" aria-hidden="true" />
 											Install nightly with Obtainium
+										</a>
+									</li>
+									<li>
+										<a href={obtainiumNightlyLiteUrl} rel="noopener noreferrer">
+											<Icon name="lucide:package-check" aria-hidden="true" />
+											Install nightly Lite with Obtainium
 										</a>
 									</li>
 								</ul>
