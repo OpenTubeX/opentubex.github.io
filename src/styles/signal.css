@@ -1181,6 +1181,18 @@ a.version-chip:hover .version-chip__dot {
   margin-top: 0.3rem;
 }
 
+.site-footer__badge {
+  display: inline-block;
+  margin-top: 0.75rem;
+  max-width: 100%;
+}
+
+.site-footer__badge img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 .site-footer__col h2 {
   margin-bottom: 0.4rem;
   color: var(--ink);
