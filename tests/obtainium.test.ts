@@ -14,13 +14,13 @@ function parse(url: string) {
 	return { app, settings, accepts };
 }
 
-// Lite APKs share the application ID, so each link must match exactly one flavor.
+// Lite APKs share each release with the full APKs, so each link must match exactly one flavor.
 test.each([
-	[obtainiumUrl, 'OpenTubeX', stableApks(''), stableApks('-lite')],
-	[obtainiumLiteUrl, 'OpenTubeX Lite', stableApks('-lite'), stableApks('')],
-])('Obtainium stable link %# picks only its own APK flavor', (url, name, accepted, rejected) => {
+	[obtainiumUrl, 'org.opentubex.app', 'OpenTubeX', stableApks(''), stableApks('-lite')],
+	[obtainiumLiteUrl, 'org.opentubex.app.lite', 'OpenTubeX Lite', stableApks('-lite'), stableApks('')],
+])('Obtainium stable link %# picks only its own APK flavor', (url, id, name, accepted, rejected) => {
 	const { app, settings, accepts } = parse(url);
-	expect(app.id).toBe('org.opentubex.app');
+	expect(app.id).toBe(id);
 	expect(app.name).toBe(name);
 	expect(settings.includePrereleases).toBeUndefined();
 	expect(settings.autoApkFilterByArch).toBe(true);
@@ -29,11 +29,11 @@ test.each([
 });
 
 test.each([
-	[obtainiumNightlyUrl, 'OpenTubeX Nightly', nightlyApks(''), nightlyApks('lite-')],
-	[obtainiumNightlyLiteUrl, 'OpenTubeX Nightly Lite', nightlyApks('lite-'), nightlyApks('')],
-])('Obtainium nightly link %# accepts architecture APKs and the universal fallback', (url, name, accepted, rejected) => {
+	[obtainiumNightlyUrl, 'org.opentubex.app.nightly', 'OpenTubeX Nightly', nightlyApks(''), nightlyApks('lite-')],
+	[obtainiumNightlyLiteUrl, 'org.opentubex.app.nightly.lite', 'OpenTubeX Nightly Lite', nightlyApks('lite-'), nightlyApks('')],
+])('Obtainium nightly link %# accepts architecture APKs and the universal fallback', (url, id, name, accepted, rejected) => {
 	const { app, settings, accepts } = parse(url);
-	expect(app.id).toBe('org.opentubex.app.nightly');
+	expect(app.id).toBe(id);
 	expect(app.name).toBe(name);
 	expect(settings.includePrereleases).toBe(true);
 	expect(settings.fallbackToOlderReleases).toBe(true);
