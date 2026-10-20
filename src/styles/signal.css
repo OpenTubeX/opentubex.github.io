@@ -301,7 +301,7 @@ body.signal-body {
   flex-shrink: 0;
 }
 
-@media (min-width: 70rem) {
+@media (max-width: 60rem), (min-width: 70rem) {
   .nav__link-icon { display: block; }
 }
 
