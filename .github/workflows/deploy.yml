@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
@@ -35,7 +35,18 @@ jobs:
           bun-version: latest
 
       - name: Install JPEG XL encoder
-        run: sudo apt-get update && sudo apt-get install -y libjxl-tools
+        # Ubuntu's libjxl 0.7 encodes visibly worse at the same distance.
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LIBJXL_VERSION: v0.12.0
+        run: |
+          set -euo pipefail
+          gh release download "$LIBJXL_VERSION" --repo libjxl/libjxl \
+            --pattern jxl-debs-amd64-ubuntu-24.04.tar --dir "$RUNNER_TEMP/libjxl"
+          tar -xf "$RUNNER_TEMP/libjxl/jxl-debs-amd64-ubuntu-24.04.tar" -C "$RUNNER_TEMP/libjxl"
+          sudo apt-get update
+          sudo apt-get install -y "$RUNNER_TEMP"/libjxl/jxl_*.deb "$RUNNER_TEMP"/libjxl/libjxl_*.deb
+          cjxl --version
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
