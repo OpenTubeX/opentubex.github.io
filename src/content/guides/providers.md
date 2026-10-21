@@ -19,8 +19,8 @@ Neither option requires you to transfer your local subscriptions to a YouTube ac
 
 1. Open **Settings → Advanced**.
 2. Find **Preferred API Backend** under the provider settings.
-3. Choose **Local API** or **Invidious API**.
-4. If choosing Invidious, review **Current Invidious Instance** and select the server you intend to use.
+3. Choose **Local API**, **Invidious API**, or **Yattee Server**.
+4. If choosing Invidious, review **Current Invidious Instance** and select the server you intend to use. If choosing Yattee Server, enter your server's details as described in [Use your own Yattee server](/docs/yattee-server/).
 5. Retry the same search or video to check the change.
 
 <picture>
