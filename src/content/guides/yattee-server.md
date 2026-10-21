@@ -46,7 +46,7 @@ Start it with `docker compose up -d`.
 
 `CORS_ORIGINS` lets the Android and iOS apps load video streams from the server. The desktop app does not need it.
 
-Open `http://<server address>:8085/admin` in a browser and sign in to check that the server runs. The [yattee-server configuration reference](https://github.com/yattee/yattee-server/blob/main/docs/configuration.md) lists the other options.
+To check that the server runs, open `http://localhost:8085/admin` in a browser on the server computer and sign in. From other devices, use the HTTPS address from the next section, so that the password is not sent unencrypted. The [yattee-server configuration reference](https://github.com/yattee/yattee-server/blob/main/docs/configuration.md) lists the other options.
 
 ## Add HTTPS
 
