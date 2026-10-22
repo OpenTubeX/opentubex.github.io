@@ -14,7 +14,7 @@ The website is static. It has no accounts, contact forms, advertising, analytics
 
 The site is hosted by GitHub Pages. When your browser requests a page or asset, GitHub may process standard connection and request information such as your IP address, browser and device information, requested URL, referring page, and the date and time of the request. OpenTubeX does not maintain a separate visitor log.
 
-Fonts, images, scripts, and styles are served with the website itself.
+Fonts, scripts, styles, and most images are served with the website itself. Some images load from other services. Screenshots in the changelog and feature list load from GitHub. The downloads page shows badges from FlatPark, the Snap Store (snapcraft.io), and the OpenTubeX badge service, which runs on Cloudflare Workers. One changelog entry shows a Product Hunt badge. When your browser loads one of these images, that service receives the same kind of request information described above.
 
 Following a link to GitHub, Weblate, Fluxer, Matrix, or another external service sends a request to that service. Its own privacy policy applies once you visit it.
 
@@ -28,7 +28,7 @@ The connection data described above is processed to deliver and secure the websi
 
 ### Service providers, transfers, and retention
 
-GitHub, Inc. and its affiliates provide the website hosting and determine how long their operational records are retained. GitHub may use infrastructure in countries outside your own. See the [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) for details about its processing, safeguards, retention, and privacy contacts.
+GitHub, Inc. and its affiliates provide the website hosting and determine how long their operational records are retained. GitHub may use infrastructure in countries outside your own. See the [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) for details about its processing, safeguards, retention, and privacy contacts. The services that serve the external images listed above process those requests under their own privacy policies.
 
 OpenTubeX does not sell website visitor data, use it for advertising, or make automated decisions with legal or similarly significant effects.
 

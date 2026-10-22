@@ -121,11 +121,14 @@ async function encode(input, output) {
 		ffmpeg.on('error', reject);
 		ffmpeg.on('close', (code) => (code === 0 ? resolveExit() : reject(new Error(`ffmpeg exited with ${code} for ${input}`))));
 	});
+	// An early exit surfaces through `done`; without these, writes fail with EPIPE or wait forever for drain.
+	done.catch(() => {});
+	ffmpeg.stdin.on('error', () => {});
 	const frameBytes = info.width * pageHeight * 4;
 	for (let page = 0; page < pages; page++) {
 		const frame = data.subarray(page * frameBytes, (page + 1) * frameBytes);
 		for (let repeat = Math.max(1, Math.round((delays[page] * fps) / 1000)); repeat > 0; repeat--) {
-			if (!ffmpeg.stdin.write(frame)) await new Promise((resolveDrain) => ffmpeg.stdin.once('drain', resolveDrain));
+			if (!ffmpeg.stdin.write(frame)) await Promise.race([new Promise((resolveDrain) => ffmpeg.stdin.once('drain', resolveDrain)), done]);
 		}
 	}
 	ffmpeg.stdin.end();
@@ -135,7 +138,10 @@ async function encode(input, output) {
 
 /** Encode animated GIF/WebP images as MP4 when that is smaller. */
 export async function convertAnimatedImages(distDirectory, cacheDirectory = resolve('.cache/animated-video')) {
-	await run('ffmpeg', ['-version']);
+	const { stdout: encoders } = await run('ffmpeg', ['-hide_banner', '-encoders']);
+	if (!/\blibx264\b/.test(encoders)) throw new Error('ffmpeg was built without libx264 support');
+	// The changelog plugin sizes videos with ffprobe and would otherwise silently skip it.
+	await run('ffprobe', ['-version']);
 	await mkdir(cacheDirectory, { recursive: true });
 	const converted = new Map();
 	let count = 0;
