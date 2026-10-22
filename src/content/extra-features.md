@@ -8,12 +8,17 @@ description: Extra features available in OpenTubeX.
 ### Per-channel playback settings
 
 Manage and automatically apply playback speed, video quality, subtitles, and
-volume for individual channels. Enable each option in settings. Playback speeds
-can be saved automatically when you change them through the player options, or
-you can leave automatic saving off and use the dedicated button below the
-player to save the current speed for that channel manually.
+volume for individual channels. Playback speeds can be saved automatically when
+you change them through the player options, or you can leave automatic saving
+off and use the dedicated button below the player to save the current speed for
+that channel manually.
 
-![Per-channel playback settings](https://github.com/user-attachments/assets/c713c463-93c3-4f21-96a2-4a653c2c8399)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/adac36de-2f7f-474d-8a20-d0531416665c">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/d2f7a3c3-7a43-4707-8920-f16dd3eea7ff">
+  <img width="988" height="272" style="max-width: min(100%, 988px); max-height: 272px;" alt="Per-channel playback settings" src="https://github.com/user-attachments/assets/adac36de-2f7f-474d-8a20-d0531416665c">
+</picture>
+
 ![Per-channel speed indicator](https://github.com/user-attachments/assets/560a55c0-f653-4c21-ae30-5cdeff6ac428)
 ![Per-channel settings](https://github.com/user-attachments/assets/a802d400-0f41-4375-a252-9f5a157afb84)
 
