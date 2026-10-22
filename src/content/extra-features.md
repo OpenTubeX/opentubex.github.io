@@ -54,9 +54,9 @@ Preloading prepares stream URLs to reduce playback delays; use Downloads to
 save videos for offline playback.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T114447Z-playlist-preload-dark-dark-9a8ed3e374.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T114447Z-playlist-preload-light-light-2721e09f24.png">
-  <img width="700" height="177" style="max-width: min(100%, 700px); max-height: 177px;" alt="Playlist preload action and progress notification" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T114447Z-playlist-preload-dark-dark-9a8ed3e374.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20261021T120235Z-playlist-preload-menu-dark-dark-d54f7c6182.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20261021T120235Z-playlist-preload-menu-light-light-b102e694bb.png">
+  <img width="700" height="623" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Preloading all videos in a playlist's More menu with the progress notification" src="https://github.com/OpenTubeX/media/releases/download/attachments/20261021T120235Z-playlist-preload-menu-dark-dark-d54f7c6182.png">
 </picture>
 
 ### Optional seek-interval behavior
