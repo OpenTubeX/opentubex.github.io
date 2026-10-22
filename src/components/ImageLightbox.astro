@@ -30,9 +30,9 @@ import 'photoswipe/style.css';
 			let lightboxActive = false;
 			images.forEach((image) => {
 				image.classList.add('zoomable-image');
-				// ARIA forbids button semantics on video, so animations only open by pointer.
-				if (image instanceof HTMLVideoElement) return;
 				image.tabIndex = image.getAttribute('aria-hidden') === 'true' ? -1 : 0;
+				// ARIA forbids button semantics on video; Enter and Space still open it through the keydown handler.
+				if (image instanceof HTMLVideoElement) return;
 				image.setAttribute('role', 'button');
 				image.setAttribute('aria-label', `Open ${image.alt || 'image'} fullscreen`);
 			});
