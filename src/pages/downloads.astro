@@ -1,5 +1,6 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
+import DownloadPlatform from '../components/DownloadPlatform.astro';
 import CmdCode from '../components/CmdCode.astro';
 import SignalTabs from '../components/SignalTabs.astro';
 import DownloadLinks from '../components/DownloadLinks.astro';
@@ -172,7 +173,6 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 	title="Downloads – OpenTubeX"
 	description={`Download OpenTubeX ${releaseVersion} beta for Windows, macOS, Linux, Android, and iOS/iPadOS. Package managers and GitHub releases.`}
 	active="downloads"
-	mono
 >
 	<main class="resource-page resource-page--downloads">
 		<header class="page-hero">
@@ -647,6 +647,4 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 	}
 </script>
 
-<script>
-	import '../scripts/download-platform';
-</script>
+<DownloadPlatform />

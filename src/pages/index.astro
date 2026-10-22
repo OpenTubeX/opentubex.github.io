@@ -1,5 +1,6 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
+import DownloadPlatform from '../components/DownloadPlatform.astro';
 import '../styles/home.css';
 import { getImage } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
@@ -17,6 +18,7 @@ import shotWatchMobileDark from '../assets/screenshots/opentubex-2-mobile-dark.w
 import shotWatchMobileLight from '../assets/screenshots/opentubex-2-mobile-light.webp';
 import shotSettingsMobileDark from '../assets/screenshots/opentubex-3-mobile-dark.webp';
 import shotSettingsMobileLight from '../assets/screenshots/opentubex-3-mobile-light.webp';
+import promoPoster from '../assets/opentubex-promo-poster.jpg';
 
 const logoDarkSrc = typeof logoDark === 'string' ? logoDark : logoDark.src;
 const logoLightSrc = typeof logoLight === 'string' ? logoLight : logoLight.src;
@@ -60,6 +62,7 @@ const screenshotVariants = [
 	{ viewport: mobileShotMedia, sizes: '14.5rem', widths: [232, 464, 696, 928], images: { light: 'mobileLight', dark: 'mobileDark' } },
 	{ viewport: undefined, sizes: '(max-width: 960px) 680px, (max-width: 1160px) 52vw, 600px', widths: [366, 732, 1098, 1464], images: { light: 'light', dark: 'dark' } },
 ] as const;
+const optimizedPromoPoster = await getImage({ src: promoPoster, format: 'webp' });
 const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => ({
 	...shot,
 	sources: await Promise.all(screenshotVariants.flatMap(({ viewport, sizes, widths, images }) =>
@@ -211,7 +214,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 											controls
 											playsinline
 											preload="none"
-											poster="/videos/opentubex-promo.jpg"
+											poster={optimizedPromoPoster.src}
 											width="1920"
 											height="1080"
 											aria-label="OpenTubeX promo video"
@@ -296,7 +299,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 						<h3 class="pillar__title">Feature-rich</h3>
 						<p class="pillar__body">
 							Tabs, SponsorBlock, Auto PiP, transcripts, downloads, Ambient Mode, and{' '}
-							<a href="/extra-features/">more</a>.
+							<a href="/extra-features/">many more features</a>.
 						</p>
 					</div>
 				</article>
@@ -516,8 +519,5 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 			scheduleRotation();
 		})();
 	</script>
+	<DownloadPlatform />
 </SignalLayout>
-
-<script>
-	import '../scripts/download-platform';
-</script>

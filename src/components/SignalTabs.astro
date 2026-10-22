@@ -192,7 +192,7 @@ const restoreScript = `(function (root) {
 		root.addEventListener('sig-tabs:select', (event) => {
 			if (event instanceof CustomEvent && typeof event.detail === 'string') activateTab(root, event.detail, false);
 		});
-		positionIndicator(root);
+		// The observer's initial callback positions the indicator after layout, avoiding a forced reflow.
 		const resizeObserver = new ResizeObserver(() => {
 			transitions.get(root)?.();
 			positionIndicator(root);

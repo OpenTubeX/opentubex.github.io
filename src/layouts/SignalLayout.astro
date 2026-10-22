@@ -1,11 +1,13 @@
 ---
 import '../styles/signal.css';
 import '../styles/resources.css';
+import { Font } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import ImageLightbox from '../components/ImageLightbox.astro';
 import ThemeSelect from '../components/ThemeSelect.astro';
 import markDark from '../assets/mark-dark.svg';
 import markLight from '../assets/mark-light.svg';
+import osaBadge from '../assets/osa-badge.svg';
 // Hashed so cached copies never pair with newer markup.
 import themeScript from '../scripts/theme.js?url';
 
@@ -15,17 +17,12 @@ interface Props {
 	title: string;
 	description: string;
 	active?: Active | null;
-	mono?: boolean;
 }
 
-const { title, description, active = null, mono = false } = Astro.props;
+const { title, description, active = null } = Astro.props;
 
 const markDarkSrc = typeof markDark === 'string' ? markDark : markDark.src;
 const markLightSrc = typeof markLight === 'string' ? markLight : markLight.src;
-
-const fontHref = mono
-	? 'https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700|ibm-plex-mono:400,500&display=swap'
-	: 'https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600|space-grotesk:500,600,700&display=swap';
 
 const social = [
 	{ href: 'https://github.com/OpenTubeX', label: 'GitHub', icon: 'simple-icons:github' },
@@ -75,10 +72,9 @@ const primaryNav = [
 		</script>
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<link rel="preconnect" href="https://fonts.bunny.net" />
-		<link rel="preload" href={fontHref} as="style" />
-		<link href={fontHref} rel="stylesheet" media="print" onload="this.media='all'" />
-		<noscript><link href={fontHref} rel="stylesheet" /></noscript>
+		<Font cssVariable="--font-body" preload={[{ weight: 400, subset: 'latin' }]} />
+		<Font cssVariable="--font-display" preload={[{ weight: 600, subset: 'latin' }]} />
+		<Font cssVariable="--font-mono" />
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	</head>
@@ -143,7 +139,7 @@ const primaryNav = [
 					</a>
 					<p>Privacy-first YouTube client</p>
 					<a class="site-footer__badge" href="https://www.opensourcealternatives.to" rel="noopener noreferrer">
-						<img src="https://www.opensourcealternatives.to/badge-osa.svg" alt="As seen on Open Source Alternatives" width="270" height="20" loading="lazy" decoding="async" />
+						<img src={osaBadge.src} alt="As seen on Open Source Alternatives" width="270" height="20" loading="lazy" decoding="async" />
 					</a>
 				</div>
 				<div class="site-footer__col">
@@ -232,6 +228,7 @@ const primaryNav = [
 		</script>
 		<script is:inline src={themeScript}></script>
 		<script>
+			import '../scripts/animations';
 			import '../scripts/email-reveal';
 		</script>
 	</body>
