@@ -13,4 +13,4 @@ All commands are run from the root of the project, from a terminal:
 | `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `bun astro -- --help` | Get help using the Astro CLI                     |
 
-Production builds and image tests require `cjxl` and `djxl` from libjxl. Install `libjxl-tools` on Debian/Ubuntu or `libjxl` on Arch Linux. CI installs the tools automatically.
+Production builds and image tests require `ffmpeg` with libx264 to turn animated images into videos. CI installs it automatically.

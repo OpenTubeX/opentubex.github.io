@@ -1,11 +1,11 @@
 // @ts-check
 import { fileURLToPath } from 'node:url';
 import { unified } from '@astrojs/markdown-remark';
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import { generateJpegXl } from './src/plugins/jpeg-xl.mjs';
 import expressiveCode from 'astro-expressive-code';
 import icon from 'astro-icon';
+import { convertAnimatedImages } from './src/plugins/animated-video.mjs';
 import rehypeFeatureSections from './src/plugins/rehype-feature-sections.mjs';
 import rehypeObfuscateEmail from './src/plugins/rehype-obfuscate-email.mjs';
 import remarkBundleGitHubImages, {
@@ -33,8 +33,8 @@ function cachedImages() {
 					copyReusedGitHubImages(distDirectory),
 					copyExposedGitHubImages(distDirectory),
 				]);
-				const jpegXl = await generateJpegXl(distDirectory);
-				console.log(`[images] Generated ${jpegXl.count} progressive JPEG XL alternatives (${jpegXl.savedBytes} net bytes saved)`);
+				const videos = await convertAnimatedImages(distDirectory);
+				console.log(`[images] Replaced ${videos.count} animated image(s) with video (${videos.savedBytes} bytes saved)`);
 				if (changelogCount > 0) {
 					console.log(
 						`[changelog] Copied ${changelogCount} cached image(s) into dist/changelog-images`,
@@ -55,6 +55,14 @@ function cachedImages() {
 export default defineConfig({
 	site: 'https://opentubex.org',
 	trailingSlash: 'ignore',
+	// GitHub Pages caches assets for only 10 minutes, so separate stylesheets mostly add a render-blocking round trip.
+	build: { inlineStylesheets: 'always' },
+	// Self-hosted with metric-matched fallbacks so late font swaps do not shift the layout.
+	fonts: [
+		{ provider: fontProviders.bunny(), name: 'IBM Plex Sans', cssVariable: '--font-body', weights: [400, 500, 600], styles: ['normal'] },
+		{ provider: fontProviders.bunny(), name: 'Space Grotesk', cssVariable: '--font-display', weights: [500, 600, 700], styles: ['normal'] },
+		{ provider: fontProviders.bunny(), name: 'IBM Plex Mono', cssVariable: '--font-mono', weights: [400, 500], styles: ['normal'], fallbacks: ['ui-monospace', 'monospace'] },
+	],
 	redirects: {
 		'/download': '/downloads/',
 		'/install': '/docs/installing/',

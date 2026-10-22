@@ -1,7 +1,9 @@
+import { execFile } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import { copyFile, mkdir, open, readdir, rename, rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
+import { promisify } from 'node:util';
 import { fromHtml } from 'hast-util-from-html';
 import { toHtml } from 'hast-util-to-html';
 import sharp from 'sharp';
@@ -40,6 +42,7 @@ const previousImagesDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
 	? resolve(process.env.OPENTUBEX_PREVIOUS_SITE, 'changelog-images')
 	: undefined;
 const downloads = new Map();
+const run = promisify(execFile);
 let activeDownloads = 0;
 const downloadWaiters = [];
 
@@ -256,6 +259,21 @@ async function downloadImage(url) {
 	}
 }
 
+/** Display size so the player reserves its space before metadata loads. */
+async function cachedVideo(filename) {
+	try {
+		const { stdout } = await run('ffprobe', [
+			'-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height:stream_side_data=rotation',
+			'-of', 'json', resolve(cacheDirectory, filename),
+		]);
+		const { width, height, side_data_list: sideData = [] } = JSON.parse(stdout).streams?.[0] ?? {};
+		const rotated = sideData.some(({ rotation }) => Math.abs(rotation) % 180 === 90);
+		return { src: `/changelog-images/${filename}`, width: rotated ? height : width, height: rotated ? width : height };
+	} catch {
+		return { src: `/changelog-images/${filename}` };
+	}
+}
+
 async function downloadVideo(url) {
 	if (!isAllowedUrl(url)) return null;
 	const id = cacheKey(url);
@@ -272,7 +290,7 @@ async function downloadVideo(url) {
 		);
 		if (cached) {
 			await copyFile(resolve(cacheDirectory, cached), resolve(publicDirectory, cached));
-			return `/changelog-images/${cached}`;
+			return cachedVideo(cached);
 		}
 
 		if (previousImagesDirectory) {
@@ -283,7 +301,7 @@ async function downloadVideo(url) {
 			if (previous) {
 				await copyFile(resolve(previousImagesDirectory, previous), resolve(cacheDirectory, previous));
 				await copyFile(resolve(previousImagesDirectory, previous), resolve(publicDirectory, previous));
-				return `/changelog-images/${previous}`;
+				return cachedVideo(previous);
 			}
 		}
 
@@ -294,7 +312,7 @@ async function downloadVideo(url) {
 			const filename = `${id}${extension}`;
 			await rename(asset.temporaryPath, resolve(cacheDirectory, filename));
 			await copyFile(resolve(cacheDirectory, filename), resolve(publicDirectory, filename));
-			return `/changelog-images/${filename}`;
+			return cachedVideo(filename);
 		} finally {
 			await rm(asset.temporaryPath, { force: true });
 		}
@@ -452,9 +470,11 @@ export async function cacheImagesInHtml(html) {
 	await rewriteBatch(
 		videos,
 		({ node }) => node.properties.src,
-		({ node, index, parent }, src) => {
-			if (src) {
-				node.properties.src = src;
+		({ node, index, parent }, video) => {
+			if (video) {
+				node.properties.src = video.src;
+				node.properties.width ??= video.width;
+				node.properties.height ??= video.height;
 				return;
 			}
 			const href = node.properties.src;

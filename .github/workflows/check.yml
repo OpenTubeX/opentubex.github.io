@@ -32,12 +32,8 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install JPEG XL encoder
-        # Homebrew follows libjxl releases; Ubuntu's 0.7 encodes visibly worse.
-        run: |
-          /home/linuxbrew/.linuxbrew/bin/brew install jpeg-xl
-          echo /home/linuxbrew/.linuxbrew/bin >> "$GITHUB_PATH"
-          /home/linuxbrew/.linuxbrew/bin/cjxl --version
+      - name: Install video encoder
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
