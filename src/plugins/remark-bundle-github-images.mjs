@@ -5,8 +5,8 @@ import sharp from 'sharp';
 const attachmentPattern =
 	/^https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)$/;
 const attachmentUrlPattern = /https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)/g;
-const imageTagPattern = /<(img|source)\b[^>]*>/gi;
-const imageAttributePattern = /\s(src|srcset)\s*=\s*(["'])(.*?)\2/gis;
+const imageTagPattern = /<(img|source)\b(?:[^>"']|"[^"]*"|'[^']*')*>/gi;
+const attributePattern = /(\s([^\s"'>/=]+)\s*=\s*)(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/g;
 const cacheDirectory = resolve('node_modules/.astro/github-images');
 const publicDirectory = resolve('public/feature-images');
 const previousSiteDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
@@ -100,11 +100,14 @@ export async function clearExposedGitHubImages() {
 /** Map image URLs in raw HTML; `<source src>` belongs to audio and video, not pictures. */
 function mapImageSources(html, map) {
 	return html.replace(imageTagPattern, (tag, tagName) =>
-		tag.replace(imageAttributePattern, (attribute, name, quote, value) =>
-			tagName.toLowerCase() === 'source' && name.toLowerCase() === 'src'
-				? attribute
-				: `${attribute.slice(0, -value.length - 1)}${map(value)}${quote}`,
-		),
+		tag.replace(attributePattern, (attribute, prefix, name, double, single, bare) => {
+			const attributeName = name.toLowerCase();
+			if (attributeName !== 'srcset' && (attributeName !== 'src' || tagName.toLowerCase() === 'source')) {
+				return attribute;
+			}
+			const quote = double != null ? '"' : single != null ? "'" : '';
+			return `${prefix}${quote}${map(double ?? single ?? bare)}${quote}`;
+		}),
 	);
 }
 

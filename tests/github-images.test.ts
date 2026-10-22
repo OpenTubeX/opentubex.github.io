@@ -59,8 +59,8 @@ test('bundles GitHub attachments referenced by raw HTML picture sources', async 
 				value: [
 					'<picture>',
 					'  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/${dark}">',
-					'  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/${light}">',
-					'  <img alt="https://github.com/user-attachments/assets/${dark}" src="https://github.com/user-attachments/assets/${dark}">',
+					'  <source media="(prefers-color-scheme: light) and (width > 600px)" srcset="https://github.com/user-attachments/assets/${light}">',
+					'  <img alt="src=https://github.com/user-attachments/assets/${dark}" src=https://github.com/user-attachments/assets/${dark}>',
 					'</picture>',
 					'<video src="https://github.com/user-attachments/assets/${light}"><source src="https://github.com/user-attachments/assets/${light}"></video>',
 				].join('\\n'),
@@ -71,9 +71,9 @@ test('bundles GitHub attachments referenced by raw HTML picture sources', async 
 		`], { cwd: fixture, encoding: 'utf8' }));
 		expect(result.node.value).toContain(`srcset="/feature-images/${dark}.png"`);
 		expect(result.node.value).toContain(`srcset="/feature-images/${light}.png"`);
-		expect(result.node.value).toContain(`src="/feature-images/${dark}.png"`);
+		expect(result.node.value).toContain(` src=/feature-images/${dark}.png>`);
 		expect(result.node.value).toContain(`<video src="https://github.com/user-attachments/assets/${light}"><source src="https://github.com/user-attachments/assets/${light}">`);
-		expect(result.node.value).toContain(`alt="https://github.com/user-attachments/assets/${dark}"`);
+		expect(result.node.value).toContain(`alt="src=https://github.com/user-attachments/assets/${dark}"`);
 		expect(result.copied).toBe(2);
 		expect(await readFile(join(fixture, 'dist/feature-images', `${light}.png`))).toEqual(image);
 	} finally {
