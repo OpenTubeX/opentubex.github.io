@@ -28,7 +28,7 @@ function cachedImages() {
 			},
 			'astro:build:done': async ({ dir }) => {
 				const distDirectory = fileURLToPath(dir);
-				const [changelogCount, featureCount, animatedFeatureCount] = await Promise.all([
+				const [changelogCount, featureCount, exposedFeatureCount] = await Promise.all([
 					copyCachedChangelogImages(distDirectory),
 					copyReusedGitHubImages(distDirectory),
 					copyExposedGitHubImages(distDirectory),
@@ -43,8 +43,8 @@ function cachedImages() {
 				if (featureCount > 0) {
 					console.log(`[features] Reused ${featureCount} image(s) from the previous deployment`);
 				}
-				if (animatedFeatureCount > 0) {
-					console.log(`[features] Copied ${animatedFeatureCount} animated image(s) into dist`);
+				if (exposedFeatureCount > 0) {
+					console.log(`[features] Copied ${exposedFeatureCount} unprocessed image(s) into dist`);
 				}
 			},
 		},

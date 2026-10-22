@@ -953,9 +953,9 @@ watched-thumbnail overlays with a live preview in the Theme Editor.
 ![Custom theme editor](https://github.com/user-attachments/assets/55b85fc1-04de-44d6-9a0c-1a5081b5d39a)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/579cc131-6ab7-4cfd-94a0-ed6130b4f119">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/f8135f2d-5d8f-4cc6-b8e3-bb03f897d0ad">
-  <img width="632" height="300" style="max-width: min(100%, 632px); max-height: 300px;" alt="Discover community themes with screenshots and one-click installation" src="https://github.com/user-attachments/assets/579cc131-6ab7-4cfd-94a0-ed6130b4f119">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/2b0908ed-2bc8-4814-a285-0a4b104901a9">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/464b9e32-3e6d-4b4a-9fe2-f1c22c39515a">
+  <img width="632" height="300" style="max-width: min(100%, 632px); max-height: 300px;" alt="Discover community themes with screenshots and one-click installation" src="https://github.com/user-attachments/assets/2b0908ed-2bc8-4814-a285-0a4b104901a9">
 </picture>
 
 ### Selectable icon packs
