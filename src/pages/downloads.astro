@@ -5,6 +5,7 @@ import CmdCode from '../components/CmdCode.astro';
 import SignalTabs from '../components/SignalTabs.astro';
 import DownloadLinks from '../components/DownloadLinks.astro';
 import MoreDownloads from '../components/MoreDownloads.astro';
+import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import fdroidBadge from '../assets/fdroid-badge.png';
 import githubBadge from '../assets/github-badge.png';
@@ -380,13 +381,13 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 						<DownloadLinks links={recommended('Android')} label="Android stores" />
 						<div class="pkg__badges">
 							<a class="pkg__badge" href={fdroidSiteUrl} rel="noopener noreferrer">
-								<img alt="Get it on F-Droid" width="188" height="56" src={fdroidBadge.src} />
+								<Image alt="Get it on F-Droid" src={fdroidBadge} width={188} height={56} densities={[1, 2, 3]} format="webp" />
 							</a>
 							<a class="pkg__badge" href={obtainiumUrl} rel="noopener noreferrer">
-								<img alt="Get it on Obtainium" width="188" height="56" src={obtainiumBadge.src} />
+								<Image alt="Get it on Obtainium" src={obtainiumBadge} width={188} height={56} densities={[1, 2, 3]} format="webp" />
 							</a>
 							<a class="pkg__badge" href={githubReleaseUrl} rel="noopener noreferrer">
-								<img alt="Get it on GitHub" width="188" height="56" src={githubBadge.src} />
+								<Image alt="Get it on GitHub" src={githubBadge} width={188} height={56} densities={[1, 2, 3]} format="webp" />
 							</a>
 						</div>
 						<p class="pkg__body">
