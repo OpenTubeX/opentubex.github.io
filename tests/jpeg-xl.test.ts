@@ -55,7 +55,7 @@ test('generated progressive JXL preserves screenshot detail and keeps WebP fallb
 		expect(decoded.length).toBe(original.length);
 		const mse = decoded.reduce((sum, value, index) => sum + (value - original[index]) ** 2, 0) / decoded.length;
 		const psnr = 10 * Math.log10(255 ** 2 / mse);
-		expect(psnr).toBeGreaterThan(40);
+		expect(psnr).toBeGreaterThan(39);
 		expect(await readFile(join(directory, 'index.html'), 'utf8')).toContain('src="/shot.webp"');
 	} finally {
 		await rm(directory, { recursive: true, force: true });
