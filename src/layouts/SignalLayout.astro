@@ -8,8 +8,8 @@ import ThemeSelect from '../components/ThemeSelect.astro';
 import markDark from '../assets/mark-dark.svg';
 import markLight from '../assets/mark-light.svg';
 import osaBadge from '../assets/osa-badge.svg';
-// Hashed so cached copies never pair with newer markup.
-import themeScript from '../scripts/theme.js?url';
+// Inlined so it never pairs with stale markup and needs no render-blocking request.
+import themeScript from '../scripts/theme.js?raw';
 
 type Active = 'home' | 'docs' | 'downloads' | 'features' | 'compare' | 'changelog' | 'privacy' | 'ai-disclosure';
 
@@ -226,7 +226,7 @@ const primaryNav = [
 				});
 			})();
 		</script>
-		<script is:inline src={themeScript}></script>
+		<script is:inline set:html={themeScript}></script>
 		<script>
 			import '../scripts/animations';
 			import '../scripts/email-reveal';
