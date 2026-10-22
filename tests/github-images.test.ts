@@ -39,3 +39,44 @@ for (const directory of ['_astro', 'feature-images']) {
 		}
 	});
 }
+
+test('bundles GitHub attachments referenced by raw HTML picture sources', async () => {
+	const fixture = await mkdtemp(join(tmpdir(), 'opentubex-github-images-'));
+	try {
+		const dark = '00000000-0000-0000-0000-000000000002';
+		const light = '00000000-0000-0000-0000-000000000003';
+		const cache = join(fixture, 'node_modules/.astro/github-images');
+		await mkdir(cache, { recursive: true });
+		const image = await sharp({
+			create: { width: 3, height: 2, channels: 4, background: '#00ff00' },
+		}).png().toBuffer();
+		await Promise.all([dark, light].map((name) => writeFile(join(cache, `${name}.png`), image)));
+		const result = JSON.parse(execFileSync(process.execPath, ['--eval', `
+			globalThis.fetch = () => { throw new Error('GitHub must not be contacted for a cached image'); };
+			const { default: bundle, copyExposedGitHubImages } = await import(${JSON.stringify(plugin)});
+			const node = {
+				type: 'html',
+				value: [
+					'<picture>',
+					'  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/${dark}">',
+					'  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/${light}">',
+					'  <img alt="https://github.com/user-attachments/assets/${dark}" src="https://github.com/user-attachments/assets/${dark}">',
+					'</picture>',
+					'<video src="https://github.com/user-attachments/assets/${light}"><source src="https://github.com/user-attachments/assets/${light}"></video>',
+				].join('\\n'),
+			};
+			await bundle({ command: 'build' })({ type: 'root', children: [node] }, { path: '/src/content/extra-features.md' });
+			const copied = await copyExposedGitHubImages('dist');
+			console.log(JSON.stringify({ node, copied }));
+		`], { cwd: fixture, encoding: 'utf8' }));
+		expect(result.node.value).toContain(`srcset="/feature-images/${dark}.png"`);
+		expect(result.node.value).toContain(`srcset="/feature-images/${light}.png"`);
+		expect(result.node.value).toContain(`src="/feature-images/${dark}.png"`);
+		expect(result.node.value).toContain(`<video src="https://github.com/user-attachments/assets/${light}"><source src="https://github.com/user-attachments/assets/${light}">`);
+		expect(result.node.value).toContain(`alt="https://github.com/user-attachments/assets/${dark}"`);
+		expect(result.copied).toBe(2);
+		expect(await readFile(join(fixture, 'dist/feature-images', `${light}.png`))).toEqual(image);
+	} finally {
+		await rm(fixture, { recursive: true, force: true });
+	}
+});

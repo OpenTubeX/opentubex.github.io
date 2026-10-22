@@ -4,6 +4,9 @@ import sharp from 'sharp';
 
 const attachmentPattern =
 	/^https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)$/;
+const attachmentUrlPattern = /https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)/g;
+const imageTagPattern = /<(img|source)\b[^>]*>/gi;
+const imageAttributePattern = /\s(src|srcset)\s*=\s*(["'])(.*?)\2/gis;
 const cacheDirectory = resolve('node_modules/.astro/github-images');
 const publicDirectory = resolve('public/feature-images');
 const previousSiteDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
@@ -88,16 +91,36 @@ async function exposeCachedImage(asset) {
 	};
 }
 
-/** Remove development-only copies before Astro serves or bundles public files. */
+/** Remove exposed copies before Astro serves or bundles public files. */
 export async function clearExposedGitHubImages() {
 	exposedAssets.clear();
 	await rm(publicDirectory, { recursive: true, force: true });
+}
+
+/** Map image URLs in raw HTML; `<source src>` belongs to audio and video, not pictures. */
+function mapImageSources(html, map) {
+	return html.replace(imageTagPattern, (tag, tagName) =>
+		tag.replace(imageAttributePattern, (attribute, name, quote, value) =>
+			tagName.toLowerCase() === 'source' && name.toLowerCase() === 'src'
+				? attribute
+				: `${attribute.slice(0, -value.length - 1)}${map(value)}${quote}`,
+		),
+	);
 }
 
 function collectImages(node, images) {
 	if (node.type === 'image' && typeof node.url === 'string') {
 		const match = node.url.match(attachmentPattern);
 		if (match) images.push({ node, url: node.url, id: match[1] });
+	} else if (node.type === 'html' && typeof node.value === 'string') {
+		mapImageSources(node.value, (value) => {
+			for (const [url, id] of value.matchAll(attachmentUrlPattern)) {
+				if (!images.some((image) => image.node === node && image.url === url)) {
+					images.push({ node, url, id });
+				}
+			}
+			return value;
+		});
 	}
 
 	if (Array.isArray(node.children)) {
@@ -120,10 +143,19 @@ export default function remarkBundleGitHubImages(options = {}) {
 				images.slice(index, index + 8).map(async (image) => {
 					const downloaded = await downloadImage(image.url, image.id, cachedFiles);
 					const metadata = downloaded.path ? await sharp(downloaded.path).metadata() : undefined;
+					// Astro only resolves relative paths for Markdown images, so raw HTML needs a public URL.
 					const asset =
-						options.command === 'dev' || (downloaded.pages ?? metadata?.pages ?? 1) > 1
+						image.node.type === 'html' ||
+						options.command === 'dev' ||
+						(downloaded.pages ?? metadata?.pages ?? 1) > 1
 							? await exposeCachedImage(downloaded)
 							: downloaded;
+					if (image.node.type === 'html') {
+						image.node.value = mapImageSources(image.node.value, (value) =>
+							value.replaceAll(image.url, asset.url),
+						);
+						return;
+					}
 					image.node.url = asset.url ?? relative(sourceDirectory, asset.path).split(sep).join('/');
 					if (asset.url) {
 						image.node.data ??= {};
@@ -155,7 +187,7 @@ export async function copyReusedGitHubImages(distDirectory) {
 	return reusedAssets.size;
 }
 
-/** Copy animated feature images that bypass Astro's image processing. */
+/** Copy animated and raw HTML feature images that bypass Astro's image processing. */
 export async function copyExposedGitHubImages(distDirectory) {
 	if (exposedAssets.size === 0) return 0;
 
