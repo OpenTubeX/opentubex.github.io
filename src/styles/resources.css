@@ -66,6 +66,8 @@
   border-radius: 1rem;
   background: var(--surface);
 }
+/* Match the section's top padding above the eyebrow. */
+.resource-page .section__title:has(+ .chooser) { margin-bottom: 3rem; }
 .chooser > .sig-tabs { margin-top: 0; }
 .choice { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 0.85rem; scroll-margin-top: calc(var(--nav-h) + 1rem); }
 .choice > *, .choice .sig-tabs { max-width: 100%; }
