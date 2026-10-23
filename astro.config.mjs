@@ -130,6 +130,7 @@ export default defineConfig({
 					'rss',
 					'scale',
 					'server',
+					'server-cog',
 					'shield-alert',
 					'skip-forward',
 					'sliders-horizontal',
