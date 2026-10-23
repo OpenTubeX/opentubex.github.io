@@ -12,5 +12,10 @@ test('Android APK links use the release asset names', () => {
 		`${baseUrl}/org.opentubex.app-${releaseVersion}-beta-armeabi-v7a.apk`,
 		`${baseUrl}/org.opentubex.app-${releaseVersion}-beta-x86.apk`,
 		`${baseUrl}/org.opentubex.app-${releaseVersion}-beta-x86_64.apk`,
+		`${baseUrl}/org.opentubex.app-${releaseVersion}-beta-lite.apk`,
+		`${baseUrl}/org.opentubex.app-${releaseVersion}-beta-lite-arm64-v8a.apk`,
+		`${baseUrl}/org.opentubex.app-${releaseVersion}-beta-lite-armeabi-v7a.apk`,
+		`${baseUrl}/org.opentubex.app-${releaseVersion}-beta-lite-x86.apk`,
+		`${baseUrl}/org.opentubex.app-${releaseVersion}-beta-lite-x86_64.apk`,
 	]);
 });
