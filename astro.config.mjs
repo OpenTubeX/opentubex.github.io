@@ -91,7 +91,9 @@ export default defineConfig({
 		icon({
 			include: {
 				lucide: [
+					'bell-ring',
 					'book-open',
+					'bot-off',
 					'boxes',
 					'bug',
 					'captions',
@@ -138,6 +140,7 @@ export default defineConfig({
 					'sparkles',
 					'star',
 					'terminal',
+					'thumbs-down',
 					'timer',
 					'triangle-alert',
 					'users',
