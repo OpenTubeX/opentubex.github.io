@@ -1,0 +1,200 @@
+---
+import { Icon } from 'astro-icon/components';
+import SignalLayout from '../layouts/SignalLayout.astro';
+import { releaseTag, releaseVersion } from '../data/release';
+---
+
+<SignalLayout
+	title="Try OpenTubeX in your browser – OpenTubeX"
+	description="Try the OpenTubeX web app in your browser without installing anything. Paste a YouTube link to watch it through Invidious."
+	active="demo"
+>
+	<main class="resource-page">
+		<header class="page-hero">
+			<div class="page-hero__signal" aria-hidden="true">
+				<svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+					<g transform="translate(980 160)">
+						<path class="wave-path wave-path--b" d="M-460 20 Q-300 -50 -140 20 T180 20 T460 20"></path>
+						<path class="wave-path wave-path--a" d="M-500 50 Q-320 -20 -140 50 T220 50 T500 50"></path>
+						<path class="wave-path wave-path--b" d="M-380 -30 Q-250 -90 -120 -30 T140 -30 T380 -30"></path>
+						<path class="wave-path wave-path--a" d="M-300 -70 Q-190 -120 -80 -70 T140 -70 T300 -70"></path>
+						<g fill="var(--teal)">
+							<circle cx="-140" cy="20" r="3" opacity="0.65"></circle>
+							<circle cx="0" cy="-30" r="2.5" opacity="0.45"></circle>
+							<circle cx="140" cy="20" r="3" opacity="0.65"></circle>
+						</g>
+					</g>
+				</svg>
+			</div>
+			<div class="page-hero__mesh" aria-hidden="true"></div>
+			<div class="page-hero__content">
+				<p class="page-hero__eyebrow">Web demo</p>
+				<h1 class="page-hero__title">Try OpenTubeX in your browser</h1>
+				<p class="page-hero__lede">
+					The web build of the latest release, running entirely in your browser. Nothing to install, and your library
+					stays on this device.
+				</p>
+				<a class="version-chip" href={`/changelog/#${releaseTag}`}>
+					<span class="version-chip__dot" aria-hidden="true"></span>
+					Version {releaseVersion} beta
+				</a>
+				<div class="cta-group">
+					<a class="btn btn--primary" href="/app/" data-demo-full>
+						<Icon name="lucide:external-link" aria-hidden="true" />
+						Open full window
+					</a>
+					<a class="btn btn--quiet" href="/downloads/">
+						<Icon name="lucide:download" aria-hidden="true" />
+						Get the app
+					</a>
+				</div>
+			</div>
+		</header>
+
+		<section class="section section--page demo" aria-label="OpenTubeX web app">
+			<iframe
+				class="demo__frame"
+				title="OpenTubeX web app"
+				data-src="/app/index.html"
+				allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+				data-demo-frame
+			></iframe>
+			<p class="demo__unsupported" data-demo-unsupported hidden>
+				This browser does not let the page store the app's library, so the web app cannot start. This happens in some
+				private windows and on pages that are not served over HTTPS.
+				Try a regular window, or <a href="/downloads/">get the app</a>.
+			</p>
+		</section>
+
+		<section class="section section--page" aria-labelledby="web-limits-heading">
+			<p class="section__eyebrow reveal">Web version</p>
+			<h2 class="section__title reveal" id="web-limits-heading">What runs in the browser</h2>
+			<div class="demo__limits">
+				<div class="reveal">
+					<h3>Works here</h3>
+					<ul>
+						<li>Watching, search, channels, playlists, and comments through Invidious or your own <a href="/docs/yattee-server/">Yattee server</a> that allows this site</li>
+						<li>Subscriptions, history, and playlists, saved in this browser</li>
+						<li>SponsorBlock, DeArrow, and Return YouTube Dislike</li>
+						<li>YouTube links after the <code>#</code>, such as <code>opentubex.org/demo/#https://youtu.be/…</code>, which browsers never send to a server</li>
+					</ul>
+				</div>
+				<div class="reveal">
+					<h3>Needs the installed app</h3>
+					<ul>
+						<li>The built-in extractor, because browsers block direct requests to YouTube from other sites</li>
+						<li>Downloads and videos from other sites, which use yt-dlp</li>
+						<li>External players and comment translations</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</main>
+</SignalLayout>
+
+<style>
+	/* Wider than other sections so the app gets its desktop layout. */
+	.demo {
+		width: min(1600px, calc(100% - 2.5rem));
+		padding-top: 2.5rem;
+	}
+
+	.demo__frame {
+		display: block;
+		width: 100%;
+		height: min(88svh, 64rem);
+		min-height: 30rem;
+		border: 1px solid var(--line);
+		border-radius: 1rem;
+		background: var(--surface);
+	}
+
+	.demo__frame[hidden] { display: none; }
+
+	.demo__unsupported {
+		padding: 1.5rem;
+		border: 1px solid var(--line);
+		border-radius: 1rem;
+		background: var(--surface);
+		color: var(--slate);
+	}
+
+	.demo__unsupported a { color: var(--teal-deep); text-decoration: underline; text-underline-offset: 0.15em; }
+
+	.demo__limits {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+		gap: 1.5rem 3rem;
+		color: var(--slate);
+		line-height: 1.65;
+	}
+
+	.demo__limits h3 {
+		margin-bottom: 0.6rem;
+		color: var(--ink);
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+
+	.demo__limits ul { padding-left: 1.2rem; }
+	.demo__limits li + li { margin-top: 0.4rem; }
+	.demo__limits code { font-family: var(--font-mono); font-size: 0.85em; }
+	.demo__limits a { color: var(--teal-deep); text-decoration: underline; text-underline-offset: 0.15em; }
+</style>
+
+<script>
+	import { appRoute } from '../lib/app-route';
+
+	const frame = document.querySelector<HTMLIFrameElement>('[data-demo-frame]')!;
+	const fullWindow = document.querySelector<HTMLAnchorElement>('[data-demo-full]')!;
+	const appUrl = frame.dataset.src!;
+
+	/** `#/watch/…` is already an app route; anything else after `#` is a pasted link. */
+	function routeFromHash(): string {
+		const hash = location.hash.slice(1);
+		if (!hash) return '/';
+		if (hash.startsWith('/')) return hash;
+		try {
+			return appRoute(decodeURIComponent(hash));
+		} catch {
+			return appRoute(hash);
+		}
+	}
+
+	function open(route: string) {
+		const hash = `#${route}`;
+		if (location.hash !== hash) history.replaceState(null, '', route === '/' ? location.pathname : hash);
+		// A loaded app routes on hash changes, which is much faster than reloading it.
+		const app = frame.contentWindow;
+		if (frame.src && app?.location.pathname.startsWith(appUrl)) app.location.hash = hash;
+		else frame.src = `${appUrl}${hash}`;
+	}
+
+	// Open the full window wherever the embedded app currently is.
+	fullWindow.addEventListener('click', () => {
+		fullWindow.href = `${appUrl}${frame.contentWindow?.location.hash ?? ''}`;
+	});
+
+	/** The app keeps its library in SQLite on the origin private file system, guarded by a Web Lock. */
+	async function canStoreLibrary(): Promise<boolean> {
+		if (!isSecureContext || !navigator.locks || !navigator.storage?.getDirectory) return false;
+		try {
+			// Some private windows expose the API but refuse access.
+			await navigator.storage.getDirectory();
+			return true;
+		} catch {
+			return false;
+		}
+	}
+
+	canStoreLibrary().then((supported) => {
+		if (supported) {
+			addEventListener('hashchange', () => open(routeFromHash()));
+			open(routeFromHash());
+		} else {
+			frame.hidden = true;
+			document.querySelector<HTMLElement>('[data-demo-unsupported]')!.hidden = false;
+		}
+	});
+</script>
