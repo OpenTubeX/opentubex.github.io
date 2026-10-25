@@ -93,12 +93,16 @@ import { releaseTag, releaseVersion } from '../data/release';
 </SignalLayout>
 
 <style>
-	.demo { padding-top: 2.5rem; }
+	/* Wider than other sections so the app gets its desktop layout. */
+	.demo {
+		width: min(1600px, calc(100% - 2.5rem));
+		padding-top: 2.5rem;
+	}
 
 	.demo__frame {
 		display: block;
 		width: 100%;
-		height: min(85svh, 56rem);
+		height: min(88svh, 64rem);
 		min-height: 30rem;
 		border: 1px solid var(--line);
 		border-radius: 1rem;
