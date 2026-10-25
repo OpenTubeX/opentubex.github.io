@@ -52,30 +52,6 @@ import { releaseTag, releaseVersion } from '../data/release';
 		</header>
 
 		<section class="section section--page demo" aria-label="OpenTubeX web app">
-			<form class="demo__open" data-demo-form>
-				<label for="demo-link">Open a YouTube link</label>
-				<div class="demo__open-row">
-					<input
-						id="demo-link"
-						name="link"
-						type="text"
-						inputmode="url"
-						autocomplete="off"
-						spellcheck="false"
-						placeholder="https://youtu.be/… or search"
-						required
-					/>
-					<button class="btn btn--primary" type="submit">
-						<Icon name="lucide:circle-play" aria-hidden="true" />
-						Open
-					</button>
-				</div>
-				<p class="demo__hint">
-					Links are kept after the <code>#</code> in the address, which browsers never send to a server.
-					Share one as <code>opentubex.org/demo/#https://youtu.be/…</code>
-				</p>
-			</form>
-
 			<iframe
 				class="demo__frame"
 				title="OpenTubeX web app"
@@ -95,6 +71,7 @@ import { releaseTag, releaseVersion } from '../data/release';
 						<li>Watching, search, channels, playlists, and comments through Invidious or your own <a href="/docs/yattee-server/">Yattee server</a> that allows this site</li>
 						<li>Subscriptions, history, and playlists, saved in this browser</li>
 						<li>SponsorBlock, DeArrow, and Return YouTube Dislike</li>
+						<li>YouTube links after the <code>#</code>, such as <code>opentubex.org/demo/#https://youtu.be/…</code>, which browsers never send to a server</li>
 					</ul>
 				</div>
 				<div class="reveal">
@@ -112,46 +89,6 @@ import { releaseTag, releaseVersion } from '../data/release';
 
 <style>
 	.demo { padding-top: 2.5rem; }
-
-	.demo__open {
-		display: grid;
-		gap: 0.5rem;
-		margin-bottom: 1.25rem;
-		font-weight: 500;
-		color: var(--ink);
-	}
-
-	.demo__open-row {
-		display: flex;
-		gap: 0.75rem;
-	}
-
-	.demo__open input {
-		flex: 1;
-		min-width: 0;
-		min-height: 44px;
-		padding: 0.65rem 0.8rem;
-		border: 1px solid var(--ghost-border);
-		border-radius: 0.7rem;
-		background: var(--white);
-		color: var(--ink);
-		font: inherit;
-		font-weight: 400;
-	}
-
-	/* Phones stretch buttons to full width; this one shares its row with the input. */
-	.demo__open .btn { width: auto; }
-
-	.demo__open input:focus-visible { outline: 2px solid var(--teal-deep); outline-offset: 3px; }
-	.demo__open input::placeholder { color: var(--slate); opacity: 1; }
-
-	.demo__hint {
-		color: var(--slate);
-		font-size: 0.88rem;
-		font-weight: 400;
-	}
-
-	.demo__hint code { font-family: var(--font-mono); font-size: 0.85em; }
 
 	.demo__frame {
 		display: block;
@@ -181,6 +118,7 @@ import { releaseTag, releaseVersion } from '../data/release';
 
 	.demo__limits ul { padding-left: 1.2rem; }
 	.demo__limits li + li { margin-top: 0.4rem; }
+	.demo__limits code { font-family: var(--font-mono); font-size: 0.85em; }
 	.demo__limits a { color: var(--teal-deep); text-decoration: underline; text-underline-offset: 0.15em; }
 </style>
 
@@ -188,7 +126,6 @@ import { releaseTag, releaseVersion } from '../data/release';
 	import { appRoute } from '../lib/app-route';
 
 	const frame = document.querySelector<HTMLIFrameElement>('[data-demo-frame]')!;
-	const form = document.querySelector<HTMLFormElement>('[data-demo-form]')!;
 	const fullWindow = document.querySelector<HTMLAnchorElement>('[data-demo-full]')!;
 	const appUrl = frame.dataset.src!;
 
@@ -212,14 +149,6 @@ import { releaseTag, releaseVersion } from '../data/release';
 		if (frame.src && app?.location.pathname.startsWith(appUrl)) app.location.hash = hash;
 		else frame.src = `${appUrl}${hash}`;
 	}
-
-	form.addEventListener('submit', (event) => {
-		event.preventDefault();
-		const link = form.elements.namedItem('link') as HTMLInputElement;
-		open(appRoute(link.value));
-		link.value = '';
-		frame.focus();
-	});
 
 	// Open the full window wherever the embedded app currently is.
 	fullWindow.addEventListener('click', () => {
