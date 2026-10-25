@@ -11,6 +11,7 @@ test.each([
 	['https://music.youtube.com/watch?v=jNQXAC9IVRw', '/watch/jNQXAC9IVRw'],
 	['https://www.youtube-nocookie.com/embed/jNQXAC9IVRw?start=90', '/watch/jNQXAC9IVRw?timestamp=90'],
 	['https://www.youtube.com/live/jNQXAC9IVRw', '/watch/jNQXAC9IVRw'],
+	['https://www.youtube.com/watch?v=jNQXAC9IVRw&list=PL123&t=5', '/watch/jNQXAC9IVRw?timestamp=5&playlistId=PL123'],
 	['https://www.youtube.com/playlist?list=PL123', '/playlist/PL123'],
 	['https://www.youtube.com/channel/UC4QobU6STFB0P71PMvOGN5A', '/channel/UC4QobU6STFB0P71PMvOGN5A'],
 	['me at the zoo', '/search/me%20at%20the%20zoo'],

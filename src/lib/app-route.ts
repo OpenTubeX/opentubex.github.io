@@ -32,8 +32,12 @@ export function appRoute(input: string): string {
 				: ['shorts', 'embed', 'live', 'v'].includes(first) ? second : null;
 
 		if (id && VIDEO_ID.test(id)) {
+			const query = new URLSearchParams();
 			const timestamp = seconds(url.searchParams.get('t') ?? url.searchParams.get('start'));
-			return `/watch/${id}${timestamp ? `?timestamp=${timestamp}` : ''}`;
+			if (timestamp) query.set('timestamp', String(timestamp));
+			const playlist = url.searchParams.get('list');
+			if (playlist) query.set('playlistId', playlist);
+			return `/watch/${id}${query.size ? `?${query}` : ''}`;
 		}
 
 		const list = url.searchParams.get('list');

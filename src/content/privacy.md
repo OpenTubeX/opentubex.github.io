@@ -24,9 +24,9 @@ The website stores your light, dark, or automatic theme preference and selection
 
 ### Web app
 
-The [web demo](/demo/) and `opentubex.org/app/` run the OpenTubeX web build in your browser. Its subscriptions, playlists, history, and settings are stored in your browser's storage for opentubex.org and are only sent elsewhere if you enable synchronization. Clearing this site's data in your browser deletes them.
+The [web demo](/demo/) and `opentubex.org/app/` run the OpenTubeX web build in your browser. Its subscriptions, playlists, history, and settings are stored in your browser's storage for opentubex.org and are only sent elsewhere if you enable synchronization. Clearing this site's data in your browser deletes the copies on this device.
 
-The web app loads videos, searches, and images from the configured Invidious instance or Yattee server. It also fetches the public instance list from api.invidious.io, requests release information from GitHub, and sends the requests listed under [Network exposure](#network-exposure) for the features you enable. Links and video IDs after the `#` in the address are not sent to GitHub Pages.
+The web app loads videos, searches, and images from the configured Invidious instance or Yattee server. With a Yattee server, the app loads some thumbnails directly from YouTube's image server, i.ytimg.com. It also fetches the public instance list from api.invidious.io, requests release information from GitHub, and sends the requests listed under [Network exposure](#network-exposure) for the features you enable. Links and video IDs after the `#` in the address are not sent to GitHub Pages.
 
 ### Why this data is processed
 
