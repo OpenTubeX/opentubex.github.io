@@ -289,7 +289,7 @@ body.signal-body {
 .nav__links {
   display: flex;
   align-items: center;
-  gap: 1.65rem;
+  gap: 1.3rem;
   margin-left: auto;
   font-size: 0.875rem;
   font-weight: 500;
@@ -368,7 +368,7 @@ body.signal-body {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  margin-left: 0.2rem;
+  margin-left: 0.55rem;
 }
 
 .nav__community-links {
