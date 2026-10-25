@@ -44,7 +44,7 @@ Start it with `docker compose up -d`.
 
 `ADMIN_USERNAME` and `ADMIN_PASSWORD` create an admin account when the server starts. Once an account exists, the server asks for a username and password on every request. You can add accounts for other people in the admin panel.
 
-`CORS_ORIGINS` lets the Android and iOS apps load video streams from the server. The desktop app does not need it.
+`CORS_ORIGINS` lets the Android and iOS apps load video streams from the server. The desktop app does not need it. To use the server from the [web demo](/demo/), add `https://opentubex.org` to the list.
 
 To check that the server runs, open `http://localhost:8085/admin` in a browser on the server computer and sign in. From other devices, use the HTTPS address from the next section, so that the password is not sent unencrypted. The [yattee-server configuration reference](https://github.com/yattee/yattee-server/blob/main/docs/configuration.md) lists the other options.
 

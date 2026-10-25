@@ -1,4 +1,4 @@
-Last updated: October 22, 2026
+Last updated: October 25, 2026
 
 This policy explains how the OpenTubeX website, desktop app, and mobile app handle data. It does not cover independently operated services or websites that OpenTubeX links to.
 
@@ -21,6 +21,12 @@ Following a link to GitHub, Weblate, Fluxer, Matrix, or another external service
 ### Local storage and cookies
 
 The website stores your light, dark, or automatic theme preference and selections made in synchronized tab controls in your browser's local storage. These values stay on your device and do not identify you. The website itself does not set cookies.
+
+### Web app
+
+The [web demo](/demo/) and `opentubex.org/app/` run the OpenTubeX web build in your browser. Its subscriptions, playlists, history, and settings are stored in your browser's storage for opentubex.org and are only sent elsewhere if you enable synchronization. Clearing this site's data in your browser deletes them.
+
+The web app loads videos, searches, and images from the configured Invidious instance or Yattee server. It also fetches the public instance list from api.invidious.io, requests release information from GitHub, and sends the requests listed under [Network exposure](#network-exposure) for the features you enable. Links and video IDs after the `#` in the address are not sent to GitHub Pages.
 
 ### Why this data is processed
 

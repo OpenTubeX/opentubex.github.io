@@ -65,6 +65,7 @@ export default defineConfig({
 	],
 	redirects: {
 		'/download': '/downloads/',
+		'/try': '/demo/',
 		'/install': '/docs/installing/',
 		'/installation': '/docs/installing/',
 		'/documentation': '/docs/',
