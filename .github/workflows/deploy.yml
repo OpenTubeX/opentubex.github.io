@@ -67,23 +67,11 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          sparse-checkout: src/data/release.ts
-          sparse-checkout-cone-mode: false
 
-      - name: Read release tag
-        id: release
-        run: |
-          version="$(sed -nE "s/^export const releaseVersion = '([^']+)';$/\1/p" src/data/release.ts)"
-          test -n "$version"
-          echo "tag=v$version-beta" >> "$GITHUB_OUTPUT"
-
-      - name: Checkout OpenTubeX
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          repository: OpenTubeX/OpenTubeX
-          ref: ${{ steps.release.outputs.tag }}
-          path: opentubex
-          persist-credentials: false
+          bun-version: latest
 
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -98,21 +86,13 @@ jobs:
           cache: false
 
       - name: Build web app
-        working-directory: opentubex
-        run: |
-          # The web build needs no native dependencies or Electron download.
-          pnpm install --frozen-lockfile --ignore-scripts
-          # The app picks its first Invidious instance from this bundled list. Refresh it so
-          # visitors do not start on instances that went offline or stopped allowing CORS.
-          node _scripts/getInstances.js || echo "::warning::Keeping the release's Invidious instance list"
-          # The About page links this commit instead of the website's.
-          GITHUB_SHA="$(git rev-parse HEAD)" pnpm run pack:web
+        run: bun run build:web-app
 
       - name: Upload web app artifact
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: web-app
-          path: opentubex/dist/web
+          path: public/app
           if-no-files-found: error
 
   deploy:

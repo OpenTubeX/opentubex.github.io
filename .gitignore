@@ -10,6 +10,9 @@ dist/
 public/changelog-images/
 public/feature-images/
 
+# web app for the demo page (bun run build:web-app)
+public/app/
+
 # dependencies
 node_modules/
 
