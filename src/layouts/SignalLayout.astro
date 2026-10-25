@@ -83,7 +83,12 @@ const primaryNav = [
 
 		<header class="nav" id="nav">
 			<div class="nav__inner">
-				<a class="nav__brand" href="/" aria-label="OpenTubeX home">
+				<a
+					class:list={['nav__brand', { 'is-active': active === 'home' }]}
+					href="/"
+					aria-label="OpenTubeX home"
+					aria-current={active === 'home' ? 'page' : undefined}
+				>
 					<picture>
 						<source data-logo-theme="dark" media="(prefers-color-scheme: dark)" srcset={markDarkSrc} type="image/svg+xml" />
 						<img src={markLightSrc} alt="" width="32" height="32" />
