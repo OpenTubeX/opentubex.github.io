@@ -59,6 +59,11 @@ import { releaseTag, releaseVersion } from '../data/release';
 				allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
 				data-demo-frame
 			></iframe>
+			<p class="demo__unsupported" data-demo-unsupported hidden>
+				This browser does not let the page store the app's library, so the web app cannot start. This happens in some
+				private windows and on pages that are not served over HTTPS. Try a regular window, or
+				<a href="/downloads/">get the app</a>.
+			</p>
 		</section>
 
 		<section class="section section--page" aria-labelledby="web-limits-heading">
@@ -99,6 +104,18 @@ import { releaseTag, releaseVersion } from '../data/release';
 		border-radius: 1rem;
 		background: var(--surface);
 	}
+
+	.demo__frame[hidden] { display: none; }
+
+	.demo__unsupported {
+		padding: 1.5rem;
+		border: 1px solid var(--line);
+		border-radius: 1rem;
+		background: var(--surface);
+		color: var(--slate);
+	}
+
+	.demo__unsupported a { color: var(--teal-deep); text-decoration: underline; text-underline-offset: 0.15em; }
 
 	.demo__limits {
 		display: grid;
@@ -155,6 +172,25 @@ import { releaseTag, releaseVersion } from '../data/release';
 		fullWindow.href = `${appUrl}${frame.contentWindow?.location.hash ?? ''}`;
 	});
 
-	addEventListener('hashchange', () => open(routeFromHash()));
-	open(routeFromHash());
+	/** The app keeps its library in SQLite on the origin private file system, guarded by a Web Lock. */
+	async function canStoreLibrary(): Promise<boolean> {
+		if (!isSecureContext || !navigator.locks || !navigator.storage?.getDirectory) return false;
+		try {
+			// Some private windows expose the API but refuse access.
+			await navigator.storage.getDirectory();
+			return true;
+		} catch {
+			return false;
+		}
+	}
+
+	canStoreLibrary().then((supported) => {
+		if (supported) {
+			addEventListener('hashchange', () => open(routeFromHash()));
+			open(routeFromHash());
+		} else {
+			frame.hidden = true;
+			document.querySelector<HTMLElement>('[data-demo-unsupported]')!.hidden = false;
+		}
+	});
 </script>
