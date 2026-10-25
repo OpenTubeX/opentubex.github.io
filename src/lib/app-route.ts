@@ -37,7 +37,9 @@ export function appRoute(input: string): string {
 			if (timestamp) query.set('timestamp', String(timestamp));
 			const playlist = url.searchParams.get('list');
 			if (playlist) query.set('playlistId', playlist);
-			return `/watch/${id}${query.size ? `?${query}` : ''}`;
+			// `URLSearchParams.size` needs Safari 17.
+			const search = query.toString();
+			return `/watch/${id}${search ? `?${search}` : ''}`;
 		}
 
 		const list = url.searchParams.get('list');

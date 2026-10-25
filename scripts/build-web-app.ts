@@ -27,8 +27,16 @@ if (!existsSync(source)) {
 mustRun(['pnpm', 'install', '--frozen-lockfile', '--ignore-scripts']);
 
 // The app picks its first Invidious instance from this bundled list. Refresh it so
-// visitors do not start on instances that went offline or stopped allowing CORS.
-if (!run(['node', '_scripts/getInstances.js'])) console.warn("Keeping the release's Invidious instance list");
+// visitors do not start on instances that went offline or stopped allowing CORS,
+// but keep the release's list unless the new one has an instance browsers can use.
+const instanceList = 'static/invidious-instances.json';
+mustRun(['git', 'checkout', '--', instanceList]);
+const refreshed = run(['node', '_scripts/getInstances.js']) &&
+	((await Bun.file(`${source}/${instanceList}`).json().catch(() => [])) as { cors?: boolean }[]).some((instance) => instance.cors);
+if (!refreshed) {
+	console.warn("Keeping the release's Invidious instance list");
+	mustRun(['git', 'checkout', '--', instanceList]);
+}
 
 // The About page links this commit instead of the website's.
 const commit = Bun.spawnSync(['git', 'rev-parse', 'HEAD'], { cwd: source }).stdout.toString().trim();
