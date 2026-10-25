@@ -11,12 +11,14 @@ Manage and automatically apply playback speed, video quality, subtitles, and
 volume for individual channels. Playback speeds can be saved automatically when
 you change them through the player options, or you can leave automatic saving
 off and use the dedicated button below the player to save the current speed for
-that channel manually.
+that channel manually. One switch in Channel Settings turns all channel
+playback settings off without deleting them. Import speeds saved by the
+Youtube Speed By Channel userscript from Data & Storage settings.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/adac36de-2f7f-474d-8a20-d0531416665c">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/d2f7a3c3-7a43-4707-8920-f16dd3eea7ff">
-  <img width="988" height="272" style="max-width: min(100%, 988px); max-height: 272px;" alt="Per-channel playback settings" src="https://github.com/user-attachments/assets/adac36de-2f7f-474d-8a20-d0531416665c">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/bbec3cfc-f1ce-47b1-866a-54c515697d17">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/7a917c90-4185-4d27-a4a0-1a76faca6de7">
+  <img width="700" height="230" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Channel Settings with the switch that turns channel playback settings on or off" src="https://github.com/user-attachments/assets/bbec3cfc-f1ce-47b1-866a-54c515697d17">
 </picture>
 
 ![Per-channel speed indicator](https://github.com/user-attachments/assets/560a55c0-f653-4c21-ae30-5cdeff6ac428)
@@ -36,6 +38,9 @@ player menu. New videos in that tab start from the beginning at 1×, regardless
 of saved progress or your usual speed. A headphone badge marks the active mode.
 The mode resets when you restart the app.
 
+Video cards mark music videos with a music note. Music videos opened from
+lists, the queue or autoplay start at normal speed.
+
 ### Play media from other sites
 
 Paste a compatible video or audio link from another site to play it in a Watch
@@ -43,6 +48,7 @@ tab through yt-dlp. Available creator and media details appear alongside
 the player. This supports individual links, not browsing or playlists from
 other sites. Reopened links can resume from their saved playback position,
 and available chapters use the same sidebar or mobile sheet as YouTube videos.
+Watching media from other sites counts toward your watch statistics.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/12642eee-54a1-46ae-9d0f-ecfbc9826905">
@@ -117,6 +123,17 @@ current video; opening another video resets the offset.
   <img width="389" height="269" style="max-width: min(100%, 389px); height: auto;" loading="lazy" decoding="async" alt="Per-video caption timing controls with Earlier, Later, and Reset" src="https://github.com/user-attachments/assets/b0c31f98-4ddd-4d3f-beab-76eec5e9765c">
 </picture>
 
+### Secondary captions and local subtitle files
+
+Show a second caption track alongside the main captions, for example to read
+a translation and the original language together. The auto-translation you
+pick in the player is kept for later videos. You can also load a local SRT or
+WebVTT file for the current video from the captions menu.
+
+<img width="533" height="300" style="max-width: min(100%, 533px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/d77711ee-4d49-49e4-b27d-1ba8a63c94e7" alt="Korean captions at the top of the player and English captions at the bottom">
+
+<img width="401" height="144" style="max-width: min(100%, 401px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/b16b0a5a-342a-4f38-9027-514b03ee7e6f" alt="Captions menu with a loaded local subtitle file and the Load subtitle file action">
+
 ### Prevent YouTube translations
 
 Keep original titles and descriptions instead of YouTube's translations.
@@ -146,8 +163,9 @@ playback in OpenTubeX.
 
 ### Scroll mini-player
 
-Keep watching in a mini-player when you scroll away from a video or switch to
-another tab. Use its controls to return to the source tab or hide the player
+Keep watching in a mini-player when you scroll away from a video, leave the
+Watch page, or switch to another tab. The video shrinks into the mini-player
+with an animation. Use its controls to return to the source tab or hide the player
 without interrupting playback.
 
 On mobile, the bottom player includes playback progress, play/pause, 10-second
@@ -224,6 +242,22 @@ Remember the player volume between sessions. Enabled by default.
 
 ![Remember volume setting](https://github.com/user-attachments/assets/7b90cf31-5d90-41bb-b342-c15e2e7c33b6)
 
+### Volume boost
+
+Make quiet videos louder with up to 200% volume. Turn on **Show Volume Boost
+Toggle** in Playback settings, then pick 125%, 150%, 175% or 200% from the
+player menu. The boost applies to the current tab and resets in new tabs. It
+is not available on iOS.
+
+### Seek history
+
+Turn on **Enable Seek History** in Playback settings to get back to where you
+were after a mistaken seek. The player menu lists the positions you jumped away
+from, and <kbd>Ctrl</kbd> + <kbd>Z</kbd> and <kbd>Ctrl</kbd> + <kbd>Shift</kbd> +
+<kbd>Z</kbd> step back and forward through them.
+
+<img width="700" height="164" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/b5d343dc-fd60-4ebf-8a93-24a7b644b3ba" alt="Seek history menu listing earlier playback positions with their chapter names">
+
 ### Sleep timer
 
 Stop playback after a chosen duration, when the current chapter ends, or when
@@ -285,8 +319,11 @@ to look around; clicking still plays or pauses the video.
 
 Swipe horizontally in fullscreen to seek, with a target-time display and frame
 previews when available. Enable or disable the gesture in Playback settings.
-Rotating your phone can enter fullscreen automatically; Android also offers an
-option to ignore the system rotation lock for this behavior.
+The swipe-to-seek preview can be turned off while keeping the seek-bar
+feedback. Brightness, volume and playback speed swipes show only their
+indicator, without revealing the player controls. Rotating your phone can
+enter fullscreen automatically; Android also offers an option to ignore the
+system rotation lock for this behavior.
 
 <img width="632" height="300" style="max-width: min(100%, 632px); max-height: 300px;" loading="lazy" decoding="async" src="https://github.com/OpenTubeX/media/releases/download/attachments/20261004T185946Z-fullscreen-seek-cbfc01037e.webp" alt="Fullscreen horizontal seeking with a frame preview and live seek-bar thumb">
 
@@ -297,6 +334,20 @@ Zoom into videos from the player menu. Press <kbd>Z</kbd> to zoom in,
 pan the visible area.
 
 ![Video zoom and pan](https://github.com/user-attachments/assets/d54f6c4d-d7b1-4117-a783-f109c07d94b7)
+
+### Video codec preferences
+
+Choose a preferred video codec in Advanced settings. When a video is available
+in several codecs, switch between AV1, VP9 and H.264 in the header of the
+resolution menu. **Auto** prefers codecs your device can decode in hardware.
+
+<img width="401" height="143" style="max-width: min(100%, 401px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/b90b6a45-676a-45fd-b0ce-c2a98415d690" alt="Resolution menu with an AV1, VP9 and H.264 switcher in its header">
+
+### Quality limit on metered networks
+
+On Android, set **Quality Limit on Metered Networks** in Playback settings so
+videos start at a lower quality on mobile data and other metered networks. You
+can still choose a higher quality in the player.
 
 ### Automatic caption translation
 
@@ -327,6 +378,21 @@ content type from the feed menu.
   <img width="624" height="250" style="max-width: min(100%, 624px); max-height: 250px;" alt="Per-channel subscription controls for feed types, members-only uploads, and the daily video limit" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T111835Z-channel-feed-dark-dark-f534fb0d44.png">
 </picture>
 
+### Subscription groups
+
+Sort subscribed channels into groups, such as Music or Gaming, and select a
+group in the Subscriptions header to filter every feed tab. Manage groups from
+the Channels page or a channel's subscription settings. Channels can be sorted
+by name or arranged in a custom order with drag and drop or the arrow keys,
+and the side navigation follows the same order. Groups and the channel order
+sync with your settings.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/ca3bab83-8e71-4503-8a85-fc30e3a3f12d">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/20fe6890-3030-4fc9-880c-d7644ca2574f">
+  <img width="700" height="205" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Subscription group chips filtering the Videos feed" src="https://github.com/user-attachments/assets/ca3bab83-8e71-4503-8a85-fc30e3a3f12d">
+</picture>
+
 ### Channel and phrase block lists
 
 Hide channels directly from channel-link context menus, or filter content with
@@ -338,6 +404,22 @@ deleting your entries.
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/48413b19-766e-405d-a2bd-42e0c01717cd">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/d197d0aa-6f63-4ef1-b26f-9150062247da">
   <img width="656" height="296" style="max-width: min(100%, 656px); max-height: 296px;" loading="lazy" decoding="async" alt="Enable block lists switch above saved channel and phrase lists" src="https://github.com/user-attachments/assets/48413b19-766e-405d-a2bd-42e0c01717cd">
+</picture>
+
+### Hide AI slop channels
+
+Turn on **Hide AI slop channels** in Add-ons settings to use the
+community-maintained [AiSList](https://github.com/Override92/AiSList).
+OpenTubeX hides listed channels from search results, trending, Home
+recommendations and watch-page recommendations. Videos from channels that
+likely post AI-generated content stay visible with a **Possibly AI-generated**
+tag. Subscriptions and channel pages stay unfiltered, and the setting only
+affects results loaded through the Local API.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20261025T070559Z-aislist-results-dark-dark-ee595cd33a.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20261025T070559Z-aislist-results-light-light-0b5d5d075f.png">
+  <img width="700" height="267" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Search results with a Possibly AI-generated tag on a flagged channel's video" src="https://github.com/OpenTubeX/media/releases/download/attachments/20261025T070559Z-aislist-results-dark-dark-ee595cd33a.png">
 </picture>
 
 ### Auto-refresh subscriptions
@@ -439,7 +521,12 @@ with a supporting sync server or Enhanced Privacy enabled.
 
 In **Edit Playlist Info**, choose whether new videos go to the top or bottom
 of that playlist's custom order. Existing videos stay in place, and bottom
-insertion remains the default.
+insertion remains the default. You can also set a playlist to shuffle by
+default, so it plays in random order from a random first video.
+
+Arrange Your Playlists in a custom order with drag and drop, and reorder
+playlists and their videos with the arrow keys. Each playlist remembers its
+own sort order, and encrypted sync carries it to your other devices.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e3803624-a338-4287-871e-dc15e87709e6">
@@ -448,9 +535,9 @@ insertion remains the default.
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/b7de98a5-61f2-4536-8202-f5afaa6fd448">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/a2d82c57-bb32-46d8-a93f-05d2b36b9791">
-  <img width="442" height="200" style="max-width: min(100%, 442px); height: auto;" loading="lazy" decoding="async" alt="Per-playlist insertion toggle in Edit Playlist Info" src="https://github.com/user-attachments/assets/b7de98a5-61f2-4536-8202-f5afaa6fd448">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/1286d727-d195-4e5c-bd21-9de604e640b2">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/2d962fb0-3654-474f-8c9d-fc8f0fb6d812">
+  <img width="442" height="240" style="max-width: min(100%, 442px); height: auto;" loading="lazy" decoding="async" alt="Edit Playlist Info with the top insertion and Shuffle videos by default switches" src="https://github.com/user-attachments/assets/1286d727-d195-4e5c-bd21-9de604e640b2">
 </picture>
 
 ### Unavailable playlist videos
@@ -553,12 +640,20 @@ Open a chatter's channel by clicking their handle in live chat.
 ### Watch queue
 
 Queue videos from their three-dot menus, then manage and drag to reorder them
-in a side panel on the watch page. Downloaded videos and audio can also join
-the queue for offline playback on desktop and Android. Pending videos return
-in their saved order after restarting OpenTubeX, including downloaded entries.
+in a side panel on the watch page. Queued videos show their length, views and
+upload date, and a menu moves or removes them. Save the queue to a new or
+existing playlist, or add a whole playlist to the end of the queue from its
+page. Downloaded videos and audio can also join the queue for offline playback
+on desktop and Android. Pending videos return in their saved order after
+restarting OpenTubeX, including downloaded entries.
 
 ![Add a video to the queue](https://github.com/user-attachments/assets/186215f1-f8de-4bfa-bcd8-188172448f69)
-![Watch queue side panel](https://github.com/user-attachments/assets/e4496c03-6fa7-441b-85fd-e93019d429a9)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/7a5da83d-f281-47b1-9e9d-da81961fcdbc">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/74f67075-8309-44d1-bdf3-4d6b15b7353f">
+  <img width="305" height="300" style="max-width: min(100%, 305px); height: auto;" loading="lazy" decoding="async" alt="Watch queue with durations, music badges, views, upload dates and item menus" src="https://github.com/user-attachments/assets/7a5da83d-f281-47b1-9e9d-da81961fcdbc">
+</picture>
 
 ### Inline add-to-playlist
 
@@ -583,10 +678,23 @@ loads.
 
 ![Cancelable subscription refresh](https://github.com/user-attachments/assets/b200bd06-0cde-49a5-8b13-2706a3c6cc8c)
 
-### Live stream and premiere notifications
+### Upload, live stream, and premiere notifications
 
-Get an operating-system notification when a scheduled live stream or premiere
-starts.
+Turn on the bell in a channel's subscribe button to get a system notification
+when the channel uploads a video, short, live stream or post. Choose which
+types notify you from the subscribe button's settings, or for many channels at
+once in Subscription settings. OpenTubeX checks for new uploads when
+subscriptions refresh, including background refreshes. Upload notifications
+are available on desktop and Android.
+
+You can also get an operating-system notification when a scheduled live stream
+or premiere starts.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/33b85808-4f80-4de6-a725-a8943573ed48">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/56b2b10a-0437-485a-a8a2-f1539f6eb6ba">
+  <img width="235" height="300" style="max-width: min(100%, 235px); height: auto;" loading="lazy" decoding="async" alt="Subscribe button settings with upload notification types for Videos, Shorts, Live and Posts" src="https://github.com/user-attachments/assets/33b85808-4f80-4de6-a725-a8943573ed48">
+</picture>
 
 ![Scheduled video notification](https://github.com/user-attachments/assets/d8d0e9fc-517c-4136-a3a7-d4f165e99477)
 
@@ -627,7 +735,10 @@ browser-style middle-click, Ctrl/Cmd-click, and Shift-click behavior.
 On desktop, <kbd>Ctrl</kbd> + middle-click unloads a tab without closing it.
 Quick <kbd>Ctrl</kbd> + <kbd>Tab</kbd> presses switch tabs immediately; hold
 <kbd>Ctrl</kbd> to open the tab switcher. Choose a loading bar or classic dot
-for loading tabs in Appearance settings.
+for loading tabs in Appearance settings. Background tabs unload automatically
+when memory runs low. Adjust or turn this off in Advanced settings. A badge
+marks automatically unloaded tabs, and pinned tabs show a pin badge on their
+icon.
 
 On phones, swipe across the header to switch tabs or pull it down to open the
 organizer. Mobile tabs can be disabled in General settings for a single-page
@@ -657,6 +768,17 @@ The [tab comparison](/compare/#tabs) shows how other clients keep videos open.
   <img alt="Tab group icon picker" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260923T085243Z-tab-group-picker-wide-dark-dark-f854ca9084.png">
 </picture>
 
+### Pinned playlists and channels
+
+Pin playlists and channels to the side navigation to open them from any page.
+On phones, pinned items appear in the More menu.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/2ddddf43-c0d1-4158-bcb2-6b6bf0d66e97">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/5e830783-8b14-413d-a8a2-e877f2fea53d">
+  <img width="569" height="300" style="max-width: min(100%, 569px); height: auto;" loading="lazy" decoding="async" alt="Pinned playlists in the side navigation and the Unpin from Navigation action" src="https://github.com/user-attachments/assets/2ddddf43-c0d1-4158-bcb2-6b6bf0d66e97">
+</picture>
+
 ### Playback speed toggle shortcut
 
 Press <kbd>G</kbd> to toggle between 1× playback speed and your last used speed.
@@ -666,6 +788,9 @@ Press <kbd>G</kbd> to toggle between 1× playback speed and your last used speed
 Choose separate left and right swipe actions for video cards in General
 settings. Shortcuts include queueing, playlists, bookmarks, watch history,
 downloads, copying links, and sharing. Both gestures are off by default.
+Swipe again to undo queue, Play Next, watched and download actions. Swipe
+actions also work in Downloads, and the Bookmark swipe removes a video from
+the bookmark playlist.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20261004T175343Z-swipe-dark-dark-a88f071057.webp">
@@ -797,6 +922,18 @@ pages. Enable **Data saver thumbnails** to reduce image data usage.
 
 ![Configurable thumbnail sizes](https://github.com/user-attachments/assets/47f102b3-5884-4219-85ce-552e631bf67c)
 
+### Grid columns and Full Width view
+
+Choose how many columns video and playlist grids show, or keep **Auto** to fit
+them to the window. The **Full Width** view type shows one video per row, and
+the Playlist View Type setting also applies on phones.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/973562f7-e7ca-4ac1-a2a2-35943a972857">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/af5ea1ea-ebeb-4f7f-8d8a-6cc26205b3bd">
+  <img width="146" height="300" style="max-width: min(100%, 146px); height: auto;" loading="lazy" decoding="async" alt="Subscriptions feed on a phone with the Full Width view type" src="https://github.com/user-attachments/assets/973562f7-e7ca-4ac1-a2a2-35943a972857">
+</picture>
+
 ### Animated thumbnail previews
 
 Preview videos by hovering over their thumbnails. The animated previews can be
@@ -808,8 +945,9 @@ disabled in Appearance settings.
 
 Open video information, comments, playlists, chapters, live chat, the watch
 queue, or Up Next recommendations in resizable and rearrangeable full-screen
-docks. Choose and reorder fullscreen action buttons in Appearance settings,
-including an optional shortcut to the download dialog.
+docks. Choose and reorder fullscreen action buttons in **Customize interface**,
+including an optional shortcut to the download dialog. In portrait on phones,
+panels open as full-width bottom sheets that you can drag.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/2f2d069e-b86c-4010-8343-b9701c3877bb">
@@ -860,7 +998,8 @@ preferences, with slim idle thumbs that expand on hover.
 
 ### Interface preferences
 
-Choose the app font from fonts installed on your system, adjust mouse-wheel and
+Choose the app font from fonts installed on your system or the bundled
+Google Sans, adjust mouse-wheel and
 touchpad scroll speed from 25% to 300%, and select date and time formats
 independently of the app language.
 
@@ -878,10 +1017,21 @@ independently of the app language.
   <img alt="Scroll speed setting" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260831T114556Z-scroll-speed-dark-dark-1d2178fb7a.png">
 </picture>
 
-### Customizable navigation
+### Customize interface
 
-Add, remove and reorder navigation destinations for the desktop sidebar and
-mobile bottom bar from Appearance settings. On mobile, keep the bar visible
+Customize navigation, Quick Settings, player controls and fullscreen actions
+on one **Customize interface** page in Appearance settings, with a live preview
+for each. Add, remove and reorder navigation destinations for the desktop
+sidebar and mobile bottom bar, and hide or reorder the buttons on the player's
+control bar.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/2f9c77d8-735e-4ae3-b397-05583340a408">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/a64fa7a0-368a-430f-837e-e199ddd6fbe6">
+  <img width="592" height="300" style="max-width: min(100%, 592px); height: auto;" loading="lazy" decoding="async" alt="Control bar tab in Customize interface with its live player preview" src="https://github.com/user-attachments/assets/2f9c77d8-735e-4ae3-b397-05583340a408">
+</picture>
+
+On mobile, keep the bar visible
 while scrolling or choose compact icon-only labels. You can also keep the
 phone search bar visible in the header. Navigation and tabs use Material 3
 active highlights. The mobile More menu and context menus open as bottom
@@ -911,7 +1061,8 @@ Access profiles and common preferences from the top bar. Personalize profiles
 with built-in icons, emoji, or interactively cropped images. Profile management
 has separate customization and subscription tabs. Choose which Quick Settings
 controls appear, including autoplay, audio-only playback, DeArrow, translations,
-privacy preferences, and light/dark theme selection. Controls stay grouped by
+privacy preferences, distraction-free toggles, Reduced Motion, Toast Position,
+and light/dark theme selection. Controls stay grouped by
 category; drag to reorder categories or controls within each group.
 
 ![Quick-settings menu](https://github.com/user-attachments/assets/80cfe992-c400-4ecf-be56-f0685b1e9ecb)
@@ -939,6 +1090,18 @@ on Android, along with the system's light or dark preference.
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/2a8741f6-6ca9-4955-bd1a-81fa436f59a4">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/8652cb82-0b1f-43b1-baa2-7b9dd889d0ac">
   <img width="594" height="300" style="max-width: min(100%, 594px); height: auto;" loading="lazy" decoding="async" alt="Material theme variants and accent palette" src="https://github.com/user-attachments/assets/2a8741f6-6ca9-4955-bd1a-81fa436f59a4">
+</picture>
+
+### Custom title bar
+
+On desktop, turn on **Use Custom Title Bar** in Theme settings to replace the
+system title bar with the tab bar, or with the top navigation when tabs are
+elsewhere. Window controls follow the style of Windows, macOS, Plasma or GNOME.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20261025T070602Z-title-bar-dark-dark-f4f597e002.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20261025T070602Z-title-bar-light-light-9ebfeaa6d4.png">
+  <img width="700" height="64" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Tab bar in place of the system title bar with Plasma-style window controls" src="https://github.com/OpenTubeX/media/releases/download/attachments/20261025T070602Z-title-bar-dark-dark-f4f597e002.png">
 </picture>
 
 ### Custom themes
@@ -1008,6 +1171,8 @@ Submit SponsorBlock segments directly from the player and review your
 submissions, contributed skips, and time saved. Correct an existing segment
 from the info panel or a skipped notice: vote for a different category, or copy
 and downvote the segment to edit its timings before submitting a replacement.
+Press <kbd>;</kbd> to start or end a segment and <kbd>'</kbd> to open the
+submission menu. You can change both shortcuts.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/8c8d17b3-6e3f-46b7-8889-1f853cc47c52">
@@ -1047,6 +1212,18 @@ Local/Invidious metadata-provider fallback.
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/4e6aaaf7-6fb1-4e62-8813-720d143126db">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/7b124e71-1025-4c90-b7b8-39c3be117426">
   <img width="700" height="86" style="max-width: min(100%, 700px); max-height: 86px;" loading="lazy" decoding="async" alt="Default-enabled automatic stream extraction fallback setting" src="https://github.com/user-attachments/assets/4e6aaaf7-6fb1-4e62-8813-720d143126db">
+</picture>
+
+### Use your own Yattee server
+
+Connect your own [Yattee server](/docs/yattee-server/) in Advanced settings to
+load videos, channels, search results and comments from it. You can also
+stream videos through the server.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/45e06456-19aa-4b82-8a68-9b2c68153e65">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/4beeed78-f3ef-4193-a68a-10d4203875af">
+  <img width="662" height="300" style="max-width: min(100%, 662px); height: auto;" loading="lazy" decoding="async" alt="Yattee Server settings with the server URL, credentials, connection test and proxy option" src="https://github.com/user-attachments/assets/45e06456-19aa-4b82-8a68-9b2c68153e65">
 </picture>
 
 ### Authenticated playback
@@ -1121,7 +1298,14 @@ settings.
 Export profiles, playlists, watch and search history, watch statistics, and
 transferable settings in one ZIP file. Choose which categories to export or
 restore. Before importing, preview record counts and each category's merge or
-replacement behavior.
+replacement behavior. On desktop, schedule complete backups to a chosen folder
+and limit how many are kept.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e91bec8c-739c-4ae8-94e3-0736b026e277">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/0fd83404-f6ea-4e76-83ed-1e78f76bda64">
+  <img width="700" height="217" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Scheduled backups with a backup folder, frequency and number of backups to keep" src="https://github.com/user-attachments/assets/e91bec8c-739c-4ae8-94e3-0736b026e277">
+</picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/331d25bf-d8ba-43a0-bc93-48c4d16e9ee7">
@@ -1149,7 +1333,8 @@ receiving device.
 **Watch stats** sync is enabled by default in **Settings → Sync**; turn it off
 to keep statistics on this device. Add another device by
 scanning a QR code or entering a text code without typing the account password
-or privacy passphrase on it. Follow [Sync between devices](/docs/sync/) for
+or privacy passphrase on it. Either device can show the code, so a connected
+computer without a camera can still add a phone. Follow [Sync between devices](/docs/sync/) for
 setup, pairing, and recovery limitations.
 
 ![Encrypted synchronization settings](https://github.com/user-attachments/assets/15144ab2-0111-4e38-b011-c7a57417fcd0)
@@ -1166,6 +1351,19 @@ setup, pairing, and recovery limitations.
   <img alt="Pair with an existing device" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260827T091534Z-943-device-pairing-dark-dark-9a0bd2458f.png">
 </picture>
 
+### Diagnostic reports
+
+Turn on diagnostic logging in Advanced settings to copy or save a report for
+bug reports. Reports leave out cookies, tokens, IP addresses and URL
+parameters. OpenTubeX keeps the log in memory and never saves or sends it on
+its own.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/9b0b51ee-538f-495a-9b13-be90db1da87f">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/acc159ac-f91e-417d-a0b7-b88b8e798c02">
+  <img width="700" height="197" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Diagnostics settings with Copy report, Save report and Clear log" src="https://github.com/user-attachments/assets/9b0b51ee-538f-495a-9b13-be90db1da87f">
+</picture>
+
 ## Downloads
 
 ### Download support
@@ -1174,10 +1372,24 @@ Use yt-dlp for reliable playback and advanced video, audio, and playlist
 downloads. Download subtitles separately as SRT, VTT, ASS, or LRC files, and
 manage active and completed downloads from a dedicated page. On desktop and
 mobile, paste an individual supported media URL from another site into
-Downloads or use the download action on its Watch page.
+Downloads or use the download action on its Watch page. Downloaded videos show
+a badge on their thumbnails and play from the saved file instead of streaming.
+Completed downloads appear as compact rows with thumbnails and an actions menu.
 
 ![Updated download options](https://github.com/user-attachments/assets/1460f265-5b22-40b6-8958-73b4d3a89e83)
 ![Downloads manager](https://github.com/user-attachments/assets/d42c04c5-eca4-477f-bcd7-3c8a3bd5a272)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/94d84c27-ad90-4073-bf87-445dfe57d302">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/53d765d5-9552-4d72-b6b3-c7a1637b7150">
+  <img width="670" height="300" style="max-width: min(100%, 670px); height: auto;" loading="lazy" decoding="async" alt="Downloaded badge on a video thumbnail beside a streamed video" src="https://github.com/user-attachments/assets/94d84c27-ad90-4073-bf87-445dfe57d302">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e6aaafc4-719b-4c66-aff3-cddc6761bbb7">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/9b1a32e3-39d1-48ae-87b3-8771f7761ead">
+  <img width="628" height="267" style="max-width: min(100%, 628px); height: auto;" loading="lazy" decoding="async" alt="Compact download row with its actions menu open" src="https://github.com/user-attachments/assets/e6aaafc4-719b-4c66-aff3-cddc6761bbb7">
+</picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/16dff1d6-c43b-4dd3-8df0-4167fad6bd18">
@@ -1220,6 +1432,8 @@ offline**, with saved thumbnails to help you choose another download.
 Automatically download new uploads from selected channels with per-channel
 templates and filters. A persistent queue provides concurrency and bandwidth
 limits, and <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>J</kbd> opens Downloads.
+Automatic downloads can wait until the device is charging, or on Android until
+it is on an unmetered network.
 
 ![Automatic download templates and filters](https://github.com/user-attachments/assets/39df3b81-e95e-456c-887d-b2e634b76276)
 ![Download queue controls](https://github.com/user-attachments/assets/3298735c-ba0d-4a6a-8894-f924b1fffbfe)
@@ -1230,12 +1444,28 @@ limits, and <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>J</kbd> opens Downloads.
 
 Mobile apps for phones and tablets, with background playback, offline
 downloads, touch controls and sync with desktop devices. Android builds and
-experimental iOS/iPadOS builds are available.
+experimental iOS/iPadOS builds are available. Lite Android APKs of about
+15 MiB leave out downloads and other yt-dlp features for devices with little
+storage. On Android, the predictive back gesture previews going back through
+pages, menus, search and the Tab Organizer.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-dark-dark-6d36048f51.webp">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-light-light-fcf25f28d8.webp">
   <img width="162" height="300" style="max-width: min(100%, 162px); max-height: 300px;" alt="Mobile tab flow: page previews, hold actions, drag to reorder, and switch tabs" src="https://github.com/OpenTubeX/media/releases/download/attachments/20260907T170658Z-mobile-tabs-flow-dark-dark-6d36048f51.webp">
+</picture>
+
+### Home screen widgets
+
+Add **Continue watching** and **Quick access** widgets on Android and iOS.
+Continue watching resumes your latest unfinished videos where you left off,
+and Quick access opens Search, Subscriptions or Watch Later. The widgets make
+no network requests of their own.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/354fb619-e977-4294-b3e7-f2a1db7f59e3">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/6bff31e2-3d66-40a5-9d93-4ddd8f1264c5">
+  <img width="222" height="300" style="max-width: min(100%, 222px); height: auto;" loading="lazy" decoding="async" alt="Continue watching and Quick access home screen widgets" src="https://github.com/user-attachments/assets/354fb619-e977-4294-b3e7-f2a1db7f59e3">
 </picture>
 
 ### Experimental iPhone and iPad app
