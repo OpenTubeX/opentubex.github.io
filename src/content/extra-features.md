@@ -149,16 +149,17 @@ or switch windows.
 
 ![Auto Picture-in-Picture window options](https://github.com/user-attachments/assets/4c1f1f7b-7614-41c8-abd3-5c5179d75cee)
 
-### Cast to Chromecast and DLNA devices
+### Cast to Chromecast, FCast and DLNA devices
 
-Chromecast and DLNA casting are supported on Android and desktop. Choose a
-device from the optional player control, then stop casting to return to
-playback in OpenTubeX.
+Chromecast, FCast and DLNA casting are supported on Android and desktop. Turn
+on each protocol in Player settings, then choose a device from the cast button
+in the player. Each protocol has its own tab, and FCast receivers don't get
+subtitles. Stop casting to return to playback in OpenTubeX.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3e93e4e5-047e-47d0-8b5f-447a0dc0fecc">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/51e9de75-86de-4f64-a886-b26315c51566">
-  <img alt="DLNA device menu in the video player" src="https://github.com/user-attachments/assets/3e93e4e5-047e-47d0-8b5f-447a0dc0fecc">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/08394191-94f4-480a-b426-60e728e62495">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/f85f5d41-412e-4682-9fa8-f77c6ac09c18">
+  <img alt="The cast menu with Google Cast, FCast and DLNA tabs, listing an FCast receiver" src="https://github.com/user-attachments/assets/08394191-94f4-480a-b426-60e728e62495">
 </picture>
 
 ### Scroll mini-player
