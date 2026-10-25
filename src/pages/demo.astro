@@ -59,10 +59,15 @@ import { releaseTag, releaseVersion } from '../data/release';
 				allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
 				data-demo-frame
 			></iframe>
-			<p class="demo__unsupported" data-demo-unsupported hidden>
+			<p class="demo__unsupported" data-demo-unsupported="storage" hidden>
 				This browser does not let the page store the app's library, so the web app cannot start. This happens in some
 				private windows and on pages that are not served over HTTPS.
 				Try a regular window, or <a href="/downloads/">get the app</a>.
+			</p>
+			<p class="demo__unsupported" data-demo-unsupported="webassembly" hidden>
+				This browser has WebAssembly turned off, which the web app needs for its library. Browsers such as Cromite and
+				Vanadium turn it off by default. Allow JavaScript JIT for this site in its site settings and reload the page,
+				or <a href="/downloads/">get the app</a>.
 			</p>
 		</section>
 
@@ -176,25 +181,65 @@ import { releaseTag, releaseVersion } from '../data/release';
 		fullWindow.href = `${appUrl}${frame.contentWindow?.location.hash ?? ''}`;
 	});
 
-	/** The app keeps its library in SQLite on the origin private file system, guarded by a Web Lock. */
-	async function canStoreLibrary(): Promise<boolean> {
-		if (!isSecureContext || !navigator.locks || !navigator.storage?.getDirectory) return false;
+	/**
+	 * The app keeps its library in SQLite on the origin private file system, opened
+	 * with sync access handles in a worker and guarded by a Web Lock. Hardened
+	 * browsers and some private windows expose these APIs but refuse to use them,
+	 * so try each step in a worker the way the app does.
+	 */
+	const storageProbe = `onmessage = async () => {
 		try {
-			// Some private windows expose the API but refuse access.
-			await navigator.storage.getDirectory();
+			await navigator.locks.request('opentubex-demo-probe', () => {});
+			const root = await navigator.storage.getDirectory();
+			const file = await root.getFileHandle('opentubex-demo-probe', { create: true });
+			(await file.createSyncAccessHandle()).close();
+			await root.removeEntry('opentubex-demo-probe');
+			postMessage(true);
+		} catch {
+			postMessage(false);
+		}
+	};`;
+
+	function canStoreLibrary(): Promise<boolean> {
+		if (!isSecureContext) return Promise.resolve(false);
+		return new Promise((resolve) => {
+			const url = URL.createObjectURL(new Blob([storageProbe], { type: 'text/javascript' }));
+			let worker: Worker;
+			try {
+				worker = new Worker(url);
+			} catch {
+				URL.revokeObjectURL(url);
+				return resolve(false);
+			}
+			const finish = (supported: boolean) => {
+				worker.terminate();
+				URL.revokeObjectURL(url);
+				resolve(supported);
+			};
+			worker.onmessage = (event) => finish(event.data === true);
+			worker.onerror = () => finish(false);
+			worker.postMessage(null);
+		});
+	}
+
+	/** SQLite is compiled to WebAssembly, which hardened browsers such as Cromite turn off by default. */
+	async function canRunWebAssembly(): Promise<boolean> {
+		try {
+			await WebAssembly.instantiate(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0]));
 			return true;
 		} catch {
 			return false;
 		}
 	}
 
-	canStoreLibrary().then((supported) => {
-		if (supported) {
+	Promise.all([canRunWebAssembly(), canStoreLibrary()]).then(([webAssembly, storage]) => {
+		const problem = !webAssembly ? 'webassembly' : !storage ? 'storage' : null;
+		if (!problem) {
 			addEventListener('hashchange', () => open(routeFromHash()));
 			open(routeFromHash());
-		} else {
-			frame.hidden = true;
-			document.querySelector<HTMLElement>('[data-demo-unsupported]')!.hidden = false;
+			return;
 		}
+		frame.hidden = true;
+		document.querySelector<HTMLElement>(`[data-demo-unsupported="${problem}"]`)!.hidden = false;
 	});
 </script>
