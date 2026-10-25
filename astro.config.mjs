@@ -123,6 +123,7 @@ export default defineConfig({
 					'list-video',
 					'lock-keyhole',
 					'monitor',
+					'monitor-play',
 					'moon',
 					'package',
 					'package-check',
