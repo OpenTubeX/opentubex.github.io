@@ -438,6 +438,13 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 				}, { once: true });
 			}
 
+			// Software AV1 decoding stutters on some laptops, so only devices that
+			// decode it efficiently, usually in hardware, keep the smaller WebM.
+			function dropInefficientWebm() {
+				video.querySelectorAll('source[type^="video/webm"]').forEach(function (source) { source.remove(); });
+				syncPromoFormat(true);
+			}
+
 			function pauseRotation() {
 				window.clearTimeout(rotationTimer);
 			}
@@ -542,6 +549,16 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 			window.addEventListener('pagehide', pauseRotation);
 			window.addEventListener('pageshow', scheduleRotation);
 			syncPromoFormat();
+			if (navigator.mediaCapabilities) {
+				navigator.mediaCapabilities.decodingInfo({
+					type: 'file',
+					video: { contentType: 'video/webm; codecs="av01.0.08M.08"', width: 1920, height: 1080, bitrate: 2500000, framerate: 30 },
+				}).then(function (info) {
+					if (!info.powerEfficient) dropInefficientWebm();
+				}, dropInefficientWebm);
+			} else {
+				dropInefficientWebm();
+			}
 			scheduleRotation();
 		})();
 	</script>
