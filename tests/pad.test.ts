@@ -25,6 +25,8 @@ test('PAD file describes the listed release', () => {
 	expect(xml).toContain('<Primary_Download_URL>https://example.org/setup.exe?a=1&amp;b=2</Primary_Download_URL>');
 	expect(xml).toContain('<Program_Category_Class>Audio &amp; Multimedia::Video Tools</Program_Category_Class>');
 	expect(xml).toContain('<Application_XML_File_URL>https://opentubex.org/pad.xml</Application_XML_File_URL>');
+	expect(xml).toContain('<Program_OS_Support>WinOther,Mac OS X,Linux,Android</Program_OS_Support>');
+	expect(xml).toContain('<Additional_Download_URL_1></Additional_Download_URL_1>');
 });
 
 test('PAD file leaves the release date empty when it is unknown', () => {

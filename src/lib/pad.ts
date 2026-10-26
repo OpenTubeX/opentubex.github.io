@@ -6,13 +6,13 @@ const email = 'info@opentubex.org';
 const sourceUrl = 'https://github.com/OpenTubeX/OpenTubeX';
 const rawSourceUrl = 'https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/development';
 
-// Languages of the app's active locales.
+// Languages of the app's active locales, as PAD 4.0 language identifiers.
 const languages = [
-	'English', 'Arabic', 'Azerbaijani', 'Belarusian', 'Bulgarian', 'Breton', 'Catalan', 'Czech', 'Welsh',
+	'English', 'Arabic', 'Azerbaijani', 'Byelorussian', 'Bulgarian', 'Breton', 'Catalan', 'Czech', 'Welsh',
 	'Danish', 'German', 'Greek', 'Spanish', 'Estonian', 'Basque', 'Persian', 'Finnish', 'French', 'Galician',
 	'Hebrew', 'Hungarian', 'Croatian', 'Indonesian', 'Icelandic', 'Italian', 'Japanese', 'Korean', 'Lithuanian',
-	'Norwegian Bokmål', 'Dutch', 'Norwegian Nynorsk', 'Polish', 'Portuguese', 'Romanian', 'Russian', 'Slovak',
-	'Slovenian', 'Serbian', 'Swedish', 'Tamil', 'Turkish', 'Ukrainian', 'Vietnamese', 'Chinese',
+	'Norwegian', 'Dutch', 'Polish', 'Portuguese', 'Romanian', 'Russian', 'Slovak', 'Slovenian', 'Serbian', 'Swedish',
+	'Tamil', 'Turkish', 'Ukrainian', 'Vietnamese', 'ChineseSimplified', 'ChineseTraditional',
 ];
 
 export const padDescriptions = {
@@ -72,7 +72,8 @@ export function padXml({ site, version, publishedAt, downloadUrl }: {
 			Program_Type: 'Freeware',
 			Program_Release_Status: 'Beta',
 			Program_Install_Support: 'Install and Uninstall',
-			Program_OS_Support: 'Windows 10,Windows 11,Mac OS X,Linux,Android',
+			// The PAD 4.0 OS list predates Windows 10, so WinOther covers it.
+			Program_OS_Support: 'WinOther,Mac OS X,Linux,Android',
 			Program_Language: languages.join(','),
 			Program_Category_Class: 'Audio & Multimedia::Video Tools',
 			Program_System_Requirements: 'Windows 10 or later, macOS 12 or later, Linux, or Android 8.0 or later',
@@ -88,7 +89,7 @@ export function padXml({ site, version, publishedAt, downloadUrl }: {
 			},
 			Download_URLs: {
 				Primary_Download_URL: downloadUrl,
-				Additional_Download_URL_1: new URL('/downloads/', site).href,
+				Additional_Download_URL_1: '',
 			},
 		},
 		Program_Descriptions: {
