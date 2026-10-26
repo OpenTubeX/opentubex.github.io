@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XML_DIZ_INFO>
+	<MASTER_PAD_VERSION_INFO>
+		<MASTER_PAD_VERSION>4.0</MASTER_PAD_VERSION>
+		<MASTER_PAD_INFO>Portable Application Description, or PAD for short, is a data set that is used by software authors to describe their software products.</MASTER_PAD_INFO>
+	</MASTER_PAD_VERSION_INFO>
+	<Company_Info>
+		<Company_Name>OpenTubeX</Company_Name>
+		<Company_WebSite_URL>https://opentubex.org/</Company_WebSite_URL>
+		<Contact_Info>
+			<Contact_Email>info@opentubex.org</Contact_Email>
+			<Author_Email>info@opentubex.org</Author_Email>
+		</Contact_Info>
+		<Support_Info>
+			<Sales_Email>info@opentubex.org</Sales_Email>
+			<Support_Email>info@opentubex.org</Support_Email>
+			<General_Email>info@opentubex.org</General_Email>
+		</Support_Info>
+	</Company_Info>
+	<Program_Info>
+		<Program_Name>OpenTubeX</Program_Name>
+		<Program_Version>0.37.0</Program_Version>
+		<Program_Release_Month>10</Program_Release_Month>
+		<Program_Release_Day>23</Program_Release_Day>
+		<Program_Release_Year>2026</Program_Release_Year>
+		<Program_Cost_Dollars>0</Program_Cost_Dollars>
+		<Program_Type>Freeware</Program_Type>
+		<Program_Release_Status>Beta</Program_Release_Status>
+		<Program_Install_Support>Install and Uninstall</Program_Install_Support>
+		<Program_OS_Support>WinOther,Mac OS X,Linux,Android</Program_OS_Support>
+		<Program_Language>English,Arabic,Azerbaijani,Byelorussian,Bulgarian,Breton,Catalan,Czech,Welsh,Danish,German,Greek,Spanish,Estonian,Basque,Persian,Finnish,French,Galician,Hebrew,Hungarian,Croatian,Indonesian,Icelandic,Italian,Japanese,Korean,Lithuanian,Norwegian,Dutch,Polish,Portuguese,Romanian,Russian,Slovak,Slovenian,Serbian,Swedish,Tamil,Turkish,Ukrainian,Vietnamese,ChineseSimplified,ChineseTraditional</Program_Language>
+		<Program_Category_Class>Audio &amp; Multimedia::Video Tools</Program_Category_Class>
+		<Program_System_Requirements>Windows 10 or later, macOS 12 or later, Linux, or Android 8.0 or later</Program_System_Requirements>
+		<Expire_Info>
+			<Has_Expire_Info>N</Has_Expire_Info>
+		</Expire_Info>
+	</Program_Info>
+	<Web_Info>
+		<Application_URLs>
+			<Application_Info_URL>https://opentubex.org/</Application_Info_URL>
+			<Application_Order_URL></Application_Order_URL>
+			<Application_Screenshot_URL>https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/development/docs/screenshots/OpenTubeX1-dark.png</Application_Screenshot_URL>
+			<Application_Icon_URL>https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/development/_icons/iconColor.png</Application_Icon_URL>
+			<Application_XML_File_URL>https://opentubex.org/pad.xml</Application_XML_File_URL>
+		</Application_URLs>
+		<Download_URLs>
+			<Primary_Download_URL>https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.37.0-beta/opentubex-0.37.0-beta-setup-x64.exe</Primary_Download_URL>
+			<Additional_Download_URL_1></Additional_Download_URL_1>
+		</Download_URLs>
+	</Web_Info>
+	<Program_Descriptions>
+		<English>
+			<Keywords>youtube, youtube client, video player, privacy, no ads, sponsorblock, invidious, open source</Keywords>
+			<Char_Desc_45>Private YouTube client without ads</Char_Desc_45>
+			<Char_Desc_80>Open source YouTube client without ads or a Google account</Char_Desc_80>
+			<Char_Desc_250>OpenTubeX is a free and open source YouTube client for Windows, macOS, Linux and Android. It needs no Google account, shows no ads, and keeps subscriptions, playlists and history on your device.</Char_Desc_250>
+			<Char_Desc_450>OpenTubeX is a free and open source YouTube client for Windows, macOS, Linux and Android. It needs no Google account, shows no ads, and keeps subscriptions, playlists and history on your device. Videos load through a built-in extractor, an Invidious instance or a Yattee Server. SponsorBlock and DeArrow are built in.</Char_Desc_450>
+			<Char_Desc_2000>OpenTubeX is a free and open source YouTube client for Windows, macOS, Linux and Android. It needs no Google account, shows no ads, and keeps subscriptions, playlists and watch history on your device by default.
+
+Videos load through a built-in extractor, an Invidious instance or a Yattee Server, and the app can send its traffic through a proxy such as Tor. SponsorBlock and DeArrow are built in.
+
+You can group subscriptions into profiles, choose whether each channel shows videos, Shorts, live streams or posts, and set daily video limits. You can save playback speed and quality per channel and customize keyboard shortcuts. Videos open in tabs, and the queue and mini-player keep playing while you browse.
+
+Optional sync keeps your library the same on all your devices, with end-to-end encryption on a compatible server. OpenTubeX supports custom themes and is available in more than 40 languages.
+
+OpenTubeX is licensed under the GNU Affero General Public License v3.0.</Char_Desc_2000>
+		</English>
+	</Program_Descriptions>
+	<Permissions>
+		<Distribution_Permissions>OpenTubeX is free software under the GNU Affero General Public License v3.0. You may redistribute it under the terms of that license. Source code: https://github.com/OpenTubeX/OpenTubeX</Distribution_Permissions>
+		<EULA>GNU Affero General Public License v3.0: https://github.com/OpenTubeX/OpenTubeX/blob/development/LICENSE</EULA>
+	</Permissions>
+</XML_DIZ_INFO>
