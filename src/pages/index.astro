@@ -19,6 +19,7 @@ import shotWatchMobileLight from '../assets/screenshots/opentubex-2-mobile-light
 import shotSettingsMobileDark from '../assets/screenshots/opentubex-3-mobile-dark.webp';
 import shotSettingsMobileLight from '../assets/screenshots/opentubex-3-mobile-light.webp';
 import promoPoster from '../assets/opentubex-promo-poster.jpg';
+import promoPosterPortrait from '../assets/opentubex-promo-poster-portrait.jpg';
 
 const logoDarkSrc = typeof logoDark === 'string' ? logoDark : logoDark.src;
 const logoLightSrc = typeof logoLight === 'string' ? logoLight : logoLight.src;
@@ -62,7 +63,10 @@ const screenshotVariants = [
 	{ viewport: mobileShotMedia, sizes: '14.5rem', widths: [232, 464, 696, 928], images: { light: 'mobileLight', dark: 'mobileDark' } },
 	{ viewport: undefined, sizes: '(max-width: 960px) 680px, (max-width: 1160px) 52vw, 600px', widths: [366, 732, 1098, 1464], images: { light: 'light', dark: 'dark' } },
 ] as const;
+// Browsers without AV1 decoding, such as Safari on older Apple hardware, fall back to the MP4.
+const promoWebmType = 'video/webm; codecs="av01.0.08M.08, opus"';
 const optimizedPromoPoster = await getImage({ src: promoPoster, format: 'webp' });
+const optimizedPromoPosterPortrait = await getImage({ src: promoPosterPortrait, format: 'webp' });
 const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => ({
 	...shot,
 	sources: await Promise.all(screenshotVariants.flatMap(({ viewport, sizes, widths, images }) =>
@@ -214,7 +218,8 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 											controls
 											playsinline
 											preload="none"
-											poster={optimizedPromoPoster.src}
+											data-poster={optimizedPromoPoster.src}
+											data-poster-portrait={optimizedPromoPosterPortrait.src}
 											width="1920"
 											height="1080"
 											aria-label="OpenTubeX promo video"
@@ -222,6 +227,9 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 											tabindex="-1"
 											inert
 										>
+											<source src="/videos/opentubex-promo-portrait.webm" type={promoWebmType} media={mobileShotMedia} />
+											<source src="/videos/opentubex-promo-portrait.mp4" type="video/mp4" media={mobileShotMedia} />
+											<source src="/videos/opentubex-promo.webm" type={promoWebmType} />
 											<source src="/videos/opentubex-promo.mp4" type="video/mp4" />
 											<a href="/videos/opentubex-promo.mp4">Download the OpenTubeX promo video</a>.
 										</video>
@@ -392,6 +400,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 			var screenshotTabs = tabs.filter(function (tab) { return tab.getAttribute('data-shot-tab') !== 'promo'; });
 			var video = stage.querySelector('video');
 			var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+			var portraitPromo = window.matchMedia(video.querySelector('source[media]').media);
 			var rotationTimer;
 			var manuallySelected = false;
 			var screen = stage.querySelector('.laptop__screen');
@@ -412,6 +421,21 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 				});
 				video.inert = id !== 'promo';
 				if (video.inert) video.pause();
+			}
+
+			// Phones get the portrait cut. Both cuts share a timeline, so playback continues across a switch.
+			function syncPromoFormat(event) {
+				video.poster = video.getAttribute(portraitPromo.matches ? 'data-poster-portrait' : 'data-poster');
+				if (!event) return;
+				var time = video.currentTime;
+				var playing = !video.paused;
+				video.load();
+				if (!time) return;
+				video.preload = 'metadata';
+				video.addEventListener('loadedmetadata', function () {
+					video.currentTime = time;
+					if (playing) video.play();
+				}, { once: true });
 			}
 
 			function pauseRotation() {
@@ -514,8 +538,10 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 			stage.addEventListener('focusout', function () { queueMicrotask(scheduleRotation); });
 			document.addEventListener('visibilitychange', scheduleRotation);
 			reducedMotion.addEventListener('change', scheduleRotation);
+			portraitPromo.addEventListener('change', syncPromoFormat);
 			window.addEventListener('pagehide', pauseRotation);
 			window.addEventListener('pageshow', scheduleRotation);
+			syncPromoFormat();
 			scheduleRotation();
 		})();
 	</script>
