@@ -325,7 +325,7 @@ indicator, without revealing the player controls. Rotating your phone can
 enter fullscreen automatically; Android also offers an option to ignore the
 system rotation lock for this behavior.
 
-<img width="632" height="300" style="max-width: min(100%, 632px); max-height: 300px;" loading="lazy" decoding="async" src="https://github.com/OpenTubeX/media/releases/download/attachments/20261004T185946Z-fullscreen-seek-cbfc01037e.webp" alt="Fullscreen horizontal seeking with a frame preview and live seek-bar thumb">
+<img width="632" height="300" style="max-width: min(100%, 632px); max-height: 300px;" loading="lazy" decoding="async" src="https://github.com/OpenTubeX/media/releases/download/attachments/20261026T140028Z-fullscreen-seek-seekbar-preview-f9a1bab720.webp" alt="Fullscreen horizontal swipe showing the target time and storyboard frames above the seek bar">
 
 ### Video zoom and pan
 
