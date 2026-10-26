@@ -112,6 +112,7 @@ export default defineConfig({
 					'external-link',
 					'eye-off',
 					'file-archive',
+					'globe',
 					'hard-drive',
 					'hard-drive-download',
 					'headphones',

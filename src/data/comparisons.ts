@@ -68,6 +68,15 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'Flow offers Android and a separate desktop companion, but no official iOS app.', source: 'https://github.com/Flow-Tube#projects' },
 				{ status: 'yes', note: 'Official YouTube app for iPhone and iPad.', source: 'https://support.google.com/youtube/answer/3227660?co=GENIE.Platform%3DiOS&hl=en' },
 			] },
+			{ name: 'Web app', icon: 'lucide:globe', cells: [
+				{ status: 'yes', note: 'Runs in the browser without installing anything, with the library saved in the browser. Videos load through Invidious or your own Yattee server; downloads and the built-in extractor need the installed app.', source: 'https://opentubex.org/demo/' },
+				{ status: 'partial', label: 'Self-build only', note: 'The source includes a web build that you can build and host yourself. FreeTube does not publish or host a web version.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/package.json' },
+				{ status: 'no', note: 'Grayjay offers Android and desktop apps, but no web version.', source: 'https://grayjay.app/desktop/' },
+				{ status: 'no', note: 'NewPipe is an Android app; there is no web version.' },
+				{ status: 'no', note: 'LibreTube is an Android app; there is no web version.' },
+				{ status: 'no', note: 'Flow offers Android and a separate desktop companion. Its browser extension sends videos to the desktop app, rather than playing them in the browser.', source: 'https://github.com/Flow-Tube#projects' },
+				{ status: 'yes', note: 'The YouTube website works in desktop and mobile browsers.', source: 'https://www.youtube.com/' },
+			] },
 			{ name: 'Native mobile interface', icon: 'lucide:smartphone', cells: [
 				{ status: 'no', label: 'Web-based', note: 'The Android and experimental iOS/iPadOS apps use Capacitor with a shared web interface and native integrations. The interface is web-based on both platforms.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/development/package.json' },
 				{ status: 'no', label: 'Web-based fork', note: 'Official FreeTube releases are desktop-only. The unofficial FreeTubeAndroid port uses Cordova with a web-based mobile interface.', source: 'https://github.com/MarmadileManteater/FreeTubeAndroid' },
