@@ -70,7 +70,7 @@ You do not need to upload the archive to another website. Creating an export doe
 
 ## Import individual files
 
-1. Extract the downloaded ZIP and open `Takeout/YouTube and YouTube Music/`. Exports in other languages use translated folder and file names.
+1. Extract the downloaded ZIP and open `Takeout/YouTube and YouTube Music/`. Exports in other languages use translated folder and file names, so select the translated equivalents of the paths in step 3.
 2. In OpenTubeX, open **Settings → Data & Storage → Data**.
 3. Choose **Import Subscriptions** for `subscriptions/subscriptions.csv`, **Import History** for `history/watch-history.json`, or **Import search history** for `history/search-history.json`.
 4. Check the imported data and refresh the subscription feed.
