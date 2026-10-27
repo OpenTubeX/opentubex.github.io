@@ -9,7 +9,7 @@ Google Takeout exports your Google account data. OpenTubeX can import subscripti
 
 ## Choose your YouTube data
 
-1. Open [Google Takeout in English](https://takeout.google.com/?hl=en) in your browser and sign in to the account you use for YouTube.
+1. Open [Google Takeout](https://takeout.google.com/?hl=en) in your browser and sign in to the account you use for YouTube. The link shows Takeout in English to match the steps below. OpenTubeX can import an export in any language.
 2. Choose **Deselect all**, then select **YouTube and YouTube Music**.
 3. Open **All YouTube data included**. Deselect everything in that dialog, then select **subscriptions**, **history**, and/or **playlists** for the data you want.
 4. Confirm with **OK**.
@@ -70,7 +70,7 @@ You do not need to upload the archive to another website. Creating an export doe
 
 ## Import individual files
 
-1. Extract the downloaded ZIP and open `Takeout/YouTube and YouTube Music/`.
+1. Extract the downloaded ZIP and open `Takeout/YouTube and YouTube Music/`. Exports in other languages use translated folder and file names.
 2. In OpenTubeX, open **Settings → Data & Storage → Data**.
 3. Choose **Import Subscriptions** for `subscriptions/subscriptions.csv`, **Import History** for `history/watch-history.json`, or **Import search history** for `history/search-history.json`.
 4. Check the imported data and refresh the subscription feed.
@@ -80,7 +80,7 @@ For a Takeout playlist CSV, choose **Import Playlists** and select an individual
 ## If something is missing
 
 - **Only HTML history files:** create another export with History set to JSON.
-- **No supported YouTube data found:** check the account and the selected data categories. The ZIP importer recognizes English Takeout folder and file names; if yours are translated, use Google Takeout in English for a new export or extract the archive and try the supported individual file imports. The archive's `archive_browser.html` is an index, not importable data.
+- **No supported YouTube data found:** check the account and the selected data categories. The ZIP importer recognizes YouTube data by its contents, so translated folder and file names do not affect it. The archive's `archive_browser.html` is an index, not importable data.
 - **Older history is missing:** the export can only contain data Google still retains. Previously deleted activity may not be recoverable.
 - **Imported history has missing details or incorrect LIVE labels:** use [Repair History](/docs/troubleshooting/#repair-imported-history) to fetch the available details without changing watched status or progress.
 - **A channel is missing after import:** check the import result and your active [profile](/docs/profiles/). A removed channel or incomplete export may need investigation.
