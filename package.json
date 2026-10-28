@@ -14,7 +14,7 @@
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.2",
     "@astrojs/sitemap": "^3.7.3",
-    "@iconify-json/lucide": "^1.2.144",
+    "@iconify-json/lucide": "^1.2.147",
     "@iconify-json/simple-icons": "^1.2.100",
     "astro": "7.3.8",
     "astro-expressive-code": "^0.44.2",
