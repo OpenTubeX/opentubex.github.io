@@ -166,14 +166,15 @@ sudo zypper addrepo --refresh \\
   opentubex-nightly
 sudo zypper install opentubex`;
 
-const archKeyCode = `wget -O opentubex.asc https://arch.opentubex.org/opentubex.asc
+const archKeyCode = `curl -fsSL -o opentubex.asc https://arch.opentubex.org/opentubex.asc
 gpg --show-keys --fingerprint opentubex.asc`;
 
 const archKeyFingerprint = '4A60 0616 2524 0FB5 6569  221B 4672 DA44 5C55 F193';
 
-const archRepositoryCode = (repository: string) => `sudo pacman-key --add opentubex.asc
-sudo pacman-key --lsign-key 4A60061625240FB56569221B4672DA445C55F193
-grep -qxF '[${repository}]' /etc/pacman.conf || sudo tee -a /etc/pacman.conf >/dev/null <<'REPO'
+const archTrustCode = `sudo pacman-key --add opentubex.asc
+sudo pacman-key --lsign-key 4A60061625240FB56569221B4672DA445C55F193`;
+
+const archRepositoryCode = (repository: string) => `grep -qxF '[${repository}]' /etc/pacman.conf || sudo tee -a /etc/pacman.conf >/dev/null <<'REPO'
 
 [${repository}]
 SigLevel = Required DatabaseRequired
@@ -339,7 +340,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								</p>
 								<CmdCode code={archKeyCode} lang="shell" />
 								<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
-								<p class="pkg__body pkg__body--follow">Trust the key, add the repository, then install:</p>
+								<p class="pkg__body pkg__body--follow">Trust the key:</p>
+								<CmdCode code={archTrustCode} lang="shell" />
+								<p class="pkg__body pkg__body--follow">Add the repository, then install:</p>
 								<CmdCode code={archRepositoryCode('opentubex')} lang="shell" />
 								<p class="pkg__body pkg__body--follow" id="install-aur">
 									Or install from the AUR with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a>,
@@ -546,9 +549,12 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								<p class="pkg__body">Download the signing key and check its fingerprint:</p>
 								<CmdCode code={archKeyCode} lang="shell" />
 								<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
+								<p class="pkg__body pkg__body--follow">Trust the key:</p>
+								<CmdCode code={archTrustCode} lang="shell" />
 								<p class="pkg__body pkg__body--follow">
-									Trust the key and add the nightly <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a>{' '}
-									instead of the stable one. It also receives stable releases.
+									Add the nightly <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a>, then install. It
+									also receives stable releases. If <code>/etc/pacman.conf</code> already has an <code>[opentubex]</code>
+									section, remove it first, or pacman keeps installing the stable package.
 								</p>
 								<CmdCode code={archRepositoryCode('opentubex-nightly')} lang="shell" />
 								<p class="pkg__body pkg__body--follow">
