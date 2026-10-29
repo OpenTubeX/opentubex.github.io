@@ -13,6 +13,7 @@ import obtainiumBadge from '../assets/obtainium-badge.png';
 import { detectLinuxDistro, detectOS } from '../lib/detect-os';
 import {
 	aptRepositoryUrl,
+	archRepositoryUrl,
 	coprRepositoryUrl,
 	downloadGroups,
 	recommendedDownload,
@@ -165,6 +166,22 @@ sudo zypper addrepo --refresh \\
   opentubex-nightly
 sudo zypper install opentubex`;
 
+const archKeyCode = `wget -O opentubex.asc https://arch.opentubex.org/opentubex.asc
+gpg --show-keys --fingerprint opentubex.asc`;
+
+const archKeyFingerprint = '4A60 0616 2524 0FB5 6569  221B 4672 DA44 5C55 F193';
+
+const archRepositoryCode = (repository: string) => `sudo pacman-key --add opentubex.asc
+sudo pacman-key --lsign-key 4A60061625240FB56569221B4672DA445C55F193
+grep -qxF '[${repository}]' /etc/pacman.conf || sudo tee -a /etc/pacman.conf >/dev/null <<'REPO'
+
+[${repository}]
+SigLevel = Required DatabaseRequired
+Server = https://arch.opentubex.org/$repo/$arch
+REPO
+
+sudo pacman -Syu opentubex`;
+
 const flatpakNightlyCode = `flatpak remote-add --if-not-exists opentubex \\
   https://flatpak.opentubex.org/opentubex.flatpakrepo
 flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
@@ -315,9 +332,17 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								<CmdCode code={opensuseCode} lang="shell" />
 								<MoreDownloads links={files('openSUSE')} label="openSUSE packages" summary="Standalone .rpm packages" />
 							</div>
-							<div slot="arch" id="install-aur">
+							<div slot="arch" id="install-arch">
 								<p class="pkg__body">
-									Install from the AUR with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a>,
+									Download the signing key for the <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a> and
+									check its fingerprint:
+								</p>
+								<CmdCode code={archKeyCode} lang="shell" />
+								<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
+								<p class="pkg__body pkg__body--follow">Trust the key, add the repository, then install:</p>
+								<CmdCode code={archRepositoryCode('opentubex')} lang="shell" />
+								<p class="pkg__body pkg__body--follow" id="install-aur">
+									Or install from the AUR with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a>,
 									{' '}<a href="https://github.com/Jguer/yay" rel="noopener noreferrer">yay</a>, or
 									{' '}<a href="https://github.com/Seafoam-Labs/Shelly-ALPM" rel="noopener noreferrer">shelly</a>.
 								</p>
@@ -518,8 +543,16 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
 							</div>
 							<div slot="arch">
-								<p class="pkg__body">
-									Install the prebuilt <a href="https://aur.archlinux.org/packages/opentubex-nightly-bin/" rel="noopener noreferrer"
+								<p class="pkg__body">Download the signing key and check its fingerprint:</p>
+								<CmdCode code={archKeyCode} lang="shell" />
+								<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
+								<p class="pkg__body pkg__body--follow">
+									Trust the key and add the nightly <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a>{' '}
+									instead of the stable one. It also receives stable releases.
+								</p>
+								<CmdCode code={archRepositoryCode('opentubex-nightly')} lang="shell" />
+								<p class="pkg__body pkg__body--follow">
+									Or install the prebuilt <a href="https://aur.archlinux.org/packages/opentubex-nightly-bin/" rel="noopener noreferrer"
 										><code>opentubex-nightly-bin</code></a
 									>{' '}package for x86_64 or aarch64. It is updated automatically after each nightly release;
 									use your AUR helper to install updates. It replaces the stable package and uses the same application data.

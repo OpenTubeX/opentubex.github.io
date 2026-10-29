@@ -9,6 +9,7 @@ export const githubReleaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases
 export const aptRepositoryUrl = 'https://apt.opentubex.org';
 export const coprRepositoryUrl = 'https://copr.fedorainfracloud.org/coprs/d3sox/opentubex/';
 export const rpmRepositoryUrl = 'https://rpm.opentubex.org';
+export const archRepositoryUrl = 'https://arch.opentubex.org';
 export const flatpakRemoteUrl = 'https://flatpak.opentubex.org/opentubex.flatpakrepo';
 export const flatpakSiteUrl = 'https://flatpak.opentubex.org';
 export const flatparkSiteUrl = 'https://flatpark.org/apps/org.opentubex.OpenTubeX/';
@@ -333,10 +334,16 @@ export const downloadGroups: DownloadGroup[] = [
 		icon: 'simple-icons:archlinux',
 		links: [
 			{
+				label: 'Install Arch repository',
+				url: archRepositoryUrl,
+				icon: 'lucide:boxes',
+				preferred: true,
+				isExternal: true,
+			},
+			{
 				label: 'AUR (opentubex-bin)',
 				url: 'https://aur.archlinux.org/packages/opentubex-bin/',
 				icon: 'simple-icons:archlinux',
-				preferred: true,
 				isExternal: true,
 			},
 			{
