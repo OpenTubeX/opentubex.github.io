@@ -95,12 +95,12 @@ const aurTabs = [
 ];
 
 const nightlyTabs = [
+	{ id: 'flatpak', label: 'Flatpak', icon: 'simple-icons:flatpak' },
 	{ id: 'debian', label: 'Debian / Ubuntu', icon: 'simple-icons:ubuntu' },
 	{ id: 'fedora', label: 'Fedora / Red Hat', icon: 'simple-icons:fedora' },
 	{ id: 'opensuse', label: 'openSUSE', icon: 'simple-icons:opensuse' },
-	{ id: 'flatpak', label: 'Flatpak', icon: 'simple-icons:flatpak' },
-	{ id: 'snap', label: 'Snap', icon: 'simple-icons:snapcraft' },
 	{ id: 'arch', label: 'Arch Linux', icon: 'simple-icons:archlinux' },
+	{ id: 'snap', label: 'Snap', icon: 'simple-icons:snapcraft' },
 	{ id: 'android', label: 'Android', icon: 'simple-icons:android' },
 	{ id: 'ios', label: 'iOS / iPadOS', icon: 'simple-icons:apple' },
 ];
@@ -521,6 +521,10 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					<div>
 						<h3 class="pkg__title">Nightly package channels</h3>
 						<SignalTabs syncKey="package-platform" tabs={nightlyTabs}>
+							<div slot="flatpak">
+								<p class="pkg__body">Add the OpenTubeX remote and install its nightly branch:</p>
+								<CmdCode code={flatpakNightlyCode} lang="shell" />
+							</div>
 							<div slot="debian">
 								<p class="pkg__body">Add the signing key and select the <code>nightly</code> APT suite:</p>
 								<CmdCode code={aptNightlyCode} lang="shell" />
@@ -532,18 +536,6 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							<div slot="opensuse">
 								<p class="pkg__body">Import the signing key and add the nightly RPM repository:</p>
 								<CmdCode code={opensuseNightlyCode} lang="shell" />
-							</div>
-							<div slot="flatpak">
-								<p class="pkg__body">Add the OpenTubeX remote and install its nightly branch:</p>
-								<CmdCode code={flatpakNightlyCode} lang="shell" />
-							</div>
-							<div slot="snap">
-								<p class="pkg__body">Install the latest build from the <code>edge</code> channel:</p>
-								<CmdCode code={snapNightlyCode} lang="shell" title="New installation" />
-								<p class="pkg__body pkg__body--follow">Switch an existing Snap Store installation:</p>
-								<CmdCode code={snapNightlyRefreshCode} lang="shell" title="Existing Store installation" />
-								<p class="pkg__body pkg__body--follow">Switch an existing manual installation:</p>
-								<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
 							</div>
 							<div slot="arch">
 								<p class="pkg__body">Download the signing key and check its fingerprint:</p>
@@ -574,6 +566,14 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 										<CmdCode code="shelly -Ia opentubex-nightly-bin" lang="shell" title="Nightly binary" />
 									</div>
 								</SignalTabs>
+							</div>
+							<div slot="snap">
+								<p class="pkg__body">Install the latest build from the <code>edge</code> channel:</p>
+								<CmdCode code={snapNightlyCode} lang="shell" title="New installation" />
+								<p class="pkg__body pkg__body--follow">Switch an existing Snap Store installation:</p>
+								<CmdCode code={snapNightlyRefreshCode} lang="shell" title="Existing Store installation" />
+								<p class="pkg__body pkg__body--follow">Switch an existing manual installation:</p>
+								<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
 							</div>
 							<div slot="android">
 								<p class="pkg__body">Install and update the Android nightly through F-Droid or Obtainium. F-Droid also lists OpenTubeX Nightly Lite.</p>
