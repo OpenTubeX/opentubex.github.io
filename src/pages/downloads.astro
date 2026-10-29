@@ -174,7 +174,7 @@ const archKeyFingerprint = '4A60 0616 2524 0FB5 6569  221B 4672 DA44 5C55 F193';
 const archTrustCode = `sudo pacman-key --add opentubex.asc
 sudo pacman-key --lsign-key 4A60061625240FB56569221B4672DA445C55F193`;
 
-const archRepositoryCode = (repository: string) => `pacman-conf --repo-list | grep -qxF '${repository}' ||
+const archRepositoryCode = (repository: string) => `sudo pacman-conf --repo-list | grep -qxF '${repository}' ||
   printf '%s\\n' '' '[${repository}]' 'SigLevel = Required DatabaseRequired' \\
     'Server = https://arch.opentubex.org/$repo/$arch' |
   sudo tee -a /etc/pacman.conf >/dev/null
