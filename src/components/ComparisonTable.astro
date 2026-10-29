@@ -44,7 +44,7 @@ import { clients, groups, support } from '../data/comparisons';
 					<tr class="comparison-group"><th colspan={clients.length + 1} scope="rowgroup"><span>{group.name}</span></th></tr>
 					{group.rows.map((row, rowIndex) => (
 						<tr>
-							<th scope="row"><span class="comparison-feature">{row.icon && <Icon name={row.icon} aria-hidden="true" />}{row.image && <img src={row.image} alt="" width="20" height="20" />}<span>{row.name}</span></span></th>
+							<th scope="row"><span class="comparison-feature">{row.icon && <Icon name={row.icon} aria-hidden="true" />}{row.image && <img src={row.image} alt="" width="20" height="20" />}{row.url ? <a href={row.url}>{row.name}</a> : <span>{row.name}</span>}</span></th>
 							{row.cells.map((cell, clientIndex) => {
 								const client = clients[clientIndex];
 								const id = `detail-${groupIndex}-${rowIndex}-${clientIndex}`;

@@ -7,6 +7,7 @@ type Cell = ({ status: Support; label?: string } | { status?: never; label: stri
 
 interface Row {
 	name: string;
+	url?: string;
 	icon?: string;
 	image?: string;
 	cells: [Cell, Cell, Cell, Cell, Cell, Cell, Cell];
@@ -127,7 +128,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', label: 'Android', note: ['Android uses ExoPlayer silence skipping. The ', { text: 'desktop beta setting', href: `${flowDesktop}/src/lib/settings/schema.ts` }, ' is disabled because silence analysis is not yet implemented.'], source: `${flowCode}/player/audio/AudioFeaturesManager.kt` },
 				{ status: 'no', note: 'No dedicated silence-skipping control is documented. Premium Auto speed adjusts pacing on eligible Android videos; it is a different feature.', source: 'https://support.google.com/youtube/answer/6308116?hl=en' },
 			] },
-			{ name: 'SponsorBlock', image: '/compare-icons/sponsorblock.png', cells: [
+			{ name: 'SponsorBlock', url: 'https://sponsor.ajay.app/', image: '/compare-icons/sponsorblock.png', cells: [
 				{ status: 'yes', label: 'Extended controls', note: 'Category skipping, mute segments, full-video labels, channel whitelisting, and in-player submissions.', source: 'https://opentubex.org/extra-features/#sponsorblock-submission' },
 				{ status: 'partial', label: 'Segment skipping', note: 'Supports SponsorBlock segment skipping and category controls. In-player submissions, mute segments, and full-video labels are not documented.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/src/renderer/helpers/sponsorblock.js' },
 				{ status: 'partial', label: 'YouTube plugin', note: 'Enable SponsorBlock in the YouTube source settings for category-based manual or automatic skipping. In-player submissions, mute segments, and full-video labels are not documented.', source: 'https://plugins.grayjay.app/Youtube/YoutubeConfig.json' },
@@ -145,7 +146,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', label: 'Android', note: 'Includes Return YouTube Dislike for estimated dislike counts.', source: `${flowRelease}#features` },
 				{ status: 'partial', label: 'Web extension', note: 'Return YouTube Dislike adds estimated dislike counts to the YouTube website through a browser extension. It is not built into the official apps.', source: 'https://returnyoutubedislike.com/' },
 			] },
-			{ name: 'AiSList', icon: 'lucide:bot-off', cells: [
+			{ name: 'AiSList', url: 'https://github.com/Override92/AiSList', icon: 'lucide:bot-off', cells: [
 				{ status: 'yes', note: 'Optionally filter channels using AiSList\'s community-maintained lists of AI-generated content.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.0-beta/src/renderer/helpers/aiSlopList.js' },
 				{ status: 'no', note: 'No built-in AiSList channel filtering is documented.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.25.3-beta/static/locales/en-US.yaml' },
 				{ status: 'no', note: 'No built-in AiSList channel filtering is documented in the app or its YouTube source settings.', source: 'https://plugins.grayjay.app/Youtube/YoutubeConfig.json' },
@@ -208,6 +209,15 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Android includes a video queue with removal and reordering controls, alongside its separate music queue. The desktop beta also supports playback queues.', source: `${flowCode}/ui/components/FlowPlaylistQueueBottomSheet.kt` },
 				{ status: 'partial', label: 'Mobile requires Premium', note: 'Queue videos for free on desktop and the web. Queueing on phones and tablets requires YouTube Premium; a browser queue is lost when the browser closes unless saved as a playlist.', source: 'https://support.google.com/youtube/answer/9546304?hl=en' },
 			] },
+			{ name: 'Live chat', icon: 'lucide:messages-square', cells: [
+				{ status: 'yes', label: 'With replay', note: ['Shows chat during live streams and premieres, and ', { text: 'replays chat', href: 'https://opentubex.org/extra-features/#live-streams-premieres-and-chat-replay' }, ' on past streams in sync with playback. Chat can also be docked in fullscreen. Requires a direct connection to YouTube rather than Invidious.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.0-beta/src/renderer/components/WatchVideoLiveChat/WatchVideoLiveChat.vue' },
+				{ status: 'partial', label: 'Live only', note: 'Shows chat during live streams and upcoming premieres. There is no chat replay for past streams, and it requires a direct connection to YouTube rather than Invidious.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.25.3-beta/src/renderer/views/Watch/Watch.js#L725-L729' },
+				{ status: 'yes', label: 'With replay', note: 'The YouTube plugin provides live chat on desktop and Android. The Android app also replays chat on past streams.', source: 'https://gitlab.futo.org/videostreaming/plugins/youtube/-/blob/78a84af62be98e21d35e9d3f2cf75c72aa51f2c1/YoutubeScript.js#L2822-L2905' },
+				{ status: 'no', note: 'Live streams play without their chat.' },
+				{ status: 'no', note: 'Released version 32.1 plays live streams without their chat.' },
+				{ status: 'partial', label: 'Live only', note: 'Shows chat during live streams, including in a fullscreen side panel. There is no chat replay for past streams.', source: `${flowCode}/ui/components/FlowLiveChatBottomSheet.kt` },
+				{ status: 'yes', label: 'With replay', note: 'Live chat runs during live streams and premieres. Archived streams can replay chat alongside the video unless the creator turns replay off or edits the stream.', source: 'https://support.google.com/youtube/answer/15268877?hl=en' },
+			] },
 			{ name: 'Sleep timer', icon: 'lucide:timer', cells: [
 				{ status: 'yes', note: 'Stop playback after a chosen duration, when the current chapter ends, or when the current video ends.', source: 'https://opentubex.org/extra-features/#sleep-timer' },
 				{ status: 'no', note: 'No built-in sleep timer is documented in the player or settings.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/development/static/locales/en-US.yaml' },
@@ -239,6 +249,15 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Local subscriptions or optional Piped accounts; Google login is not required.' },
 				{ status: 'yes', note: 'Subscriptions are stored locally without a Google account. The desktop beta also supports local subscriptions.', source: `${flowRelease}#library` },
 				{ status: 'no', label: 'Account required', note: 'Watching many videos is possible while signed out, but subscribing to channels requires a Google account.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
+			] },
+			{ name: 'Posts', icon: 'lucide:message-square-text', cells: [
+				{ status: 'yes', note: 'Channel posts appear in a Posts tab of the subscriptions feed and in the Posts tab on channel pages.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.0-beta/src/renderer/components/SubscriptionPosts/SubscriptionsPosts.vue' },
+				{ status: 'yes', note: 'Channel posts appear in a Posts tab of the subscriptions feed and in the Posts tab on channel pages.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.25.3-beta/src/renderer/components/SubscriptionsPosts.vue' },
+				{ status: 'no', note: 'The YouTube plugin only provides videos, live streams, and Shorts, so YouTube channel posts are not shown in the subscriptions feed or on channel pages.', source: 'https://gitlab.futo.org/videostreaming/plugins/youtube/-/blob/78a84af62be98e21d35e9d3f2cf75c72aa51f2c1/YoutubeScript.js#L3317-L3321' },
+				{ status: 'no', note: 'YouTube channel posts are not shown in the subscriptions feed or on channel pages.' },
+				{ status: 'no', note: 'Released version 32.1 does not show YouTube channel posts in the subscriptions feed or on channel pages.' },
+				{ status: 'partial', label: 'Channel pages', note: 'Channel pages have a posts tab with comments, but the subscriptions feed does not include posts.', source: `${flowCode}/ui/screens/channel/ChannelCommunityPosts.kt` },
+				{ status: 'yes', note: 'Posts appear on the channel page and may also show up on the home page and in the Subscriptions feed.', source: 'https://support.google.com/youtube/answer/9409631?hl=en' },
 			] },
 			{ name: 'Notifications', icon: 'lucide:bell-ring', cells: [
 				{ status: 'yes', label: 'Desktop / Android', note: ['Get reminders for ', { text: 'scheduled live streams and premieres', href: 'https://opentubex.org/extra-features/#upload-live-stream-and-premiere-notifications' }, ', plus new-upload alerts for selected channels and feed types on desktop and Android. New-upload alerts are unavailable on experimental iOS.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.0-beta/src/renderer/helpers/uploadNotifications.js' },
