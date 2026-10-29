@@ -19,9 +19,9 @@
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>OpenTubeX</Program_Name>
-		<Program_Version>0.37.0</Program_Version>
+		<Program_Version>0.37.1</Program_Version>
 		<Program_Release_Month>10</Program_Release_Month>
-		<Program_Release_Day>23</Program_Release_Day>
+		<Program_Release_Day>29</Program_Release_Day>
 		<Program_Release_Year>2026</Program_Release_Year>
 		<Program_Cost_Dollars>0</Program_Cost_Dollars>
 		<Program_Type>Freeware</Program_Type>
@@ -44,7 +44,7 @@
 			<Application_XML_File_URL>https://opentubex.org/pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.37.0-beta/opentubex-0.37.0-beta-setup-x64.exe</Primary_Download_URL>
+			<Primary_Download_URL>https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.37.1-beta/opentubex-0.37.1-beta-setup-x64.exe</Primary_Download_URL>
 			<Additional_Download_URL_1></Additional_Download_URL_1>
 		</Download_URLs>
 	</Web_Info>
