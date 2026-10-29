@@ -332,8 +332,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							</div>
 							<div slot="arch" id="install-arch">
 								<p class="pkg__body">
-									Download the signing key for the <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a> and
-									check its fingerprint:
+									The <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a> has packages
+									for <code>x86_64</code> and <code>aarch64</code>. Download the signing key and check
+									its fingerprint:
 								</p>
 								<CmdCode code={archKeyCode} lang="shell" />
 								<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
@@ -538,7 +539,10 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								<CmdCode code={opensuseNightlyCode} lang="shell" />
 							</div>
 							<div slot="arch">
-								<p class="pkg__body">Download the signing key and check its fingerprint:</p>
+								<p class="pkg__body">
+									The nightly repository has packages for <code>x86_64</code> and <code>aarch64</code>. Download the signing
+									key and check its fingerprint:
+								</p>
 								<CmdCode code={archKeyCode} lang="shell" />
 								<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
 								<p class="pkg__body pkg__body--follow">Trust the key:</p>
