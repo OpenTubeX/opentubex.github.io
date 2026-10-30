@@ -61,7 +61,7 @@ Available formats depend on the site and yt-dlp. A supported playback link does 
 ## Play a completed download
 
 1. Open **Downloads** and find a completed item.
-2. Choose **Play download** to watch the saved media.
+2. Choose **Play download** to watch the saved media. For downloads from other sites, this is only available on iOS; on desktop and Android, open the file in a compatible media player.
 3. On desktop, use **Show in Folder** to locate the file in your file manager.
 
 Keep the file in its saved location if you want OpenTubeX to find it again. Clearing an entry from the list and removing its file are different actions. **Remove File** moves the file to the trash on desktop and deletes it permanently on Android and iOS.

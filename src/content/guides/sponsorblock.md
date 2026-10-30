@@ -46,7 +46,7 @@ To see the segments found for the current video, select **Open SponsorBlock info
 ## If the wrong part is skipped
 
 1. Check which category is responsible.
-2. For a one-off, open the player's SponsorBlock panel and downvote the segment or turn off automatic skipping for that video. Otherwise, change the category to **Prompt To Skip** or **Show In Seek Bar** while investigating.
+2. For a one-off, open the player's SponsorBlock panel and turn off automatic skipping for that video. If the segment's timing or category is wrong, **Downvote** it there; votes affect the shared SponsorBlock data. Otherwise, change the category to **Prompt To Skip** or **Show In Seek Bar** while investigating.
 3. Retry the affected section. If needed, temporarily disable SponsorBlock to compare playback.
 
 Segment timing comes from contributors and can be inaccurate. When reporting an OpenTubeX problem, include the public video URL, segment time, category, and chosen behavior.

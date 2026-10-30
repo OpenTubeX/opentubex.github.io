@@ -21,7 +21,7 @@ If the error says YouTube has blocked your IP address, switch to a different VPN
 
 ### Age-restricted or members-only videos
 
-These videos need a signed-in Google account. On desktop and Android, configure cookies under **Settings → Advanced → yt-dlp Cookies**, then choose **Try with configured cookies** on the video. Using yt-dlp with a Google account can lead to restrictions on that account.
+Age-restricted videos need an age-verified Google account. Members-only videos need a Google account with an active membership to the channel. On desktop and Android, configure cookies under **Settings → Advanced → yt-dlp Cookies**, then choose **Try with configured cookies** on the video. Using yt-dlp with a Google account can lead to restrictions on that account.
 
 ## Imports or subscriptions look incomplete
 
