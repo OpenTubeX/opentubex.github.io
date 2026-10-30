@@ -56,7 +56,7 @@ In **Settings → Advanced → Video and metadata providers**, find **Stream ext
 
 The stream extraction method is not available in [OpenTubeX Lite](/docs/installing/#opentubex-lite) or the web demo, which have no yt-dlp.
 
-Configure or update yt-dlp under **Settings → Advanced → External Software**. On Android, that section offers **Update yt-dlp** and yt-dlp cookies; desktop executable paths only apply on desktop.
+On desktop and Android, configure or update yt-dlp under **Settings → Advanced → External Software**. On Android, that section offers **Update yt-dlp** and yt-dlp cookies; desktop executable paths only apply on desktop.
 
 **Automatically switch stream extraction methods** is on by default. If one method fails, OpenTubeX tries the other. To pick a method for a single video, select the **Change Media Formats** button below the video. If search and channel pages work but playback still fails, note which method you tried, try the other one, and retry the same public video. Record which method worked when reporting the problem. The method does not download a permanent offline copy; use [Downloads](/docs/downloads/) for that.
 

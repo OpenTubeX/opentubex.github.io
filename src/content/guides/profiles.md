@@ -55,12 +55,12 @@ Removing a channel from **All Channels** removes it from the other profiles too.
 
 Groups are filters inside a profile, such as Music or Gaming. A channel can be in several groups.
 
-1. Open **Subscriptions** or **Channels** and select **New Group**.
+1. Open **Channels** and select **New Group**.
 2. Enter a **Group Name**, choose its channels, and select **Create**.
-3. Select a group chip above the feed to show only its channels; select **All** to show everything again.
+3. In **Subscriptions** or **Channels**, select a group chip to show only its channels; select **All** to show everything again.
 
-To edit or delete the selected group, use the **Edit Group** button next to the chips. Deleting a group keeps its channels subscribed. You can also add a channel to a group from its **Subscription settings**.
+Once a group exists, the **New Group** and **Edit Group** buttons appear next to the chips on both pages. Use **Edit Group** to change or delete the selected group. Deleting a group keeps its channels subscribed. You can also add a channel to a group from its **Subscription settings**.
 
 ## Back up profiles
 
-Use **Settings → Data & Storage → Data → Export Subscriptions → Export OpenTubeX**. That format preserves profile information for importing on another OpenTubeX installation. Subscription groups and the custom channel order are settings, so they are only included in **Export backup** with the settings category selected. See [Back up your library](/docs/importing/#back-up-your-library).
+Use **Settings → Data & Storage → Data → Export Subscriptions → Export OpenTubeX**. That format preserves profile information for importing on another OpenTubeX installation. Subscription groups and the custom channel order are settings, so the subscriptions export leaves them out. Use **Export Settings**, or **Export backup** with the settings category selected, to keep them. See [Back up your library](/docs/importing/#back-up-your-library).

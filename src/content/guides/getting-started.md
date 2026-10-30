@@ -32,7 +32,7 @@ Profiles let you group channels, for example into work and leisure viewing.
 
 If a channel appears to be missing, check **All Channels** before importing it again. Feed filters can also hide videos, Shorts, or live content.
 
-To filter a feed without switching profiles, create a **subscription group** with **New Group** on the Subscriptions page. For step-by-step profile creation, groups, and bulk channel management, see [Organize channels with profiles](/docs/profiles/).
+To filter a feed without switching profiles, create a **subscription group** with **New Group** on the **Channels** page. For step-by-step profile creation, groups, and bulk channel management, see [Organize channels with profiles](/docs/profiles/).
 
 ## Create a local playlist
 

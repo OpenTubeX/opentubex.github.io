@@ -100,4 +100,4 @@ Turn it off only if the server uses the same internet connection as your device.
 
 Yattee servers do not provide community posts, hashtag pages, Trending, or live chat. Comments and channel tabs cannot be sorted, and search feature filters such as HD or subtitles are hidden. With **Fallback to Non-Preferred Backend on Failure** turned on, OpenTubeX loads posts, hashtag pages, Trending, and live chat with the local API, which connects to YouTube directly. With fallback turned off, these pages show a message instead.
 
-yattee-server 1.0.9 and earlier do not relay live streams. With those versions, live streams only play with proxying turned off, and only if the server uses the same internet connection as your device. Update to 1.0.10 or later to relay live streams too.
+yattee-server 1.0.10 and earlier do not relay live streams. With those versions, live streams only play with proxying turned off, and only if the server uses the same internet connection as your device.
