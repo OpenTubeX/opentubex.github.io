@@ -61,7 +61,7 @@ Local playlists are stored by OpenTubeX. They are separate from public YouTube p
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/quick-settings-dark.webp" type="image/webp" />
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/quick-settings-light.webp" type="image/webp" />
-  <img src="/docs-images/quick-settings-light.webp" alt="OpenTubeX quick settings menu with the All settings gear in the upper-right corner." width="440" height="792" loading="lazy" decoding="async" />
+  <img src="/docs-images/quick-settings-light.webp" alt="OpenTubeX quick settings menu with the All settings gear in the upper-right corner." width="440" height="832" loading="lazy" decoding="async" />
 </picture>
 
 *Select the gear at the top right of quick settings to open All settings.*
