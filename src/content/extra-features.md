@@ -102,6 +102,20 @@ prefer a simpler timeline.
 
 <img width="700" height="61" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/ef990bfe-bc17-4be6-9a66-22bda270fdd9" alt="Most-replayed graph appearing above the seekbar on hover">
 
+### Seek bar filmstrip and precise seeking
+
+Drag the seek bar to see a strip of frames around where you'll land. On long
+videos, pull up past the middle of the strip to seek precisely: the marker
+stays in place while the frames scroll at a finer scale. A hint fills as you
+pull up, dragging back down returns to normal seeking, and <kbd>Esc</kbd>
+cancels the drag. Fullscreen swipe-to-seek shows the same preview.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3185cd8e-b0e3-4c00-a03c-93599a8b8f68">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/c310aaba-768f-4a20-b8e2-62c342328228">
+  <img width="700" height="175" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Seek bar drag pulled up onto the strip of frames, with the Precise seeking hint under the marker" src="https://github.com/user-attachments/assets/3185cd8e-b0e3-4c00-a03c-93599a8b8f68">
+</picture>
+
 ### Transcript panel
 
 Follow a video's transcript in a dedicated panel.
@@ -254,10 +268,11 @@ is not available on iOS.
 
 Turn on **Enable Seek History** in Playback settings to get back to where you
 were after a mistaken seek. The player menu lists the positions you jumped away
-from, and <kbd>Ctrl</kbd> + <kbd>Z</kbd> and <kbd>Ctrl</kbd> + <kbd>Shift</kbd> +
-<kbd>Z</kbd> step back and forward through them.
+from with their chapter and how long ago you left them, and <kbd>Ctrl</kbd> +
+<kbd>Z</kbd> and <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd> step back and
+forward through them.
 
-<img width="700" height="164" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/b5d343dc-fd60-4ebf-8a93-24a7b644b3ba" alt="Seek history menu listing earlier playback positions with their chapter names">
+<img width="400" height="209" style="max-width: min(100%, 400px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/6d24dbc2-9380-48b2-b104-712ce8ccfe08" alt="Seek history menu listing earlier positions with their chapter names and how long ago each was left">
 
 ### Sleep timer
 
@@ -350,6 +365,20 @@ On Android, set **Quality Limit on Metered Networks** in Playback settings so
 videos start at a lower quality on mobile data and other metered networks. You
 can still choose a higher quality in the player.
 
+### Buffering presets
+
+Choose how much video loads ahead, how much stays loaded for rewinding, and how
+much must load before playback starts in **Settings → Advanced → Buffering**.
+Pick the Data Saver, Default or Smooth Playback preset or adjust the sliders,
+each with a note on its trade-off between data use, memory and start-up delay.
+Changes apply to the video that is already playing.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/b8e1aaa1-644c-41f5-832f-52a2a25a4521">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/be836c99-b6a1-4bf7-a838-a64cdedbb55d">
+  <img width="700" height="244" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Buffering settings with a preset dropdown and sliders for Buffer Ahead, Rewind Buffer and Buffer Before Playing" src="https://github.com/user-attachments/assets/b8e1aaa1-644c-41f5-832f-52a2a25a4521">
+</picture>
+
 ### Automatic caption translation
 
 Translate captions into any language offered by YouTube.
@@ -369,7 +398,8 @@ Show dislike count using [Return YouTube Dislike](https://returnyoutubedislike.c
 
 Choose whether each channel appears in Videos, Shorts, Live and Posts, set a
 daily video limit, and enable members-only videos when playback cookies are
-configured. Batch-edit channel preferences in Subscription settings, add
+configured. Members-only videos only appear for channels where you enabled
+them, including on channel pages, in search and in recommendations. Batch-edit channel preferences in Subscription settings, add
 subscribed channels directly to Saved Channel Settings, or hide a channel's
 content type from the feed menu.
 
@@ -465,8 +495,17 @@ See [sync setup](/docs/sync/#choose-what-to-sync) to choose what to synchronize.
 See more context about a video, including AI-generated content labels,
 paid-promotion disclosures, collaborators, categories, games, tags, relative
 publication dates, comment counts, age restrictions, and unlisted status.
-Channel avatars can also be shown beside channel names in video and playlist
-results.
+Verified and official artist badges mark channels across the app. The watch
+page lists the songs credited in a video and shows YouTube's information
+panels, such as topic context and public broadcaster notices, with their
+sources. Channel avatars can also be shown beside channel names in video and
+playlist results.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/ee3a88dc-df27-49ff-b84d-c0ffd6ed77db">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/302d09a4-f444-4fed-9347-b21700d1d2cf">
+  <img width="556" height="300" style="max-width: min(100%, 556px); height: auto;" loading="lazy" decoding="async" alt="An information panel with a Wikipedia source link above a video description listing the songs credited in the video" src="https://github.com/user-attachments/assets/ee3a88dc-df27-49ff-b84d-c0ffd6ed77db">
+</picture>
 
 ![Additional video metadata](https://github.com/user-attachments/assets/90cfb4b3-1d26-438d-86de-c1be2e8858ce)
 ![Video collaborators and category](https://github.com/user-attachments/assets/ceaa25b3-2157-4904-80ad-619426862c1d)
@@ -496,6 +535,22 @@ collapsed, and the same preference applies to Shorts.
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/59c40f1d-c647-443e-affd-e61c22aea4e5">
   <img alt="YouTube AI video summary beneath a video description" src="https://github.com/user-attachments/assets/cbf325b9-6c94-4837-9938-5f16633dbd49">
 </picture>
+
+### Hashtag Shorts and stats
+
+Hashtag pages show how many videos and channels use the hashtag and have a
+Shorts tab that keeps loading more Shorts.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/5e1d0941-84ee-4fbe-b33b-c65daf00a848">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/e68ea3c2-1638-4f4e-972d-2a6b97ced9f8">
+  <img width="681" height="300" style="max-width: min(100%, 681px); height: auto;" loading="lazy" decoding="async" alt="The #lofi hashtag page with its video and channel counts and the Shorts tab selected" src="https://github.com/user-attachments/assets/5e1d0941-84ee-4fbe-b33b-c65daf00a848">
+</picture>
+
+### Trending music
+
+The Music tab on Trending shows the YouTube Music chart for your selected
+region.
 
 ### Playlist browsing and saved YouTube playlists
 
@@ -659,7 +714,9 @@ restarting OpenTubeX, including downloaded entries.
 ### Inline add-to-playlist
 
 Choose playlists from an inline popover, and personalize the quick-bookmark
-playlist with an icon, emoji, or cropped image.
+playlist with an icon, emoji, or cropped image. While watching, press
+<kbd>B</kbd> to add the video to the quick-bookmark playlist or remove it, or
+<kbd>Shift</kbd> + <kbd>S</kbd> to save it to a playlist.
 
 ![Inline add-to-playlist popover](https://github.com/user-attachments/assets/c3c6aead-f462-4386-8e82-399dbef2abd1)
 ![Add-to-playlist action](https://github.com/user-attachments/assets/bd6dcd6e-346c-4849-9806-dae1a00f6457)
@@ -736,14 +793,17 @@ browser-style middle-click, Ctrl/Cmd-click, and Shift-click behavior.
 On desktop, <kbd>Ctrl</kbd> + middle-click unloads a tab without closing it.
 Quick <kbd>Ctrl</kbd> + <kbd>Tab</kbd> presses switch tabs immediately; hold
 <kbd>Ctrl</kbd> to open the tab switcher. Choose a loading bar or classic dot
-for loading tabs in Appearance settings. Background tabs unload automatically
-when memory runs low. Adjust or turn this off in Advanced settings. A badge
-marks automatically unloaded tabs, and pinned tabs show a pin badge on their
+for loading tabs in Appearance settings. Pinned tabs show a pin badge on their
 icon.
 
+On desktop and Android, background tabs stay loaded until memory runs low, then
+the least recently used ones unload automatically. Adjust or turn this off in
+Advanced settings. A badge marks automatically unloaded tabs.
+
 On phones, swipe across the header to switch tabs or pull it down to open the
-organizer. Mobile tabs can be disabled in General settings for a single-page
-layout.
+organizer. Tab previews and channel avatars stay available after a restart and
+offline; clear them in Storage settings. Mobile tabs can be disabled in General
+settings for a single-page layout.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/OpenTubeX/media/releases/download/attachments/20261008T155804Z-pr-dark-dark-9cf1a3a141.webp">
@@ -846,7 +906,8 @@ Revisit searches with their filters restored, and use filter chips when
 searching within a channel. Save the same search query with different filters
 as separate presets and restore each combination when selected. Use the arrow
 beside a recent search or online suggestion to fill the search box for editing
-without submitting it.
+without submitting it. When YouTube corrects a misspelled query, the results
+say so and link to a search for what you typed.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/60a3a667-6246-460e-b7c3-ecb4a8a604c4">
@@ -975,8 +1036,12 @@ Make the playlist card taller or shorter while watching a video.
 ### Changed-settings highlights
 
 Highlight settings that differ from their defaults and reset them directly.
+In the player menu, the Playback speed, Zoom, Volume boost and Theatre mode
+tiles stay highlighted while they are changed.
 
 ![Changed settings and reset action](https://github.com/user-attachments/assets/9ee3f994-e803-4679-80cf-454f294c9b0a)
+
+<img width="401" height="144" style="max-width: min(100%, 401px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/9d73c335-f03d-4ea3-b06f-47a25cbfc602" alt="Player menu with the Playback speed tile highlighted at 1.5x">
 
 ### Toast notifications
 
@@ -1061,12 +1126,17 @@ sheets; drag their handles down or tap outside to dismiss them.
 Access profiles and common preferences from the top bar. Personalize profiles
 with built-in icons, emoji, or interactively cropped images. Profile management
 has separate customization and subscription tabs. Choose which Quick Settings
-controls appear, including autoplay, audio-only playback, DeArrow, translations,
-privacy preferences, distraction-free toggles, Reduced Motion, Toast Position,
-and light/dark theme selection. Controls stay grouped by
-category; drag to reorder categories or controls within each group.
+controls appear, including playback speed, watch history, autoplay, audio-only
+playback, DeArrow, translations, privacy preferences, distraction-free toggles,
+Reduced Motion, Toast Position, and light/dark theme selection. The defaults
+focus on settings you change often rather than ones you set once. Controls stay
+grouped by category; drag to reorder categories or controls within each group.
 
-![Quick-settings menu](https://github.com/user-attachments/assets/80cfe992-c400-4ecf-be56-f0685b1e9ecb)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/b95959ba-1214-4964-8b0a-2917015a83eb">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/90867093-4bc9-4082-a4be-6ec25e605913">
+  <img width="440" height="832" style="max-width: min(100%, 440px); height: auto;" loading="lazy" decoding="async" alt="Quick Settings with the default controls for theme, UI scale, quality, playback speed, content and watch history" src="https://github.com/user-attachments/assets/b95959ba-1214-4964-8b0a-2917015a83eb">
+</picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/def760d3-393a-478e-b57b-df1063cf4daf">
@@ -1215,6 +1285,15 @@ Local/Invidious metadata-provider fallback.
   <img width="700" height="86" style="max-width: min(100%, 700px); max-height: 86px;" loading="lazy" decoding="async" alt="Default-enabled automatic stream extraction fallback setting" src="https://github.com/user-attachments/assets/4e6aaaf7-6fb1-4e62-8813-720d143126db">
 </picture>
 
+### Backup media server
+
+When the media server YouTube assigns to a video doesn't respond, such as an
+unreachable cache at your internet provider, OpenTubeX switches to the backup
+server YouTube names and avoids the failed server for the rest of the session.
+If your provider's cache is often slow but still answers, turn on **Always use
+backup media server** in Advanced settings to load videos from the backup
+server right away.
+
 ### Use your own Yattee server
 
 Connect your own [Yattee server](/docs/yattee-server/) in Advanced settings to
@@ -1279,7 +1358,10 @@ from a YouTube Takeout ZIP. Select the categories you want to bring in without
 extracting the archive or importing each file separately. Before confirming,
 preview new, existing, and skipped records and see which data will merge or be
 replaced. Playlist titles and descriptions are preserved without Takeout's
-export-file suffixes.
+export-file suffixes. Exports in any language are recognized.
+
+**Import Playlists** also accepts several Takeout playlist CSVs at once. Pick
+`playlists.csv` with them to keep their original titles and descriptions.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a5a5c086-5aa1-4b85-b4f7-b21a502713e1">
@@ -1322,7 +1404,8 @@ profiles, tabs, and settings with end-to-end encryption.
 LibreTube sync servers are also supported, but do not support end-to-end
 encryption or certain sync features.
 
-Sync sends changes as they happen. Account activity shows
+Sync sends changes as they happen, and the Android app keeps syncing in the
+background. Account activity shows
 which device added, removed, or changed items, and **Open on another device**
 sends a video to another device from video cards or tab context menus. On
 desktop, send several selected video tabs together. Clear the account activity
@@ -1363,6 +1446,16 @@ its own.
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/9b0b51ee-538f-495a-9b13-be90db1da87f">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/acc159ac-f91e-417d-a0b7-b88b8e798c02">
   <img width="700" height="197" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Diagnostics settings with Copy report, Save report and Clear log" src="https://github.com/user-attachments/assets/9b0b51ee-538f-495a-9b13-be90db1da87f">
+</picture>
+
+To read stream errors the player recovers from on its own, turn on **Pause on
+Stream Recovery** in Player settings. After a recovery, the player pauses and
+keeps the error on screen with a Copy button until you dismiss it.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/f107a60a-657f-4a6d-bbbf-deed13ae4fc4">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/a88bc995-c975-43c4-bd5d-187d45aab60e">
+  <img width="533" height="300" style="max-width: min(100%, 533px); height: auto;" loading="lazy" decoding="async" alt="Paused player with a stream recovery error banner and Copy and Dismiss buttons" src="https://github.com/user-attachments/assets/f107a60a-657f-4a6d-bbbf-deed13ae4fc4">
 </picture>
 
 ## Downloads
@@ -1483,6 +1576,8 @@ with an Apple Account.
 
 Share a YouTube link to OpenTubeX from another Android app, then choose whether
 to open it in the player, add it to a playlist or queue, or download it.
+Shared links from other sites open with yt-dlp, and full builds can open video
+links from sites such as Instagram, TikTok and Reddit directly in the app.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/4866c6d2-e78d-4963-b90a-806459e47df5">
