@@ -163,10 +163,11 @@ or switch windows.
 
 ![Auto Picture-in-Picture window options](https://github.com/user-attachments/assets/4c1f1f7b-7614-41c8-abd3-5c5179d75cee)
 
-### Cast to Chromecast, FCast and DLNA devices
+### Cast to Google Cast, FCast and DLNA devices
 
-Chromecast, FCast and DLNA casting are supported on Android and desktop. Turn
-on each protocol in Player settings, then choose a device from the cast button
+Google Cast and FCast casting are supported on Android and desktop, and DLNA
+casting on Android, desktop and iOS/iPadOS. Turn on each protocol in Player
+settings, then choose a device from the cast button
 in the player. Each protocol has its own tab, and FCast receivers don't get
 subtitles. Stop casting to return to playback in OpenTubeX.
 
@@ -231,7 +232,8 @@ YouTube-style Shorts players.
 ### Skip silence
 
 Jump over detected silent parts of a video. Enable this behavior in Player
-settings, and choose whether new tabs start with it enabled.
+settings, and choose whether new tabs start with it enabled. Not available on
+iOS.
 
 ![Skip silence setting](https://github.com/user-attachments/assets/7886468c-0f08-4ebb-9cfd-2ce07a4230f5)
 
@@ -253,7 +255,8 @@ playback speed.
 
 ### Remember volume
 
-Remember the player volume between sessions. Enabled by default.
+Remember the player volume between sessions. Enabled by default. Not available
+on Android or iOS.
 
 ![Remember volume setting](https://github.com/user-attachments/assets/7b90cf31-5d90-41bb-b342-c15e2e7c33b6)
 
@@ -322,7 +325,9 @@ messages, and a full-screen dock.
 ### Voice-over translation
 
 Translate supported videos through the unofficial Yandex API with synchronized
-voice-over audio and separate translated and original volume controls.
+voice-over audio and separate translated and original volume controls. Turn it
+on in Add-ons settings first; it is off by default. Available on desktop and
+Android.
 
 <video controls preload="metadata" src="https://github.com/user-attachments/assets/0df65773-8f13-4c5e-90d6-2db9106dea98"></video>
 
@@ -353,7 +358,7 @@ pan the visible area.
 
 ### Video codec preferences
 
-Choose a preferred video codec in Advanced settings. When a video is available
+On desktop, choose a preferred video codec in Advanced settings. When a video is available
 in several codecs, switch between AV1, VP9 and H.264 in the header of the
 resolution menu. **Auto** prefers codecs your device can decode in hardware.
 
@@ -896,7 +901,8 @@ gamepad. The current control receives theme-aware focus feedback.
 
 ### Selection web search
 
-Search selected text using your chosen search engine.
+On desktop, search selected text from the right-click menu using your chosen
+search engine.
 
 ![Search selected text](https://github.com/user-attachments/assets/862fd213-8646-4f2e-a039-a9cf14c21600)
 
@@ -935,7 +941,8 @@ settings.
 
 Use the system tray to show or hide OpenTubeX and control previous, play or
 pause, and next. Choose separately whether minimizing or closing the window
-sends it to the tray. Tray menu actions use icons from your selected icon pack.
+sends it to the tray. On Linux Wayland, minimizing to the tray is only
+available on KDE Plasma. Tray menu actions use icons from your selected icon pack.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e5a11835-97ad-4c0c-8a93-c0dac329dbfd">
@@ -1064,9 +1071,9 @@ preferences, with slim idle thumbs that expand on hover.
 
 ### Interface preferences
 
-Choose the app font from fonts installed on your system or the bundled
-Google Sans, adjust mouse-wheel and
-touchpad scroll speed from 25% to 300%, and select date and time formats
+Choose the app font from nine bundled fonts, including the default Geist,
+Inter, Roboto and Google Sans, or from fonts installed on your system. Adjust
+mouse-wheel and touchpad scroll speed from 25% to 300%, and select date and time formats
 independently of the app language.
 
 ![App font setting](https://github.com/user-attachments/assets/14a3d8a7-6915-46d1-92e3-b57ab41be647)
@@ -1165,7 +1172,7 @@ on Android, along with the system's light or dark preference.
 
 ### Custom title bar
 
-On desktop, turn on **Use Custom Title Bar** in Theme settings to replace the
+On desktop, turn on **Use Custom Title Bar** in Layout settings to replace the
 system title bar with the tab bar, or with the top navigation when tabs are
 elsewhere. Window controls follow the style of Windows, macOS, Plasma or GNOME.
 
@@ -1268,7 +1275,7 @@ Display and submit SponsorBlock full-video labels and mute segments.
 
 ### IP block recovery script
 
-Set a script to run when YouTube blocks your IP. OpenTubeX waits for the script to finish, then reloads the video.
+On desktop, set a script to run when YouTube blocks your IP. OpenTubeX waits for the script to finish, then reloads the video.
 
 ![IP block recovery script setting](https://github.com/user-attachments/assets/2946401c-8e01-4048-9638-621289e31956)
 
@@ -1539,7 +1546,7 @@ it is on an unmetered network.
 Mobile apps for phones and tablets, with background playback, offline
 downloads, touch controls and sync with desktop devices. Android builds and
 experimental iOS/iPadOS builds are available. Lite Android APKs of about
-15 MiB leave out downloads and other yt-dlp features for devices with little
+16 MiB leave out downloads and other yt-dlp features for devices with little
 storage. On Android, the predictive back gesture previews going back through
 pages, menus, search and the Tab Organizer.
 

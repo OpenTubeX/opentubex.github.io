@@ -22,7 +22,7 @@ icon: lucide:database-backup
 ## Import subscriptions
 
 1. Export subscriptions from your previous app. For YouTube, request a YouTube data export through [Google Takeout](https://takeout.google.com/), including subscriptions.
-2. Select **Import Subscriptions** and choose the individual file. For Takeout, extract `subscriptions/subscriptions.csv` from the ZIP first, or use **Import YouTube Takeout ZIP** to select the archive and choose the categories to import.
+2. Select **Import Subscriptions** and choose the individual file. For Takeout, extract `subscriptions/subscriptions.csv` from the ZIP first, or use **Import YouTube Takeout ZIP** to select the archive, choose the categories to import, select **Preview changes**, then **Import selected data**.
 3. Wait for the import result. Open **Subscriptions**, check the active profile, and refresh the feed.
 
 Supported subscription formats include OpenTubeX / FreeTube **.db**, YouTube Takeout **.csv**, **.json**, or **.opml**, NewPipe **.json**, and LibreTube backup or FreeTube export **.json**. A JSON file must contain the expected export data; renaming a different file does not convert it.
@@ -51,11 +51,15 @@ If imported history has missing details or incorrect LIVE labels, use [Repair Hi
 
 1. Open **Settings → Data & Storage → Data** and select **Export backup**.
 2. Choose the categories to include, select **Export selected data**, then save the ZIP file in a backup location you can find on your other device.
-3. On that device, select **Import backup**, choose the ZIP, select the categories to import, and select **Import selected data**.
+3. On that device, select **Import backup** and choose the ZIP. OpenTubeX offers only the categories the ZIP contains and previews how many items are new, already present, or skipped. Select the categories to import, then **Import selected data**.
 
 The ZIP contains separate JSON files for the selected categories: profiles and subscriptions, playlists, watch history, search history, watch statistics, and transferable settings. All categories are selected by default. Importing merges the selected categories with data already on the device; records with matching IDs or dates are updated. You can still export or import individual categories using the separate actions.
 
 The ZIP does not include open tab sessions or the entire application profile. Transferable settings omit device-specific options and sync credentials, such as proxy configuration, external-player paths, screenshot folders, and the sync privacy key. Configure sync separately on the other device using the [sync setup guide](/docs/sync/).
+
+### Back up on a schedule
+
+On desktop, **Scheduled backups** in **Settings → Data & Storage → Data** saves a complete backup ZIP to a folder you choose. Select **Choose backup folder**, turn on **Enable scheduled backups**, and pick a **Backup frequency** of daily, weekly, or every 30 days, and how many backups to keep. Backups run while OpenTubeX is open; a missed backup runs at the next startup.
 
 Exports contain your personal viewing data; store them privately. For a full desktop profile backup, follow [Back up or move to another device](/docs/storage/#back-up-or-move-to-another-device). Downloaded video and audio files are separate from these exports and the profile backup; copy those files separately if you need them.
 

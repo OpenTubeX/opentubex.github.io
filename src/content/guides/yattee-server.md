@@ -86,7 +86,7 @@ If the reverse proxy runs on the same computer, change the port mapping to `"127
 
 *The server address shown is an example.*
 
-The username and password stay on the device. OpenTubeX does not export or sync them.
+The server URL, username, password, and proxy setting stay on the device. OpenTubeX does not export or sync them, so enter them again on each device.
 
 If the connection test fails, it names the problem, such as a wrong password or a missing `CORS_ORIGINS` entry. Correct it and test again.
 
@@ -98,6 +98,6 @@ Turn it off only if the server uses the same internet connection as your device.
 
 ## Limitations
 
-Yattee servers do not provide community posts, hashtag pages, or live chat, and comments cannot be sorted. With **Fallback to Non-Preferred Backend on Failure** turned on, OpenTubeX loads posts, hashtag pages, and live chat with the local API, which connects to YouTube directly. With fallback turned off, these pages show a message instead.
+Yattee servers do not provide community posts, hashtag pages, Trending, or live chat. Comments and channel tabs cannot be sorted, and search feature filters such as HD or subtitles are hidden. With **Fallback to Non-Preferred Backend on Failure** turned on, OpenTubeX loads posts, hashtag pages, Trending, and live chat with the local API, which connects to YouTube directly. With fallback turned off, these pages show a message instead.
 
-yattee-server 1.0.9 does not relay live streams. With that version, live streams only play with proxying turned off, and only if the server uses the same internet connection as your device.
+yattee-server 1.0.10 and earlier do not relay live streams. With those versions, live streams only play with proxying turned off, and only if the server uses the same internet connection as your device.

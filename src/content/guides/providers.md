@@ -20,7 +20,7 @@ Neither option requires you to transfer your local subscriptions to a YouTube ac
 1. Open **Settings → Advanced**.
 2. Find **Preferred API Backend** under the provider settings.
 3. Choose **Local API**, **Invidious API**, or **Yattee Server**.
-4. If choosing Invidious, review **Current Invidious Instance** and select the server you intend to use. If choosing Yattee Server, enter your server's details as described in [Use your own Yattee server](/docs/yattee-server/).
+4. If choosing Invidious, review **Invidious instance** and select the server you intend to use. If choosing Yattee Server, enter your server's details as described in [Use your own Yattee server](/docs/yattee-server/).
 5. Retry the same search or video to check the change.
 
 <picture>
@@ -54,22 +54,24 @@ In **Settings → Advanced → Video and metadata providers**, find **Stream ext
 
 *Stream extraction method selects how to obtain playable streams; Preferred API Backend is a separate choice.*
 
-On desktop, configure or update yt-dlp under **Settings → Advanced → External Software**. The mobile apps manage their own tool integrations and do not use desktop executable paths.
+The stream extraction method is not available in [OpenTubeX Lite](/docs/installing/#opentubex-lite) or the web demo, which have no yt-dlp.
 
-If search and channel pages work but playback fails, note the current extraction method, try the other one, and retry the same public video. Record which method worked when reporting the problem. The method does not download a permanent offline copy; use [Downloads](/docs/downloads/) for that.
+On desktop and Android, configure or update yt-dlp under **Settings → Advanced → External Software**. On Android, that section offers **Update yt-dlp** and yt-dlp cookies; desktop executable paths only apply on desktop.
+
+**Automatically switch stream extraction methods** is on by default. If one method fails, OpenTubeX tries the other. To pick a method for a single video, select the **Change Media Formats** button below the video. If search and channel pages work but playback still fails, note which method you tried, try the other one, and retry the same public video. Record which method worked when reporting the problem. The method does not download a permanent offline copy; use [Downloads](/docs/downloads/) for that.
 
 ## Understand fallback
 
-Fallback allows the app to try another backend when the preferred backend fails. This can improve availability, but it can also send requests to a service you were trying to avoid.
+**Fallback to Non-Preferred Backend on Failure** allows the app to try another backend when the preferred backend fails. It is off by default. Fallback can improve availability, but it can also send requests to a service you were trying to avoid. When an Invidious or Yattee request falls back to YouTube directly, OpenTubeX warns that your IP address is exposed to YouTube.
 
-Search settings for **fallback**, review the setting, and disable it if you need to control which provider receives requests. Record your original settings before troubleshooting so you can restore them afterward.
+Search settings for **fallback**, review the setting, and leave it off if you need to control which provider receives requests. **Trending** needs the Local API; with Invidious or Yattee Server, it only works when fallback is on. Record your original settings before troubleshooting so you can restore them afterward.
 
 ## Proxy video through Invidious
 
-Search settings for **Proxy Videos Through Invidious** to review video proxying. When supported by the selected playback path, this sends video requests through the instance rather than directly to YouTube. Proxying can affect speed and availability.
+Search settings for **Proxy Videos Through Invidious** to review video proxying. It is only available while an Invidious instance is in use. When supported by the selected playback path, this sends video requests through the instance rather than directly to YouTube. Proxying can affect speed and availability.
 
 Do not assume this switch controls external players or every playback engine. OpenTubeX's [privacy policy](/privacy/#network-exposure) describes exposure for local extraction, Invidious, and yt-dlp separately.
 
 ## When a provider stops working
 
-Try another public video, check for an app update, and check whether the selected instance is reachable. If you change providers as a test, note whether search, channel pages, or playback improved; that distinction helps a [bug report](/docs/troubleshooting/#report-a-bug).
+Try another public video, check for an app update, and check whether the selected instance is reachable. With the Local API, if videos often buffer, try **Always use backup media server**, which streams from YouTube's backup server instead of the assigned one. If you change providers as a test, note whether search, channel pages, or playback improved; that distinction helps a [bug report](/docs/troubleshooting/#report-a-bug).

@@ -33,20 +33,35 @@ SponsorBlock uses community-contributed segment timings to identify sponsors and
 
 Choose different behaviors for categories such as sponsorships and intros. **Show notice after a segment is skipped** controls the notification; it does not enable or disable skipping itself.
 
+To never skip segments for a channel, add its channel ID under **Excluded Channels**. The ID must match exactly.
+
+## Review a video's segments
+
+To see the segments found for the current video, select **Open SponsorBlock info**, the SponsorBlock button below the video or in the player. From this panel you can:
+
+- **Upvote** or **Downvote** a segment, or skip or mute it on demand.
+- Turn **Automatically skip segments** off for the current video only.
+- **Whitelist channel** to stop auto-skipping for that channel's videos.
+
 ## If the wrong part is skipped
 
 1. Check which category is responsible.
-2. Change that category to **Prompt To Skip** or **Show In Seek Bar** while investigating.
+2. For a one-off, open the player's SponsorBlock panel and turn off automatic skipping for that video. If the segment's timing or category is wrong, **Downvote** it there; votes affect the shared SponsorBlock data. Otherwise, change the category to **Prompt To Skip** or **Show In Seek Bar** while investigating.
 3. Retry the affected section. If needed, temporarily disable SponsorBlock to compare playback.
 
 Segment timing comes from contributors and can be inaccurate. When reporting an OpenTubeX problem, include the public video URL, segment time, category, and chosen behavior.
 
 ## Contributions and identity
 
-**Enable SponsorBlock Submission** is separate from enabling playback skipping. Review it if you want to contribute. Keep the **SponsorBlock Private User ID** private; it is not something to include in a bug report. Leaving the custom ID empty allows the app to use its generated ID.
+**Enable SponsorBlock Submission** is separate from enabling playback skipping. Review it if you want to contribute. Turning it on shows **Private user ID (optional)**, where you can paste the private ID from the SponsorBlock browser extension. Keep that ID private; it is not something to include in a bug report. Leaving it empty lets the app use its generated ID.
 
 ## Other add-ons
 
 In **Settings → Add-ons**, review **Use DeArrow Video Titles**, **Use DeArrow for thumbnails**, and **Enable Return YouTube Dislike** if you want alternative titles, thumbnails, or dislike information. These are optional services and their results may differ from YouTube's own display.
+
+Two more add-ons are there as well:
+
+- **AiSList** hides AI slop channels on a community-maintained blocklist from search, trending, and recommendations, and labels videos from channels on its warnlist. It only applies to results loaded with the Local API.
+- **Voice-over translation**, on desktop and Android, plays a machine-translated voice-over through the unofficial Yandex service when you request it. It is off by default.
 
 Enabling an add-on makes requests to its service. The [privacy policy's network exposure table](/privacy/#network-exposure) describes what each service can observe. An add-on outage does not necessarily mean the video provider itself is unavailable.
