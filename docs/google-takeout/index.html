@@ -58,18 +58,19 @@
 <ol>
 <li>In OpenTubeX, open your profile menu, choose <strong>All settings</strong>, then <strong>Data &#x26; Storage → Data</strong>.</li>
 <li>Choose <strong>Import YouTube Takeout ZIP</strong> and select the downloaded ZIP.</li>
-<li>OpenTubeX detects subscriptions, watch history, search history, and playlists in the archive. Uncheck anything you do not want to import, then choose <strong>Import selected data</strong>.</li>
+<li>OpenTubeX detects subscriptions, watch history, search history, and playlists in the archive. Uncheck anything you do not want to import, then choose <strong>Preview changes</strong> to see how many items are new, already present, or skipped.</li>
+<li>Choose <strong>Import selected data</strong>.</li>
 <li>Check the corresponding library pages. Refresh the subscription feed to fetch channel uploads.</li>
 </ol>
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/takeout-selection-dark.webp" type="image/webp">
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/takeout-selection-light.webp" type="image/webp">
-  <img src="/docs-images/takeout-selection-light.webp" alt="Takeout ZIP import screen with checkboxes for detected subscriptions, watch history, playlists, and search history." width="1232" height="820" loading="lazy" decoding="async">
+  <img src="/docs-images/takeout-selection-light.webp" alt="Takeout ZIP import screen with checkboxes for detected subscriptions, history, search history, and playlists, a preview of new and existing items for each, and the Import selected data button." width="1280" height="820" loading="lazy" decoding="async">
 </picture>
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/data-dark.webp" type="image/webp">
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/data-light.webp" type="image/webp">
-  <img src="/docs-images/data-light.webp" alt="OpenTubeX Data settings showing Import YouTube Takeout ZIP and separate data import actions." width="1232" height="820" loading="lazy" decoding="async">
+  <img src="/docs-images/data-light.webp" alt="OpenTubeX Data settings showing Import YouTube Takeout ZIP and separate data import actions." width="1280" height="820" loading="lazy" decoding="async">
 </picture>
 <p><em>Choose Import YouTube Takeout ZIP to select the archive directly.</em></p>
 <h2 id="import-individual-files">Import individual files</h2>
@@ -87,7 +88,7 @@
 <li><strong>Older history is missing:</strong> the export can only contain data Google still retains. Previously deleted activity may not be recoverable.</li>
 <li><strong>Imported history has missing details or incorrect LIVE labels:</strong> use <a href="/docs/troubleshooting/#repair-imported-history">Repair History</a> to fetch the available details without changing watched status or progress.</li>
 <li><strong>A channel is missing after import:</strong> check the import result and your active <a href="/docs/profiles/">profile</a>. A removed channel or incomplete export may need investigation.</li>
-<li><strong>A playlist video shows only its ID:</strong> Takeout’s playlist CSV includes video IDs and timestamps, but no video titles or durations.</li>
+<li><strong>A playlist video shows only its ID:</strong> Takeout’s playlist CSV includes video IDs and timestamps, but no video titles or durations. Select <strong>Repair Playlists</strong> on the <strong>Playlists</strong> page to fetch the missing details without changing the playlist order.</li>
 </ul>
 <p>Keep your original archive until you have checked the imported data. See <a href="/docs/importing/">Importing and backing up data</a> for other supported formats.</p>
 <h2 id="sources-and-image-credits">Sources and image credits</h2>

@@ -28,7 +28,7 @@
 <ol>
 <li>Open <strong>Settings → Privacy</strong>.</li>
 <li>Review <strong>Remember Watch History</strong> and <strong>Remember Search History</strong>.</li>
-<li>Review <strong>Save Watched Progress</strong> if you want to resume videos where you left off.
+<li>Choose a <strong>Save Watched Progress</strong> mode if you want to resume videos where you left off. <strong>Auto</strong> saves while you watch, <strong>Semi-auto</strong> saves only when you pause or finish a video and adds a <strong>Save Watched Progress</strong> button below the player, and <strong>Never</strong> turns saving off. It is unavailable while watch history is off.
 For viewing statistics, open <strong>Settings → General</strong> and review <strong>Enable Watch Statistics</strong>.</li>
 </ol>
 <picture>
@@ -42,14 +42,14 @@ For viewing statistics, open <strong>Settings → General</strong> and review <s
 <p>Open <strong>Settings → Data &#x26; Storage → Storage</strong> and find <strong>Automatic History Retention (Days)</strong> in the watch-history controls. Leave it blank to keep history indefinitely, or enter a positive whole number to retain a limited number of days.</p>
 <p>Saving a retention period removes older entries immediately and continues applying the limit while the app is open. <a href="/docs/importing/#back-up-your-library">Export history</a> first if you may want it later.</p>
 <h2 id="clear-data">Clear data</h2>
-<p>Search settings for <strong>Remove Watch History</strong> or <strong>Clear Search History and Cache</strong>, select the action you need, and read its confirmation. Clearing watch history is not the same as unsubscribing or removing playlists.</p>
+<p>Open <strong>Settings → Data &#x26; Storage → Storage</strong> and select <strong>Remove Watch History</strong> or <strong>Delete search history</strong>, then read the confirmation. Clearing watch history is not the same as unsubscribing or removing playlists.</p>
 <p>For storage and cache cleanup, see <a href="/docs/storage/">Data and storage</a>. Avoid clearing every category to troubleshoot a single playback problem.</p>
 <h2 id="understand-network-privacy">Understand network privacy</h2>
 <ul>
 <li>Local extraction and downloads can contact YouTube directly. Playback and downloads from <a href="/docs/playback/#play-a-link-from-another-site">external media links</a> also contact the selected site and its media services.</li>
 <li>Invidious sends relevant requests to the chosen instance; video proxying and fallback affect which other connections occur.</li>
 <li>SponsorBlock, DeArrow, and other add-ons contact their respective services when used.</li>
-<li>Sync uses end-to-end encryption: the app encrypts the selected data on your device before uploading it to the default public sync server. See <a href="/docs/sync/">Sync between devices</a> for setup and category selection.</li>
+<li>With the default public sync server, or another server with enhanced privacy, sync is end-to-end encrypted. The app encrypts the selected data on your device before uploading it. LibreTube sync servers do not support this, and their operators can read synced data; the app warns you when that applies. See <a href="/docs/sync/">Sync between devices</a> for setup and category selection.</li>
 <li><strong>Internet connectivity checks</strong> sends small requests to a GrapheneOS-hosted service to check internet access. Review its toggle in Privacy settings.</li>
 </ul>
 <p>A receiving service can observe your IP address and request details unless the relevant connection is routed through an intermediary. Profiles are not separate security identities. See <a href="/docs/providers/">Choose a content provider</a> for the provider settings, and the <a href="/privacy/#network-exposure">network exposure table</a> for service-specific details.</p>

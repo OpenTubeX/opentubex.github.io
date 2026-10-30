@@ -74,7 +74,7 @@
 
 
 <table><thead><tr><th>Operating system or package</th><th>Data directory</th></tr></thead><tbody><tr><td>Windows (Installer)</td><td><code>%APPDATA%/OpenTubeX/</code></td></tr><tr><td>Windows (Portable)</td><td><code>OpenTubeX-data/</code> beside the executable</td></tr><tr><td>macOS</td><td><code>~/Library/Application Support/OpenTubeX/</code></td></tr><tr><td>Linux</td><td><code>~/.config/OpenTubeX/</code>, or <code>$XDG_CONFIG_HOME/OpenTubeX/</code> if <code>XDG_CONFIG_HOME</code> is set</td></tr><tr><td>Linux (Flatpak)</td><td><code>~/.var/app/org.opentubex.OpenTubeX/config/OpenTubeX/</code></td></tr><tr><td>Linux (Snap)</td><td><code>~/snap/opentubex/current/.config/OpenTubeX/</code></td></tr><tr><td>Android</td><td><code>/data/user/0/org.opentubex.app/</code></td></tr><tr><td>iOS / iPadOS</td><td><code>/var/mobile/Containers/Data/Application/&#x3C;UUID>/Library/</code></td></tr></tbody></table>
-<p>The Android path shown is for the device’s primary user; other users and work profiles have a different user number in place of <code>0</code>. On iOS and iPadOS, <code>&#x3C;UUID></code> is the system-assigned identifier for this installation’s app container. These mobile directories are not accessible through normal file managers. Use <a href="/docs/importing/#back-up-your-library">data exports</a> to back up or transfer your library.</p>
+<p>The Android path shown is for the device’s primary user; other users and work profiles have a different user number in place of <code>0</code>. Nightly uses <code>org.opentubex.app.nightly</code> in that path instead, and <a href="/docs/installing/#opentubex-lite">Lite</a> builds add <code>.lite</code>, as in <code>org.opentubex.app.lite</code>. On iOS and iPadOS, <code>&#x3C;UUID></code> is the system-assigned identifier for this installation’s app container. These mobile directories are not accessible through normal file managers. Use <a href="/docs/importing/#back-up-your-library">data exports</a> to back up or transfer your library.</p>
 <h2 id="understand-the-desktop-files">Understand the desktop files</h2>
 
 
@@ -117,19 +117,40 @@
 
 
 
-<table><thead><tr><th>File</th><th>Contents</th></tr></thead><tbody><tr><td><code>profiles.sqlite</code></td><td>Profiles and subscriptions</td></tr><tr><td><code>settings.sqlite</code></td><td>Application preferences</td></tr><tr><td><code>playlists.sqlite</code></td><td>Local playlists and saved videos</td></tr><tr><td><code>history.sqlite</code></td><td>Watch history and saved progress</td></tr><tr><td><code>watch-stats.sqlite</code></td><td>Watch-time statistics</td></tr><tr><td><code>tab-session.sqlite</code></td><td>Saved tab sessions</td></tr><tr><td><code>search-history.sqlite</code></td><td>Saved searches</td></tr><tr><td><code>subscription-cache.sqlite</code></td><td>Cached subscription-feed entries</td></tr></tbody></table>
-<p>Each database can have a <code>-wal</code> file beside it that holds recent changes. Copy both, and only while OpenTubeX is closed. A profile created by OpenTubeX 0.36.1 or earlier also keeps its earlier <code>.db</code> file for each of these. OpenTubeX imports it once and leaves it unchanged, so an older version can still open it. That older version shows your library as it was when it was imported. On desktop, changes you make there are added back the next time you open the newer version.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>File</th><th>Contents</th></tr></thead><tbody><tr><td><code>profiles.sqlite</code></td><td>Profiles and subscriptions</td></tr><tr><td><code>settings.sqlite</code></td><td>Application preferences</td></tr><tr><td><code>playlists.sqlite</code></td><td>Local playlists and saved videos</td></tr><tr><td><code>history.sqlite</code></td><td>Watch history and saved progress</td></tr><tr><td><code>watch-stats.sqlite</code></td><td>Watch-time statistics</td></tr><tr><td><code>tab-session.sqlite</code></td><td>Saved tab sessions</td></tr><tr><td><code>search-history.sqlite</code></td><td>Saved searches</td></tr><tr><td><code>subscription-cache.sqlite</code></td><td>Cached subscription-feed entries</td></tr><tr><td><code>live-reminders.sqlite</code></td><td>Reminders for upcoming live streams and premieres</td></tr><tr><td><code>recommendations.sqlite</code></td><td>Data for local recommendations</td></tr><tr><td><code>video-metadata-cache.sqlite</code></td><td>Cached video details</td></tr><tr><td><code>downloads.json</code></td><td>Download list and records</td></tr><tr><td><code>yt-dlp-playback-cache.json</code></td><td>Cached yt-dlp stream information</td></tr></tbody></table>
+<p>Each database can have <code>-wal</code> and <code>-shm</code> files beside it that hold recent changes. Copy them together, and only while OpenTubeX is closed. A profile created by OpenTubeX 0.36.1 or earlier also keeps its earlier <code>.db</code> file for each of these. OpenTubeX imports it once and leaves it unchanged, so an older version can still open it. That older version shows your library as it was when it was imported. On desktop, changes you make there are added back the next time you open the newer version.</p>
 <p>These are application data files, not downloaded video files. Downloads are saved in your configured <strong>Download Folder</strong>. The profile folder may contain additional caches, session data, and files used by other features.</p>
 <h2 id="back-up-or-move-to-another-device">Back up or move to another device</h2>
 <p>For normal transfers, use the <a href="/docs/importing/#back-up-your-library">export and import actions</a>. They let you choose what to transfer without copying device-specific settings indiscriminately.</p>
 <p>The unified ZIP backup includes watch statistics, but individual category exports and the ZIP do not include saved tab sessions. A full desktop profile backup includes their database files along with the rest of the profile; it can also contain credentials and sync keys, so keep the whole backup private.</p>
+<p>For regular backups without copying files by hand, turn on <a href="/docs/importing/#back-up-on-a-schedule">scheduled backups</a>, which save a ZIP backup to a folder you choose.</p>
 <p>If you need a full desktop profile backup, close OpenTubeX before copying its profile directory to a private backup location. Copy downloaded media separately. Do not edit or replace live database files while the app is running.</p>
 <h2 id="free-storage">Free storage</h2>
 <ol>
 <li>Open <strong>Settings → Data &#x26; Storage → Storage</strong> and review the categories and their descriptions.</li>
 <li>Prefer clearing a replaceable cache when you only want to reclaim cached data.</li>
 <li>Read the confirmation before clearing history or other library records.</li>
-<li>To remove downloaded media, use the <strong>Downloads</strong> panel and review whether the action clears its list entry or permanently deletes the file.</li>
+<li>To remove downloaded media, use the <strong>Downloads</strong> panel and review whether the action clears its list entry or removes the file. On desktop, removed files go to the trash.</li>
 </ol>
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/storage-dark.webp" type="image/webp">
