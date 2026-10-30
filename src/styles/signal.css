@@ -259,6 +259,10 @@ body.signal-body {
   letter-spacing: -0.02em;
 }
 
+.nav__brand:hover {
+  color: var(--teal);
+}
+
 .nav__brand img {
   width: 1.85rem;
   height: 1.85rem;
