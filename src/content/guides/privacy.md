@@ -11,7 +11,7 @@ OpenTubeX keeps its library on your device by default. It reduces reliance on th
 
 1. Open **Settings → Privacy**.
 2. Review **Remember Watch History** and **Remember Search History**.
-3. Review **Save Watched Progress** if you want to resume videos where you left off.
+3. Choose a **Save Watched Progress** mode if you want to resume videos where you left off. **Auto** saves while you watch, **Semi-auto** saves only when you pause or finish a video and adds a **Save Watched Progress** button below the player, and **Never** turns saving off. It is unavailable while watch history is off.
 For viewing statistics, open **Settings → General** and review **Enable Watch Statistics**.
 
 <picture>
@@ -32,7 +32,7 @@ Saving a retention period removes older entries immediately and continues applyi
 
 ## Clear data
 
-Search settings for **Remove Watch History** or **Clear Search History and Cache**, select the action you need, and read its confirmation. Clearing watch history is not the same as unsubscribing or removing playlists.
+Open **Settings → Data & Storage → Storage** and select **Remove Watch History** or **Delete search history**, then read the confirmation. Clearing watch history is not the same as unsubscribing or removing playlists.
 
 For storage and cache cleanup, see [Data and storage](/docs/storage/). Avoid clearing every category to troubleshoot a single playback problem.
 
@@ -41,7 +41,7 @@ For storage and cache cleanup, see [Data and storage](/docs/storage/). Avoid cle
 - Local extraction and downloads can contact YouTube directly. Playback and downloads from [external media links](/docs/playback/#play-a-link-from-another-site) also contact the selected site and its media services.
 - Invidious sends relevant requests to the chosen instance; video proxying and fallback affect which other connections occur.
 - SponsorBlock, DeArrow, and other add-ons contact their respective services when used.
-- Sync uses end-to-end encryption: the app encrypts the selected data on your device before uploading it to the default public sync server. See [Sync between devices](/docs/sync/) for setup and category selection.
+- With the default public sync server, or another server with enhanced privacy, sync is end-to-end encrypted. The app encrypts the selected data on your device before uploading it. LibreTube sync servers do not support this, and their operators can read synced data; the app warns you when that applies. See [Sync between devices](/docs/sync/) for setup and category selection.
 - **Internet connectivity checks** sends small requests to a GrapheneOS-hosted service to check internet access. Review its toggle in Privacy settings.
 
 A receiving service can observe your IP address and request details unless the relevant connection is routed through an intermediary. Profiles are not separate security identities. See [Choose a content provider](/docs/providers/) for the provider settings, and the [network exposure table](/privacy/#network-exposure) for service-specific details.

@@ -20,7 +20,7 @@ Read the **Privacy policy for this server** link when available. The [network ex
 ## Connect your first device
 
 1. Open **Settings → Sync** and turn on **Enable Sync**.
-2. Enter or select the **Server URL** and wait for the server check.
+2. Enter or select the **Sync server URL** and wait for the server check.
 3. Enter your **Username** and account **Password**. For encrypted sync, also enter a separate **Privacy passphrase**. Use the same privacy passphrase when signing in to an existing encrypted account.
 4. Choose **Register** to create an account if the server allows registration, or **Log in** for an existing account.
 5. Check the connection and privacy status, then review the categories described below. Use **Sync now** and wait for synchronization to finish before pairing another device.
@@ -28,7 +28,7 @@ Read the **Privacy policy for this server** link when available. The [network ex
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/sync-setup-dark.webp" type="image/webp" />
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/sync-setup-light.webp" type="image/webp" />
-  <img src="/docs-images/sync-setup-light.webp" alt="Sync settings with Enable Sync, Server URL, Username, Password, and a separate Privacy passphrase field." width="1280" height="820" loading="lazy" decoding="async" />
+  <img src="/docs-images/sync-setup-light.webp" alt="Sync settings with Enable Sync, Sync server URL, Username, Password, and a separate Privacy passphrase field." width="1280" height="820" loading="lazy" decoding="async" />
 </picture>
 
 *Connect in Settings → Sync. The server address shown is an example, not a public sync service.*
@@ -37,7 +37,7 @@ Keep the privacy passphrase somewhere private that you can recover independently
 
 ## Choose what to sync
 
-In **Settings → Sync**, review **Subscriptions**, **Playlists**, **History**, **Profiles**, **Open tabs and session**, and **Settings**. Settings sync does not transfer every device-specific preference or credential.
+In **Settings → Sync**, review **Subscriptions**, **Playlists**, **History**, **Upcoming reminders**, **Profiles**, **Open tabs and session**, and **Settings**. Settings sync does not transfer every device-specific preference or credential. To keep one setting different on this device, select the link icon next to it, labeled **Stop syncing this setting**. Select it again to resume syncing that setting.
 
 Each device keeps its own open tab set by default, including devices of the same type. Enabling **Use one shared tab set across devices** makes the current device's tabs the shared set. Other devices replace their open tabs with that set when they sync; tabs from different devices are not combined.
 
@@ -57,7 +57,7 @@ Use **Sync now** for a manual sync, or enable **Sync automatically**. If the app
 
 Secure pairing transfers the encryption key from a device already connected to your sync account.
 
-1. On the new device, open **Settings → Sync**, enable sync, and select the same **Server URL** as the connected device.
+1. On the new device, open **Settings → Sync**, enable sync, and select the same **Sync server URL** as the connected device.
 2. Choose **Pair with an existing device**, enter a recognizable **Device name**, and choose **Create pairing code**.
 3. On the already connected device, choose **Pair another device** and scan the new device's QR code. Alternatively, choose **Use text code instead** on the new device and **Enter code manually** on the connected device, then paste the code and choose **Check code**.
 4. On the connected device, check the request and choose **Approve pairing**. Compare the verification codes on both devices. On the new device, choose **Codes match** only if they match.
@@ -71,10 +71,25 @@ Secure pairing transfers the encryption key from a device already connected to y
 
 *Start on the new device: give it a recognizable name, then create its pairing code.*
 
+If the connected device cannot scan a code, for example because it has no camera, start from the connected device instead. Choose **Pair another device**, then **Show pairing code**. On the new device, choose **Pair with an existing device** and **Use code from connected device**, and scan or paste that code. Then approve the request on the connected device as in step 4; pairing finishes on its own.
+
 Pairing transfers account access and the privacy key without typing your account password or privacy passphrase on the new device. Show the pairing code only to your trusted device. It expires after two minutes; create a new code if it expires, and clear text codes from clipboard history afterward.
 
 You can also sign in on the second device with the same server, username, account password, and privacy passphrase. If pairing reports that it cannot verify the key, sync the existing device first and retry.
 
+## Use sync across devices
+
+OpenTubeX sync servers also offer these features; LibreTube servers do not.
+
+- **Account activity** in **Settings → Sync** lists recent changes from your devices, such as a changed setting or a video added to a playlist.
+- To continue a video elsewhere, choose **Open on another device** in its menu. Offline devices receive it when they reconnect, for up to 24 hours.
+
+## Manage devices and your password
+
+On servers with enhanced privacy, **Settings → Sync → Devices** lists every device with access to your account, with when it was last active. Use **Rename device** to change a name, or **Revoke access** to sign a lost or retired device out. Revoking a device also deletes its synced tab sets.
+
+**Change password** changes your account password and signs out every other device; the current device stays connected. Sign the other devices in again or [pair them](#pair-another-device). This does not change your privacy passphrase.
+
 ## Disconnect or remove the account
 
-Use **Disconnect** to disconnect this installation. **Delete sync account** permanently removes the server account and its stored data, while leaving the current device's local OpenTubeX data in place. Read the confirmation and keep your exports before deleting the account.
+Use **Disconnect** to disconnect this installation. **Delete sync account** permanently removes the server account and its stored data, while leaving the current device's local OpenTubeX data in place. It asks for your account password. Read the confirmation and keep your exports before deleting the account.

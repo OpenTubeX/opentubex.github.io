@@ -28,7 +28,7 @@ This is more reliable than assuming a fixed path: portable apps, sandboxed packa
 | Android | `/data/user/0/org.opentubex.app/` |
 | iOS / iPadOS | `/var/mobile/Containers/Data/Application/<UUID>/Library/` |
 
-The Android path shown is for the device's primary user; other users and work profiles have a different user number in place of `0`. On iOS and iPadOS, `<UUID>` is the system-assigned identifier for this installation's app container. These mobile directories are not accessible through normal file managers. Use [data exports](/docs/importing/#back-up-your-library) to back up or transfer your library.
+The Android path shown is for the device's primary user; other users and work profiles have a different user number in place of `0`. Nightly uses `org.opentubex.app.nightly` in that path instead, and [Lite](/docs/installing/#opentubex-lite) builds add `.lite`, as in `org.opentubex.app.lite`. On iOS and iPadOS, `<UUID>` is the system-assigned identifier for this installation's app container. These mobile directories are not accessible through normal file managers. Use [data exports](/docs/importing/#back-up-your-library) to back up or transfer your library.
 
 ## Understand the desktop files
 
@@ -42,8 +42,13 @@ The Android path shown is for the device's primary user; other users and work pr
 | `tab-session.sqlite` | Saved tab sessions |
 | `search-history.sqlite` | Saved searches |
 | `subscription-cache.sqlite` | Cached subscription-feed entries |
+| `live-reminders.sqlite` | Reminders for upcoming live streams and premieres |
+| `recommendations.sqlite` | Data for local recommendations |
+| `video-metadata-cache.sqlite` | Cached video details |
+| `downloads.json` | Download list and records |
+| `yt-dlp-playback-cache.json` | Cached yt-dlp stream information |
 
-Each database can have a `-wal` file beside it that holds recent changes. Copy both, and only while OpenTubeX is closed. A profile created by OpenTubeX 0.36.1 or earlier also keeps its earlier `.db` file for each of these. OpenTubeX imports it once and leaves it unchanged, so an older version can still open it. That older version shows your library as it was when it was imported. On desktop, changes you make there are added back the next time you open the newer version.
+Each database can have `-wal` and `-shm` files beside it that hold recent changes. Copy them together, and only while OpenTubeX is closed. A profile created by OpenTubeX 0.36.1 or earlier also keeps its earlier `.db` file for each of these. OpenTubeX imports it once and leaves it unchanged, so an older version can still open it. That older version shows your library as it was when it was imported. On desktop, changes you make there are added back the next time you open the newer version.
 
 These are application data files, not downloaded video files. Downloads are saved in your configured **Download Folder**. The profile folder may contain additional caches, session data, and files used by other features.
 
@@ -53,6 +58,8 @@ For normal transfers, use the [export and import actions](/docs/importing/#back-
 
 The unified ZIP backup includes watch statistics, but individual category exports and the ZIP do not include saved tab sessions. A full desktop profile backup includes their database files along with the rest of the profile; it can also contain credentials and sync keys, so keep the whole backup private.
 
+For regular backups without copying files by hand, turn on [scheduled backups](/docs/importing/#back-up-on-a-schedule), which save a ZIP backup to a folder you choose.
+
 If you need a full desktop profile backup, close OpenTubeX before copying its profile directory to a private backup location. Copy downloaded media separately. Do not edit or replace live database files while the app is running.
 
 ## Free storage
@@ -60,7 +67,7 @@ If you need a full desktop profile backup, close OpenTubeX before copying its pr
 1. Open **Settings → Data & Storage → Storage** and review the categories and their descriptions.
 2. Prefer clearing a replaceable cache when you only want to reclaim cached data.
 3. Read the confirmation before clearing history or other library records.
-4. To remove downloaded media, use the **Downloads** panel and review whether the action clears its list entry or permanently deletes the file.
+4. To remove downloaded media, use the **Downloads** panel and review whether the action clears its list entry or removes the file. On desktop, removed files go to the trash.
 
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/storage-dark.webp" type="image/webp" />

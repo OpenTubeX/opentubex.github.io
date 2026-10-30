@@ -21,7 +21,7 @@ Some controls move into the player's overflow menu when space is limited. Built-
 2. OpenTubeX uses yt-dlp to extract the media. On desktop, allow any required managed tool download to finish; tool settings are under **Settings → Advanced → External Software**.
 3. Use the player controls as usual. Details, chapters, captions, and formats depend on what the source provides.
 
-Support depends on yt-dlp and the site; some links require authentication or are unavailable, and DRM-protected media is unsupported. Opening a link contacts that site and its media services. See [Downloads](/docs/downloads/#download-from-another-site) to save supported media offline.
+Support depends on yt-dlp and the site; some links require authentication or are unavailable, and DRM-protected media is unsupported. Playing links from other sites needs yt-dlp, so it does not work in [OpenTubeX Lite](/docs/installing/#opentubex-lite) or the web demo. The same applies to seeking in live streams. Opening a link contacts that site and its media services. See [Downloads](/docs/downloads/#download-from-another-site) to save supported media offline.
 
 ## Set your playback defaults
 
@@ -53,7 +53,7 @@ Shortcuts can be customized, so the displayed bindings are the source of truth. 
 - **Add-ons:** configure SponsorBlock and other optional services. Choose which SponsorBlock categories should be skipped automatically.
 - **Privacy:** review viewing privacy options.
 - **Data & Storage:** [import or export your library](/docs/importing/) and inspect storage usage.
-- **Sync:** [connect and pair your devices](/docs/sync/) with end-to-end encryption. Keep the privacy passphrase private and make a backup before changing your setup.
+- **Sync:** [connect and pair your devices](/docs/sync/), end-to-end encrypted on servers with enhanced privacy. Keep the privacy passphrase private and make a backup before changing your setup.
 
 See the [SponsorBlock guide](/docs/sponsorblock/) for skip behaviors and [Privacy and watch history](/docs/privacy/) for recording controls.
 
@@ -61,6 +61,6 @@ Use settings search when you know an option's name but not its category. The [Fe
 
 ## Mobile and Linux differences
 
-On Android and iOS/iPadOS, tap to show player controls. Background playback can continue when you switch apps. Android's media notification provides playback controls; on iOS/iPadOS, use the lock-screen or Control Center media controls. If Android playback stops after the screen locks, see [background playback troubleshooting](/docs/troubleshooting/#android-background-playback-stops).
+On Android and iOS/iPadOS, tap to show player controls. Background playback can continue when you switch apps. To keep playing after the screen locks, leave **Settings → Playback → Continue playback when the screen is locked** on; turn it off to pause when the app is no longer visible. Android's media notification provides playback controls; on iOS/iPadOS, use the lock-screen or Control Center media controls. If Android playback stops after the screen locks, see [background playback troubleshooting](/docs/troubleshooting/#android-background-playback-stops).
 
-On Linux Wayland, the automatic Picture-in-Picture trigger for minimizing the window is unavailable. Use **When the window loses focus or is switched away** instead. Desktop window and external-player options do not all apply to the mobile apps.
+On Linux Wayland, the automatic Picture-in-Picture trigger for minimizing the window only works on KDE Plasma. On other Wayland desktops, use **When the window loses focus or is switched away** instead. Desktop window and external-player options do not all apply to the mobile apps.

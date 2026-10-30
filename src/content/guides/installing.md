@@ -39,11 +39,15 @@ For an AppImage, open the file's properties, allow it to run as a program, then 
 
 ## Android
 
-1. On the [Downloads page](/downloads/), choose **F-Droid** or **Obtainium**. For a manual installation, download an APK from [GitHub Releases](https://github.com/OpenTubeX/OpenTubeX/releases).
+1. On the [Downloads page](/downloads/), choose **F-Droid** or **Obtainium**. For a manual installation, download an APK from [GitHub Releases](https://github.com/OpenTubeX/OpenTubeX/releases). Pick the regular APK unless you want [OpenTubeX Lite](#opentubex-lite).
 2. Follow the selected installer's prompts. For a direct APK, Android may ask you to allow installation from the browser or file manager you used.
 3. Open the app. Allow notifications if you want download progress and playback controls in Android's notification area.
 
-The Android app has a phone layout, background playback, and offline downloads. Desktop integrations, window controls, and external software settings can differ or be unavailable.
+The Android app has a phone layout, background playback, and offline downloads. Desktop integrations and window controls can differ or be unavailable.
+
+### OpenTubeX Lite
+
+Releases also include smaller **Lite** APKs. Lite leaves out yt-dlp, so it has no downloads, no yt-dlp stream extraction, no playback of links from other sites, and no yt-dlp cookies. It installs as a separate app, `org.opentubex.app.lite`, with its own settings and library, so you can install both. To move your data between them, [export your library](/docs/importing/#back-up-your-library) in one and import it in the other.
 
 ## iOS / iPadOS (experimental)
 
@@ -92,4 +96,4 @@ The port is experimental. Playback, fullscreen, touch menus, and settings have b
 3. For a manual installation, get the newer package for the same platform and install it over the existing app. For a portable installation, keep your existing data when replacing the app files.
 4. Reopen the app and check your subscriptions and playlists.
 
-On desktop, **Settings → General → Check for Updates** controls update checks; it does not replace your package manager's update process. See the [Changelog](/changelog/) for release changes. Avoid uninstalling or clearing application data just to update.
+**Settings → General → Check for Updates** controls whether OpenTubeX tells you about new releases; it does not replace your package manager's update process. See the [Changelog](/changelog/) for release changes. Avoid uninstalling or clearing application data just to update.

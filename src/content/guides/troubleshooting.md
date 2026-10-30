@@ -7,15 +7,21 @@ icon: lucide:bug
 
 ## A video will not play
 
-1. Try a second public video. If only one fails, it may be removed, private, region-restricted, or otherwise unavailable.
+1. Try a second public video. If only one fails, it may be removed, private, region-restricted, or otherwise unavailable. For age-restricted or members-only videos, see [below](#age-restricted-or-members-only-videos).
 2. Check your connection and restart OpenTubeX.
 3. [Update the app](/docs/installing/#update-without-starting-over). YouTube changes can break extraction in older versions.
 4. If you changed playback or provider settings, review them under **Playback** and **Advanced**. Try returning the affected option to its default and retry the same video.
 5. Check [existing issues](https://github.com/OpenTubeX/OpenTubeX/issues) for the same error before opening a report.
 
-For buffering, try a lower quality in the player. If you use a proxy or an alternative provider, check whether the problem also happens without that configuration. Note which setting made a difference.
+For buffering, try a lower quality in the player. With the Local API, **Always use backup media server** in **Settings → Advanced** can help when YouTube's assigned server is slow. If you use a proxy or an alternative provider, check whether the problem also happens without that configuration. Note which setting made a difference.
 
-If search and channel pages work but videos fail, compare the **Built-in** and **yt-dlp** [stream extraction methods](/docs/providers/#choose-a-stream-extraction-method). Include the failing method in your report.
+If search and channel pages work but videos fail, OpenTubeX already tries the other [stream extraction method](/docs/providers/#choose-a-stream-extraction-method) by default. The error message also offers **Retry with built-in extraction** or **Retry with yt-dlp extraction**. Include the failing method in your report. To keep a recovery error on screen instead of a brief notification, turn on **Settings → Playback → Pause on Stream Recovery**.
+
+If the error says YouTube has blocked your IP address, switch to a different VPN or proxy, or try another [provider](/docs/providers/).
+
+### Age-restricted or members-only videos
+
+These videos need a signed-in Google account. On desktop and Android, configure cookies under **Settings → Advanced → yt-dlp Cookies**, then choose **Try with configured cookies** on the video. Using yt-dlp with a Google account can lead to restrictions on that account.
 
 ## Imports or subscriptions look incomplete
 
@@ -30,7 +36,7 @@ An imported channel list does not instantly contain every video. Refreshing the 
 
 If imported history entries have missing titles, channels, or publication dates, incorrect durations, or incorrect LIVE labels:
 
-1. Open **History** and choose **Repair History**.
+1. Open **History** and choose **Repair History**. On narrow screens, the button reads **Repair**.
 2. Review the description, then choose **Start repair**.
 3. Keep a working internet connection and let the repair run. Large histories can take time; failed requests are retried automatically.
 4. Check the repaired and failed counts, then review the affected entries.
@@ -52,9 +58,10 @@ Check the chosen download folder, storage permission, and free space. Moving or 
 ## Android background playback stops
 
 1. Confirm that playback works with the app in the foreground.
-2. Open Android's app information for OpenTubeX and review its battery/background usage settings. Allow background activity if Android has restricted it; names vary by device.
-3. Check notification permission if media controls are missing.
-4. Test again with the screen locked and note whether the problem happens on Wi-Fi, mobile data, or both.
+2. In OpenTubeX, check that **Settings → Playback → Continue playback when the screen is locked** is on.
+3. Open Android's app information for OpenTubeX and review its battery/background usage settings. Allow background activity if Android has restricted it; names vary by device.
+4. Check notification permission if media controls are missing.
+5. Test again with the screen locked and note whether the problem happens on Wi-Fi, mobile data, or both.
 
 Include your Android version and device model in a report. Desktop and Android behavior may differ.
 
@@ -71,6 +78,9 @@ Before reinstalling or clearing storage, [export your data](/docs/importing/#bac
 3. Include the OpenTubeX version, operating system/version, installation method, and whether you use a regular release or nightly build. For mobile apps, include the device model.
 4. Write numbered steps that reproduce the problem, what you expected, and what happened instead. Include the affected video URL if it is public and relevant.
 5. Copy the exact error text and attach a screenshot or short recording if it explains the problem. Mention any settings changes or workarounds you tested.
+6. For problems that are hard to describe, turn on **Settings → Advanced → Diagnostics → Enable diagnostic logging**, reproduce the problem, then choose **Copy report** or **Save report** and attach it.
+
+Diagnostic logs stay in memory until you copy or save them, and turning logging off deletes them. Reports leave out cookies, tokens, IP addresses, and URL parameters, but can include IDs of videos you played. Check a report before you share it.
 
 Remove personal information from screenshots and logs. Do not attach cookies, passwords, sync recovery information, or your full viewing database to a public issue.
 
