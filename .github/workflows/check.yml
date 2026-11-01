@@ -41,6 +41,9 @@ jobs:
       - name: Test
         run: bun test
 
+      - name: Compile download service
+        run: bun run check:downloads
+
       - name: Build site
         run: bun run build
         env:

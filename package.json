@@ -4,6 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "test": "bun test",
+    "check:downloads": "cd download-service && wrangler pages functions build --outdir ../.cache/download-worker",
+    "deploy:downloads": "cd download-service && wrangler pages deploy --branch master",
     "dev": "bun scripts/dev.ts",
     "start": "astro dev",
     "build": "astro build",
@@ -27,6 +29,7 @@
     "sharp": "^0.35.5"
   },
   "devDependencies": {
-    "@types/bun": "^1.4.3"
+    "@types/bun": "^1.4.3",
+    "wrangler": "4.156.0"
   }
 }
