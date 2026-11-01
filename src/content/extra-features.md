@@ -358,9 +358,10 @@ pan the visible area.
 
 ### Video codec preferences
 
-On desktop, choose a preferred video codec in Advanced settings. When a video is available
-in several codecs, switch between AV1, VP9 and H.264 in the header of the
-resolution menu. **Auto** prefers codecs your device can decode in hardware.
+Choose a preferred video codec in Advanced settings. Its tooltip explains how
+AV1, VP9 and H.264 differ in data use, battery use and available resolutions.
+When a video is available in several codecs, switch between them in the header
+of the resolution menu. **Auto** prefers codecs your device can decode in hardware.
 
 <img width="401" height="143" style="max-width: min(100%, 401px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/b90b6a45-676a-45fd-b0ce-c2a98415d690" alt="Resolution menu with an AV1, VP9 and H.264 switcher in its header">
 
