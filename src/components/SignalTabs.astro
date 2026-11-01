@@ -108,7 +108,7 @@ const restoreScript = `(function (root) {
 		list.classList.add('has-indicator');
 	}
 
-	function switchPanels(root: HTMLElement, panels: HTMLElement[], tabId: string) {
+	function switchPanels(root: HTMLElement, panels: HTMLElement[], tabId: string, animate: boolean) {
 		const container = root.querySelector<HTMLElement>(':scope > .sig-tabs__panels');
 		const previous = panels.find((panel) => !panel.hidden);
 		const next = panels.find((panel) => panel.dataset.panel === tabId);
@@ -125,7 +125,7 @@ const restoreScript = `(function (root) {
 			panel.setAttribute('aria-hidden', active ? 'false' : 'true');
 		});
 
-		if (!previous || reducedMotion.matches || root.dataset.bound !== 'true') return;
+		if (!previous || !animate || reducedMotion.matches || root.dataset.bound !== 'true') return;
 		const nextHeight = container.getBoundingClientRect().height;
 		if (Math.abs(height - nextHeight) <= 1) return;
 		container.classList.add('is-transitioning');
@@ -152,7 +152,7 @@ const restoreScript = `(function (root) {
 		if (reducedMotion.matches) transitions.forEach((cleanup) => cleanup());
 	});
 
-	function activateTab(root: HTMLElement, tabId: string, persist: boolean) {
+	function activateTab(root: HTMLElement, tabId: string, persist: boolean, animate = true) {
 		const tabs = getTabs(root);
 		const panels = [...root.querySelectorAll<HTMLElement>(':scope > .sig-tabs__panels > [role="tabpanel"]')];
 		const next = tabs.find((tab) => tab.dataset.tab === tabId);
@@ -166,10 +166,15 @@ const restoreScript = `(function (root) {
 		});
 
 		positionIndicator(root);
-		switchPanels(root, panels, tabId);
+		switchPanels(root, panels, tabId, animate);
 
 		const syncKey = root.dataset.syncKey;
 		if (persist && syncKey) {
+			// Synced groups above this one can change height, and the hidden panel may have held the
+			// browser's scroll anchor. Keep the clicked tabs where they were on screen instead.
+			const list = root.querySelector<HTMLElement>(':scope > .sig-tabs__list');
+			const top = list?.getBoundingClientRect().top;
+
 			try {
 				localStorage.setItem(`otx-synced-tabs__${syncKey}`, next.dataset.label || tabId);
 			} catch {
@@ -181,8 +186,12 @@ const restoreScript = `(function (root) {
 				const otherTab = getTabs(other).find(
 					(tab) => tab.dataset.label === next.dataset.label,
 				);
-				if (otherTab?.dataset.tab) activateTab(other, otherTab.dataset.tab, false);
+				// Switch instantly so the shift is known now rather than after a height transition.
+				if (otherTab?.dataset.tab) activateTab(other, otherTab.dataset.tab, false, false);
 			});
+
+			const shift = list && top !== undefined ? list.getBoundingClientRect().top - top : 0;
+			if (Math.abs(shift) > 1) window.scrollBy({ top: shift, behavior: 'instant' });
 		}
 	}
 
