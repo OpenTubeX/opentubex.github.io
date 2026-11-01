@@ -48,7 +48,7 @@
 		new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }),
 	);
 	await settle(outer);
-	check(outer, 'android');
+	check(outer, 'snap');
 	check(inner, 'paru');
 	await activate(outer, 'arch');
 	check(inner, 'paru');
