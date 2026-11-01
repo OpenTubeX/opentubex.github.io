@@ -1,0 +1,46 @@
+name: Deploy download redirects
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'download-service/**'
+      - 'package.json'
+      - 'bun.lock'
+      - '.github/workflows/deploy-downloads.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-downloads
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # Enable after creating the Pages project and configuring deployment secrets.
+    if: vars.CLOUDFLARE_DOWNLOADS_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Test download redirects
+        run: bun test tests/download-service.test.ts
+
+      - name: Deploy download service
+        run: bun run deploy:downloads
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
