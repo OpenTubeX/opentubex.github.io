@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopentubex=self.webpackChunkopentubex||[]).push([[3002],{13002(e,s,n){const t=(0,n(68144).registerPlugin)("ScreenBrightness",{});n.d(s,["ScreenBrightness",0,t])}}]);
