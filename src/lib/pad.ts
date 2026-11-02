@@ -76,7 +76,7 @@ export function padXml({ site, version, publishedAt, downloadUrl }: {
 			Program_OS_Support: 'WinOther,Mac OS X,Linux,Android',
 			Program_Language: languages.join(','),
 			Program_Category_Class: 'Audio & Multimedia::Video Tools',
-			Program_System_Requirements: 'Windows 10 or later, macOS 12 or later, Linux, or Android 8.0 or later',
+			Program_System_Requirements: 'Windows 10 or later, macOS 13 or later, Linux, or Android 8.0 or later',
 			Expire_Info: { Has_Expire_Info: 'N' },
 		},
 		Web_Info: {

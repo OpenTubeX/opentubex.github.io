@@ -59,11 +59,6 @@ const linuxPortableDownloads: DownloadLink[] = [
 		icon: 'lucide:file-archive',
 	},
 	{
-		label: '.zip (armv7l)',
-		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-armv7l-portable.zip`),
-		icon: 'lucide:file-archive',
-	},
-	{
 		label: '.7z (x64)',
 		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-x64-portable.7z`),
 		icon: 'lucide:file-archive',
@@ -71,11 +66,6 @@ const linuxPortableDownloads: DownloadLink[] = [
 	{
 		label: '.7z (arm64)',
 		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-arm64-portable.7z`),
-		icon: 'lucide:file-archive',
-	},
-	{
-		label: '.7z (armv7l)',
-		url: downloadUrl(`opentubex-${releaseVersion}-beta-linux-armv7l-portable.7z`),
 		icon: 'lucide:file-archive',
 	},
 ];
@@ -270,11 +260,6 @@ export const downloadGroups: DownloadGroup[] = [
 				url: downloadUrl(`opentubex_${releaseVersion}_beta_arm64.deb`),
 				icon: 'lucide:package',
 			},
-			{
-				label: '.deb (armv7l)',
-				url: downloadUrl(`opentubex_${releaseVersion}_beta_armv7l.deb`),
-				icon: 'lucide:package',
-			},
 		],
 	},
 	{
@@ -371,11 +356,6 @@ export const downloadGroups: DownloadGroup[] = [
 			{
 				label: 'AppImage (arm64)',
 				url: downloadUrl(`opentubex-${releaseVersion}-beta-arm64.AppImage`),
-				icon: 'simple-icons:appimage',
-			},
-			{
-				label: 'AppImage (armv7l)',
-				url: downloadUrl(`opentubex-${releaseVersion}-beta-armv7l.AppImage`),
 				icon: 'simple-icons:appimage',
 			},
 		],
