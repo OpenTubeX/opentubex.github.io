@@ -72,12 +72,13 @@
   overflow-x: auto;
   overscroll-behavior-inline: contain;
 }
-.comparison-table { width: 100%; min-width: 1040px; border-collapse: separate; border-spacing: 0; table-layout: fixed; color: var(--ink); }
-.comparison-table th, .comparison-table td { border-bottom: 1px solid var(--line); padding: 0.75rem 0.5rem; }
+/* Eight client columns, each just wide enough for the widest stacked name. */
+.comparison-table { width: 100%; min-width: calc(var(--comparison-label-width) + 8 * 6.25rem); border-collapse: separate; border-spacing: 0; table-layout: fixed; color: var(--ink); }
+.comparison-table th, .comparison-table td { border-bottom: 1px solid var(--line); padding: 0.75rem 0.25rem; }
 .comparison-table tr > :first-child:not([colspan]) { width: var(--comparison-label-width); text-align: left; padding-inline: 1.25rem; }
 .comparison-table thead { position: relative; z-index: 4; }
 .comparison-table thead th { background: var(--white); font-family: var(--font-display); }
-.comparison-table thead a { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; }
+.comparison-table thead a { display: inline-flex; flex-direction: column; align-items: center; gap: 0.375rem; min-height: 44px; }
 .comparison-table thead img { flex: none; object-fit: contain; }
 .comparison-table tbody th[scope='row'] { font-size: 0.9375rem; font-weight: 500; line-height: 1.45; }
 .comparison-table tr > th:first-child:not([colspan]) { position: sticky; left: 0; z-index: 3; background: var(--white); border-right: 1px solid var(--line); }
@@ -118,7 +119,7 @@
    Removing it lets the browser handle vertical stickiness natively. The outer
    frame owns the rounded clipping, so the header is rounded only at rest and
    naturally square once it sticks below the navigation. */
-@container (min-width: 65.125rem) {
+@container (min-width: 62.625rem) {
   .comparison-frame::before, .comparison-frame::after { display: none; }
   .comparison-scroll { overflow: visible; }
   .comparison-table thead { position: sticky; top: var(--nav-h); }
@@ -132,6 +133,7 @@
 
 .comparison-feature { display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
 .comparison-feature > :is(span, a) { text-align: center; }
-:is(.comparison-table thead, .comparison-feature) a { color: var(--ink); text-decoration: underline dotted; text-decoration-color: var(--teal-link-underline); text-underline-offset: 0.25em; }
+/* The sticky header copy uses plain labels; keep them looking like the real links. */
+:is(.comparison-table thead, .comparison-feature) a, .comparison-client-label { color: var(--ink); text-decoration: underline dotted; text-decoration-color: var(--teal-link-underline); text-underline-offset: 0.25em; }
 :is(.comparison-table thead, .comparison-feature) a:hover { color: var(--teal-deep); }
 .comparison-feature > :is(svg, img) { flex: none; width: 1.25rem; height: 1.25rem; object-fit: contain; }
