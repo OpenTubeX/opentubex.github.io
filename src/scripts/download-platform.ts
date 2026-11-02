@@ -3,6 +3,21 @@ import { detectOS } from '../lib/detect-os';
 
 const os = detectOS(navigator);
 
+const platformTabs = document.querySelector<HTMLElement>('.sig-tabs[data-sync-key="download-platform"]');
+
+function syncNightlyPlatform() {
+	const selected = platformTabs?.querySelector<HTMLElement>(':scope > .sig-tabs__list > [aria-selected="true"]');
+	const packageTab = selected?.dataset.tab === 'linux'
+		? platformTabs?.querySelector<HTMLElement>('.sig-tabs[data-sync-key="package-platform"] > .sig-tabs__list > [aria-selected="true"]')
+		: selected;
+	if (!packageTab?.dataset.tab) return;
+
+	document.querySelector('#development .sig-tabs[data-sync-key="package-platform"]')
+		?.dispatchEvent(new CustomEvent('sig-tabs:select', { detail: packageTab.dataset.tab }));
+}
+
+platformTabs?.addEventListener('sig-tabs:change', syncNightlyPlatform);
+
 /** Opens every tab panel around the element, outermost first. */
 function reveal(element: Element | null) {
 	const panels: HTMLElement[] = [];
@@ -33,6 +48,7 @@ async function detectArchitecture(): Promise<CpuArchitecture> {
 }
 
 revealHash();
+syncNightlyPlatform();
 addEventListener('hashchange', revealHash);
 
 // Platforms without a direct download send the hero button to the chooser, so open the visitor's tab there.

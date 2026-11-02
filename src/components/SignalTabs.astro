@@ -193,6 +193,8 @@ const restoreScript = `(function (root) {
 			const shift = list && top !== undefined ? list.getBoundingClientRect().top - top : 0;
 			if (Math.abs(shift) > 1) window.scrollBy({ top: shift, behavior: 'instant' });
 		}
+
+		root.dispatchEvent(new CustomEvent('sig-tabs:change', { detail: tabId }));
 	}
 
 	function bindTabs(root: HTMLElement) {
