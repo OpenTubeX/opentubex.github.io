@@ -15,7 +15,7 @@ The Downloads page lists current requirements and package-manager commands. Open
 
 ## Windows
 
-1. Download the Windows installer matching your processor, or follow the [winget instructions](/downloads/#install-winget).
+1. Download the Windows installer matching your processor, or follow the [winget](/downloads/#install-winget) or [Scoop](/downloads/#install-scoop) instructions.
 2. Open the installer and complete its prompts.
 3. Launch OpenTubeX from the Start menu.
 

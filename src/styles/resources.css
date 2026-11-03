@@ -85,6 +85,7 @@
   letter-spacing: -0.02em;
 }
 .choice .pkg__body { margin-bottom: 0; }
+.choice .caution { margin-bottom: 0.25rem; }
 .choice .cmd-block { width: 100%; }
 
 .more-downloads { width: 100%; margin-top: 0.5rem; }

@@ -94,24 +94,20 @@ const aurTabs = [
 	{ id: 'shelly', label: 'shelly' },
 ];
 
-const nightlyTabs = [
-	{ id: 'flatpak', label: 'Flatpak', icon: 'simple-icons:flatpak' },
-	{ id: 'debian', label: 'Debian / Ubuntu', icon: 'simple-icons:ubuntu' },
-	{ id: 'fedora', label: 'Fedora / Red Hat', icon: 'simple-icons:fedora' },
-	{ id: 'opensuse', label: 'openSUSE', icon: 'simple-icons:opensuse' },
-	{ id: 'arch', label: 'Arch Linux', icon: 'simple-icons:archlinux' },
-	{ id: 'snap', label: 'Snap', icon: 'simple-icons:snapcraft' },
-	{ id: 'android', label: 'Android', icon: 'simple-icons:android' },
-	{ id: 'ios', label: 'iOS / iPadOS', icon: 'simple-icons:apple' },
-];
+const nightlyLinuxTabs = linuxTabs.filter((tab) => tab.id !== 'nix' && tab.id !== 'portable');
 
 const wingetCode = 'winget install OpenTubeX.OpenTubeX';
 const wingetPackageUrl = 'https://github.com/microsoft/winget-pkgs/tree/master/manifests/o/OpenTubeX/OpenTubeX';
 const wingetBadgeUrl = 'https://opentubex-badges.withered-flower-f0f2.workers.dev/winget.svg';
 const aurPackageUrl = 'https://aur.archlinux.org/packages/opentubex-bin/';
 const aurBadgeUrl = 'https://opentubex-badges.withered-flower-f0f2.workers.dev/aur.svg';
+const scoopBucketUrl = 'https://github.com/OpenTubeX/scoop-bucket';
+const scoopBucketCode = `scoop bucket add opentubex ${scoopBucketUrl}`;
+const scoopCode = `${scoopBucketCode}\nscoop install opentubex/opentubex`;
+const scoopNightlyCode = `${scoopBucketCode}\nscoop install opentubex/opentubex-nightly`;
 const homebrewCode = 'brew install --cask opentubex/tap/opentubex';
 const homebrewUpdateCode = 'brew update\nbrew upgrade --cask opentubex';
+const homebrewNightlyCode = 'brew install --cask opentubex/tap/opentubex@nightly';
 const nixCode = 'nix profile install github:OpenTubeX/nix';
 const snapCode = 'sudo snap install opentubex --beta';
 const snapMigrationCode = 'sudo snap refresh --amend opentubex --beta';
@@ -242,19 +238,6 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 			<div class="chooser">
 				<SignalTabs syncKey="download-platform" tabs={platformTabs}>
 					<div slot="windows" class="choice" id="download-windows">
-						<p class="choice__requires">Windows 10 or later</p>
-						<p class="choice__lead">Most PCs use x64. Choose arm64 for Snapdragon and other Windows on Arm devices.</p>
-						<DownloadLinks links={recommended('Windows')} label="Windows installers" />
-						<h3 class="choice__title" id="install-winget">Or install with winget</h3>
-						<p class="pkg__body">
-							Install and update through <a href="https://learn.microsoft.com/windows/package-manager/winget/" rel="noopener noreferrer">winget</a>.
-						</p>
-						<CmdCode code={wingetCode} lang="shell" />
-						<a class="pkg__badge" href={wingetPackageUrl} rel="noopener noreferrer">
-							<img alt="WinGet version" height="32" src={wingetBadgeUrl} />
-						</a>
-						<MoreDownloads links={others('Windows')} label="Windows portable downloads" summary="Portable archives" />
-
 						<aside class="caution reveal" role="note">
 							<p class="caution__title">
 								<Icon name="lucide:shield-alert" aria-hidden="true" />
@@ -268,6 +251,26 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								to it on the release page.
 							</p>
 						</aside>
+
+						<p class="choice__requires">Windows 10 or later</p>
+						<p class="choice__lead">Most PCs use x64. Choose arm64 for Snapdragon and other Windows on Arm devices.</p>
+						<DownloadLinks links={recommended('Windows')} label="Windows installers" />
+						<h3 class="choice__title" id="install-winget">Or install with winget</h3>
+						<p class="pkg__body">
+							Install and update through <a href="https://learn.microsoft.com/windows/package-manager/winget/" rel="noopener noreferrer">winget</a>.
+						</p>
+						<CmdCode code={wingetCode} lang="shell" />
+						<a class="pkg__badge" href={wingetPackageUrl} rel="noopener noreferrer">
+							<img alt="WinGet version" height="32" src={wingetBadgeUrl} />
+						</a>
+						<h3 class="choice__title" id="install-scoop">Or install with Scoop</h3>
+						<p class="pkg__body">
+							With <a href="https://scoop.sh/" rel="noopener noreferrer">Scoop</a> installed, add the
+							{' '}<a href={scoopBucketUrl} rel="noopener noreferrer">OpenTubeX bucket</a>.
+						</p>
+						<CmdCode code={scoopCode} lang="shell" title="Install" />
+						<CmdCode code="scoop update opentubex" lang="shell" title="Update" />
+						<MoreDownloads links={others('Windows')} label="Windows portable downloads" summary="Portable archives" />
 					</div>
 
 					<div slot="macos" class="choice" id="download-macos">
@@ -521,63 +524,81 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					<span class="pkg__index" aria-hidden="true">02</span>
 					<div>
 						<h3 class="pkg__title">Nightly package channels</h3>
-						<SignalTabs syncKey="package-platform" tabs={nightlyTabs}>
-							<div slot="flatpak">
-								<p class="pkg__body">Add the OpenTubeX remote and install its nightly branch:</p>
-								<CmdCode code={flatpakNightlyCode} lang="shell" />
-							</div>
-							<div slot="debian">
-								<p class="pkg__body">Add the signing key and select the <code>nightly</code> APT suite:</p>
-								<CmdCode code={aptNightlyCode} lang="shell" />
-							</div>
-							<div slot="fedora">
-								<p class="pkg__body">Install the OpenTubeX nightly repository configuration:</p>
-								<CmdCode code={fedoraNightlyCode} lang="shell" />
-							</div>
-							<div slot="opensuse">
-								<p class="pkg__body">Import the signing key and add the nightly RPM repository:</p>
-								<CmdCode code={opensuseNightlyCode} lang="shell" />
-							</div>
-							<div slot="arch">
+						<SignalTabs syncKey="download-platform" tabs={platformTabs}>
+							<div slot="windows">
 								<p class="pkg__body">
-									The nightly repository has packages for <code>x86_64</code> and <code>aarch64</code>. Download the signing
-									key and check its fingerprint:
+									Add the <a href={scoopBucketUrl} rel="noopener noreferrer">OpenTubeX Scoop bucket</a> and install the
+									nightly package. It shares settings and data with the stable package, so install only one of them.
 								</p>
-								<CmdCode code={archKeyCode} lang="shell" />
-								<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
-								<p class="pkg__body pkg__body--follow">Trust the key:</p>
-								<CmdCode code={archTrustCode} lang="shell" />
-								<p class="pkg__body pkg__body--follow">
-									Add the nightly <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a>, then install. It
-									also receives stable releases. If <code>/etc/pacman.conf</code> already has an <code>[opentubex]</code>
-									section, remove it first, or pacman keeps installing the stable package.
+								<CmdCode code={scoopNightlyCode} lang="shell" />
+							</div>
+							<div slot="macos">
+								<p class="pkg__body">
+									Install the nightly cask from the <a href="https://github.com/OpenTubeX/homebrew-tap" rel="noopener noreferrer">OpenTubeX tap</a>.
+									It shares the app and data of the stable cask, so uninstall <code>opentubex</code> first.
 								</p>
-								<CmdCode code={archRepositoryCode('opentubex-nightly')} lang="shell" />
-								<p class="pkg__body pkg__body--follow">
-									Or install the prebuilt <a href="https://aur.archlinux.org/packages/opentubex-nightly-bin/" rel="noopener noreferrer"
-										><code>opentubex-nightly-bin</code></a
-									>{' '}package for x86_64 or aarch64. It is updated automatically after each nightly release;
-									use your AUR helper to install updates. It replaces the stable package and uses the same application data.
-								</p>
-								<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
-									<div slot="paru">
-										<CmdCode code="paru -S opentubex-nightly-bin" lang="shell" title="Nightly binary" />
-										</div>
-									<div slot="yay">
-										<CmdCode code="yay -S opentubex-nightly-bin" lang="shell" title="Nightly binary" />
-										</div>
-									<div slot="shelly">
-										<CmdCode code="shelly -Ia opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+								<CmdCode code={homebrewNightlyCode} lang="shell" />
+							</div>
+							<div slot="linux">
+								<SignalTabs syncKey="package-platform" tabs={nightlyLinuxTabs}>
+									<div slot="flatpak">
+										<p class="pkg__body">Add the OpenTubeX remote and install its nightly branch:</p>
+										<CmdCode code={flatpakNightlyCode} lang="shell" />
+									</div>
+									<div slot="debian">
+										<p class="pkg__body">Add the signing key and select the <code>nightly</code> APT suite:</p>
+										<CmdCode code={aptNightlyCode} lang="shell" />
+									</div>
+									<div slot="fedora">
+										<p class="pkg__body">Install the OpenTubeX nightly repository configuration:</p>
+										<CmdCode code={fedoraNightlyCode} lang="shell" />
+									</div>
+									<div slot="opensuse">
+										<p class="pkg__body">Import the signing key and add the nightly RPM repository:</p>
+										<CmdCode code={opensuseNightlyCode} lang="shell" />
+									</div>
+									<div slot="arch">
+										<p class="pkg__body">
+											The nightly repository has packages for <code>x86_64</code> and <code>aarch64</code>. Download the signing
+											key and check its fingerprint:
+										</p>
+										<CmdCode code={archKeyCode} lang="shell" />
+										<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
+										<p class="pkg__body pkg__body--follow">Trust the key:</p>
+										<CmdCode code={archTrustCode} lang="shell" />
+										<p class="pkg__body pkg__body--follow">
+											Add the nightly <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a>, then install. It
+											also receives stable releases. If <code>/etc/pacman.conf</code> already has an <code>[opentubex]</code>
+											section, remove it first, or pacman keeps installing the stable package.
+										</p>
+										<CmdCode code={archRepositoryCode('opentubex-nightly')} lang="shell" />
+										<p class="pkg__body pkg__body--follow">
+											Or install the prebuilt <a href="https://aur.archlinux.org/packages/opentubex-nightly-bin/" rel="noopener noreferrer"
+												><code>opentubex-nightly-bin</code></a
+											>{' '}package for x86_64 or aarch64. It is updated automatically after each nightly release;
+											use your AUR helper to install updates. It replaces the stable package and uses the same application data.
+										</p>
+										<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
+											<div slot="paru">
+												<CmdCode code="paru -S opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+												</div>
+											<div slot="yay">
+												<CmdCode code="yay -S opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+												</div>
+											<div slot="shelly">
+												<CmdCode code="shelly -Ia opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+											</div>
+										</SignalTabs>
+									</div>
+									<div slot="snap">
+										<p class="pkg__body">Install the latest build from the <code>edge</code> channel:</p>
+										<CmdCode code={snapNightlyCode} lang="shell" title="New installation" />
+										<p class="pkg__body pkg__body--follow">Switch an existing Snap Store installation:</p>
+										<CmdCode code={snapNightlyRefreshCode} lang="shell" title="Existing Store installation" />
+										<p class="pkg__body pkg__body--follow">Switch an existing manual installation:</p>
+										<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
 									</div>
 								</SignalTabs>
-							</div>
-							<div slot="snap">
-								<p class="pkg__body">Install the latest build from the <code>edge</code> channel:</p>
-								<CmdCode code={snapNightlyCode} lang="shell" title="New installation" />
-								<p class="pkg__body pkg__body--follow">Switch an existing Snap Store installation:</p>
-								<CmdCode code={snapNightlyRefreshCode} lang="shell" title="Existing Store installation" />
-								<p class="pkg__body pkg__body--follow">Switch an existing manual installation:</p>
-								<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
 							</div>
 							<div slot="android">
 								<p class="pkg__body">Install and update the Android nightly through F-Droid or Obtainium. F-Droid also lists OpenTubeX Nightly Lite.</p>

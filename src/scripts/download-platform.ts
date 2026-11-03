@@ -5,15 +5,20 @@ const os = detectOS(navigator);
 
 const platformTabs = document.querySelector<HTMLElement>('.sig-tabs[data-sync-key="download-platform"]');
 
-function syncNightlyPlatform() {
-	const selected = platformTabs?.querySelector<HTMLElement>(':scope > .sig-tabs__list > [aria-selected="true"]');
-	const packageTab = selected?.dataset.tab === 'linux'
-		? platformTabs?.querySelector<HTMLElement>('.sig-tabs[data-sync-key="package-platform"] > .sig-tabs__list > [aria-selected="true"]')
-		: selected;
-	if (!packageTab?.dataset.tab) return;
+const selectedTab = (root: Element | null | undefined) =>
+	root?.querySelector<HTMLElement>(':scope > .sig-tabs__list > [aria-selected="true"]')?.dataset.tab;
 
-	document.querySelector('#development .sig-tabs[data-sync-key="package-platform"]')
-		?.dispatchEvent(new CustomEvent('sig-tabs:select', { detail: packageTab.dataset.tab }));
+/** Shows the nightly channels for the platform and Linux package chosen above. */
+function syncNightlyPlatform() {
+	const nightlyTabs = document.querySelector('#development .sig-tabs[data-sync-key="download-platform"]');
+	const platform = selectedTab(platformTabs);
+	const linuxPackage = selectedTab(platformTabs?.querySelector('.sig-tabs[data-sync-key="package-platform"]'));
+	if (platform) nightlyTabs?.dispatchEvent(new CustomEvent('sig-tabs:select', { detail: platform }));
+	if (linuxPackage) {
+		nightlyTabs
+			?.querySelector('.sig-tabs[data-sync-key="package-platform"]')
+			?.dispatchEvent(new CustomEvent('sig-tabs:select', { detail: linuxPackage }));
+	}
 }
 
 platformTabs?.addEventListener('sig-tabs:change', syncNightlyPlatform);
