@@ -99,8 +99,8 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 				<svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
 					<defs>
 						<radialGradient id="signalGlow" cx="62%" cy="42%" r="45%">
-							<stop offset="0%" stop-color="var(--teal)" stop-opacity="0.35"></stop>
-							<stop offset="55%" stop-color="var(--teal)" stop-opacity="0.08"></stop>
+							<stop offset="0%" stop-color="var(--accent)" stop-opacity="0.35"></stop>
+							<stop offset="55%" stop-color="var(--accent)" stop-opacity="0.08"></stop>
 							<stop offset="100%" stop-color="var(--glow-stop)" stop-opacity="0"></stop>
 						</radialGradient>
 					</defs>
@@ -121,7 +121,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 							<line x1="140" y1="-220" x2="140" y2="240"></line>
 							<line x1="280" y1="-200" x2="280" y2="220"></line>
 						</g>
-						<g fill="var(--teal)">
+						<g fill="var(--accent)">
 							<circle cx="-140" cy="0" r="3.5" opacity="0.7"></circle>
 							<circle cx="0" cy="-40" r="2.5" opacity="0.5"></circle>
 							<circle cx="140" cy="0" r="3.5" opacity="0.7"></circle>
@@ -370,7 +370,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 									values="M16 75 Q60 35 104 75 T192 75 T280 75;M16 75 Q60 50 104 75 T192 75 T280 75;M16 75 Q60 35 104 75 T192 75 T280 75"
 								></animate>
 							</path>
-							<path d="M24 58 Q70 28 116 58 T208 58" stroke-opacity="0.5" stroke="var(--teal)">
+							<path d="M24 58 Q70 28 116 58 T208 58" stroke-opacity="0.5" stroke="var(--accent)">
 								<animate
 									attributeName="d"
 									dur="5s"
@@ -379,8 +379,8 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 								></animate>
 							</path>
 						</g>
-						<circle cx="104" cy="75" r="4" fill="var(--teal)"></circle>
-						<circle cx="104" cy="75" r="10" fill="none" stroke="var(--teal)" stroke-opacity="0.4" stroke-width="1">
+						<circle cx="104" cy="75" r="4" fill="var(--accent)"></circle>
+						<circle cx="104" cy="75" r="10" fill="none" stroke="var(--accent)" stroke-opacity="0.4" stroke-width="1">
 							<animate attributeName="r" values="8;15;8" dur="3.5s" repeatCount="indefinite"></animate>
 							<animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="3.5s" repeatCount="indefinite"></animate>
 						</circle>
