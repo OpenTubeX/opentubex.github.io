@@ -34,7 +34,7 @@
   text-wrap: balance;
 }
 
-.hero__headline span { color: var(--teal-deep); }
+.hero__headline span { color: var(--accent-deep); }
 
 .home .hero__lede {
   max-width: 39ch;
@@ -82,7 +82,7 @@
 }
 
 .home .laptop__video:focus-visible {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--accent);
   outline-offset: -2px;
 }
 
@@ -132,7 +132,7 @@
 .home .shot-tabs__tab.is-active {
   background: transparent;
   border-color: transparent;
-  color: var(--teal-deep);
+  color: var(--accent-deep);
 }
 
 @media (prefers-reduced-motion: no-preference) {
