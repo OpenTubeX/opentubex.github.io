@@ -122,7 +122,7 @@
   --scrollbar-track: color-mix(in srgb, var(--mist-2) 80%, transparent);
   --scrollbar-thumb: color-mix(in srgb, var(--accent) 38%, var(--slate-muted));
   --scrollbar-thumb-hover: color-mix(in srgb, var(--accent) 68%, var(--ink));
-  --selection-bg: #f34132;
+  --selection-bg: #c62d1f;
   --selection-text: #ffffff;
   --button-primary-bg: #d63324;
   --button-primary-hover: #a8251a;
@@ -2524,7 +2524,7 @@ a.version-chip:hover .version-chip__dot {
 }
 
 .changelog__body blockquote[data-alert] {
-  --changelog-alert: var(--accent-deep);
+  --changelog-alert: #0969da;
   --changelog-alert-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4m0-4h.01'/%3E%3C/svg%3E");
   --changelog-alert-code: color-mix(in srgb, var(--ink) 7%, transparent);
   --changelog-alert-code-border: color-mix(in srgb, var(--ink) 14%, transparent);
