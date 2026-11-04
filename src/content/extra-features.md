@@ -757,9 +757,9 @@ starts.
 While you use OpenTubeX, notifications appear inside the app. While it runs in
 the background, they arrive as system notifications. The bell in the top bar
 lists past notifications with an unread count. Open one from there or mark it
-as read. To always use system notifications without that list, choose
-System only under Notifications in General settings. Choose Off there to turn
-notifications off.
+as read. Under Notifications in General settings, System and in-app is the
+default. Choose System only to always use system notifications without that
+list, or Off to turn notifications off.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/33b85808-4f80-4de6-a725-a8943573ed48">
