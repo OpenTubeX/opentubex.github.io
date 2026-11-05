@@ -1,0 +1,93 @@
+---
+import { Icon } from 'astro-icon/components';
+import SignalLayout from '../layouts/SignalLayout.astro';
+
+const platforms = [
+	{
+		name: 'GitHub Sponsors',
+		icon: 'simple-icons:github',
+		href: 'https://github.com/sponsors/D3SOX',
+		body: 'Sponsor with your GitHub account. GitHub takes no fee from sponsorships by personal accounts.',
+		action: 'Sponsor on GitHub',
+	},
+	{
+		name: 'Liberapay',
+		icon: 'simple-icons:liberapay',
+		href: 'https://liberapay.com/D3SOX',
+		body: 'Give weekly, monthly, or yearly without a GitHub account. A nonprofit runs Liberapay, and its code is open source.',
+		action: 'Donate on Liberapay',
+	},
+] as const;
+---
+
+<SignalLayout title="Donate – OpenTubeX" description="Support OpenTubeX with a donation through GitHub Sponsors or Liberapay." active="donate">
+	<main class="resource-page">
+		<header class="page-hero">
+			<div class="page-hero__signal" aria-hidden="true">
+				<svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+					<g transform="translate(980 160)">
+						<path class="wave-path wave-path--b" d="M-460 20 Q-300 -50 -140 20 T180 20 T460 20"></path>
+						<path class="wave-path wave-path--a" d="M-500 50 Q-320 -20 -140 50 T220 50 T500 50"></path>
+						<path class="wave-path wave-path--b" d="M-380 -30 Q-250 -90 -120 -30 T140 -30 T380 -30"></path>
+						<path class="wave-path wave-path--a" d="M-300 -70 Q-190 -120 -80 -70 T140 -70 T300 -70"></path>
+						<g fill="var(--accent)">
+							<circle cx="-140" cy="20" r="3" opacity="0.65"></circle>
+							<circle cx="0" cy="-30" r="2.5" opacity="0.45"></circle>
+							<circle cx="140" cy="20" r="3" opacity="0.65"></circle>
+						</g>
+					</g>
+				</svg>
+			</div>
+			<div class="page-hero__mesh" aria-hidden="true"></div>
+			<div class="page-hero__content">
+				<p class="page-hero__eyebrow">Donate</p>
+				<h1 class="page-hero__title">Support OpenTubeX</h1>
+				<p class="page-hero__lede">
+					If you find OpenTubeX useful, a donation helps fund its development.
+				</p>
+			</div>
+		</header>
+
+		<section class="section section--page" aria-labelledby="donate-heading">
+			<h2 class="section__title reveal" id="donate-heading">Choose how to donate</h2>
+
+			<div class="pillars">
+				{
+					platforms.map(({ name, icon, href, body, action }) => (
+						<article class="pillar pillar--linked">
+							<span class="pillar__mark" aria-hidden="true">
+								<span class="pebble"><Icon name={icon} /></span>
+							</span>
+							<div>
+								<h3 class="pillar__title">{name}</h3>
+								<p class="pillar__body">{body}</p>
+							</div>
+							<a class="btn btn--primary" href={href} rel="noopener noreferrer">
+								<Icon name="lucide:heart" aria-hidden="true" />
+								{action}
+							</a>
+						</article>
+					))
+				}
+			</div>
+
+			<p class="section__intro donate-other reveal">
+				You can also help without paying: <a href="https://weblate.opentubex.org/engage/opentubex/" rel="noopener noreferrer">translate OpenTubeX</a>,{' '}
+				<a href="https://github.com/OpenTubeX/OpenTubeX/issues" rel="noopener noreferrer">report bugs</a>, or{' '}
+				<a href="https://github.com/OpenTubeX/OpenTubeX" rel="noopener noreferrer">star it on GitHub</a>.
+			</p>
+		</section>
+	</main>
+</SignalLayout>
+
+<style>
+	.donate-other { margin-top: 2rem; }
+
+	@media (max-width: 820px) {
+		.pillar--linked .btn { grid-column: 2; justify-self: start; }
+	}
+
+	@media (max-width: 640px) {
+		.pillar--linked .btn { grid-column: 1 / -1; justify-self: stretch; }
+	}
+</style>
