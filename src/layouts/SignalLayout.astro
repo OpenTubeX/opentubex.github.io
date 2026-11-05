@@ -11,7 +11,7 @@ import osaBadge from '../assets/osa-badge.svg';
 // Inlined so it never pairs with stale markup and needs no render-blocking request.
 import themeScript from '../scripts/theme.js?raw';
 
-type Active = 'home' | 'docs' | 'downloads' | 'demo' | 'features' | 'compare' | 'changelog' | 'privacy' | 'ai-disclosure';
+type Active = 'home' | 'docs' | 'downloads' | 'demo' | 'features' | 'compare' | 'changelog' | 'privacy' | 'ai-disclosure' | 'donate';
 
 interface Props {
 	title: string;
@@ -27,6 +27,7 @@ const markDarkSrc = typeof markDark === 'string' ? markDark : markDark.src;
 const markLightSrc = typeof markLight === 'string' ? markLight : markLight.src;
 
 const social = [
+	{ href: '/donate/', label: 'Donate', icon: 'lucide:heart' },
 	{ href: 'https://github.com/OpenTubeX', label: 'GitHub', icon: 'simple-icons:github' },
 	{ href: 'https://weblate.opentubex.org/engage/opentubex/', label: 'Weblate', icon: 'simple-icons:weblate' },
 	{ href: 'https://fluxer.opentubex.org', label: 'Fluxer', icon: 'simple-icons:fluxer' },
@@ -159,6 +160,12 @@ const primaryNav = [
 				<div class="site-footer__col">
 					<h2>Like OpenTubeX?</h2>
 					<ul>
+						<li>
+							<a href="/donate/" aria-current={active === 'donate' ? 'page' : undefined}>
+								<Icon name="lucide:heart" aria-hidden="true" />
+								Donate
+							</a>
+						</li>
 						<li>
 							<a href="https://github.com/OpenTubeX/OpenTubeX" rel="noopener noreferrer">
 								<Icon name="lucide:star" aria-hidden="true" />
