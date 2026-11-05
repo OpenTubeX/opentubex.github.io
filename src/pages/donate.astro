@@ -83,8 +83,11 @@ const platforms = [
 <style>
 	.donate-other { margin-top: 2rem; }
 
+	@media (max-width: 820px) {
+		.pillar--linked .btn { grid-column: 2; justify-self: start; }
+	}
+
 	@media (max-width: 640px) {
-		.pillar--linked { grid-template-columns: 2.6rem 1fr; }
-		.pillar--linked .btn { grid-column: 1 / -1; }
+		.pillar--linked .btn { grid-column: 1 / -1; justify-self: stretch; }
 	}
 </style>
