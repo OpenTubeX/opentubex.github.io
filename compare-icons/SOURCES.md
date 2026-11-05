@@ -12,4 +12,6 @@ Icons identify their respective projects; trademarks belong to their owners.
 - YouTube: Simple Icons, from the existing @iconify-json/simple-icons dependency (https://simpleicons.org/).
 
 - SponsorBlock: https://github.com/ajayyy/SponsorBlock/blob/master/public/icons/IconSponsorBlocker64px.png
+- DeArrow: https://github.com/ajayyy/DeArrow/blob/master/public/icons/logo.svg
+- Return YouTube Dislike: https://github.com/Anarios/return-youtube-dislike/blob/main/Website/static/logo.svg
 - Android and Apple platform logos use the existing Simple Icons dependency.
