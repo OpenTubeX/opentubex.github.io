@@ -16,7 +16,6 @@ import {
 	archRepositoryUrl,
 	coprRepositoryUrl,
 	downloadGroups,
-	recommendedDownload,
 	flatparkSiteUrl,
 	flatpakSiteUrl,
 	fdroidNightlyUrl,
@@ -34,16 +33,9 @@ import {
 	snapSiteUrl,
 } from '../data/release';
 
-// Applied before first paint: the hero button targets the visitor's platform, and synced tabs fall back
-// to it when no choice is remembered. The script only refines the architecture later.
+// Applied before first paint: synced tabs fall back to the visitor's platform when no choice is remembered.
 const osLabels = { Windows: 'Windows', macOS: 'macOS', Linux: 'Linux', Android: 'Android', iOS: 'iOS / iPadOS' };
 const distroLabels = { debian: 'Debian / Ubuntu', fedora: 'Fedora / Red Hat', opensuse: 'openSUSE' };
-const defaultDownloads = Object.fromEntries(
-	Object.keys(osLabels).flatMap((os) => {
-		const download = recommendedDownload(os, null);
-		return download ? [[os, { url: download.url, label: download.label }]] : [];
-	}),
-);
 const platformScript = `(function () {
 	var os = (${detectOS})(navigator);
 	if (!os) return;
@@ -54,14 +46,6 @@ const platformScript = `(function () {
 		'download-platform': osLabels[os],
 		'package-platform': distroLabels[distro] || (os === 'Android' || os === 'iOS' ? osLabels[os] : undefined),
 	};
-	var link = document.querySelector('[data-os-download]');
-	link.querySelector('[data-os-download-label]').textContent = 'Download for ' + os;
-	var download = ${JSON.stringify(defaultDownloads)}[os];
-	if (!download) return;
-	link.href = download.url;
-	var note = document.querySelector('[data-os-download-note]');
-	note.querySelector('[data-os-download-detail]').textContent = download.label;
-	note.hidden = false;
 })();`;
 
 const links = (title: string) => downloadGroups.find((group) => group.title === title)?.links ?? [];
@@ -86,6 +70,23 @@ const linuxTabs = [
 	{ id: 'snap', label: 'Snap', icon: 'simple-icons:snapcraft' },
 	{ id: 'nix', label: 'Nix', icon: 'simple-icons:nixos' },
 	{ id: 'portable', label: 'AppImage & portable', icon: 'simple-icons:appimage' },
+];
+
+// The night sky behind the hero, shown for nightly builds. A seeded generator keeps the stars in place between builds.
+let starSeed = 123456789;
+const random = () => (starSeed = (starSeed * 16807) % 2147483647) / 2147483647;
+const stars = Array.from({ length: 45 }, () => ({
+	left: `${(random() * 100).toFixed(1)}%`,
+	top: `${(random() * 70).toFixed(1)}%`,
+	'--star-size': random() < 0.15 ? '3px' : '2px',
+	'--star-opacity': (0.4 + random() * 0.5).toFixed(2),
+	'--star-duration': `${(4 + random() * 4).toFixed(1)}s`,
+	'--star-delay': `-${(random() * 8).toFixed(1)}s`,
+}));
+
+const channelTabs = [
+	{ id: 'stable', label: 'Stable', icon: 'lucide:badge-check' },
+	{ id: 'nightly', label: 'Nightly', icon: 'lucide:moon' },
 ];
 
 const aurTabs = [
@@ -188,6 +189,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 >
 	<main class="resource-page resource-page--downloads">
 		<header class="page-hero">
+			<div class="page-hero__night" aria-hidden="true">
+				{stars.map((style) => <span class="page-hero__star" style={style}></span>)}
+			</div>
 			<div class="page-hero__signal" aria-hidden="true">
 				<svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
 					<g transform="translate(980 160)">
@@ -214,438 +218,427 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 					<span class="version-chip__dot" aria-hidden="true"></span>
 					Version {releaseVersion} beta
 				</a>
-				<div class="cta-group">
-					<a class="btn btn--primary" href="#platforms" data-os-download>
-						<Icon name="lucide:download" aria-hidden="true" />
-						<span data-os-download-label>Choose a download</span>
-					</a>
-					<a class="btn btn--quiet" href="#development">
-						<Icon name="lucide:moon" aria-hidden="true" />
-						Nightly &amp; CI
-					</a>
-					<p class="cta-note" data-os-download-note hidden>
-						<span data-os-download-detail></span> · <a href="#platforms">Other platforms and formats</a>
-					</p>
-				</div>
 				<script is:inline set:html={platformScript} />
 			</div>
 		</header>
 
 		<section class="section section--page" id="platforms" aria-labelledby="platforms-heading">
-			<p class="section__eyebrow reveal">Stable release</p>
+			<p class="section__eyebrow reveal">Install</p>
 			<h2 class="section__title reveal" id="platforms-heading">Choose your platform</h2>
 
-			<div class="chooser">
-				<SignalTabs syncKey="download-platform" tabs={platformTabs}>
-					<div slot="windows" class="choice" id="download-windows">
-						<aside class="caution reveal" role="note">
-							<p class="caution__title">
-								<Icon name="lucide:shield-alert" aria-hidden="true" />
-								Official downloads only
-							</p>
-							<p>
-								Only download OpenTubeX from the official sources listed here. Third-party download sites repackage our builds
-								and often host outdated versions. One of them, YasDL, is on{' '}
-								<a href="https://fmhy.net/unsafe" rel="noopener noreferrer">FMHY's unsafe sites list</a> for uploading software
-								with malware. To check a file from GitHub Releases, compare its SHA-256 checksum with the digest GitHub shows next
-								to it on the release page.
-							</p>
-						</aside>
-
-						<p class="choice__requires">Windows 10 or later</p>
-						<p class="choice__lead">Most PCs use x64. Choose arm64 for Snapdragon and other Windows on Arm devices.</p>
-						<DownloadLinks links={recommended('Windows')} label="Windows installers" />
-						<h3 class="choice__title" id="install-winget">Or install with winget</h3>
-						<p class="pkg__body">
-							Install and update through <a href="https://learn.microsoft.com/windows/package-manager/winget/" rel="noopener noreferrer">winget</a>.
-						</p>
-						<CmdCode code={wingetCode} lang="shell" />
-						<a class="pkg__badge" href={wingetPackageUrl} rel="noopener noreferrer">
-							<img alt="WinGet version" height="32" src={wingetBadgeUrl} />
-						</a>
-						<h3 class="choice__title" id="install-scoop">Or install with Scoop</h3>
-						<p class="pkg__body">
-							With <a href="https://scoop.sh/" rel="noopener noreferrer">Scoop</a> installed, add the
-							{' '}<a href={scoopBucketUrl} rel="noopener noreferrer">OpenTubeX bucket</a>.
-						</p>
-						<CmdCode code={scoopCode} lang="shell" title="Install" />
-						<CmdCode code="scoop update opentubex" lang="shell" title="Update" />
-						<MoreDownloads links={others('Windows')} label="Windows portable downloads" summary="Portable archives" />
-					</div>
-
-					<div slot="macos" class="choice" id="download-macos">
-						<p class="choice__requires">macOS 12 or later</p>
-						<p class="choice__lead">
-							Choose Apple silicon for Macs with an M-series chip and Intel for older Macs. Not sure? Check
-							Apple menu → About This Mac.
-						</p>
-						<DownloadLinks links={recommended('macOS')} label="macOS disk images" />
-						<p class="choice__note">
-							OpenTubeX is not notarized by Apple. If macOS blocks the first launch, allow OpenTubeX in
-							System Settings → Privacy &amp; Security.
-						</p>
-						<h3 class="choice__title" id="install-homebrew">Or install with Homebrew</h3>
-						<p class="pkg__body">
-							With <a href="https://brew.sh/" rel="noopener noreferrer">Homebrew</a> installed, use the
-							{' '}<a href="https://github.com/OpenTubeX/homebrew-tap" rel="noopener noreferrer">OpenTubeX tap</a>.
-							Nix users can follow the <a href="#install-nix">Nix instructions</a>.
-						</p>
-						<CmdCode code={homebrewCode} lang="shell" title="Install" />
-						<CmdCode code={homebrewUpdateCode} lang="shell" title="Update" />
-						<MoreDownloads links={others('macOS')} label="macOS archive downloads" summary="Archives" />
-					</div>
-
-					<div slot="linux" class="choice" id="download-linux">
-						<SignalTabs syncKey="package-platform" tabs={linuxTabs}>
-							<div slot="flatpak" id="install-flatpak">
-								<p class="pkg__body">
-									Add the <a href={flatpakSiteUrl} rel="noopener noreferrer">OpenTubeX Flatpak remote</a>, or
-									install through <a href={flatparkSiteUrl} rel="noopener noreferrer">Flatpark</a>.
-								</p>
-								<CmdCode code={flatpakCode} lang="shell" />
-								<a class="pkg__badge" href={flatparkSiteUrl} rel="noopener noreferrer">
-									<img alt="Get it on FlatPark" width="154" height="56" src="https://flatpark.org/badges/get-it-on-flatpark.svg" />
-								</a>
-								<MoreDownloads links={files('Flatpak')} label="Flatpak bundles" summary="Offline bundles" />
-							</div>
-							<div slot="debian" id="install-apt">
-								<p class="pkg__body">
-									Add the signed <a href={aptRepositoryUrl} rel="noopener noreferrer">APT repository</a>, then install.
-								</p>
-								<CmdCode code={aptCode} lang="shell" />
-								<MoreDownloads links={files('Ubuntu / Debian')} label="Debian packages" summary="Standalone .deb packages" />
-							</div>
-							<div slot="fedora" id="install-rpm">
-								<p class="pkg__body">
-									Enable the official <a href={coprRepositoryUrl} rel="noopener noreferrer">COPR</a>, then install.
-								</p>
-								<CmdCode code={coprCode} lang="shell" />
-								<p class="pkg__body pkg__body--follow">
-									Or use the signed <a href={rpmRepositoryUrl} rel="noopener noreferrer">OpenTubeX-hosted RPM repository</a>:
-								</p>
-								<CmdCode code={rpmCode} lang="shell" />
-								<MoreDownloads links={files('Fedora / Red Hat')} label="Fedora packages" summary="Standalone .rpm packages" />
-							</div>
-							<div slot="opensuse" id="install-opensuse">
-								<p class="pkg__body">
-									Add the signed <a href={rpmRepositoryUrl} rel="noopener noreferrer">RPM repository</a>, then install.
-								</p>
-								<CmdCode code={opensuseCode} lang="shell" />
-								<MoreDownloads links={files('openSUSE')} label="openSUSE packages" summary="Standalone .rpm packages" />
-							</div>
-							<div slot="arch" id="install-arch">
-								<p class="pkg__body">
-									The <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a> has packages
-									for <code>x86_64</code> and <code>aarch64</code>. Download the signing key and check
-									its fingerprint:
-								</p>
-								<CmdCode code={archKeyCode} lang="shell" />
-								<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
-								<p class="pkg__body pkg__body--follow">Trust the key:</p>
-								<CmdCode code={archTrustCode} lang="shell" />
-								<p class="pkg__body pkg__body--follow">
-									Add the repository, then install. If <code>/etc/pacman.conf</code> already has an
-									<code>[opentubex-nightly]</code> section, remove it first, or pacman keeps installing nightly builds.
-								</p>
-								<CmdCode code={archRepositoryCode('opentubex')} lang="shell" />
-								<p class="pkg__body pkg__body--follow" id="install-aur">
-									Or install from the AUR with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a>,
-									{' '}<a href="https://github.com/Jguer/yay" rel="noopener noreferrer">yay</a>, or
-									{' '}<a href="https://github.com/Seafoam-Labs/Shelly-ALPM" rel="noopener noreferrer">shelly</a>.
-								</p>
-								<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
-									<div slot="paru">
-										<CmdCode code="paru -S opentubex-bin" lang="shell" title="Prebuilt binary" />
-										<CmdCode code="paru -S opentubex" lang="shell" title="Build from source" />
-									</div>
-									<div slot="yay">
-										<CmdCode code="yay -S opentubex-bin" lang="shell" title="Prebuilt binary" />
-										<CmdCode code="yay -S opentubex" lang="shell" title="Build from source" />
-									</div>
-									<div slot="shelly">
-										<CmdCode code="shelly -Ia opentubex-bin" lang="shell" title="Prebuilt binary" />
-										<CmdCode code="shelly -Ia opentubex" lang="shell" title="Build from source" />
-									</div>
-								</SignalTabs>
-								<a class="pkg__badge" href={aurPackageUrl} rel="noopener noreferrer">
-									<img alt="AUR version" height="32" src={aurBadgeUrl} />
-								</a>
-								<MoreDownloads links={files('Arch Linux')} label="Arch Linux packages" summary="Standalone package" />
-							</div>
-							<div slot="snap" id="install-snap">
-								<p class="pkg__body">
-									Install OpenTubeX from the beta channel in the <a href={snapSiteUrl} rel="noopener noreferrer">Snap Store</a>.
-								</p>
-								<CmdCode code={snapCode} lang="shell" title="New installation" />
-								<p class="pkg__body pkg__body--follow">
-									If you previously installed a downloaded <code>.snap</code> file, switch it to Store-managed updates:
-								</p>
-								<CmdCode code={snapMigrationCode} lang="shell" title="Existing manual installation" />
-								<a class="pkg__badge" href={snapSiteUrl} rel="noopener noreferrer">
-									<picture>
-										<source data-logo-theme="dark" media="(prefers-color-scheme: dark)" srcset="https://snapcraft.io/en/dark/install.svg" type="image/svg+xml" />
-										<img alt="Get it from the Snap Store" width="188" height="56" src="https://snapcraft.io/en/light/install.svg" />
-									</picture>
-								</a>
-								<MoreDownloads links={files('Snap')} label="Snap packages" summary="Standalone .snap packages" />
-							</div>
-							<div slot="nix" id="install-nix">
-								<p class="pkg__body">
-									With Nix installed and flakes enabled, install the
-									{' '}<a href={nixRepositoryUrl} rel="noopener noreferrer">official OpenTubeX flake</a>.
-									Supports x86_64 and ARM64 on Linux, including NixOS, and Apple Silicon and Intel Macs.
-								</p>
-								<CmdCode code={nixCode} lang="shell" />
-							</div>
-							<div slot="portable" id="download-portable">
-								<p class="pkg__body">
-									These builds run without installation but do not update automatically. Most PCs use x64.
-								</p>
-								<DownloadLinks links={links('AppImage')} label="AppImage downloads" />
-								<MoreDownloads links={links('Other Linux Distributions')} label="Portable Linux archives" summary="Portable archives" />
-							</div>
-						</SignalTabs>
-					</div>
-
-					<div slot="android" class="choice" id="download-android">
-						<p class="choice__requires">Android 8.0 or later</p>
-						<p class="choice__lead">F-Droid and Obtainium install OpenTubeX and keep it updated.</p>
-						<DownloadLinks links={recommended('Android')} label="Android stores" />
-						<div class="pkg__badges">
-							<a class="pkg__badge" href={fdroidSiteUrl} rel="noopener noreferrer">
-								<Image alt="Get it on F-Droid" src={fdroidBadge} width={188} height={56} densities={[1, 2, 3]} format="webp" />
-							</a>
-							<a class="pkg__badge" href={obtainiumUrl} rel="noopener noreferrer">
-								<Image alt="Get it on Obtainium" src={obtainiumBadge} width={188} height={56} densities={[1, 2, 3]} format="webp" />
-							</a>
-							<a class="pkg__badge" href={githubReleaseUrl} rel="noopener noreferrer">
-								<Image alt="Get it on GitHub" src={githubBadge} width={188} height={56} densities={[1, 2, 3]} format="webp" />
-							</a>
-						</div>
-						<p class="pkg__body">
-							Low on storage? Install OpenTubeX Lite from the same F-Droid repository or
-							{' '}<a href={obtainiumLiteUrl} rel="noopener noreferrer">with Obtainium</a>. It installs as a separate app
-							with smaller APKs that leave out yt-dlp and FFmpeg, so downloads and other yt-dlp features are unavailable.
-						</p>
-						<MoreDownloads links={others('Android')} label="Android downloads" summary="APK files">
-							<p class="pkg__body">Not sure which APK to choose? The universal APK works on every device. Lite APKs install the separate OpenTubeX Lite app, which leaves out downloads and other yt-dlp features.</p>
-						</MoreDownloads>
-					</div>
-
-					<div slot="ios" class="choice" id="download-ios-ipados">
-						<p class="choice__requires">iOS / iPadOS 17.4 or later · Experimental</p>
-						<p class="choice__lead">
-							OpenTubeX is not in the App Store. Add the official source to SideStore, or follow the
-							{' '}<a href="/docs/installing/#ios--ipados-experimental">signing and installation guide</a>.
-						</p>
-						<DownloadLinks links={recommended('iOS / iPadOS')} label="iOS install links" />
-						<MoreDownloads links={files('iOS / iPadOS')} label="iOS downloads" summary="Unsigned IPA" />
-					</div>
-				</SignalTabs>
-			</div>
-		</section>
-
-		<section class="section section--page" id="development" aria-labelledby="development-heading">
-			<p class="section__eyebrow reveal">Early access</p>
-			<h2 class="section__title reveal" id="development-heading">Development builds</h2>
-			<p class="section__intro reveal">
-				For testing the newest changes.
-			</p>
-
-			<div class="dev-table reveal" role="table" aria-label="Development build cadence">
-				<div class="dev-table__item" role="row">
-					<div class="dev-table__label" role="rowheader">Automated builds</div>
-					<div class="dev-table__value" role="cell">After development changes are pushed</div>
-				</div>
-				<div class="dev-table__item" role="row">
-					<div class="dev-table__label" role="rowheader">Nightly package channels</div>
-					<div class="dev-table__value" role="cell">Every day at 02:15 UTC<span id="nightly-local-time"></span></div>
-				</div>
-			</div>
-
-			<aside class="caution reveal" role="note">
-				<p class="caution__title">
-					<Icon name="lucide:triangle-alert" aria-hidden="true" />
-					Warning
-				</p>
-				<p>
-					Both options may contain unfinished features or regressions. Nightly channels are kept separate from stable
-					repositories, but switching channels can replace an existing stable installation.
-				</p>
-			</aside>
-
-			<div class="pkg-list pkg-list--dev">
-				<article class="pkg">
-					<span class="pkg__index" aria-hidden="true">01</span>
-					<div>
-						<h3 class="pkg__title">Automated builds</h3>
-						<p class="pkg__body">Latest development artifacts from CI.</p>
-						<ul class="format-list" aria-label="Automated build links">
-							<li>
-								<a
-									href="https://github.com/OpenTubeX/OpenTubeX/actions/workflows/build.yml"
-									rel="noopener noreferrer"
-								>
-									<Icon name="simple-icons:githubactions" aria-hidden="true" />
-									Build workflow (requires GitHub account)
-								</a>
-							</li>
-							<li>
-								<a
-									href="https://nightly.link/OpenTubeX/OpenTubeX/workflows/build/development?preview"
-									rel="noopener noreferrer"
-								>
-									<Icon name="lucide:download" aria-hidden="true" />
-									nightly.link (no account)
-								</a>
-							</li>
-						</ul>
-						<p class="pkg__body pkg__body--follow">
-							Arch users can build the current development revision with{' '}
-							<a href="https://aur.archlinux.org/packages/opentubex-git" rel="noopener noreferrer"
-								><code>opentubex-git</code></a
-							>:
-						</p>
-						<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
-							<div slot="paru">
-								<CmdCode code="paru -S opentubex-git" lang="shell" title="Automated build" />
-							</div>
-							<div slot="yay">
-								<CmdCode code="yay -S opentubex-git" lang="shell" title="Automated build" />
-							</div>
-							<div slot="shelly">
-								<CmdCode code="shelly -Ia opentubex-git" lang="shell" title="Automated build" />
-							</div>
-						</SignalTabs>
-					</div>
-				</article>
-
-				<article class="pkg">
-					<span class="pkg__index" aria-hidden="true">02</span>
-					<div>
-						<h3 class="pkg__title">Nightly package channels</h3>
+			<SignalTabs class="sig-tabs--channel" label="Release channel" tabs={channelTabs} fade>
+				<div slot="stable" id="stable">
+					<div class="chooser">
 						<SignalTabs syncKey="download-platform" tabs={platformTabs}>
-							<div slot="windows">
+							<div slot="windows" class="choice" id="download-windows">
+								<aside class="caution reveal" role="note">
+									<p class="caution__title">
+										<Icon name="lucide:shield-alert" aria-hidden="true" />
+										Official downloads only
+									</p>
+									<p>
+										Only download OpenTubeX from the official sources listed here. Third-party download sites repackage our builds
+										and often host outdated versions. One of them, YasDL, is on{' '}
+										<a href="https://fmhy.net/unsafe" rel="noopener noreferrer">FMHY's unsafe sites list</a> for uploading software
+										with malware. To check a file from GitHub Releases, compare its SHA-256 checksum with the digest GitHub shows next
+										to it on the release page.
+									</p>
+								</aside>
+
+								<p class="choice__requires">Windows 10 or later</p>
+								<p class="choice__lead">Most PCs use x64. Choose arm64 for Snapdragon and other Windows on Arm devices.</p>
+								<DownloadLinks links={recommended('Windows')} label="Windows installers" />
+								<h3 class="choice__title" id="install-winget">Or install with winget</h3>
 								<p class="pkg__body">
-									Add the <a href={scoopBucketUrl} rel="noopener noreferrer">OpenTubeX Scoop bucket</a> and install the
-									nightly package. It shares settings and data with the stable package, so install only one of them.
+									Install and update through <a href="https://learn.microsoft.com/windows/package-manager/winget/" rel="noopener noreferrer">winget</a>.
 								</p>
-								<CmdCode code={scoopNightlyCode} lang="shell" />
-							</div>
-							<div slot="macos">
+								<CmdCode code={wingetCode} lang="shell" />
+								<a class="pkg__badge" href={wingetPackageUrl} rel="noopener noreferrer">
+									<img alt="WinGet version" height="32" src={wingetBadgeUrl} />
+								</a>
+								<h3 class="choice__title" id="install-scoop">Or install with Scoop</h3>
 								<p class="pkg__body">
-									Install the nightly cask from the <a href="https://github.com/OpenTubeX/homebrew-tap" rel="noopener noreferrer">OpenTubeX tap</a>.
-									It shares the app and data of the stable cask, so uninstall <code>opentubex</code> first.
+									With <a href="https://scoop.sh/" rel="noopener noreferrer">Scoop</a> installed, add the
+									{' '}<a href={scoopBucketUrl} rel="noopener noreferrer">OpenTubeX bucket</a>.
 								</p>
-								<CmdCode code={homebrewNightlyCode} lang="shell" />
+								<CmdCode code={scoopCode} lang="shell" title="Install" />
+								<CmdCode code="scoop update opentubex" lang="shell" title="Update" />
+								<MoreDownloads links={others('Windows')} label="Windows portable downloads" summary="Portable archives" />
 							</div>
-							<div slot="linux">
-								<SignalTabs syncKey="package-platform" tabs={nightlyLinuxTabs}>
-									<div slot="flatpak">
-										<p class="pkg__body">Add the OpenTubeX remote and install its nightly branch:</p>
-										<CmdCode code={flatpakNightlyCode} lang="shell" />
-									</div>
-									<div slot="debian">
-										<p class="pkg__body">Add the signing key and select the <code>nightly</code> APT suite:</p>
-										<CmdCode code={aptNightlyCode} lang="shell" />
-									</div>
-									<div slot="fedora">
-										<p class="pkg__body">Install the OpenTubeX nightly repository configuration:</p>
-										<CmdCode code={fedoraNightlyCode} lang="shell" />
-									</div>
-									<div slot="opensuse">
-										<p class="pkg__body">Import the signing key and add the nightly RPM repository:</p>
-										<CmdCode code={opensuseNightlyCode} lang="shell" />
-									</div>
-									<div slot="arch">
+
+							<div slot="macos" class="choice" id="download-macos">
+								<p class="choice__requires">macOS 12 or later</p>
+								<p class="choice__lead">
+									Choose Apple silicon for Macs with an M-series chip and Intel for older Macs. Not sure? Check
+									Apple menu → About This Mac.
+								</p>
+								<DownloadLinks links={recommended('macOS')} label="macOS disk images" />
+								<p class="choice__note">
+									OpenTubeX is not notarized by Apple. If macOS blocks the first launch, allow OpenTubeX in
+									System Settings → Privacy &amp; Security.
+								</p>
+								<h3 class="choice__title" id="install-homebrew">Or install with Homebrew</h3>
+								<p class="pkg__body">
+									With <a href="https://brew.sh/" rel="noopener noreferrer">Homebrew</a> installed, use the
+									{' '}<a href="https://github.com/OpenTubeX/homebrew-tap" rel="noopener noreferrer">OpenTubeX tap</a>.
+									Nix users can follow the <a href="#install-nix">Nix instructions</a>.
+								</p>
+								<CmdCode code={homebrewCode} lang="shell" title="Install" />
+								<CmdCode code={homebrewUpdateCode} lang="shell" title="Update" />
+								<MoreDownloads links={others('macOS')} label="macOS archive downloads" summary="Archives" />
+							</div>
+
+							<div slot="linux" class="choice" id="download-linux">
+								<SignalTabs syncKey="package-platform" tabs={linuxTabs}>
+									<div slot="flatpak" id="install-flatpak">
 										<p class="pkg__body">
-											The nightly repository has packages for <code>x86_64</code> and <code>aarch64</code>. Download the signing
-											key and check its fingerprint:
+											Add the <a href={flatpakSiteUrl} rel="noopener noreferrer">OpenTubeX Flatpak remote</a>, or
+											install through <a href={flatparkSiteUrl} rel="noopener noreferrer">Flatpark</a>.
+										</p>
+										<CmdCode code={flatpakCode} lang="shell" />
+										<a class="pkg__badge" href={flatparkSiteUrl} rel="noopener noreferrer">
+											<img alt="Get it on FlatPark" width="154" height="56" src="https://flatpark.org/badges/get-it-on-flatpark.svg" />
+										</a>
+										<MoreDownloads links={files('Flatpak')} label="Flatpak bundles" summary="Offline bundles" />
+									</div>
+									<div slot="debian" id="install-apt">
+										<p class="pkg__body">
+											Add the signed <a href={aptRepositoryUrl} rel="noopener noreferrer">APT repository</a>, then install.
+										</p>
+										<CmdCode code={aptCode} lang="shell" />
+										<MoreDownloads links={files('Ubuntu / Debian')} label="Debian packages" summary="Standalone .deb packages" />
+									</div>
+									<div slot="fedora" id="install-rpm">
+										<p class="pkg__body">
+											Enable the official <a href={coprRepositoryUrl} rel="noopener noreferrer">COPR</a>, then install.
+										</p>
+										<CmdCode code={coprCode} lang="shell" />
+										<p class="pkg__body pkg__body--follow">
+											Or use the signed <a href={rpmRepositoryUrl} rel="noopener noreferrer">OpenTubeX-hosted RPM repository</a>:
+										</p>
+										<CmdCode code={rpmCode} lang="shell" />
+										<MoreDownloads links={files('Fedora / Red Hat')} label="Fedora packages" summary="Standalone .rpm packages" />
+									</div>
+									<div slot="opensuse" id="install-opensuse">
+										<p class="pkg__body">
+											Add the signed <a href={rpmRepositoryUrl} rel="noopener noreferrer">RPM repository</a>, then install.
+										</p>
+										<CmdCode code={opensuseCode} lang="shell" />
+										<MoreDownloads links={files('openSUSE')} label="openSUSE packages" summary="Standalone .rpm packages" />
+									</div>
+									<div slot="arch" id="install-arch">
+										<p class="pkg__body">
+											The <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a> has packages
+											for <code>x86_64</code> and <code>aarch64</code>. Download the signing key and check
+											its fingerprint:
 										</p>
 										<CmdCode code={archKeyCode} lang="shell" />
 										<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
 										<p class="pkg__body pkg__body--follow">Trust the key:</p>
 										<CmdCode code={archTrustCode} lang="shell" />
 										<p class="pkg__body pkg__body--follow">
-											Add the nightly <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a>, then install. It
-											also receives stable releases. If <code>/etc/pacman.conf</code> already has an <code>[opentubex]</code>
-											section, remove it first, or pacman keeps installing the stable package.
+											Add the repository, then install. If <code>/etc/pacman.conf</code> already has an
+											<code>[opentubex-nightly]</code> section, remove it first, or pacman keeps installing nightly builds.
 										</p>
-										<CmdCode code={archRepositoryCode('opentubex-nightly')} lang="shell" />
-										<p class="pkg__body pkg__body--follow">
-											Or install the prebuilt <a href="https://aur.archlinux.org/packages/opentubex-nightly-bin/" rel="noopener noreferrer"
-												><code>opentubex-nightly-bin</code></a
-											>{' '}package for x86_64 or aarch64. It is updated automatically after each nightly release;
-											use your AUR helper to install updates. It replaces the stable package and uses the same application data.
+										<CmdCode code={archRepositoryCode('opentubex')} lang="shell" />
+										<p class="pkg__body pkg__body--follow" id="install-aur">
+											Or install from the AUR with <a href="https://github.com/Morganamilo/paru" rel="noopener noreferrer">paru</a>,
+											{' '}<a href="https://github.com/Jguer/yay" rel="noopener noreferrer">yay</a>, or
+											{' '}<a href="https://github.com/Seafoam-Labs/Shelly-ALPM" rel="noopener noreferrer">shelly</a>.
 										</p>
 										<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
 											<div slot="paru">
-												<CmdCode code="paru -S opentubex-nightly-bin" lang="shell" title="Nightly binary" />
-												</div>
+												<CmdCode code="paru -S opentubex-bin" lang="shell" title="Prebuilt binary" />
+												<CmdCode code="paru -S opentubex" lang="shell" title="Build from source" />
+											</div>
 											<div slot="yay">
-												<CmdCode code="yay -S opentubex-nightly-bin" lang="shell" title="Nightly binary" />
-												</div>
+												<CmdCode code="yay -S opentubex-bin" lang="shell" title="Prebuilt binary" />
+												<CmdCode code="yay -S opentubex" lang="shell" title="Build from source" />
+											</div>
 											<div slot="shelly">
-												<CmdCode code="shelly -Ia opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+												<CmdCode code="shelly -Ia opentubex-bin" lang="shell" title="Prebuilt binary" />
+												<CmdCode code="shelly -Ia opentubex" lang="shell" title="Build from source" />
 											</div>
 										</SignalTabs>
+										<a class="pkg__badge" href={aurPackageUrl} rel="noopener noreferrer">
+											<img alt="AUR version" height="32" src={aurBadgeUrl} />
+										</a>
+										<MoreDownloads links={files('Arch Linux')} label="Arch Linux packages" summary="Standalone package" />
 									</div>
-									<div slot="snap">
-										<p class="pkg__body">Install the latest build from the <code>edge</code> channel:</p>
-										<CmdCode code={snapNightlyCode} lang="shell" title="New installation" />
-										<p class="pkg__body pkg__body--follow">Switch an existing Snap Store installation:</p>
-										<CmdCode code={snapNightlyRefreshCode} lang="shell" title="Existing Store installation" />
-										<p class="pkg__body pkg__body--follow">Switch an existing manual installation:</p>
-										<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
+									<div slot="snap" id="install-snap">
+										<p class="pkg__body">
+											Install OpenTubeX from the beta channel in the <a href={snapSiteUrl} rel="noopener noreferrer">Snap Store</a>.
+										</p>
+										<CmdCode code={snapCode} lang="shell" title="New installation" />
+										<p class="pkg__body pkg__body--follow">
+											If you previously installed a downloaded <code>.snap</code> file, switch it to Store-managed updates:
+										</p>
+										<CmdCode code={snapMigrationCode} lang="shell" title="Existing manual installation" />
+										<a class="pkg__badge" href={snapSiteUrl} rel="noopener noreferrer">
+											<picture>
+												<source data-logo-theme="dark" media="(prefers-color-scheme: dark)" srcset="https://snapcraft.io/en/dark/install.svg" type="image/svg+xml" />
+												<img alt="Get it from the Snap Store" width="188" height="56" src="https://snapcraft.io/en/light/install.svg" />
+											</picture>
+										</a>
+										<MoreDownloads links={files('Snap')} label="Snap packages" summary="Standalone .snap packages" />
+									</div>
+									<div slot="nix" id="install-nix">
+										<p class="pkg__body">
+											With Nix installed and flakes enabled, install the
+											{' '}<a href={nixRepositoryUrl} rel="noopener noreferrer">official OpenTubeX flake</a>.
+											Supports x86_64 and ARM64 on Linux, including NixOS, and Apple Silicon and Intel Macs.
+										</p>
+										<CmdCode code={nixCode} lang="shell" />
+									</div>
+									<div slot="portable" id="download-portable">
+										<p class="pkg__body">
+											These builds run without installation but do not update automatically. Most PCs use x64.
+										</p>
+										<DownloadLinks links={links('AppImage')} label="AppImage downloads" />
+										<MoreDownloads links={links('Other Linux Distributions')} label="Portable Linux archives" summary="Portable archives" />
 									</div>
 								</SignalTabs>
 							</div>
-							<div slot="android">
-								<p class="pkg__body">Install and update the Android nightly through F-Droid or Obtainium. F-Droid also lists OpenTubeX Nightly Lite.</p>
-								<ul class="format-list" aria-label="Android nightly install links">
-									<li>
-										<a class="is-preferred" href={fdroidNightlyUrl} rel="noopener noreferrer">
-											<Icon name="simple-icons:fdroid" aria-hidden="true" />
-											Install nightly with F-Droid
-										</a>
-									</li>
-									<li>
-										<a class="is-preferred" href={obtainiumNightlyUrl} rel="noopener noreferrer">
-											<Icon name="lucide:package-check" aria-hidden="true" />
-											Install nightly with Obtainium
-										</a>
-									</li>
-									<li>
-										<a href={obtainiumNightlyLiteUrl} rel="noopener noreferrer">
-											<Icon name="lucide:package-check" aria-hidden="true" />
-											Install nightly Lite with Obtainium
-										</a>
-									</li>
-								</ul>
-							</div>
-							<div slot="ios">
+
+							<div slot="android" class="choice" id="download-android">
+								<p class="choice__requires">Android 8.0 or later</p>
+								<p class="choice__lead">F-Droid and Obtainium install OpenTubeX and keep it updated.</p>
+								<DownloadLinks links={recommended('Android')} label="Android stores" />
+								<div class="pkg__badges">
+									<a class="pkg__badge" href={fdroidSiteUrl} rel="noopener noreferrer">
+										<Image alt="Get it on F-Droid" src={fdroidBadge} width={188} height={56} densities={[1, 2, 3]} format="webp" />
+									</a>
+									<a class="pkg__badge" href={obtainiumUrl} rel="noopener noreferrer">
+										<Image alt="Get it on Obtainium" src={obtainiumBadge} width={188} height={56} densities={[1, 2, 3]} format="webp" />
+									</a>
+									<a class="pkg__badge" href={githubReleaseUrl} rel="noopener noreferrer">
+										<Image alt="Get it on GitHub" src={githubBadge} width={188} height={56} densities={[1, 2, 3]} format="webp" />
+									</a>
+								</div>
 								<p class="pkg__body">
-									Install <strong>OpenTubeX Nightly</strong> from the{' '}
-									<a href="https://sidestore.opentubex.org/">official SideStore source</a>.
-									Stable and nightly install as separate apps with independent settings and libraries.
+									Low on storage? Install OpenTubeX Lite from the same F-Droid repository or
+									{' '}<a href={obtainiumLiteUrl} rel="noopener noreferrer">with Obtainium</a>. It installs as a separate app
+									with smaller APKs that leave out yt-dlp and FFmpeg, so downloads and other yt-dlp features are unavailable.
 								</p>
-								<DownloadLinks
-									links={[{ label: 'Add to SideStore', url: sidestoreSiteUrl, icon: 'sidestore', preferred: true }]}
-									label="iOS nightly install links"
-								/>
-								<p class="pkg__body pkg__body--follow">
-									Download the <code>opentubex-…-ios-unsigned.ipa</code> asset from the{' '}
-									<a href="https://github.com/OpenTubeX/OpenTubeX/releases">latest nightly release</a>,
-									or the IPA artifact from a successful{' '}
-									<a href="https://github.com/OpenTubeX/OpenTubeX/actions/workflows/build.yml">Build workflow run</a>.
-									Use the same <a href="/docs/installing/#ios--ipados-experimental">signing instructions</a>.
-									Older nightly IPAs shared the regular app's identity; the SideStore nightly has its own identity.
+								<MoreDownloads links={others('Android')} label="Android downloads" summary="APK files">
+									<p class="pkg__body">Not sure which APK to choose? The universal APK works on every device. Lite APKs install the separate OpenTubeX Lite app, which leaves out downloads and other yt-dlp features.</p>
+								</MoreDownloads>
+							</div>
+
+							<div slot="ios" class="choice" id="download-ios-ipados">
+								<p class="choice__requires">iOS / iPadOS 17.4 or later · Experimental</p>
+								<p class="choice__lead">
+									OpenTubeX is not in the App Store. Add the official source to SideStore, or follow the
+									{' '}<a href="/docs/installing/#ios--ipados-experimental">signing and installation guide</a>.
 								</p>
+								<DownloadLinks links={recommended('iOS / iPadOS')} label="iOS install links" />
+								<MoreDownloads links={files('iOS / iPadOS')} label="iOS downloads" summary="Unsigned IPA" />
 							</div>
 						</SignalTabs>
 					</div>
-				</article>
-			</div>
+				</div>
+
+				<div slot="nightly" id="development">
+					<p class="section__intro">
+						Preview builds for testing the newest changes before they are released.
+					</p>
+
+					<div class="dev-table reveal" role="table" aria-label="Development build cadence">
+						<div class="dev-table__item" role="row">
+							<div class="dev-table__label" role="rowheader">Nightly package channels</div>
+							<div class="dev-table__value" role="cell">Every day at 02:15 UTC<span id="nightly-local-time"></span></div>
+						</div>
+						<div class="dev-table__item" role="row">
+							<div class="dev-table__label" role="rowheader">Automated builds</div>
+							<div class="dev-table__value" role="cell">After development changes are pushed</div>
+						</div>
+					</div>
+
+					<aside class="caution reveal" role="note">
+						<p class="caution__title">
+							<Icon name="lucide:triangle-alert" aria-hidden="true" />
+							Warning
+						</p>
+						<p>
+							Both options may contain unfinished features or regressions. Nightly channels are kept separate from stable
+							repositories, but switching channels can replace an existing stable installation.
+						</p>
+					</aside>
+
+					<div class="pkg-list pkg-list--dev">
+						<article class="pkg">
+							<span class="pkg__index" aria-hidden="true">01</span>
+							<div>
+								<h3 class="pkg__title">Nightly package channels</h3>
+								<SignalTabs syncKey="download-platform" tabs={platformTabs}>
+									<div slot="windows">
+										<p class="pkg__body">
+											Add the <a href={scoopBucketUrl} rel="noopener noreferrer">OpenTubeX Scoop bucket</a> and install the
+											nightly package. It shares settings and data with the stable package, so install only one of them.
+										</p>
+										<CmdCode code={scoopNightlyCode} lang="shell" />
+									</div>
+									<div slot="macos">
+										<p class="pkg__body">
+											Install the nightly cask from the <a href="https://github.com/OpenTubeX/homebrew-tap" rel="noopener noreferrer">OpenTubeX tap</a>.
+											It shares the app and data of the stable cask, so uninstall <code>opentubex</code> first.
+										</p>
+										<CmdCode code={homebrewNightlyCode} lang="shell" />
+									</div>
+									<div slot="linux">
+										<SignalTabs syncKey="package-platform" tabs={nightlyLinuxTabs}>
+											<div slot="flatpak">
+												<p class="pkg__body">Add the OpenTubeX remote and install its nightly branch:</p>
+												<CmdCode code={flatpakNightlyCode} lang="shell" />
+											</div>
+											<div slot="debian">
+												<p class="pkg__body">Add the signing key and select the <code>nightly</code> APT suite:</p>
+												<CmdCode code={aptNightlyCode} lang="shell" />
+											</div>
+											<div slot="fedora">
+												<p class="pkg__body">Install the OpenTubeX nightly repository configuration:</p>
+												<CmdCode code={fedoraNightlyCode} lang="shell" />
+											</div>
+											<div slot="opensuse">
+												<p class="pkg__body">Import the signing key and add the nightly RPM repository:</p>
+												<CmdCode code={opensuseNightlyCode} lang="shell" />
+											</div>
+											<div slot="arch">
+												<p class="pkg__body">
+													The nightly repository has packages for <code>x86_64</code> and <code>aarch64</code>. Download the signing
+													key and check its fingerprint:
+												</p>
+												<CmdCode code={archKeyCode} lang="shell" />
+												<CmdCode code={archKeyFingerprint} lang="text" title="Expected fingerprint" />
+												<p class="pkg__body pkg__body--follow">Trust the key:</p>
+												<CmdCode code={archTrustCode} lang="shell" />
+												<p class="pkg__body pkg__body--follow">
+													Add the nightly <a href={archRepositoryUrl} rel="noopener noreferrer">Arch repository</a>, then install. It
+													also receives stable releases. If <code>/etc/pacman.conf</code> already has an <code>[opentubex]</code>
+													section, remove it first, or pacman keeps installing the stable package.
+												</p>
+												<CmdCode code={archRepositoryCode('opentubex-nightly')} lang="shell" />
+												<p class="pkg__body pkg__body--follow">
+													Or install the prebuilt <a href="https://aur.archlinux.org/packages/opentubex-nightly-bin/" rel="noopener noreferrer"
+														><code>opentubex-nightly-bin</code></a
+													>{' '}package for x86_64 or aarch64. It is updated automatically after each nightly release;
+													use your AUR helper to install updates. It replaces the stable package and uses the same application data.
+												</p>
+												<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
+													<div slot="paru">
+														<CmdCode code="paru -S opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+														</div>
+													<div slot="yay">
+														<CmdCode code="yay -S opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+														</div>
+													<div slot="shelly">
+														<CmdCode code="shelly -Ia opentubex-nightly-bin" lang="shell" title="Nightly binary" />
+													</div>
+												</SignalTabs>
+											</div>
+											<div slot="snap">
+												<p class="pkg__body">Install the latest build from the <code>edge</code> channel:</p>
+												<CmdCode code={snapNightlyCode} lang="shell" title="New installation" />
+												<p class="pkg__body pkg__body--follow">Switch an existing Snap Store installation:</p>
+												<CmdCode code={snapNightlyRefreshCode} lang="shell" title="Existing Store installation" />
+												<p class="pkg__body pkg__body--follow">Switch an existing manual installation:</p>
+												<CmdCode code={snapNightlyMigrationCode} lang="shell" title="Existing manual installation" />
+											</div>
+										</SignalTabs>
+									</div>
+									<div slot="android">
+										<p class="pkg__body">Install and update the Android nightly through F-Droid or Obtainium. F-Droid also lists OpenTubeX Nightly Lite.</p>
+										<ul class="format-list" aria-label="Android nightly install links">
+											<li>
+												<a class="is-preferred" href={fdroidNightlyUrl} rel="noopener noreferrer">
+													<Icon name="simple-icons:fdroid" aria-hidden="true" />
+													Install nightly with F-Droid
+												</a>
+											</li>
+											<li>
+												<a class="is-preferred" href={obtainiumNightlyUrl} rel="noopener noreferrer">
+													<Icon name="lucide:package-check" aria-hidden="true" />
+													Install nightly with Obtainium
+												</a>
+											</li>
+											<li>
+												<a href={obtainiumNightlyLiteUrl} rel="noopener noreferrer">
+													<Icon name="lucide:package-check" aria-hidden="true" />
+													Install nightly Lite with Obtainium
+												</a>
+											</li>
+										</ul>
+									</div>
+									<div slot="ios">
+										<p class="pkg__body">
+											Install <strong>OpenTubeX Nightly</strong> from the{' '}
+											<a href="https://sidestore.opentubex.org/">official SideStore source</a>.
+											Stable and nightly install as separate apps with independent settings and libraries.
+										</p>
+										<DownloadLinks
+											links={[{ label: 'Add to SideStore', url: sidestoreSiteUrl, icon: 'sidestore', preferred: true }]}
+											label="iOS nightly install links"
+										/>
+										<p class="pkg__body pkg__body--follow">
+											Download the <code>opentubex-…-ios-unsigned.ipa</code> asset from the{' '}
+											<a href="https://github.com/OpenTubeX/OpenTubeX/releases">latest nightly release</a>,
+											or the IPA artifact from a successful{' '}
+											<a href="https://github.com/OpenTubeX/OpenTubeX/actions/workflows/build.yml">Build workflow run</a>.
+											Use the same <a href="/docs/installing/#ios--ipados-experimental">signing instructions</a>.
+											Older nightly IPAs shared the regular app's identity; the SideStore nightly has its own identity.
+										</p>
+									</div>
+								</SignalTabs>
+							</div>
+						</article>
+
+						<article class="pkg">
+							<span class="pkg__index" aria-hidden="true">02</span>
+							<div>
+								<h3 class="pkg__title">Automated builds</h3>
+								<p class="pkg__body">Latest development artifacts from CI.</p>
+								<ul class="format-list" aria-label="Automated build links">
+									<li>
+										<a
+											href="https://github.com/OpenTubeX/OpenTubeX/actions/workflows/build.yml"
+											rel="noopener noreferrer"
+										>
+											<Icon name="simple-icons:githubactions" aria-hidden="true" />
+											Build workflow (requires GitHub account)
+										</a>
+									</li>
+									<li>
+										<a
+											href="https://nightly.link/OpenTubeX/OpenTubeX/workflows/build/development?preview"
+											rel="noopener noreferrer"
+										>
+											<Icon name="lucide:download" aria-hidden="true" />
+											nightly.link (no account)
+										</a>
+									</li>
+								</ul>
+								<p class="pkg__body pkg__body--follow">
+									Arch users can build the current development revision with{' '}
+									<a href="https://aur.archlinux.org/packages/opentubex-git" rel="noopener noreferrer"
+										><code>opentubex-git</code></a
+									>:
+								</p>
+								<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
+									<div slot="paru">
+										<CmdCode code="paru -S opentubex-git" lang="shell" title="Automated build" />
+									</div>
+									<div slot="yay">
+										<CmdCode code="yay -S opentubex-git" lang="shell" title="Automated build" />
+									</div>
+									<div slot="shelly">
+										<CmdCode code="shelly -Ia opentubex-git" lang="shell" title="Automated build" />
+									</div>
+								</SignalTabs>
+							</div>
+						</article>
+					</div>
+				</div>
+			</SignalTabs>
 		</section>
 
 		<section class="section section--tight" aria-labelledby="donate-heading">

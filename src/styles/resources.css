@@ -51,14 +51,6 @@
 .page-index select:focus-visible,
 .resource-page input:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 3px; }
 
-.cta-note {
-  flex-basis: 100%;
-  margin: -0.35rem 0 0;
-  color: var(--slate);
-  font-size: 0.88rem;
-}
-.cta-note a { color: var(--accent-deep); text-underline-offset: 0.15em; }
-
 /* One tab per platform; the recommended option leads each panel. */
 .chooser {
   padding: 1.5rem;
@@ -66,9 +58,139 @@
   border-radius: 1rem;
   background: var(--surface);
 }
-/* Match the section's top padding above the eyebrow. */
-.resource-page .section__title:has(+ .chooser) { margin-bottom: 3rem; }
 .chooser > .sig-tabs { margin-top: 0; }
+
+/* Stable / Nightly switch: a pill segmented control on the section heading's row, with its panels spanning
+   the full width below. Child combinators keep nested tab groups unchanged. */
+.section:has(> .sig-tabs--channel) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 1.5rem;
+}
+.section:has(> .sig-tabs--channel) > .section__eyebrow { grid-column: 1 / -1; }
+.section:has(> .sig-tabs--channel) > .section__title { margin-bottom: 0; }
+.sig-tabs--channel { display: contents; }
+.sig-tabs--channel > .sig-tabs__list { margin-bottom: 0; border-radius: 999px; }
+.sig-tabs--channel > .sig-tabs__panels { grid-column: 1 / -1; margin-top: 1.75rem; }
+@media (max-width: 640px) {
+  .section:has(> .sig-tabs--channel) { grid-template-columns: minmax(0, 1fr); }
+  .sig-tabs--channel > .sig-tabs__list { margin-top: 1.25rem; }
+}
+.sig-tabs--channel > .sig-tabs__list::before,
+.sig-tabs--channel > .sig-tabs__list > .sig-tabs__tab { border-radius: 999px; }
+.sig-tabs--channel > .sig-tabs__list > .sig-tabs__tab { min-width: 7.5rem; justify-content: center; padding: 0.55rem 1.1rem; font-size: 0.92rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .sig-tabs--channel[data-bound="true"] > .sig-tabs__list::before {
+    transition: transform 0.25s var(--ease), width 0.25s var(--ease), height 0.25s var(--ease);
+  }
+}
+
+/* Choosing Nightly turns the whole page blue. Registering the accent colors lets them animate, and everything
+   derived from them follows along. */
+@property --accent { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --accent-deep { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --accent-glow { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --accent-ring { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --accent-link-underline { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --bg-glow-accent { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --bg-glow-accent-soft { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --bg-glow-ink { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --wave-a { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --wave-c { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --wave-a-soft { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --panel-grad-glow { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --panel-grad-b { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --button-primary-bg { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --button-primary-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@media (prefers-reduced-motion: no-preference) {
+  :root:has(.sig-tabs--channel[data-bound="true"]) {
+    transition-property: --accent, --accent-deep, --accent-glow, --accent-ring, --accent-link-underline, --bg-glow-accent,
+      --bg-glow-accent-soft, --bg-glow-ink, --wave-a, --wave-c, --wave-a-soft, --panel-grad-glow,
+      --panel-grad-b, --button-primary-bg, --button-primary-hover;
+    transition-duration: 0.6s;
+    transition-timing-function: var(--ease);
+  }
+}
+:root:has(.sig-tabs--channel > .sig-tabs__list > [data-tab="nightly"].is-active) {
+  --accent: #2f7cf6;
+  --accent-deep: #1f5fd1;
+  --accent-glow: rgba(47, 124, 246, 0.2);
+  --accent-ring: rgba(47, 124, 246, 0.25);
+  --accent-link-underline: rgba(47, 124, 246, 0.35);
+  --bg-glow-accent: rgba(47, 124, 246, 0.1);
+  --bg-glow-accent-soft: rgba(47, 124, 246, 0.07);
+  --wave-a: rgba(47, 124, 246, 0.5);
+  --wave-c: rgba(47, 124, 246, 0.2);
+  --wave-a-soft: rgba(47, 124, 246, 0.4);
+  --panel-grad-glow: rgba(47, 124, 246, 0.3);
+  --panel-grad-b: rgba(20, 28, 46, 0.94);
+  --button-primary-bg: #2563eb;
+  --button-primary-hover: #1d4ed8;
+}
+[data-theme="dark"]:has(.sig-tabs--channel > .sig-tabs__list > [data-tab="nightly"].is-active) {
+  --accent-deep: #6ea8ff;
+  --accent-glow: rgba(47, 124, 246, 0.28);
+  --accent-ring: rgba(47, 124, 246, 0.3);
+  --accent-link-underline: rgba(110, 168, 255, 0.45);
+  --bg-glow-accent: rgba(47, 124, 246, 0.12);
+  --bg-glow-ink: rgba(47, 124, 246, 0.05);
+  --wave-a: rgba(47, 124, 246, 0.55);
+  --wave-c: rgba(47, 124, 246, 0.28);
+  --wave-a-soft: rgba(47, 124, 246, 0.45);
+  --panel-grad-glow: rgba(47, 124, 246, 0.28);
+  --panel-grad-b: rgba(22, 30, 48, 0.94);
+}
+
+/* A night sky fades in behind the hero for nightly builds. The mesh that keeps the hero text readable over
+   the waves softens so the sky shows behind the title. */
+.page-hero__night {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(1.04);
+  background:
+    radial-gradient(ellipse 55% 90% at 80% 0%, rgba(47, 124, 246, 0.32), transparent 60%),
+    radial-gradient(ellipse 50% 80% at 10% 0%, rgba(90, 70, 220, 0.2), transparent 60%),
+    linear-gradient(to bottom, #07152f, #0b1220 70%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+[data-theme="light"] .page-hero__night {
+  background:
+    radial-gradient(ellipse 55% 90% at 80% 0%, rgba(47, 124, 246, 0.2), transparent 60%),
+    radial-gradient(ellipse 50% 80% at 10% 0%, rgba(120, 140, 255, 0.16), transparent 60%),
+    linear-gradient(to bottom, #e4ecfb, #eef2fa 70%, transparent);
+}
+.page-hero__star {
+  position: absolute;
+  width: var(--star-size);
+  height: var(--star-size);
+  border-radius: 50%;
+  background: #ffffff;
+  opacity: var(--star-opacity);
+}
+[data-theme="light"] .page-hero__star { background: #5b7fd6; }
+:root:has(.sig-tabs--channel > .sig-tabs__list > [data-tab="nightly"].is-active) .page-hero__night {
+  opacity: 1;
+  transform: none;
+}
+:root:has(.sig-tabs--channel > .sig-tabs__list > [data-tab="nightly"].is-active) .page-hero__mesh { opacity: 0.4; }
+@media (prefers-reduced-motion: no-preference) {
+  .page-hero__night { transition: opacity 0.9s ease, transform 1.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .page-hero__mesh { transition: opacity 0.9s ease; }
+  :root:has(.sig-tabs--channel > .sig-tabs__list > [data-tab="nightly"].is-active) .page-hero__star {
+    animation: star-twinkle var(--star-duration) ease-in-out var(--star-delay) infinite alternate;
+  }
+}
+@keyframes star-twinkle {
+  from { opacity: calc(var(--star-opacity) * 0.55); }
+}
+
+/* Deep links land on nightly content with the switch still in view. */
+#development { scroll-margin-top: calc(var(--nav-h) + 6rem); }
 .choice { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 0.85rem; scroll-margin-top: calc(var(--nav-h) + 1rem); }
 .choice > *, .choice .sig-tabs { max-width: 100%; }
 .choice .sig-tabs { width: 100%; }

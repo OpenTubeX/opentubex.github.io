@@ -10,9 +10,13 @@ interface Tab {
 interface Props {
 	tabs: Tab[];
 	syncKey?: string;
+	label?: string;
+	class?: string;
+	/** Crossfades panels when switching. */
+	fade?: boolean;
 }
 
-const { tabs, syncKey } = Astro.props;
+const { tabs, syncKey, label = 'Options', class: className, fade } = Astro.props;
 const groupId = `tabs-${Math.random().toString(36).slice(2, 9)}`;
 
 // Runs right after the markup to select the remembered (or page-suggested) tab. The group stays
@@ -42,8 +46,8 @@ const restoreScript = `(function (root) {
 })(document.currentScript.previousElementSibling);`;
 ---
 
-<div class="sig-tabs" data-sync-key={syncKey || undefined}>
-	<div class="sig-tabs__list" role="tablist" aria-label="Options">
+<div class:list={['sig-tabs', className]} data-sync-key={syncKey || undefined} data-fade={fade ? '' : undefined}>
+	<div class="sig-tabs__list" role="tablist" aria-label={label}>
 		{
 			tabs.map((tab, index) => (
 				<button
@@ -110,7 +114,7 @@ const restoreScript = `(function (root) {
 
 	function switchPanels(root: HTMLElement, panels: HTMLElement[], tabId: string, animate: boolean) {
 		const container = root.querySelector<HTMLElement>(':scope > .sig-tabs__panels');
-		const previous = panels.find((panel) => !panel.hidden);
+		const previous = panels.find((panel) => panel.classList.contains('is-active'));
 		const next = panels.find((panel) => panel.dataset.panel === tabId);
 		if (!container || !next || previous === next) return;
 
@@ -126,24 +130,39 @@ const restoreScript = `(function (root) {
 		});
 
 		if (!previous || !animate || reducedMotion.matches || root.dataset.bound !== 'true') return;
+		const fade = root.dataset.fade !== undefined;
 		const nextHeight = container.getBoundingClientRect().height;
-		if (Math.abs(height - nextHeight) <= 1) return;
-		container.classList.add('is-transitioning');
-		const animation = container.animate(
-			[{ height: `${height}px` }, { height: `${nextHeight}px` }],
-			{
-				duration: 180,
-				easing: getComputedStyle(container).getPropertyValue('--ease').trim(),
-				fill: 'both',
-			},
-		);
+		const resize = Math.abs(height - nextHeight) > 1;
+		if (!resize && !fade) return;
+
+		const timing: KeyframeAnimationOptions = {
+			duration: fade ? 250 : 180,
+			easing: getComputedStyle(container).getPropertyValue('--ease').trim(),
+			fill: 'both',
+		};
+		const animations: Animation[] = [];
+		if (resize) {
+			container.classList.add('is-transitioning');
+			animations.push(container.animate([{ height: `${height}px` }, { height: `${nextHeight}px` }], timing));
+		}
+		if (fade) {
+			// The previous panel stays on top of the next one, out of the layout, while they crossfade.
+			previous.hidden = false;
+			previous.classList.add('is-leaving');
+			animations.push(previous.animate([{ opacity: 1 }, { opacity: 0 }], timing));
+			animations.push(next.animate([{ opacity: 0 }, { opacity: 1 }], timing));
+		}
 		const cleanup = () => {
-			animation.cancel();
+			animations.forEach((animation) => animation.cancel());
 			container.classList.remove('is-transitioning');
+			if (fade) {
+				previous.classList.remove('is-leaving');
+				previous.hidden = !previous.classList.contains('is-active');
+			}
 			transitions.delete(root);
 		};
 		transitions.set(root, cleanup);
-		void animation.finished.then(() => {
+		void Promise.all(animations.map((animation) => animation.finished)).then(() => {
 			if (transitions.get(root) === cleanup) cleanup();
 		}, () => { /* An interrupted transition is cleaned up before its replacement. */ });
 	}

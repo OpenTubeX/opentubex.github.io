@@ -1978,6 +1978,12 @@ a.version-chip:hover .version-chip__dot {
   display: none;
 }
 
+.sig-tabs__panel.is-leaving {
+  position: absolute;
+  inset: 0 0 auto;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .sig-tabs[data-bound="true"] .sig-tabs__list::before {
     transition: transform 0.18s var(--ease),
