@@ -190,12 +190,17 @@ body.signal-body {
   -webkit-font-smoothing: antialiased;
   max-width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Keep horizontal overflow contained without killing backdrop-filter on the nav */
+/* Keep horizontal overflow contained without killing backdrop-filter on the nav.
+   Grow to push the footer to the bottom on short pages. */
 .page-shell {
   overflow-x: clip;
   max-width: 100%;
+  flex-grow: 1;
 }
 
 .signal-body a { color: inherit; text-decoration: none; }
