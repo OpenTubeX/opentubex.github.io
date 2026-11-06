@@ -14,7 +14,7 @@ function add(path: string, suffix: string, repository = 'OpenTubeX', prefix = 'o
 	});
 }
 
-for (const arch of ['x64', 'arm64', 'armv7l']) {
+for (const arch of ['x64', 'arm64']) {
 	const packageArch = arch === 'x64' ? 'amd64' : arch;
 	add(`/linux/appimage-${arch}`, `-${packageArch}.AppImage`);
 	add(`/linux/deb-${arch}`, `_${packageArch}.deb`, 'OpenTubeX', 'opentubex_', 'deb');
