@@ -1343,6 +1343,9 @@ a.version-chip:hover .version-chip__dot {
 }
 
 .pillar__title a {
+  text-decoration: underline dotted;
+  text-decoration-color: var(--accent-link-underline);
+  text-underline-offset: 0.25em;
   transition: color 0.25s var(--ease);
 }
 

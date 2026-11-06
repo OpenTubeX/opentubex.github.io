@@ -7,14 +7,14 @@ const platforms = [
 		name: 'GitHub Sponsors',
 		icon: 'simple-icons:github',
 		href: 'https://github.com/sponsors/D3SOX',
-		body: 'Sponsor with your GitHub account. GitHub takes no fee from sponsorships by personal accounts.',
+		body: 'Sponsor monthly or once with your GitHub account. GitHub takes no fee from sponsorships by personal accounts.',
 		action: 'Sponsor on GitHub',
 	},
 	{
 		name: 'Liberapay',
 		icon: 'simple-icons:liberapay',
 		href: 'https://liberapay.com/D3SOX',
-		body: 'Give weekly, monthly, or yearly without a GitHub account. A nonprofit runs Liberapay, and its code is open source.',
+		body: 'Give weekly, monthly, or yearly without a GitHub account. For a one-time donation, cancel right after the first payment. A nonprofit runs Liberapay, and its code is open source.',
 		action: 'Donate on Liberapay',
 	},
 ] as const;
@@ -59,7 +59,7 @@ const platforms = [
 								<span class="pebble"><Icon name={icon} /></span>
 							</span>
 							<div>
-								<h3 class="pillar__title">{name}</h3>
+								<h3 class="pillar__title"><a href={href} rel="noopener noreferrer">{name}</a></h3>
 								<p class="pillar__body">{body}</p>
 							</div>
 							<a class="btn btn--primary" href={href} rel="noopener noreferrer">
