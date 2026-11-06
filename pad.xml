@@ -30,7 +30,7 @@
 		<Program_OS_Support>WinOther,Mac OS X,Linux,Android</Program_OS_Support>
 		<Program_Language>English,Arabic,Azerbaijani,Byelorussian,Bulgarian,Breton,Catalan,Czech,Welsh,Danish,German,Greek,Spanish,Estonian,Basque,Persian,Finnish,French,Galician,Hebrew,Hungarian,Croatian,Indonesian,Icelandic,Italian,Japanese,Korean,Lithuanian,Norwegian,Dutch,Polish,Portuguese,Romanian,Russian,Slovak,Slovenian,Serbian,Swedish,Tamil,Turkish,Ukrainian,Vietnamese,ChineseSimplified,ChineseTraditional</Program_Language>
 		<Program_Category_Class>Audio &amp; Multimedia::Video Tools</Program_Category_Class>
-		<Program_System_Requirements>Windows 10 or later, macOS 12 or later, Linux, or Android 8.0 or later</Program_System_Requirements>
+		<Program_System_Requirements>Windows 10 or later, macOS 13 or later, Linux, or Android 8.0 or later</Program_System_Requirements>
 		<Expire_Info>
 			<Has_Expire_Info>N</Has_Expire_Info>
 		</Expire_Info>
