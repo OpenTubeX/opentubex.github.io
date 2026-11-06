@@ -31,10 +31,6 @@ OpenTubeX is not notarized by Apple. If the first launch is blocked, allow the a
 
 ## Linux
 
-On NixOS, follow the [Nix installation instructions](/downloads/#install-nix).
-
-For other Linux distributions:
-
 1. Choose a package matching your distribution on the [Downloads page](/downloads/).
 2. Follow the linked repository instructions, or open a downloaded DEB/RPM with your distribution's package installer.
 3. Launch OpenTubeX from your application menu.
