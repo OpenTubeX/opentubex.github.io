@@ -744,15 +744,22 @@ loads.
 
 ### Upload, live stream, and premiere notifications
 
-Turn on the bell in a channel's subscribe button to get a system notification
-when the channel uploads a video, short, live stream or post. Choose which
-types notify you from the subscribe button's settings, or for many channels at
-once in Subscription settings. OpenTubeX checks for new uploads when
-subscriptions refresh, including background refreshes. Upload notifications
-are available on desktop and Android.
+Turn on the bell in a channel's subscribe button to get a notification when
+the channel uploads a video, short, live stream or post. Choose which types
+notify you from the subscribe button's settings, or for many channels at once
+in Subscription settings. OpenTubeX checks for new uploads when subscriptions
+refresh, including background refreshes. Upload notifications are available on
+desktop and Android.
 
-You can also get an operating-system notification when a scheduled live stream
-or premiere starts.
+You can also get a notification when a scheduled live stream or premiere
+starts.
+
+While you use OpenTubeX, notifications appear inside the app. While it runs in
+the background, they arrive as system notifications. The bell in the top bar
+lists past notifications with an unread count. Open one from there or mark it
+as read. Under Notifications in General settings, System and in-app is the
+default. Choose System only to always use system notifications without that
+list, or Off to turn notifications off.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/33b85808-4f80-4de6-a725-a8943573ed48">
