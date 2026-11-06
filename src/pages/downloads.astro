@@ -109,7 +109,9 @@ const scoopNightlyCode = `${scoopBucketCode}\nscoop install opentubex/opentubex-
 const homebrewCode = 'brew install --cask opentubex/tap/opentubex';
 const homebrewUpdateCode = 'brew update\nbrew upgrade --cask opentubex';
 const homebrewNightlyCode = 'brew install --cask opentubex/tap/opentubex@nightly';
-const nixCode = 'nix profile install github:OpenTubeX/nix';
+const nixCode = `nix --extra-experimental-features "nix-command flakes" \\
+  profile add github:OpenTubeX/nix#opentubex`;
+const nixosFlakesCode = 'nix.settings.experimental-features = [ "nix-command" "flakes" ];';
 const snapCode = 'sudo snap install opentubex --beta';
 const snapMigrationCode = 'sudo snap refresh --amend opentubex --beta';
 const snapNightlyCode = 'sudo snap install opentubex --edge';
@@ -385,11 +387,33 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 									</div>
 									<div slot="nix" id="install-nix">
 										<p class="pkg__body">
-											With Nix installed and flakes enabled, install the
-											{' '}<a href={nixRepositoryUrl} rel="noopener noreferrer">official OpenTubeX flake</a>.
-											Supports x86_64 and ARM64 on Linux, including NixOS, and Apple Silicon and Intel Macs.
+											NixOS already includes Nix. On other Linux distributions or macOS, <a href="https://nixos.org/download/" rel="noopener noreferrer">install Nix</a> first.
 										</p>
 										<CmdCode code={nixCode} lang="shell" />
+										<details class="more-downloads">
+											<summary>
+												<Icon name="lucide:chevron-right" aria-hidden="true" />
+												Optional: enable flakes permanently on NixOS
+											</summary>
+											<p class="pkg__body">Open your system configuration:</p>
+											<CmdCode code="sudo nano /etc/nixos/configuration.nix" lang="shell" />
+											<p class="pkg__body">
+												Add this setting inside the existing <code>{'{ ... }'}</code>:
+												If you already have this setting, add the two values to its list instead of adding the setting again.
+											</p>
+											<CmdCode code={nixosFlakesCode} lang="nix" />
+											<p class="pkg__body">Save the file and rebuild:</p>
+											<CmdCode code="sudo nixos-rebuild switch" lang="shell" />
+											<p class="pkg__body">
+												After rebuilding, you can omit <code>--extra-experimental-features "nix-command flakes"</code> from future Nix commands.
+											</p>
+										</details>
+										<p class="pkg__body pkg__body--follow">
+											The <a href={nixRepositoryUrl} rel="noopener noreferrer">official OpenTubeX flake</a> supports x86_64 and ARM64 Linux,
+											including NixOS, and Apple Silicon and Intel Macs.
+											See its <a href={`${nixRepositoryUrl}#declarative-installation`} rel="noopener noreferrer">declarative installation instructions</a>{' '}
+											to manage OpenTubeX through your NixOS or Home Manager configuration.
+										</p>
 									</div>
 									<div slot="portable" id="download-portable">
 										<p class="pkg__body">
@@ -721,3 +745,9 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 </script>
 
 <DownloadPlatform />
+
+<style>
+	#install-nix > .pkg__body:first-child {
+		max-width: 42rem;
+	}
+</style>
