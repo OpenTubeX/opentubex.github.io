@@ -134,6 +134,7 @@ Suites: stable
 Components: main
 Signed-By: /etc/apt/keyrings/opentubex-archive-keyring.gpg
 EOF
+sudo rm -f /etc/apt/sources.list.d/opentubex.list
 sudo apt update
 sudo apt install opentubex`;
 
@@ -158,6 +159,7 @@ Suites: nightly
 Components: main
 Signed-By: /etc/apt/keyrings/opentubex-archive-keyring.gpg
 EOF
+sudo rm -f /etc/apt/sources.list.d/opentubex.list
 sudo apt update
 sudo apt install opentubex`;
 
