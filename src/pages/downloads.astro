@@ -118,15 +118,22 @@ const snapNightlyCode = 'sudo snap install opentubex --edge';
 const snapNightlyRefreshCode = 'sudo snap refresh opentubex --edge';
 const snapNightlyMigrationCode = 'sudo snap refresh --amend opentubex --edge';
 
-const flatpakCode = `flatpak remote-add --if-not-exists opentubex \\
+const flatpakCode = `flatpak remote-add --if-not-exists flathub \\
+  https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --if-not-exists opentubex \\
   https://flatpak.opentubex.org/opentubex.flatpakrepo
 flatpak install opentubex org.opentubex.OpenTubeX`;
 
 const aptCode = `sudo install -d -m 0755 /etc/apt/keyrings
 wget -qO- https://apt.opentubex.org/opentubex-archive-keyring.gpg \\
   | sudo tee /etc/apt/keyrings/opentubex-archive-keyring.gpg >/dev/null
-echo "deb [signed-by=/etc/apt/keyrings/opentubex-archive-keyring.gpg] https://apt.opentubex.org stable main" \\
-  | sudo tee /etc/apt/sources.list.d/opentubex.list >/dev/null
+sudo tee /etc/apt/sources.list.d/opentubex.sources >/dev/null <<'EOF'
+Types: deb
+URIs: https://apt.opentubex.org
+Suites: stable
+Components: main
+Signed-By: /etc/apt/keyrings/opentubex-archive-keyring.gpg
+EOF
 sudo apt update
 sudo apt install opentubex`;
 
@@ -138,18 +145,19 @@ const rpmCode = `sudo curl --fail --location \\
   https://rpm.opentubex.org/opentubex.repo
 sudo dnf install opentubex`;
 
-const opensuseCode = `sudo rpm --import \\
-  https://rpm.opentubex.org/opensuse/repodata/repomd.xml.key
-sudo zypper addrepo --refresh \\
-  https://rpm.opentubex.org/opensuse/ \\
-  opentubex
+const opensuseCode = `sudo zypper addrepo https://rpm.opentubex.org/opentubex.repo
 sudo zypper install opentubex`;
 
 const aptNightlyCode = `sudo install -d -m 0755 /etc/apt/keyrings
 wget -qO- https://apt.opentubex.org/opentubex-archive-keyring.gpg \\
   | sudo tee /etc/apt/keyrings/opentubex-archive-keyring.gpg >/dev/null
-echo "deb [signed-by=/etc/apt/keyrings/opentubex-archive-keyring.gpg] https://apt.opentubex.org nightly main" \\
-  | sudo tee /etc/apt/sources.list.d/opentubex.list >/dev/null
+sudo tee /etc/apt/sources.list.d/opentubex.sources >/dev/null <<'EOF'
+Types: deb
+URIs: https://apt.opentubex.org
+Suites: nightly
+Components: main
+Signed-By: /etc/apt/keyrings/opentubex-archive-keyring.gpg
+EOF
 sudo apt update
 sudo apt install opentubex`;
 
@@ -158,11 +166,7 @@ const fedoraNightlyCode = `sudo curl --fail --location \\
   https://rpm.opentubex.org/opentubex-nightly.repo
 sudo dnf install opentubex`;
 
-const opensuseNightlyCode = `sudo rpm --import \\
-  https://rpm.opentubex.org/opensuse/nightly/repodata/repomd.xml.key
-sudo zypper addrepo --refresh \\
-  https://rpm.opentubex.org/opensuse/nightly/ \\
-  opentubex-nightly
+const opensuseNightlyCode = `sudo zypper addrepo https://rpm.opentubex.org/opentubex-nightly.repo
 sudo zypper install opentubex`;
 
 const archKeyCode = `curl -fsSL -o opentubex.asc https://arch.opentubex.org/opentubex.asc
@@ -179,7 +183,9 @@ const archRepositoryCode = (repository: string) => `sudo pacman-conf --repo-list
   sudo tee -a /etc/pacman.conf >/dev/null
 sudo pacman -Syu opentubex`;
 
-const flatpakNightlyCode = `flatpak remote-add --if-not-exists opentubex \\
+const flatpakNightlyCode = `flatpak remote-add --if-not-exists flathub \\
+  https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --if-not-exists opentubex \\
   https://flatpak.opentubex.org/opentubex.flatpakrepo
 flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 ---
@@ -295,7 +301,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 								<SignalTabs syncKey="package-platform" tabs={linuxTabs}>
 									<div slot="flatpak" id="install-flatpak">
 										<p class="pkg__body">
-											Add the <a href={flatpakSiteUrl} rel="noopener noreferrer">OpenTubeX Flatpak remote</a>, or
+											Add Flathub for the runtime and the <a href={flatpakSiteUrl} rel="noopener noreferrer">OpenTubeX Flatpak remote</a>, or
 											install through <a href={flatparkSiteUrl} rel="noopener noreferrer">Flatpark</a>.
 										</p>
 										<CmdCode code={flatpakCode} lang="shell" />
@@ -513,7 +519,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 									<div slot="linux">
 										<SignalTabs syncKey="package-platform" tabs={nightlyLinuxTabs}>
 											<div slot="flatpak">
-												<p class="pkg__body">Add the OpenTubeX remote and install its nightly branch:</p>
+												<p class="pkg__body">Add the Flathub and OpenTubeX remotes and install the nightly branch:</p>
 												<CmdCode code={flatpakNightlyCode} lang="shell" />
 											</div>
 											<div slot="debian">
@@ -525,7 +531,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 												<CmdCode code={fedoraNightlyCode} lang="shell" />
 											</div>
 											<div slot="opensuse">
-												<p class="pkg__body">Import the signing key and add the nightly RPM repository:</p>
+												<p class="pkg__body">Add the nightly RPM repository:</p>
 												<CmdCode code={opensuseNightlyCode} lang="shell" />
 											</div>
 											<div slot="arch">
