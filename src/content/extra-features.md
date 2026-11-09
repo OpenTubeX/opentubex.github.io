@@ -609,9 +609,9 @@ also scan an editable local playlist for confirmed unavailable entries and
 choose whether to remove them. Videos that could not be checked are kept.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/73508c60-e037-452c-bf29-93e7af0bffe6">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/57e45347-b684-40a2-a83c-4a2998b7e3d3">
-  <img alt="Confirmation before removing unavailable videos from a local playlist" src="https://github.com/user-attachments/assets/73508c60-e037-452c-bf29-93e7af0bffe6">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/bf8bb31e-42a3-439e-a798-d58898ec2148">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/64e64e64-3485-4e15-b5e5-80262dbb5089">
+  <img alt="Notification asking whether to remove the unavailable videos found in a local playlist, with Cancel and Yes, delete buttons" src="https://github.com/user-attachments/assets/bf8bb31e-42a3-439e-a798-d58898ec2148">
 </picture>
 
 ### Repair playlist metadata
