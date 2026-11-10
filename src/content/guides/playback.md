@@ -13,7 +13,7 @@ icon: lucide:circle-play
 4. Use the captions control to select a subtitle track when one is available.
 5. Use fullscreen for a larger view. On desktop, Picture-in-Picture keeps a floating player visible while you work elsewhere.
 
-Some controls move into the player's overflow menu when space is limited. Built-in playback can rewind live streams and premieres. Streams with live captions, and some others, play at the live edge without seeking. To rewind those, choose [yt-dlp as the stream extraction method](/docs/providers/#choose-a-stream-extraction-method); seeking is available when YouTube provides a rewindable stream, and the available window may not cover the full broadcast.
+Some controls move into the player's overflow menu when space is limited. Built-in playback can rewind live streams and premieres, except in the web demo. Streams with live captions, and some others, play at the live edge without seeking. To rewind those, choose [yt-dlp as the stream extraction method](/docs/providers/#choose-a-stream-extraction-method); seeking is available when YouTube provides a rewindable stream, and the available window may not cover the full broadcast. OpenTubeX Lite and the web demo have no yt-dlp.
 
 ## Play a link from another site
 
