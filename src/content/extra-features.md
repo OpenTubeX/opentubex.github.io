@@ -168,13 +168,16 @@ or switch windows.
 Google Cast and FCast casting are supported on Android and desktop, and DLNA
 casting on Android, desktop and iOS/iPadOS. Turn on each protocol in Player
 settings, then choose a device from the cast button
-in the player. Each protocol has its own tab, and FCast receivers don't get
-subtitles. Stop casting to return to playback in OpenTubeX.
+in the player. On desktop, devices from every enabled protocol appear in one
+list; on phones, each protocol has its own submenu. While casting, the menu
+becomes a remote with seek and volume sliders, playback buttons, and subtitle
+choices. FCast receivers don't get subtitles. Stop casting to return to
+playback in OpenTubeX.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/08394191-94f4-480a-b426-60e728e62495">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/f85f5d41-412e-4682-9fa8-f77c6ac09c18">
-  <img alt="The cast menu with Google Cast, FCast and DLNA tabs, listing an FCast receiver" src="https://github.com/user-attachments/assets/08394191-94f4-480a-b426-60e728e62495">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/83e98622-dbdd-4c0d-b07e-6eb124bebab4">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/1c647bf5-3bf9-4260-9bf4-8152095d6214">
+  <img alt="The cast menu listing a Google Cast TV and a DLNA TV together" src="https://github.com/user-attachments/assets/83e98622-dbdd-4c0d-b07e-6eb124bebab4">
 </picture>
 
 ### Scroll mini-player
