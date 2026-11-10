@@ -827,7 +827,7 @@ settings for a single-page layout.
   <img width="324" height="300" style="max-width: min(100%, 324px); max-height: 300px;" loading="lazy" decoding="async" alt="Pull down the phone header to open the tab organizer, then tap a tab immediately" src="https://github.com/OpenTubeX/media/releases/download/attachments/20261008T155804Z-pr-dark-dark-9cf1a3a141.webp">
 </picture>
 
-The [tab comparison](/compare/#tabs) shows how other clients keep videos open.
+The [client comparison](/compare/) shows how other clients keep videos open.
 
 ![Experimental tab support](https://github.com/user-attachments/assets/2ddbedea-5997-4a3c-af9e-6a36d3a21d04)
 ![Horizontal and vertical tab layouts](https://github.com/user-attachments/assets/486f0119-ca74-40ec-835a-dd6f53cf1f56)
