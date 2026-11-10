@@ -1,47 +1,71 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
 import { Icon } from 'astro-icon/components';
+import '../styles/not-found.css';
+
+const upNext = [
+	{ href: '/downloads/', title: 'Downloads', body: 'Get OpenTubeX for desktop, Android, and iOS', icon: 'lucide:download' },
+	{ href: '/extra-features/', title: 'Features', body: 'Everything OpenTubeX adds, with screenshots', icon: 'lucide:sparkles' },
+	{ href: '/demo/', title: 'Demo', body: 'Try the web app in your browser', icon: 'lucide:monitor-play' },
+	{ href: '/docs/', title: 'Docs', body: 'Install, import your library, and fix problems', icon: 'lucide:book-open' },
+	{ href: '/compare/', title: 'Compare', body: 'See how other YouTube clients stack up', icon: 'lucide:columns-2' },
+];
 ---
 
 <SignalLayout
 	title="Page not found – OpenTubeX"
 	description="This page does not exist on the OpenTubeX site."
 >
-	<main>
-		<header class="page-hero page-hero--error">
-			<div class="page-hero__signal" aria-hidden="true">
-				<svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-					<g transform="translate(980 160)">
-						<path class="wave-path wave-path--b" d="M-460 20 Q-300 -50 -140 20 T180 20 T460 20"></path>
-						<path class="wave-path wave-path--a" d="M-500 50 Q-320 -20 -140 50 T220 50 T500 50"></path>
-						<path class="wave-path wave-path--b" d="M-380 -30 Q-250 -90 -120 -30 T140 -30 T380 -30"></path>
-						<path class="wave-path wave-path--a" d="M-300 -70 Q-190 -120 -80 -70 T140 -70 T300 -70"></path>
-						<g fill="var(--accent)">
-							<circle cx="-140" cy="20" r="3" opacity="0.65"></circle>
-							<circle cx="0" cy="-30" r="2.5" opacity="0.45"></circle>
-							<circle cx="140" cy="20" r="3" opacity="0.65"></circle>
-						</g>
-					</g>
-				</svg>
-			</div>
-			<div class="page-hero__mesh" aria-hidden="true"></div>
-			<div class="page-hero__content">
-				<p class="page-hero__eyebrow">404</p>
-				<h1 class="page-hero__title">Signal lost</h1>
-				<p class="page-hero__lede">
-					This page is not on the OpenTubeX site. It may have moved, or the link is wrong.
-				</p>
-				<div class="cta-group">
-					<a class="btn btn--primary" href="/">
-						<Icon name="lucide:house" aria-hidden="true" />
-						Back home
-					</a>
-					<a class="btn btn--ghost" href="/downloads/">
-						<Icon name="lucide:download" aria-hidden="true" />
-						Downloads
-					</a>
+	<main class="not-found">
+		<div class="not-found__watch">
+			<div class="not-found__player" aria-hidden="true">
+				<div class="not-found__screen">
+					<span class="not-found__code">404</span>
+					<span class="not-found__caption">[no signal]</span>
+				</div>
+				<div class="not-found__controls">
+					<div class="not-found__seek">
+						<span></span>
+						<span class="not-found__missing"></span>
+						<span></span>
+					</div>
+					<div class="not-found__buttons">
+						<Icon name="lucide:play" />
+						<Icon name="lucide:volume-2" class="not-found__volume" />
+						<span class="not-found__time">0:00 / 4:04</span>
+						<span class="not-found__chapter">Missing chapter</span>
+						<Icon name="lucide:captions" class="not-found__cc" />
+						<Icon name="lucide:settings" />
+						<Icon name="lucide:maximize" />
+					</div>
 				</div>
 			</div>
-		</header>
+			<h1 class="not-found__title">This page isn't available</h1>
+			<p class="not-found__lede">Nothing is published at this address. The link may be mistyped or out of date, or the page may have moved.</p>
+			<div class="cta-group">
+				<a class="btn btn--primary" href="/">
+					<Icon name="lucide:house" aria-hidden="true" />
+					Back home
+				</a>
+				<a class="btn btn--ghost" href="https://github.com/OpenTubeX/opentubex.github.io/issues/new">
+					<Icon name="lucide:flag" aria-hidden="true" />
+					Report a broken link
+				</a>
+			</div>
+		</div>
+		<nav class="not-found__next" aria-labelledby="up-next-heading">
+			<h2 id="up-next-heading">Up next</h2>
+			<ul>
+				{upNext.map((item) => (
+					<li>
+						<a href={item.href}>
+							<span class="not-found__thumb"><Icon name={item.icon} aria-hidden="true" /></span>
+							<span class="not-found__item-title">{item.title}</span>
+							<span class="not-found__item-body">{item.body}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</nav>
 	</main>
 </SignalLayout>

@@ -738,12 +738,6 @@ body.signal-body {
 .page-hero--features .page-hero__title { max-width: 16ch; }
 .page-hero--features .page-hero__lede { margin-bottom: 1.5rem; }
 
-.page-hero--error {
-  padding-block: 5.5rem 4.75rem;
-}
-
-.page-hero--error .page-hero__title { max-width: 14ch; }
-
 .version-chip {
   display: inline-flex;
   align-items: center;
