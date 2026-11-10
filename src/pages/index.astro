@@ -1,6 +1,7 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
 import DownloadPlatform from '../components/DownloadPlatform.astro';
+import { releaseVersion } from '../data/release';
 import '../styles/home.css';
 import { getImage } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
@@ -67,6 +68,27 @@ const screenshotVariants = [
 const promoWebmType = 'video/webm; codecs="av01.0.08M.08, opus"';
 const optimizedPromoPoster = await getImage({ src: promoPoster, format: 'webp' });
 const optimizedPromoPosterPortrait = await getImage({ src: promoPosterPortrait, format: 'webp' });
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{ '@type': 'WebSite', name: 'OpenTubeX', url: Astro.site?.href },
+		{
+			'@type': 'SoftwareApplication',
+			name: 'OpenTubeX',
+			description: 'An open-source YouTube client for power users, with privacy in mind.',
+			url: Astro.site?.href,
+			downloadUrl: new URL('/downloads/', Astro.site).href,
+			screenshot: new URL(shotMainDark.src, Astro.site).href,
+			applicationCategory: 'MultimediaApplication',
+			operatingSystem: 'Windows, macOS, Linux, Android, iOS, iPadOS',
+			softwareVersion: releaseVersion,
+			license: 'https://www.gnu.org/licenses/agpl-3.0.html',
+			isAccessibleForFree: true,
+			offers: { '@type': 'Offer', price: 0, priceCurrency: 'USD' },
+			sameAs: ['https://github.com/OpenTubeX/OpenTubeX'],
+		},
+	],
+};
 const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => ({
 	...shot,
 	sources: await Promise.all(screenshotVariants.flatMap(({ viewport, sizes, widths, images }) =>
@@ -89,10 +111,11 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 ---
 
 <SignalLayout
-	title="OpenTubeX – Privacy-first YouTube client"
-	description="OpenTubeX is a privacy-first YouTube client. Encrypted sync, SponsorBlock, no tracking."
+	title="OpenTubeX – Privacy-first YouTube client for power users"
+	description="OpenTubeX is an open-source YouTube client for power users. Encrypted sync, SponsorBlock, downloads, tabs, and no tracking."
 	active="home"
 >
+	<script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 	<main id="top" class="home">
 		<section class="hero" aria-labelledby="hero-heading">
 			<div class="hero__signal" aria-hidden="true">
@@ -152,7 +175,7 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 					</picture>
 					<h1 class="hero__headline" id="hero-heading">Watch YouTube.<br /><span>Make it yours.</span></h1>
 					<p class="hero__lede">
-						A highly customizable, open-source YouTube client with privacy in mind
+						An open-source YouTube client for power users, with privacy in mind
 					</p>
 					<div class="cta-group">
 						<a class="btn btn--primary" href="/downloads/" data-os-download>
