@@ -41,7 +41,7 @@ In **Settings → Advanced → Video and metadata providers**, find **Stream ext
 
 | Method | When to use it |
 | --- | --- |
-| Built-in | Use the app's included stream extraction. Live streams and premieres play at the live edge without seeking. |
+| Built-in | Use the app's included stream extraction. It can rewind live streams and premieres, except streams with live captions and some others, which play at the live edge without seeking. |
 | yt-dlp | Use yt-dlp for stream extraction, including seeking in live streams and premieres when YouTube provides a rewindable stream. It must be available, and videos may take longer to start. |
 
 </div>

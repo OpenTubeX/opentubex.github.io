@@ -13,7 +13,7 @@ icon: lucide:circle-play
 4. Use the captions control to select a subtitle track when one is available.
 5. Use fullscreen for a larger view. On desktop, Picture-in-Picture keeps a floating player visible while you work elsewhere.
 
-Some controls move into the player's overflow menu when space is limited. Built-in playback does not support seeking in live streams or premieres. To rewind, choose [yt-dlp as the stream extraction method](/docs/providers/#choose-a-stream-extraction-method); seeking is available when YouTube provides a rewindable stream, and the available window may not cover the full broadcast.
+Some controls move into the player's overflow menu when space is limited. Built-in playback can rewind live streams and premieres. Streams with live captions, and some others, play at the live edge without seeking. To rewind those, choose [yt-dlp as the stream extraction method](/docs/providers/#choose-a-stream-extraction-method); seeking is available when YouTube provides a rewindable stream, and the available window may not cover the full broadcast.
 
 ## Play a link from another site
 
@@ -21,7 +21,7 @@ Some controls move into the player's overflow menu when space is limited. Built-
 2. OpenTubeX uses yt-dlp to extract the media. On desktop, allow any required managed tool download to finish; tool settings are under **Settings → Advanced → External Software**.
 3. Use the player controls as usual. Details, chapters, captions, and formats depend on what the source provides.
 
-Support depends on yt-dlp and the site; some links require authentication or are unavailable, and DRM-protected media is unsupported. Playing links from other sites needs yt-dlp, so it does not work in [OpenTubeX Lite](/docs/installing/#opentubex-lite) or the web demo. The same applies to seeking in live streams. Opening a link contacts that site and its media services. See [Downloads](/docs/downloads/#download-from-another-site) to save supported media offline.
+Support depends on yt-dlp and the site; some links require authentication or are unavailable, and DRM-protected media is unsupported. Playing links from other sites needs yt-dlp, so it does not work in [OpenTubeX Lite](/docs/installing/#opentubex-lite) or the web demo. Opening a link contacts that site and its media services. See [Downloads](/docs/downloads/#download-from-another-site) to save supported media offline.
 
 ## Set your playback defaults
 
