@@ -5,13 +5,15 @@ order: 7.6
 icon: lucide:container
 ---
 
-The OpenTubeX web app is the same app as the [web demo](/demo/), and you can run it on your own server with Docker Compose. The setup includes an [Invidious](https://invidious.io/) server, so searches, channel pages, and thumbnails load through your server instead of from YouTube or a public Invidious instance. Videos also load through it while [**Proxy Videos Through Invidious**](/docs/providers/#proxy-video-through-invidious) is on. With that setting off, the browser loads videos directly from YouTube.
+The OpenTubeX web app is the same app as the [web demo](/demo/), and you can run it on your own server with Podman or Docker. The setup includes an [Invidious](https://invidious.io/) server, so searches, channel pages, and thumbnails load through your server instead of from YouTube or a public Invidious instance. Videos also load through it while [**Proxy Videos Through Invidious**](/docs/providers/#proxy-video-through-invidious) is on. With that setting off, the browser loads videos directly from YouTube.
 
 Your library stays in each browser, as in the web demo. The server does not store subscriptions, history, or playlists. To share them between browsers and devices, [sync them](/docs/sync/).
 
 ## Before you start
 
-You need a computer that runs Docker with Compose.
+You need a computer that runs [Podman](https://podman.io/) or Docker. On Linux, use Podman. It runs the server without root access, while anyone who can run Docker commands can gain root access to the computer. `podman compose` also needs [podman-compose](https://github.com/containers/podman-compose) or Docker Compose installed.
+
+This guide uses `podman compose`. With Docker, type `docker compose` instead in every command.
 
 Browsers only store the library on HTTPS addresses and on `localhost`. On a plain `http://` address, OpenTubeX can't open the library and doesn't work. To use it from other devices, give the server an HTTPS address as described in [Open it from other devices](#open-it-from-other-devices).
 
@@ -34,14 +36,21 @@ Browsers only store the library on HTTPS addresses and on `localhost`. On a plai
 3. Start it:
 
    ```sh
-   docker compose up -d
+   podman compose up -d
    ```
 
 4. Open `http://localhost:8080` in a browser on the same computer.
 
 The server needs about a minute after the first start before videos play. Until then, pages load but videos show an error.
 
-To use a different port, add `OPENTUBEX_PORT=8081` to `.env` and run `docker compose up -d` again. Browsers keep a separate library for each address, including its port, so [back up your library](/docs/importing/#find-the-import-and-export-controls) or [sync it](/docs/sync/) before you switch to another port or address.
+Podman doesn't start the server again after a reboot on its own. To start it when the computer boots, even before you log in, run:
+
+```sh
+systemctl --user enable podman-restart.service
+loginctl enable-linger
+```
+
+To use a different port, add `OPENTUBEX_PORT=8081` to `.env` and run `podman compose up -d` again. Browsers keep a separate library for each address, including its port, so [back up your library](/docs/importing/#find-the-import-and-export-controls) or [sync it](/docs/sync/) before you switch to another port or address.
 
 ## Open it from other devices
 
@@ -64,8 +73,8 @@ Anyone who can reach the address can use your server. With a public address, lim
 Download the latest images and restart:
 
 ```sh
-docker compose pull
-docker compose up -d
+podman compose pull
+podman compose up -d
 ```
 
 The `latest` image follows stable releases. To try nightly builds, change `ghcr.io/opentubex/opentubex-web:latest` in `compose.yaml` to `ghcr.io/opentubex/opentubex-web:nightly`.
@@ -87,7 +96,7 @@ With the extension in every browser you use, the server doesn't need Invidious. 
 ```sh
 mkdir opentubex && cd opentubex
 curl -O https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/development/docker/compose.without-invidious.yaml
-docker compose -f compose.without-invidious.yaml up -d
+podman compose -f compose.without-invidious.yaml up -d
 ```
 
 It needs no `.env` keys. Browsers without the extension use public Invidious instances instead, as in the web demo. To update, add `-f compose.without-invidious.yaml` to the commands in [Update](#update).
@@ -96,4 +105,4 @@ It needs no `.env` keys. Browsers without the extension use public Invidious ins
 
 Without the extension, the web app has no Local API, as in the web demo. It can't fall back to YouTube when Invidious fails, and features that need the Local API are missing. [Choose a content provider](/docs/providers/) explains what each provider supports.
 
-YouTube sometimes blocks servers that make many requests. If videos stop playing for everyone, restarting the server with `docker compose restart` can help. The [Invidious documentation](https://docs.invidious.io/youtube-errors-explained/) explains common YouTube errors.
+YouTube sometimes blocks servers that make many requests. If videos stop playing for everyone, restarting the server with `podman compose restart` can help. The [Invidious documentation](https://docs.invidious.io/youtube-errors-explained/) explains common YouTube errors.
