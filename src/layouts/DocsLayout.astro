@@ -9,12 +9,14 @@ import '../styles/docs.css';
 
 interface Props {
   title: string;
+  /** Overrides the browser and search result title, which otherwise repeats the page heading. */
+  documentTitle?: string;
   description: string;
   id?: string;
   icon?: string;
   headings?: MarkdownHeading[];
 }
-const { title, description, id, icon: pageIcon, headings = [] } = Astro.props;
+const { title, documentTitle, description, id, icon: pageIcon, headings = [] } = Astro.props;
 const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
 const index = guides.findIndex((guide) => guide.id === id);
 const next = index >= 0 ? guides[index + 1] : undefined;
@@ -27,7 +29,7 @@ const sections = headings.filter((heading) => heading.depth === 2);
 if (sections.length) groups.push({ label: 'On this page', links: sections.map((heading) => ({ label: heading.text, href: `#${heading.slug}` })) });
 ---
 
-<SignalLayout title={`${title} – OpenTubeX`} description={description} active="docs">
+<SignalLayout title={documentTitle ?? `${title} – OpenTubeX`} description={description} active="docs">
   <a class="docs-skip" href="#docs-content">Skip to documentation</a>
   <main class="resource-page">
     <header class="page-hero">
