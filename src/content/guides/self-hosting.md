@@ -1,6 +1,6 @@
 ---
 title: Host the web app yourself
-description: Run the OpenTubeX web app with its own Invidious server, and open it in any browser.
+description: Run the OpenTubeX web app with or without its own Invidious server, and open it in any browser.
 order: 7.6
 icon: lucide:container
 ---
@@ -70,8 +70,30 @@ docker compose up -d
 
 The `latest` image follows stable releases. To try nightly builds, change `ghcr.io/opentubex/opentubex-web:latest` in `compose.yaml` to `ghcr.io/opentubex/opentubex-web:nightly`.
 
+## Use the Local API
+
+Browsers don't let web pages read YouTube's responses, so the web app has no Local API on its own. The [OpenTubeX Local API extension](https://github.com/OpenTubeX/OpenTubeX/tree/development/browser-extension) lets it request YouTube directly from your browser, as the desktop and mobile apps do. Each browser that opens the web app needs the extension:
+
+1. Install the extension as its [README](https://github.com/OpenTubeX/OpenTubeX/tree/development/browser-extension#install) describes. It isn't in the browser add-on stores yet.
+2. If you open OpenTubeX on an address other than `localhost`, open the extension's options and add that `https://` address.
+3. Reload OpenTubeX.
+
+OpenTubeX then uses the Local API, and falls back to your Invidious server when **Fallback to Non-Preferred Backend** is on. YouTube receives these requests from your browser's IP address, not your server's.
+
+## Run it without Invidious
+
+With the extension in every browser you use, the server doesn't need Invidious. Download the smaller Compose file instead of `compose.yaml`, and start it:
+
+```sh
+mkdir opentubex && cd opentubex
+curl -O https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/development/docker/compose.without-invidious.yaml
+docker compose -f compose.without-invidious.yaml up -d
+```
+
+It needs no `.env` keys. Browsers without the extension use public Invidious instances instead, as in the web demo. To update, add `-f compose.without-invidious.yaml` to the commands in [Update](#update).
+
 ## Limitations
 
-The web app has no Local API, as in the web demo. It can't fall back to YouTube when Invidious fails, and features that need the Local API are missing. [Choose a content provider](/docs/providers/) explains what each provider supports.
+Without the extension, the web app has no Local API, as in the web demo. It can't fall back to YouTube when Invidious fails, and features that need the Local API are missing. [Choose a content provider](/docs/providers/) explains what each provider supports.
 
 YouTube sometimes blocks servers that make many requests. If videos stop playing for everyone, restarting the server with `docker compose restart` can help. The [Invidious documentation](https://docs.invidious.io/youtube-errors-explained/) explains common YouTube errors.
