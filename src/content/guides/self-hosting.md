@@ -11,7 +11,7 @@ Your library stays in each browser, as in the web demo. The server does not stor
 
 ## Before you start
 
-You need a computer that runs [Podman](https://podman.io/) or Docker. On Linux, use Podman. It runs the server without root access, while anyone who can run Docker commands can gain root access to the computer. `podman compose` also needs [podman-compose](https://github.com/containers/podman-compose) or Docker Compose installed.
+You need a computer that runs [Podman](https://podman.io/) or Docker. On Linux, use Podman. It runs the server without root access, while anyone who can run Docker commands can gain root access to the computer. `podman compose` also needs [podman-compose](https://github.com/containers/podman-compose) or Docker Compose installed. If Docker Compose is installed, `podman compose` runs it, and Docker Compose connects to Podman through a socket. On Linux, turn the socket on with `systemctl --user enable --now podman.socket`.
 
 This guide uses `podman compose`. With Docker, type `docker compose` instead in every command.
 
@@ -43,7 +43,7 @@ Browsers only store the library on HTTPS addresses and on `localhost`. On a plai
 
 The server needs about a minute after the first start before videos play. Until then, pages load but videos show an error.
 
-Podman doesn't start the server again after a reboot on its own. To start it when the computer boots, even before you log in, run:
+On Linux, Podman can stop the server when you log out, and it doesn't start the server again after a reboot. To keep it running and start it when the computer boots, run:
 
 ```sh
 systemctl --user enable podman-restart.service
@@ -99,7 +99,7 @@ curl -O https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/development/docker
 podman compose -f compose.without-invidious.yaml up -d
 ```
 
-It needs no `.env` keys. Browsers without the extension use public Invidious instances instead, as in the web demo. To update, add `-f compose.without-invidious.yaml` to the commands in [Update](#update).
+It needs no `.env` keys. Browsers without the extension use public Invidious instances instead, as in the web demo. Add `-f compose.without-invidious.yaml` to the other `podman compose` commands in this guide too, such as when you change the port or [update](#update).
 
 ## Limitations
 
