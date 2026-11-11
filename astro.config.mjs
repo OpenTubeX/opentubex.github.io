@@ -14,6 +14,7 @@ import remarkBundleGitHubImages, {
 	copyReusedGitHubImages,
 } from './src/plugins/remark-bundle-github-images.mjs';
 import { copyCachedChangelogImages } from './src/plugins/remark-cache-changelog-images.mjs';
+import { lastModified } from './src/lib/sitemap-lastmod.ts';
 
 /** Copy reused images into dist after Astro's early public/ copy. */
 const featureImageOptions = { command: 'build' };
@@ -88,7 +89,9 @@ export default defineConfig({
 	integrations: [
 		cachedImages(),
 		expressiveCode(),
-		sitemap(),
+		sitemap({
+			serialize: async (item) => ({ ...item, lastmod: await lastModified(new URL(item.url).pathname) }),
+		}),
 		icon(),
 	],
 });

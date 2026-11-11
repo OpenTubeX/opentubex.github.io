@@ -68,12 +68,22 @@ const screenshotVariants = [
 const promoWebmType = 'video/webm; codecs="av01.0.08M.08, opus"';
 const optimizedPromoPoster = await getImage({ src: promoPoster, format: 'webp' });
 const optimizedPromoPosterPortrait = await getImage({ src: promoPosterPortrait, format: 'webp' });
+const organizationId = new URL('/#organization', Astro.site).href;
 const structuredData = {
 	'@context': 'https://schema.org',
 	'@graph': [
-		{ '@type': 'WebSite', name: 'OpenTubeX', url: Astro.site?.href },
+		{
+			'@type': 'Organization',
+			'@id': organizationId,
+			name: 'OpenTubeX',
+			url: Astro.site?.href,
+			logo: new URL('/logo.png', Astro.site).href,
+			sameAs: ['https://github.com/OpenTubeX'],
+		},
+		{ '@type': 'WebSite', name: 'OpenTubeX', url: Astro.site?.href, publisher: { '@id': organizationId } },
 		{
 			'@type': 'SoftwareApplication',
+			author: { '@id': organizationId },
 			name: 'OpenTubeX',
 			description: 'An open-source YouTube client for power users, with privacy in mind.',
 			url: Astro.site?.href,
@@ -85,7 +95,11 @@ const structuredData = {
 			license: 'https://www.gnu.org/licenses/agpl-3.0.html',
 			isAccessibleForFree: true,
 			offers: { '@type': 'Offer', price: 0, priceCurrency: 'USD' },
-			sameAs: ['https://github.com/OpenTubeX/OpenTubeX'],
+			sameAs: [
+				'https://github.com/OpenTubeX/OpenTubeX',
+				'https://alternativeto.net/software/opentubex/about/',
+				'https://www.opensourcealternatives.to/item/opentubex',
+			],
 		},
 	],
 };

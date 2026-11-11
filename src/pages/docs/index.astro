@@ -4,7 +4,7 @@ import { Icon } from 'astro-icon/components';
 import DocsLayout from '../../layouts/DocsLayout.astro';
 const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
 ---
-<DocsLayout icon="lucide:book-open" title="Get help with OpenTubeX" description="Install the app, bring your subscriptions with you, and make OpenTubeX your own.">
+<DocsLayout icon="lucide:book-open" title="Get help with OpenTubeX" documentTitle="OpenTubeX documentation and user guides" description="Install the app, bring your subscriptions with you, and make OpenTubeX your own.">
   <p>New to OpenTubeX? Start with <a href="/docs/installing/">installation</a>, then <a href="/docs/getting-started/">subscribe to your first channel</a>. You can browse and build a local library without a YouTube account.</p>
   <div class="docs-topics">
     {guides.map((guide) => (
