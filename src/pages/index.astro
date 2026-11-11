@@ -68,12 +68,26 @@ const screenshotVariants = [
 const promoWebmType = 'video/webm; codecs="av01.0.08M.08, opus"';
 const optimizedPromoPoster = await getImage({ src: promoPoster, format: 'webp' });
 const optimizedPromoPosterPortrait = await getImage({ src: promoPosterPortrait, format: 'webp' });
+const organizationId = new URL('/#organization', Astro.site).href;
 const structuredData = {
 	'@context': 'https://schema.org',
 	'@graph': [
-		{ '@type': 'WebSite', name: 'OpenTubeX', url: Astro.site?.href },
+		{
+			'@type': 'Organization',
+			'@id': organizationId,
+			name: 'OpenTubeX',
+			url: Astro.site?.href,
+			logo: new URL('/favicon.svg', Astro.site).href,
+			sameAs: [
+				'https://github.com/OpenTubeX',
+				'https://alternativeto.net/software/opentubex/about/',
+				'https://www.opensourcealternatives.to/item/opentubex',
+			],
+		},
+		{ '@type': 'WebSite', name: 'OpenTubeX', url: Astro.site?.href, publisher: { '@id': organizationId } },
 		{
 			'@type': 'SoftwareApplication',
+			author: { '@id': organizationId },
 			name: 'OpenTubeX',
 			description: 'An open-source YouTube client for power users, with privacy in mind.',
 			url: Astro.site?.href,
