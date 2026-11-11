@@ -22,7 +22,12 @@ export function pageSources(pathname: string): string[] {
 }
 
 function lastCommitDate(files: string[]): string | undefined {
-	return execFileSync('git', ['log', '-1', '--format=%cI', '--', ...files], { encoding: 'utf8' }).trim() || undefined;
+	try {
+		return execFileSync('git', ['log', '-1', '--format=%cI', '--', ...files], { encoding: 'utf8' }).trim() || undefined;
+	} catch {
+		// A throw would make @astrojs/sitemap skip the whole sitemap, so omit the date instead.
+		return undefined;
+	}
 }
 
 /** Needs full Git history; a shallow clone dates every page to the latest commit. */
