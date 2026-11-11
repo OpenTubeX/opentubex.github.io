@@ -650,23 +650,25 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 										</a>
 									</li>
 								</ul>
-								<p class="pkg__body pkg__body--follow">
-									Arch users can build the current development revision with{' '}
-									<a href="https://aur.archlinux.org/packages/opentubex-git" rel="noopener noreferrer"
-										><code>opentubex-git</code></a
-									>:
-								</p>
-								<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
-									<div slot="paru">
-										<CmdCode code="paru -S opentubex-git" lang="shell" title="Automated build" />
-									</div>
-									<div slot="yay">
-										<CmdCode code="yay -S opentubex-git" lang="shell" title="Automated build" />
-									</div>
-									<div slot="shelly">
-										<CmdCode code="shelly -Ia opentubex-git" lang="shell" title="Automated build" />
-									</div>
-								</SignalTabs>
+								<div class="aur-git">
+									<p class="pkg__body pkg__body--follow">
+										Arch users can build the current development revision with{' '}
+										<a href="https://aur.archlinux.org/packages/opentubex-git" rel="noopener noreferrer"
+											><code>opentubex-git</code></a
+										>:
+									</p>
+									<SignalTabs syncKey="aur-helper" tabs={aurTabs}>
+										<div slot="paru">
+											<CmdCode code="paru -S opentubex-git" lang="shell" title="Automated build" />
+										</div>
+										<div slot="yay">
+											<CmdCode code="yay -S opentubex-git" lang="shell" title="Automated build" />
+										</div>
+										<div slot="shelly">
+											<CmdCode code="shelly -Ia opentubex-git" lang="shell" title="Automated build" />
+										</div>
+									</SignalTabs>
+								</div>
 							</div>
 						</article>
 					</div>

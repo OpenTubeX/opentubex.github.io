@@ -1883,6 +1883,11 @@ a.version-chip:hover .version-chip__dot {
   margin-top: 1.5rem;
 }
 
+/* The AUR -git package only applies when the nightly channels above show Linux > Arch Linux. */
+.pkg-list--dev:not(:has([data-panel="linux"].is-active [data-panel="arch"].is-active)) .aur-git {
+  display: none;
+}
+
 .sig-tabs {
   margin-top: 0.35rem;
 }
