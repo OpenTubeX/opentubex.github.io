@@ -5,7 +5,7 @@ order: 7.6
 icon: lucide:container
 ---
 
-The OpenTubeX web app is the same app as the [web demo](/demo/), and you can run it on your own server with Docker Compose. The setup includes an [Invidious](https://invidious.io/) server, so searches, channel pages, thumbnails, and videos load through your server instead of from YouTube or a public Invidious instance.
+The OpenTubeX web app is the same app as the [web demo](/demo/), and you can run it on your own server with Docker Compose. The setup includes an [Invidious](https://invidious.io/) server, so searches, channel pages, and thumbnails load through your server instead of from YouTube or a public Invidious instance. Videos also load through it while [**Proxy Videos Through Invidious**](/docs/providers/#proxy-video-through-invidious) is on. With that setting off, the browser loads videos directly from YouTube.
 
 Your library stays in each browser, as in the web demo. The server does not store subscriptions, history, or playlists. To share them between browsers and devices, [sync them](/docs/sync/).
 
@@ -41,11 +41,11 @@ Browsers only store the library on HTTPS addresses and on `localhost`. On a plai
 
 The server needs about a minute after the first start before videos play. Until then, pages load but videos show an error.
 
-To use a different port, add `OPENTUBEX_PORT=8081` to `.env` and run `docker compose up -d` again.
+To use a different port, add `OPENTUBEX_PORT=8081` to `.env` and run `docker compose up -d` again. Browsers keep a separate library for each address, including its port, so [back up your library](/docs/importing/#find-the-import-and-export-controls) or [sync it](/docs/sync/) before you switch to another port or address.
 
 ## Open it from other devices
 
-The server only accepts connections from the computer it runs on. Put an HTTPS service in front of port 8080 to reach it from other devices:
+The server only accepts connections from the computer it runs on. Put an HTTPS service in front of its port to reach it from other devices. The examples use port 8080. If you changed `OPENTUBEX_PORT`, use that port instead:
 
 - **[Tailscale](https://tailscale.com/)** keeps the server private to your own devices. Run `tailscale serve --bg 8080` on the server, then open the `https://….ts.net` address it prints on any device in your tailnet.
 - **[Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/)** gives the server a public address without opening ports. Point a tunnel at `http://localhost:8080`, and protect the address with [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/access-controls/policies/) so that only you can use it.
