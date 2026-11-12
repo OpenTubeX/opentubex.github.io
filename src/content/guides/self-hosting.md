@@ -105,4 +105,4 @@ It needs no `.env` keys. Browsers without the extension use public Invidious ins
 
 Without the extension, the web app has no Local API, as in the web demo. It can't fall back to YouTube when Invidious fails, and features that need the Local API are missing. [Choose a content provider](/docs/providers/) explains what each provider supports.
 
-YouTube sometimes blocks servers that make many requests. If videos stop playing for everyone, restarting the server with `podman compose restart` can help. The [Invidious documentation](https://docs.invidious.io/youtube-errors-explained/) explains common YouTube errors.
+YouTube sometimes blocks Invidious servers that make many requests. If videos stop playing for everyone, restarting the server with `podman compose restart` can help. The [Invidious documentation](https://docs.invidious.io/youtube-errors-explained/) explains common YouTube errors.
