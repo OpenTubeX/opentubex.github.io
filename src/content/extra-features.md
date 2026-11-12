@@ -536,8 +536,8 @@ playlist results.
 ### YouTube AI video summaries
 
 Choose whether summaries supplied by YouTube are hidden, collapsed, or
-expanded below video descriptions. New installations start with summaries
-collapsed, and the same preference applies to Shorts.
+expanded below video descriptions. Summaries are hidden by default, and the
+same preference applies to Shorts.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/cbf325b9-6c94-4837-9938-5f16633dbd49">
