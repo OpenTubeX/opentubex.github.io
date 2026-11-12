@@ -10,7 +10,7 @@ interface Row {
 	url?: string;
 	icon?: string;
 	image?: string;
-	cells: [Cell, Cell, Cell, Cell, Cell, Cell, Cell, Cell];
+	cells: [Cell, Cell, Cell, Cell, Cell, Cell, Cell, Cell, Cell];
 }
 
 export const clients = [
@@ -20,6 +20,7 @@ export const clients = [
 	{ name: 'NewPipe', icon: '/compare-icons/newpipe.svg', url: 'https://newpipe.net/', source: 'https://newpipe.net/' },
 	{ name: 'LibreTube', icon: '/compare-icons/libretube.svg', url: 'https://libretube.dev/', source: 'https://github.com/libre-tube/LibreTube' },
 	{ name: 'Flow', icon: '/compare-icons/flow.svg', url: 'https://flow-tube.org/', source: 'https://github.com/Flow-Tube/Flow/tree/v3.0.0' },
+	{ name: 'NewTube', icon: '/compare-icons/newtube.svg', url: 'https://newtube.org/', source: 'https://github.com/aleixrodriala/newtube/tree/v1.17.1' },
 	{ name: 'Morphe', icon: '/compare-icons/morphe.svg', url: 'https://morphe.software/', source: 'https://github.com/MorpheApp/morphe-patches/tree/v2.2.0' },
 	{ name: 'YouTube', icon: '/compare-icons/youtube.svg', url: 'https://www.youtube.com/', source: 'https://support.google.com/youtube/' },
 ] as const;
@@ -38,6 +39,13 @@ const flowRelease = 'https://github.com/Flow-Tube/Flow/tree/v3.0.0';
 const flowCode = `${flowRelease}/app/src/main/java/io/github/aedev/flow`;
 const flowDesktop = 'https://github.com/Flow-Tube/Flow-Desktop/tree/v0.1.0-beta3';
 const localOnly = 'https://docs.freetubeapp.io/usage/data-location/';
+const ntRelease = 'https://github.com/aleixrodriala/newtube/blob/v1.17.1';
+const ntReadme = `${ntRelease}/README.md`;
+const ntPrivacy = `${ntRelease}/PRIVACY.md`;
+const ntMobile = `${ntRelease}/smarttubetv/src/stmobile`;
+const ntCode = `${ntMobile}/java/com/newtube/mobile`;
+const ntSettings = `${ntMobile}/res/values/strings_settings.xml`;
+const ntStrings = `${ntMobile}/res/values/strings_mobile.xml`;
 const morpheRelease = 'https://github.com/MorpheApp/morphe-patches/blob/v2.2.0';
 const morpheReadme = `${morpheRelease}/README.md`;
 const morphePatches = `${morpheRelease}/patches/src/main/kotlin/app/morphe/patches/youtube`;
@@ -57,6 +65,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'An Android app. No official desktop client.' },
 				{ status: 'no', note: 'An Android app. No official desktop client.' },
 				{ status: 'partial', label: 'Desktop beta', note: 'Flow Desktop is a separate companion for Windows, macOS, and Linux. Version 0.1.0-beta3 is available; it has not reached a stable release.', source: `${flowDesktop}#downloads-and-supported-systems` },
+				{ status: 'no', note: 'An Android app for phones and tablets. No desktop client.', source: ntReadme },
 				{ status: 'no', note: 'Morphe patches Android apps. Morphe Desktop patches APK files on a computer; it is not a desktop video player.', source: 'https://github.com/MorpheApp/morphe-desktop' },
 				{ status: 'partial', label: 'Web app', note: 'Use YouTube in a desktop browser, including installation as a web app where the browser supports it. This is not a separate desktop player.', source: 'https://www.youtube.com/' },
 			] },
@@ -67,6 +76,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Built for Android. The project still labels its releases beta.' },
 				{ status: 'yes', note: 'Built for Android with a Material Design interface.' },
 				{ status: 'yes', note: 'Native Android app for Android 8.0 and later.', source: `${flowRelease}#requirements` },
+				{ status: 'yes', note: 'Built for Android 7.0 and later on phones and tablets. Released as APKs on GitHub, not on Google Play.', source: `${ntReadme}#download` },
 				{ status: 'yes', label: 'Patched YouTube', note: 'Patches the official YouTube Android app on the phone with Morphe Manager or on a computer with Morphe Desktop. Without root, the patched app installs separately and needs MicroG-RE for Google sign-in.', source: morpheInstall },
 				{ status: 'yes', note: 'Official Android app available from Google Play.', source: 'https://support.google.com/youtube/answer/3227660?hl=en' },
 			] },
@@ -77,6 +87,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'NewPipe is an Android app; there is no official iOS release.' },
 				{ status: 'no', note: 'LibreTube is an Android app; there is no official iOS release.' },
 				{ status: 'no', note: 'Flow offers Android and a separate desktop companion, but no official iOS app.', source: 'https://github.com/Flow-Tube#projects' },
+				{ status: 'no', note: 'NewTube is an Android app; there is no iOS release.', source: ntReadme },
 				{ status: 'no', note: 'Morphe is a patcher for Android apps and is not available on iOS.', source: `${morpheFaq}#106-is-morphe-available-on-ios-or-tv` },
 				{ status: 'yes', note: 'Official YouTube app for iPhone and iPad.', source: 'https://support.google.com/youtube/answer/3227660?co=GENIE.Platform%3DiOS&hl=en' },
 			] },
@@ -87,6 +98,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'NewPipe is an Android app; there is no web version.' },
 				{ status: 'no', note: 'LibreTube is an Android app; there is no web version.' },
 				{ status: 'no', note: 'Flow offers Android and a separate desktop companion. Its browser extension sends videos to the desktop app, rather than playing them in the browser.', source: 'https://github.com/Flow-Tube#projects' },
+				{ status: 'no', note: 'NewTube is an Android app; there is no web version.', source: ntReadme },
 				{ status: 'no', note: 'Morphe patches Android apps; there is no web version.', source: `${morpheFaq}#100-what-is-morphe` },
 				{ status: 'yes', note: 'The YouTube website works in desktop and mobile browsers.', source: 'https://www.youtube.com/' },
 			] },
@@ -97,6 +109,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Native mobile interface built with Android UI components. Available on Android only.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3' },
 				{ status: 'yes', note: 'Native mobile interface with Material Design. Available on Android only.' },
 				{ status: 'yes', note: 'Native Android interface built with Jetpack Compose and Material 3. No iOS app.', source: flowRelease },
+				{ status: 'yes', note: 'Native Android touch interface with Material Design, built on SmartTube\'s engine. Android only.', source: `${ntReadme}#newtube-and-smarttube` },
 				{ status: 'yes', note: 'Keeps the native interface of the official YouTube Android app. A patch can switch the layout to the phone, tablet, or automotive version.', source: `${morphePatches}/layout/formfactor/ChangeFormFactorPatch.kt` },
 				{ status: 'yes', note: 'Native mobile interfaces in the official Android and iOS apps, designed for phones and tablets.', source: 'https://support.google.com/youtube/answer/3227660?hl=en' },
 			] },
@@ -107,6 +120,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Also supports SoundCloud, Bandcamp, PeerTube, and media.ccc.de.' },
 				{ status: 'no', note: 'Focuses on YouTube.' },
 				{ status: 'no', note: 'Focuses on YouTube and YouTube Music, rather than services such as Twitch, PeerTube, or SoundCloud.', source: `${flowRelease}#features` },
+				{ status: 'no', note: 'Focuses on YouTube through SmartTube\'s YouTube engine.', source: ntReadme },
 				{ status: 'no', note: 'The patched YouTube app plays YouTube content only. Morphe also patches YouTube Music and Reddit, but as separate apps.', source: morpheReadme },
 				{ status: 'no', note: 'The official app plays YouTube content, not feeds from Twitch, PeerTube, or SoundCloud.' },
 			] },
@@ -122,6 +136,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Download video, audio, or captions; choose formats and quality.' },
 				{ status: 'yes', note: 'Includes downloads for offline playback.' },
 				{ status: 'yes', note: 'Android supports video and audio downloads with quality and codec selection, including VP9 and AV1.', source: `${flowRelease}#video` },
+				{ status: 'yes', note: 'Save videos up to 1080p, or audio only, for offline playback. Saved files go to the Movies or Music folder and show up in the gallery.', source: `${ntCode}/downloads/DownloadStorage.java` },
 				{ status: 'yes', note: 'Save videos in the app without Premium, or send videos, Shorts, and playlists to an external downloader such as YTDLnis. Saved videos can be exported to device storage.', source: `${morphePatches}/interaction/downloads/DownloadsPatch.kt#L129-L132` },
 				{ status: 'partial', label: 'Plan / region limits', note: ['Premium offers in-app offline downloads; ', { text: 'Premium Lite', href: 'https://support.google.com/youtube/answer/15968883?hl=en' }, ' includes eligible non-music videos, excluding Shorts. Some regions allow selected videos without a paid plan. Downloads stay within YouTube, rather than becoming freely exportable media files.'], source: 'https://support.google.com/youtube/answer/7381437?hl=en' },
 			] },
@@ -132,6 +147,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'Playback speed and pitch can be adjusted, but these are not saved as separate channel presets.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/java/org/schabi/newpipe/player/helper/PlaybackParameterDialog.java' },
 				{ status: 'no', note: 'The playback panel saves general speed preferences, not separate settings for individual channels.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/sheets/PlaybackOptionsSheet.kt' },
 				{ status: 'partial', label: 'Speed only', note: 'An optional Remember speed per channel setting starts each channel at the speed you last chose. Per-channel quality, subtitle, or volume presets are not documented.', source: `${flowCode}/data/local/PlayerPreferences.kt` },
+				{ status: 'partial', label: 'Speed / captions', note: ['Playback speed can be remembered for each channel, and ', { text: 'captions', href: `${ntSettings}#L214-L215` }, ' you turn on can come back for that channel only. Per-channel quality or volume presets are not documented.'], source: `${ntSettings}#L166-L171` },
 				{ status: 'partial', label: 'Speed whitelist', note: 'A channel speed whitelist always plays selected channels at 1.0x. Per-channel quality, subtitle, or volume presets are not documented.', source: `${morpheStrings}/youtube/strings.xml#L1709-L1712` },
 				{ status: 'no', note: 'YouTube documents video playback and general quality controls, not user-defined playback presets for each channel.', source: 'https://support.google.com/youtube/answer/7509567?hl=en' },
 			] },
@@ -142,6 +158,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'The playback dialog includes fast-forwarding during silence.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/java/org/schabi/newpipe/player/helper/PlaybackParameterDialog.java' },
 				{ status: 'yes', note: 'The playback options include a Skip silence toggle.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/sheets/PlaybackOptionsSheet.kt' },
 				{ status: 'yes', label: 'Android', note: ['Android uses ExoPlayer silence skipping. The ', { text: 'desktop beta setting', href: `${flowDesktop}/src/lib/settings/schema.ts` }, ' is disabled because silence analysis is not yet implemented.'], source: `${flowCode}/player/audio/AudioFeaturesManager.kt` },
+				{ status: 'no', note: 'Playback speed and pitch settings are available, but no silence-skipping setting is documented.', source: `${ntSettings}#L166-L177` },
 				{ status: 'yes', note: 'Adds an option to automatically skip silent pauses in audio playback.', source: `${morphePatches}/video/audio/SkipSilencePatch.kt` },
 				{ status: 'no', note: 'No dedicated silence-skipping control is documented. Premium Auto speed adjusts pacing on eligible Android videos; it is a different feature.', source: 'https://support.google.com/youtube/answer/6308116?hl=en' },
 			] },
@@ -152,6 +169,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Set Minimize on app switch to the popup player. This uses a floating overlay and requires permission to display over other apps.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml' },
 				{ status: 'yes', note: 'Enters picture-in-picture when leaving the player while playback is active, with PiP enabled.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/fragments/PlayerFragment.kt' },
 				{ status: 'yes', label: 'Android', note: 'With Auto PiP enabled, Android enters picture-in-picture when leaving the app during video playback. The desktop companion supports PiP, but automatic entry is not documented.', source: `${flowCode}/MainActivity.kt` },
+				{ status: 'yes', note: 'Leaving the app during playback enters picture-in-picture on Android 8 and later, unless When you leave the app is set to Only audio.', source: `${ntCode}/ui/playback/BackgroundModePolicy.java` },
 				{ status: 'yes', note: 'Keeps the YouTube app\'s automatic picture-in-picture when leaving the app. Removing background playback restrictions also allows it for videos that YouTube would otherwise limit.', source: `${morpheExtension}/patches/BackgroundPlaybackPatch.java` },
 				{ status: 'partial', label: 'Content limits', note: 'Leaving the Android or iOS app starts picture-in-picture when enabled. Non-music content supports PiP without a paid plan; music content requires Premium.', source: 'https://support.google.com/youtube/answer/7552722?hl=en' },
 			] },
@@ -162,6 +180,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'Home-page tabs organize feeds and app sections, rather than separate open videos or channels.' },
 				{ status: 'no', note: 'Navigation sections are available, but no browser-style tabs for separate open videos or channels are documented.' },
 				{ status: 'partial', label: 'Desktop beta', note: 'The desktop beta can open pages in optional browser-style tabs, each keeping its own video. Android navigation tabs organize app sections only.', source: `${flowDesktop}/src/lib/tabs/tabPlayback.ts` },
+				{ status: 'no', note: 'The bottom bar organizes app sections. No browser-style tabs for keeping separate videos or channels open are documented.', source: `${ntSettings}#L67-L71` },
 				{ status: 'no', note: 'Uses the YouTube app\'s navigation. No browser-style tabs for keeping separate videos or channels open are documented.', source: morpheReadme },
 				{ status: 'partial', label: 'Browser tabs', note: 'The website can be opened in multiple browser tabs. The mobile app does not provide tabs for keeping separate videos or channels open.', source: 'https://www.youtube.com/' },
 			] },
@@ -172,6 +191,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Background player supports audio playback while using other apps.' },
 				{ status: 'yes', note: 'Background playback is included.' },
 				{ status: 'yes', note: 'Android supports background audio playback while using other apps or with the screen off.', source: `${flowRelease}#video` },
+				{ status: 'yes', note: 'Keeps playing in the background with the screen off, with lock-screen and headset controls, without a paid plan.', source: `${ntReadme}#features` },
 				{ status: 'yes', note: 'Removes background playback restrictions without Premium, including for kids videos. Background play for Shorts can be turned off separately.', source: `${morphePatches}/misc/backgroundplayback/BackgroundPlaybackPatch.kt` },
 				{ status: 'partial', label: 'Premium', note: 'Mobile background playback requires a paid plan. Premium Lite includes eligible non-music videos, excluding Shorts; full Premium covers music too. Desktop browser audio can continue in another tab.', source: 'https://support.google.com/youtube/answer/15968883?hl=en' },
 			] },
@@ -182,6 +202,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'Related videos and trending feeds are available, but a personalized feed learned from local viewing activity remains a feature request.', source: 'https://github.com/TeamNewPipe/NewPipe/issues/13362' },
 				{ status: 'no', note: 'Released version 32.1 offers trending, subscription, and related-video feeds. No built-in personalized recommendation engine that learns from local viewing activity is documented.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/fragments/HomeFragment.kt' },
 				{ status: 'yes', label: 'On-device', note: 'FlowNeuro learns from watches, skips, likes, dislikes, searches, and viewing duration. It ranks recommendations locally, including time-of-day preferences and topic diversity, without a Google account or a recommendation server.', source: `${flowRelease}#recommendations-flowneuro-engine` },
+				{ status: 'yes', label: 'Server-side', note: 'Home shows YouTube\'s recommendations for your signed-in account. Signed out, YouTube still personalizes Home from what you watch. NewTube does not add an on-device engine.', source: `${ntReadme}#features` },
 				{ status: 'yes', label: 'Server-side', note: 'Uses YouTube\'s recommendations, which Google personalizes on its servers from your account activity. Patches can hide recommendation surfaces but do not add an on-device engine.', source: morpheReadme },
 				{ status: 'yes', label: 'Server-side', note: 'YouTube personalizes Home, Shorts, and other surfaces using viewing and search history, subscriptions, likes, dislikes, and feedback. Processing happens on its servers; Home recommendations depend primarily on watch history.', source: 'https://support.google.com/youtube/answer/16089387?hl=en' },
 			] },
@@ -192,6 +213,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Player / home controls', note: 'Hide related videos, comments, and metadata boxes; choose the tabs on the home page and disable automatic queueing. A global toggle to hide Shorts is not documented.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml' },
 				{ status: 'partial', label: 'Feed / player controls', note: ['Released version 32.1 filters feeds by videos, Shorts, and live streams, and can hide watched or upcoming videos. ', { text: 'App settings', href: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/res/xml/general_settings.xml' }, ' can also hide related videos and search suggestions. These controls do not hide Shorts everywhere.'], source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/sheets/FilterSortBottomSheet.kt' },
 				{ status: 'yes', note: 'Android can hide Shorts across the app, related videos, comments, watched feed items, and navigation sections. Recommendation controls can also block topics and channels.', source: `${flowCode}/ui/screens/settings/content/ContentSettingsScreen.kt` },
+				{ status: 'yes', note: ['Shorts never appear in feeds, search, channels, or Up next. Settings can hide Up next, watched videos, upcoming premieres, and live streams, and choose the bottom-bar tabs. The ', { text: 'video menu', href: `${ntCode}/ui/settings/AppPages.java#L357` }, ' can block channels.'], source: `${ntCode}/ui/common/ShortsFilter.java` },
 				{ status: 'yes', note: 'Hide Shorts, related videos, end-screen suggestions, comments, and navigation bar buttons. Keyword filters hide matching videos in feeds and search.', source: `${morpheStrings}/youtube/strings.xml` },
 				{ status: 'partial', label: 'Recommendation controls', note: 'Show fewer Shorts and mark recommendations as Not interested or Don\'t recommend channel. Removing and disabling watch history can remove Home recommendations; there is no equivalent general set of interface-hiding toggles.', source: 'https://support.google.com/youtube/answer/6342839?hl=en' },
 			] },
@@ -202,6 +224,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Enqueue videos, choose a video to play next, and manage the player queue. Automatic addition of related videos is optional.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml' },
 				{ status: 'yes', note: 'Released version 32.1 includes Add to queue and queue controls, with optional insertion of related videos.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/res/values/strings.xml' },
 				{ status: 'yes', note: 'Android includes a video queue with removal and reordering controls, alongside its separate music queue. The desktop beta also supports playback queues.', source: `${flowCode}/ui/components/videoplayer/sheet/FlowPlaylistQueueBottomSheet.kt` },
+				{ status: 'yes', note: 'Add videos to the queue or play them next from the video menu, then open the playback queue from the player.', source: `${ntCode}/ui/settings/AppPages.java#L333-L335` },
 				{ status: 'yes', note: 'Add videos to a queue from the feed menu, using either Morphe\'s queue or a native queue built on YouTube\'s playlist interface.', source: `${morphePatches}/layout/flyout/AddToQueuePatch.kt` },
 				{ status: 'partial', label: 'Mobile requires Premium', note: 'Queue videos for free on desktop and the web. Queueing on phones and tablets requires YouTube Premium; a browser queue is lost when the browser closes unless saved as a playlist.', source: 'https://support.google.com/youtube/answer/9546304?hl=en' },
 			] },
@@ -212,6 +235,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'Live streams play without their chat.' },
 				{ status: 'no', note: 'Released version 32.1 plays live streams without their chat.' },
 				{ status: 'partial', label: 'Desktop replay', note: ['Android shows chat during live streams, including in a fullscreen side panel, without replay for past streams. The ', { text: 'desktop beta', href: `${flowDesktop}/src/lib/useChatReplay.ts` }, ' also replays chat on finished streams in sync with playback.'], source: `${flowCode}/ui/components/videoplayer/sheet/FlowLiveChatBottomSheet.kt` },
+				{ status: 'partial', label: 'Live only', note: 'Shows a live chat panel during live streams. The chat entry is not shown on past streams, so there is no chat replay.', source: `${ntCode}/ui/playback/LiveChatSheet.java#L23-L29` },
 				{ status: 'yes', label: 'With replay', note: 'Keeps YouTube\'s live chat and chat replay. A patch can also show chat as Niconico-style comments that scroll across the video.', source: `${morphePatches}/layout/niconicocomments/NiconicoCommentsPatch.kt` },
 				{ status: 'yes', label: 'With replay', note: 'Live chat runs during live streams and premieres. Archived streams can replay chat alongside the video unless the creator turns replay off or edits the stream.', source: 'https://support.google.com/youtube/answer/15268877?hl=en' },
 			] },
@@ -222,6 +246,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'No built-in sleep timer is documented in the official app. Separate Android sleep-timer apps are an external workflow.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml' },
 				{ status: 'yes', note: 'Released version 32.1 includes a sleep timer with a custom duration and quick choices of 10, 20, 30, 45, or 60 minutes.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/sheets/SleepTimerSheet.kt' },
 				{ status: 'yes', label: 'Android', note: 'A shared sleep timer stops video or music playback after a chosen duration, with an optional action to close the app.', source: `${flowCode}/player/SleepTimerManager.kt` },
+				{ status: 'yes', note: 'A Sleep timer setting pauses playback a chosen time after you open a video.', source: `${ntSettings}#L178-L179` },
 				{ status: 'yes', note: 'Uses the sleep timer built into the YouTube app; Morphe does not add a separate one.', source: 'https://support.google.com/youtube/answer/15397997?hl=en' },
 				{ status: 'yes', note: 'Use the player\'s Sleep timer setting to pause the video automatically after a chosen duration.', source: 'https://support.google.com/youtube/answer/15397997?hl=en' },
 			] },
@@ -232,6 +257,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Kodi via Kore', note: 'The Play with Kodi option sends playback to a Kodi media center through the separate Kore remote app. This is not built-in Google Cast or AirPlay casting.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml' },
 				{ status: 'no', note: 'Released version 32.1 has no built-in TV casting. Opening a video in a separate casting-capable player is an external workflow.', source: 'https://github.com/libre-tube/LibreTube/discussions/3493' },
 				{ status: 'yes', label: 'Android DLNA', note: 'Android casts to compatible DLNA/UPnP devices without Google Play Services. This is not Google Cast or AirPlay support.', source: `${flowCode}/player/dlna/DlnaCastManager.kt` },
+				{ status: 'yes', label: 'Google Cast & TV code', note: ['Casts directly to Google Cast devices without Google Play services, but without live streams or subtitles. A ', { text: 'TV code', href: `${ntStrings}#L308-L322` }, ' links the YouTube or SmartTube TV app, which also plays live streams and subtitles.'], source: `${ntRelease}/docs/mobile-port/CASTING.md` },
 				{ status: 'yes', label: 'Google Cast', note: ['Keeps YouTube\'s Google Cast casting to TVs and speakers. Root mount installs use Google Play services; non-root installs need ', { text: 'MicroG-RE 7.3.0', href: 'https://github.com/MorpheApp/MicroG-RE/releases/tag/7.3.0' }, ' or later.'], source: 'https://github.com/MorpheApp/morphe-patches/releases/tag/v2.1.0' },
 				{ status: 'yes', note: 'Cast from the mobile app or a supported desktop browser to compatible TVs and streaming devices. The mobile app can also link to the TV app using a TV code.', source: 'https://support.google.com/youtube/answer/7640706?hl=en' },
 			] },
@@ -247,6 +273,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'YouTube channel posts are not shown in the subscriptions feed or on channel pages.' },
 				{ status: 'no', note: 'Released version 32.1 does not show YouTube channel posts in the subscriptions feed or on channel pages.' },
 				{ status: 'partial', label: 'Channel pages', note: 'Channel pages have a posts tab with comments, but the subscriptions feed does not include posts.', source: `${flowCode}/ui/components/channel/ChannelCommunityPosts.kt` },
+				{ status: 'no', note: 'YouTube channel posts are not shown in the subscriptions feed or on channel pages.', source: ntReadme },
 				{ status: 'yes', note: 'Keeps YouTube\'s channel posts and adds options to translate posts and download their images.', source: `${morphePatches}/interaction/posttranslate/PostTranslatePatch.kt` },
 				{ status: 'yes', note: 'Posts appear on the channel page and may also show up on the home page and in the Subscriptions feed.', source: 'https://support.google.com/youtube/answer/9409631?hl=en' },
 			] },
@@ -257,6 +284,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Feed updates', note: 'Periodically checks selected subscriptions and notifies about new feed entries. No separate start-time reminders for scheduled live streams or premieres are documented.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/java/org/schabi/newpipe/local/feed/notifications/NotificationWorker.kt' },
 				{ status: 'partial', label: 'New uploads', note: 'Periodically checks subscriptions for new uploads, with per-channel controls. Released version 32.1 excludes upcoming videos from these alerts and has no separate scheduled-start reminders.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/workers/NotificationWorker.kt' },
 				{ status: 'yes', label: 'Android', note: ['Android supports new-upload alerts for selected subscriptions and ', { text: 'reminders for upcoming live streams and premieres', href: `${flowCode}/notification/UpcomingVideoReminderWorker.kt` }, '. Delivery depends on Android background-work scheduling.'], source: `${flowCode}/notification/SubscriptionCheckWorker.kt` },
+				{ status: 'partial', label: 'In-app list', note: 'Signed-in users can open their YouTube notifications in the app. No system alerts for new uploads, live streams, or premieres are documented.', source: `${ntStrings}#L228` },
 				{ status: 'yes', label: 'Account required', note: 'Keeps YouTube\'s upload, live-stream, and premiere notifications. Without root, push notifications go through MicroG-RE.', source: `${morpheFaq}#32-youtube-push-notifications-do-not-work` },
 				{ status: 'yes', label: 'Account required', note: ['Supports channel upload and live-stream alerts, plus ', { text: 'premiere reminders', href: 'https://support.google.com/youtube/answer/9080341?hl=en' }, '. Sign in and allow notifications; not every upload results in an alert.'], source: 'https://support.google.com/youtube/answer/3382248?hl=en' },
 			] },
@@ -267,6 +295,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', label: 'Manual backup', note: 'Import and export transfer your data manually; they are not automatic device sync.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3#installation-and-updates' },
 				{ status: 'partial', label: 'Piped account', note: 'Released version 32.1 supports Piped account sync for subscriptions and playlists. Watch history and settings stay local; the new LibreTube sync server is not included in this release.', source: ltPrivacy },
 				{ status: 'yes', label: 'Device pairing', note: 'Optional paired-device sync exchanges playlists, history, likes, subscriptions and groups, notes, selected settings, and the video and music recommendation profiles. Supports Android and the desktop beta; devices need a direct connection.', source: `${flowCode}/ui/screens/sync/SyncCollections.kt` },
+				{ status: 'yes', label: 'Google account', note: ['Subscriptions, playlists, history, and Watch later come from your signed-in Google account. NewTube\'s own settings stay on the device and move through a ', { text: 'backup file', href: `${ntSettings}#L144-L152` }, '.'], source: `${ntReadme}#features` },
 				{ status: 'yes', label: 'Google account', note: 'Subscriptions and playlists follow your signed-in Google account, as in the official app. Morphe settings stay on the device and are copied manually through Import / Export.', source: `${morpheFaq}#113-how-do-i-backup-my-youtube-morphe-settings` },
 				{ status: 'yes', label: 'Google account', note: 'Subscriptions and playlists follow your signed-in Google account across devices. This does not mean every device-specific preference is synced.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
 			] },
@@ -277,6 +306,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'History can be included in manual database backups, not automatically synced between devices.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3#installation-and-updates' },
 				{ status: 'no', note: 'In released version 32.1, Piped account sync does not include watch history or timestamps; these remain local.', source: ltPrivacy },
 				{ status: 'yes', note: 'Watch history is a selectable collection in paired-device sync, including sync with the desktop beta.', source: `${flowCode}/ui/screens/sync/SyncCollections.kt` },
+				{ status: 'yes', label: 'History enabled', note: 'Watch history is saved to your Google account when your account keeps history. Settings can always save it, stop sending it, or clear it.', source: `${ntSettings}#L126-L136` },
 				{ status: 'yes', label: 'History enabled', note: 'Watch history is saved to your Google account when enabled. Morphe warns when a DNS blocker stops history from being saved.', source: `${morphePatches}/misc/dns/CheckWatchHistoryDomainNameResolutionPatch.kt` },
 				{ status: 'yes', label: 'History enabled', note: 'Signed-in watch history is saved to your Google account when enabled. You can pause or delete it.', source: 'https://support.google.com/youtube/answer/95725?hl=en' },
 			] },
@@ -287,6 +317,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Most played', note: 'The Most Played view summarizes frequently played videos. It is not a daily or weekly watch-time dashboard.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml' },
 				{ status: 'no', note: 'Watch history and playback positions are available, but no personal watch-time dashboard is documented.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/res/values/strings.xml' },
 				{ status: 'yes', note: ['Flow Recap charts time per day for a month and per month for a year, with weekday, time-of-day, and top-channel breakdowns. The ', { text: 'Wellbeing page', href: `${flowCode}/ui/screens/settings/wellbeing/WatchTimeCard.kt` }, ' shows daily watch time for the past week.'], source: `${flowCode}/ui/screens/recap/RecapOverviewCards.kt` },
+				{ status: 'no', note: 'Watch history is available, but no personal watch-time dashboard is documented. Stats for nerds describes the current stream, not your viewing habits.', source: `${ntStrings}#L48` },
 				{ status: 'yes', label: 'Account required', note: 'Uses YouTube\'s Time watched page for signed-in users with watch history enabled. Morphe does not add its own statistics.', source: 'https://support.google.com/youtube/answer/9052667?hl=en' },
 				{ status: 'yes', label: 'Account required', note: 'Time watched shows daily average, today, yesterday, and the past seven days for signed-in users with watch history enabled. Excludes deleted history, private viewing, YouTube Music, and YouTube TV. YouTube reports a known error in desktop watch-time totals.', source: 'https://support.google.com/youtube/answer/9052667?hl=en' },
 			] },
@@ -302,6 +333,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Unofficial forks', note: 'The official NewPipe app does not include SponsorBlock. Unofficial forks add support for it.', source: 'https://newpipe.net/blog/pinned/newpipe-and-online-advertising/' },
 				{ status: 'partial', label: 'Limited controls', note: 'Includes segment skipping, voting, submissions, and full-video labels. Released version 32.1 does not offer mute-segment or full-video-label submission controls.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/dialogs/SubmitSegmentDialog.kt' },
 				{ status: 'partial', label: 'Segment controls', note: ['Android supports category-based skipping and muting, plus ', { text: 'in-player segment submissions', href: `${flowCode}/ui/screens/player/dialogs/SbSubmitSegmentDialog.kt` }, '. Full-video labels and channel whitelisting are not documented.'], source: `${flowCode}/player/sponsorblock/SponsorBlockHandler.kt` },
+				{ status: 'partial', label: 'Segment skipping', note: ['Supports category-based skipping, seek-bar marks, and ', { text: 'excluding channels', href: `${ntCode}/ui/settings/AppPages.java#L358` }, ' from the video menu. In-player submissions, mute segments, and full-video labels are not documented.'], source: `${ntCode}/ui/settings/PlayerPages.java#L447-L467` },
 				{ status: 'partial', label: 'Segment controls', note: 'Supports category-based skipping, highlights, voting, in-player segment submissions, and channel whitelisting. Mute segments and full-video labels are not documented.', source: `${morpheStrings}/sponsorblock/strings.xml` },
 				{ status: 'partial', label: 'Web extension', note: 'SponsorBlock works on the YouTube website through a browser extension. It is not built into YouTube and does not add SponsorBlock to the official Android or iOS app.', source: 'https://sponsor.ajay.app/' },
 			] },
@@ -312,6 +344,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'The official NewPipe app does not include DeArrow title or thumbnail replacement.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml' },
 				{ status: 'yes', note: 'Released version 32.1 includes optional DeArrow titles and thumbnails, plus a submission dialog.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/res/values/strings.xml' },
 				{ status: 'yes', label: 'Android', note: 'Android fetches community titles and thumbnails from DeArrow and caches the results.', source: `${flowCode}/data/repository/DeArrowRepository.kt` },
+				{ status: 'yes', note: 'Optional DeArrow titles and thumbnails, which can be turned on separately.', source: `${ntSettings}#L236-L241` },
 				{ status: 'yes', note: 'Adds DeArrow titles and thumbnails, with controls for individual feeds and a choice of thumbnail styles.', source: `${morpheStrings}/youtube/strings.xml#L1564-L1601` },
 				{ status: 'partial', label: 'Web extension', note: 'DeArrow is available through a browser extension on the YouTube website. It is not built into the official mobile apps.', source: 'https://dearrow.ajay.app/' },
 			] },
@@ -322,6 +355,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Unofficial forks', note: 'The official NewPipe app does not include Return YouTube Dislike. Separate forks such as PipePipe add it.', source: 'https://github.com/InfinityLoop1308/PipePipe#beyond-newpipe' },
 				{ status: 'yes', note: 'Can fetch estimated dislike counts directly from Return YouTube Dislike.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/res/values/strings.xml' },
 				{ status: 'yes', label: 'Android', note: 'Includes Return YouTube Dislike for estimated dislike counts.', source: `${flowRelease}#features` },
+				{ status: 'yes', note: 'Optionally show estimated dislike counts from Return YouTube Dislike. Off by default.', source: `${ntSettings}#L190-L191` },
 				{ status: 'yes', note: 'Shows estimated dislike counts from Return YouTube Dislike, and can add like counts and like ratios to feed thumbnails.', source: `${morphePatches}/layout/returnyoutubedislike/ReturnYouTubeDislikePatch.kt` },
 				{ status: 'partial', label: 'Web extension', note: 'Return YouTube Dislike adds estimated dislike counts to the YouTube website through a browser extension. It is not built into the official apps.', source: 'https://returnyoutubedislike.com/' },
 			] },
@@ -332,6 +366,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'No built-in AiSList channel filtering is documented in the official app.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3' },
 				{ status: 'no', note: 'No built-in AiSList channel filtering is documented in released version 32.1.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/res/values/strings.xml' },
 				{ status: 'no', note: 'No built-in AiSList channel filtering is documented in Android 3.0.0.', source: `${flowRelease}#features` },
+				{ status: 'no', note: 'No built-in AiSList channel filtering is documented in version 1.17.1.', source: ntReadme },
 				{ status: 'yes', note: 'Optionally hide videos from channels flagged by AiSList in Home and search results, and report AI channels from the video menu. Filtering happens on your device.', source: `${morpheStrings}/youtube/strings.xml#L375-L388` },
 				{ status: 'partial', label: 'Web extension', note: 'The AiBlock browser extension uses AiSList to filter channels on the YouTube website. It is not built into the official apps.', source: 'https://aisloplist.com/' },
 			] },
@@ -347,6 +382,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Subscriptions, playlists, and history are stored on your device, without an account.', source: 'https://newpipe.net/' },
 				{ status: 'yes', note: 'Library data stays on your device when signed out. Optional Piped accounts store subscriptions and playlists on the selected instance; history stays local.', source: ltPrivacy },
 				{ status: 'yes', note: 'History, subscriptions, playlists, preferences, and recommendation data stay on the device by default. Device sync is optional.', source: 'https://github.com/Flow-Tube#privacy-policy-and-disclaimer' },
+				{ status: 'no', label: 'Cloud account', note: 'Subscriptions, playlists, and history come from your Google account; signed out, there are no subscriptions. Settings and search history stay on the device.', source: `${ntSettings}#L152` },
 				{ status: 'no', label: 'Cloud account', note: 'Subscriptions, playlists, and history depend on your Google account, as in the official app. Only Morphe\'s own settings are stored on the device.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
 				{ status: 'no', label: 'Cloud account', note: 'Subscriptions and playlists depend on a Google account. Signed-in watch history is stored in that account when enabled.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
 			] },
@@ -357,6 +393,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'Retrieves YouTube data with NewPipeExtractor. No Invidious, Piped, or Yattee backend option is documented in the official app.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3' },
 				{ status: 'yes', label: 'Piped', note: 'Released version 32.1 can retrieve YouTube data through a selected Piped instance. Full Local Mode instead retrieves data directly from YouTube.', source: ltPrivacy },
 				{ status: 'no', note: 'Android 3.0.0 retrieves YouTube data through its own InnerTube client. No Invidious, Piped, or Yattee backend option is documented.', source: flowRelease },
+				{ status: 'no', note: 'Connects directly to YouTube through SmartTube\'s engine. An HTTP or SOCKS proxy is available, but no Invidious, Piped, or Yattee backend option.', source: `${ntSettings}#L275-L276` },
 				{ status: 'no', note: 'Uses the official YouTube app and its backend. The patches do not add an Invidious, Piped, or Yattee backend option.', source: morpheReadme },
 				{ status: 'no', note: 'The official apps and website use YouTube services and do not offer alternative backends.', source: 'https://www.youtube.com/' },
 			] },
@@ -367,6 +404,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'No automatic usage reporting. Bug reports are sent only when you choose to submit them. Media services still receive playback requests.', source: 'https://newpipe.net/legal/privacy/' },
 				{ status: 'yes', note: 'Its privacy policy states that it does not gather app-usage data or use tracking libraries. Direct playback and optional Piped services still receive requests.', source: ltPrivacy },
 				{ status: 'yes', note: 'Recommendations are computed locally without app-usage reporting. YouTube and optional services such as SponsorBlock and DeArrow still receive network requests.', source: `${flowDesktop}#privacy-and-security` },
+				{ status: 'yes', note: 'No analytics, crash reporting, or ad SDKs. YouTube still sees what you watch, optional services such as SponsorBlock receive video IDs, and update checks contact GitHub.', source: ntPrivacy },
 				{ status: 'no', label: 'Google collection', note: 'Morphe adds no analytics to patched apps, but the YouTube app still sends Google its usual activity data. SponsorBlock, Return YouTube Dislike, and similar features contact their own services.', source: `${morpheFaq}#120-what-is-morphes-privacy-policy` },
 				{ status: 'no', label: 'Activity collection', note: 'Google collects activity such as videos watched, searches, and interactions. History and personalization controls affect storage and use; Premium does not remove this data collection.', source: 'https://policies.google.com/privacy?hl=en' },
 			] },
@@ -377,6 +415,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'NewPipe explicitly avoids proprietary libraries and frameworks such as Google Play services. Playback still contacts the selected media service; this is not a claim that YouTube itself is open source.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3#description' },
 				{ status: 'yes', note: 'Released version 32.1 declares open-source app libraries, without a Google Play services or other proprietary runtime SDK dependency. YouTube is still a proprietary network service; operating-system components are outside this comparison.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/build.gradle.kts' },
 				{ status: 'yes', note: ['Android 3.0.0 declares open-source runtime libraries and implements DLNA casting without Google Play services. The ', { text: 'desktop beta', href: `${flowDesktop}/src-tauri/Cargo.toml` }, ' also uses open-source app libraries. The GitHub flavor adds an updater and Discord integration, rather than a proprietary Discord SDK. System WebViews and remote services are outside this comparison.'], source: `${flowRelease}/app/build.gradle.kts` },
+				{ status: 'yes', note: 'Declares open-source app libraries, including Media3 and an embedded Cronet, without Google Play services. Casting uses its own Cast protocol code. YouTube itself remains a proprietary service.', source: `${ntRelease}/smarttubetv/build.gradle` },
 				{ status: 'no', label: 'Proprietary base app', note: ['Morphe modifies the proprietary YouTube app. Without root, the open-source ', { text: 'MicroG-RE', href: 'https://github.com/MorpheApp/MicroG-RE' }, ' replaces Google Play services; root mount installs keep Play services.'], source: morpheInstall },
 				{ status: 'no', label: 'Proprietary client', note: 'The official apps and web client use proprietary YouTube software and do not provide an auditable, fully open-source client stack. Their complete library inventory is not public. Browser playback does not require Android Google Play services.', source: 'https://www.youtube.com/static?template=terms' },
 			] },
@@ -387,6 +426,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ label: 'GPLv3', note: 'Open-source app licensed under the GNU General Public License version 3 or later.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3' },
 				{ label: 'GPLv3', note: 'Open-source app licensed under the GNU General Public License version 3 or later.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/README.md' },
 				{ label: 'GPLv3', note: 'The Android app and desktop companion are open source under the GNU General Public License version 3.', source: `${flowRelease}/License` },
+				{ label: 'MIT', note: 'Open-source app licensed under the MIT License, like SmartTube.', source: `${ntRelease}/LICENSE` },
 				{ label: 'GPLv3 patches', note: 'Morphe Manager and the patches are licensed under GPLv3, with additional Section 7 terms on attribution and branding. The patched YouTube app remains proprietary.', source: `${morpheReadme}#-license` },
 				{ label: 'Proprietary', note: 'The official YouTube service and apps are proprietary and governed by YouTube\'s Terms of Service; they are not published under an open-source app license.', source: 'https://www.youtube.com/static?template=terms' },
 			] },

@@ -57,8 +57,8 @@
   overflow-x: auto;
   overscroll-behavior-inline: contain;
 }
-/* Eight client columns, each just wide enough for the widest stacked name. */
-.comparison-table { width: 100%; min-width: calc(var(--comparison-label-width) + 8 * 6.25rem); border-collapse: separate; border-spacing: 0; table-layout: fixed; color: var(--ink); }
+/* Nine client columns, each just wide enough for the widest stacked name. */
+.comparison-table { width: 100%; min-width: calc(var(--comparison-label-width) + 9 * 6.25rem); border-collapse: separate; border-spacing: 0; table-layout: fixed; color: var(--ink); }
 .comparison-table th, .comparison-table td { border-bottom: 1px solid var(--line); padding: 0.75rem 0.25rem; }
 .comparison-table tr > :first-child:not([colspan]) { width: var(--comparison-label-width); text-align: left; padding-inline: 1.25rem; }
 .comparison-table thead { position: relative; z-index: 4; }
@@ -104,7 +104,7 @@
    Removing it lets the browser handle vertical stickiness natively. The outer
    frame owns the rounded clipping, so the header is rounded only at rest and
    naturally square once it sticks below the navigation. */
-@container (min-width: 62.625rem) {
+@container (min-width: 68.875rem) {
   .comparison-frame::before, .comparison-frame::after { display: none; }
   .comparison-scroll { overflow: visible; }
   .comparison-table thead { position: sticky; top: var(--nav-h); }
