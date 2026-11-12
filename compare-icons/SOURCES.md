@@ -8,6 +8,7 @@ Icons identify their respective projects; trademarks belong to their owners.
 - NewPipe: https://github.com/TeamNewPipe/NewPipe/blob/dev/assets/new_pipe_icon_5.svg
 - LibreTube: https://github.com/libre-tube/LibreTube/blob/master/assets/icons/LibreTube.svg
 - Flow: https://github.com/Flow-Tube/Flow-Desktop/blob/v0.1.0-beta2/public/logo.svg
+- NewTube: https://github.com/aleixrodriala/newtube/blob/v1.17.1/.github/assets/icon.svg
 - Morphe: Lucide `puzzle` icon from the existing @iconify-json/lucide dependency, used as a neutral marker because Morphe's logo requires written permission (https://github.com/MorpheApp/morphe-branding).
 - YouTube: Simple Icons, from the existing @iconify-json/simple-icons dependency (https://simpleicons.org/).
 
