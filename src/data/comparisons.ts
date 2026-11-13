@@ -312,7 +312,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Takeout export', note: 'Google Takeout exports subscriptions, playlists, and history. Nothing can be imported from files or other apps.', source: 'https://support.google.com/accounts/answer/3024190?hl=en' },
 			] },
 			{ name: 'Sync between devices', icon: 'lucide:refresh-cw', cells: [
-				{ status: 'yes', label: 'End-to-end encrypted', note: ['Optional sync covers subscriptions, playlists, history, channel settings, profiles, tabs, and settings. Signed in to YouTube, ', { text: 'subscriptions and playlists', href: 'https://github.com/OpenTubeX/OpenTubeX/pull/3141' }, ' can also sync with your account.'], source: otxSync },
+				{ status: 'yes', label: 'End-to-end encrypted', note: ['Optional sync covers subscriptions, playlists, history, channel settings, profiles, tabs, and settings. Signed in to YouTube, ', { text: 'subscriptions and playlists', href: 'https://github.com/OpenTubeX/OpenTubeX/pull/3141' }, ' can also sync with your YouTube account, which Google stores without this encryption.'], source: otxSync },
 				{ status: 'no', note: 'No sync. You can copy the data files yourself or use a file-sync tool.', source: localOnly },
 				{ status: 'yes', label: 'Device pairing', note: 'Paired devices sync subscriptions, playlists, Watch later, subscription groups, and history. The devices have to reach each other.', source: gjSync },
 				{ status: 'no', note: 'No sync. Import and export move data by hand.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3#installation-and-updates' },
