@@ -1106,14 +1106,15 @@ a.version-chip:hover .version-chip__dot {
   color: var(--accent);
 }
 
-.privacy-doc code {
-  padding: 0.08em 0.32em;
+:is(.docs-content, .privacy-doc, .pkg__body, .changelog__body) :not(pre) > code {
+  padding: 0.12em 0.4em;
   border: 1px solid var(--line);
-  border-radius: 0.25rem;
-  background: var(--surface);
-  color: var(--ink);
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
   font-family: var(--font-mono);
-  font-size: 0.88em;
+  font-size: 0.86em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 .privacy-doc table {
@@ -2362,17 +2363,6 @@ a.version-chip:hover .version-chip__dot {
   display: none;
 }
 
-.pkg__body code {
-  font-family: var(--font-mono);
-  font-size: 0.86em;
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 0.2rem;
-  padding: 0.1em 0.35em;
-  margin-inline: 0.15em;
-}
-
 .changelog {
   list-style: none;
   margin: 0;
@@ -2488,16 +2478,6 @@ a.version-chip:hover .version-chip__dot {
 
 .changelog__body a:hover {
   text-decoration-color: var(--accent);
-}
-
-.changelog__body code {
-  font-family: var(--font-mono);
-  font-size: 0.86em;
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 0.2rem;
-  padding: 0.12em 0.4em;
 }
 
 .changelog__body pre {
