@@ -93,7 +93,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Official app for iPhone and iPad.', source: 'https://support.google.com/youtube/answer/3227660?co=GENIE.Platform%3DiOS&hl=en' },
 			] },
 			{ name: 'Web app', icon: 'lucide:globe', cells: [
-				{ status: 'yes', note: 'Runs in the browser and keeps the library there. Videos load through Invidious or your own Yattee server. Downloads and the built-in extractor need the installed app.', source: 'https://opentubex.org/demo/' },
+				{ status: 'yes', note: ['Runs in the browser and keeps the library there. Try the ', { text: 'web demo', href: 'https://opentubex.org/demo/' }, ' or host it yourself with Podman or Docker. Videos load through Invidious, your own Yattee server, or the Local API with a browser extension. Downloads need the installed app.'], source: 'https://opentubex.org/docs/self-hosting/' },
 				{ status: 'partial', label: 'Self-build only', note: 'The source includes a web build you can build and host yourself. FreeTube doesn\'t publish one.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/package.json' },
 				{ status: 'no', note: 'Android and desktop only.', source: 'https://grayjay.app/desktop/' },
 				{ status: 'no', note: 'Android only.' },
