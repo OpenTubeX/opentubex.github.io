@@ -86,6 +86,7 @@ Browsers don't let web pages read YouTube's responses, so the web app has no Loc
 1. Install the extension as its [README](https://github.com/OpenTubeX/OpenTubeX/tree/development/browser-extension#install) describes. It isn't in the browser add-on stores yet.
 2. If you open OpenTubeX on an address other than `localhost`, open the extension's options and add that `https://` address.
 3. Reload OpenTubeX.
+4. If you picked Invidious or a Yattee server as **Preferred API Backend** earlier, OpenTubeX keeps using it. Change it to **Local API** in the **Video and metadata providers** settings.
 
 OpenTubeX then uses the Local API, and falls back to your Invidious server when **Fallback to Non-Preferred Backend** is on. YouTube receives these requests from your browser's IP address, not your server's.
 
