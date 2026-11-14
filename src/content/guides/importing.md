@@ -52,7 +52,7 @@ You can also import the files from FreeTube's data folder directly. Choose the f
 
 Do not choose `subscription-cache.db`. It only stores the videos and posts FreeTube last loaded for your subscription feed, not the channels you follow.
 
-Close FreeTube before you copy the files. Its data folder is in one of these locations:
+Quit FreeTube before you choose or copy these files. Until it quits, they can still contain channels and other entries you removed. Its data folder is in one of these locations:
 
 | Operating system or package | FreeTube data folder |
 | --- | --- |
