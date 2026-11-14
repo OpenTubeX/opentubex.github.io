@@ -1,19 +1,15 @@
-<!doctype html><html data-overlayscrollbars-initialize><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/><link rel="manifest" href="static/manifest.json"/><title></title><script defer="defer" src="web.js"></script><link href="web.649feaed4a94e6d8468b.css" rel="stylesheet"></head><body><div id="app"></div><script>// This is the service worker with the Advanced caching
+<!doctype html><html data-overlayscrollbars-initialize><head><meta charset="utf-8"/><meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'none'"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/><link rel="manifest" href="static/manifest.json"/><meta name="referrer" content="no-referrer"/><title></title><script defer="defer" src="web.b092fdfb06857679.js"></script><link href="web.6c2aa6132513c6a4.css" rel="stylesheet"></head><body><div id="app"></div><script>// This is the service worker with the Advanced caching
 
     // Add this below content to your HTML page, or add the js file to your page at the very top to register service worker
 
     // Check compatibility for the browser we're running this in
     if ("serviceWorker" in navigator) {
-      if (navigator.serviceWorker.controller) {
-        console.log("[PWA Builder] active service worker found, no need to register");
-      } else {
-        // Register the service worker
-        navigator.serviceWorker
-          .register("pwabuilder-sw.js", {
-            scope: "./"
-          })
-          .then(function (reg) {
-            console.log("[PWA Builder] Service worker has been registered for scope: " + reg.scope);
-          });
-      }
+      // Each build registers its own worker version, which replaces the previous build's cache
+      navigator.serviceWorker
+        .register("pwabuilder-sw.js?v=320ec552305024bb", {
+          scope: "./"
+        })
+        .then(function (reg) {
+          console.log("[PWA Builder] Service worker has been registered for scope: " + reg.scope);
+        });
     }</script></body></html>

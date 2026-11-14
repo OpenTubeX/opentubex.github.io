@@ -226,10 +226,12 @@ of each playlist.</p>
 in full-window or fullscreen mode.</p>
 <p><img src="/_astro/aa9e00c1-eecf-45cd-a00f-dc54dd5bcc26.B-Y7ZMnV_2aoXOB.webp" alt="Paused fullscreen control settings" width="745" height="204" loading="lazy" decoding="async"></p>
 </section><section class="feature-entry"><h3 id="rewind-live-streams-and-premieres">Rewind live streams and premieres</h3>
-<p>Use <strong>yt-dlp</strong> as the <a href="/docs/providers/#choose-a-stream-extraction-method">stream extraction method</a>
-to rewind live streams and premieres when YouTube provides a rewindable stream.
-Streams with DVR disabled cannot be rewound. The built-in method plays live
-streams and premieres at the live edge without seeking.</p>
+<p>The built-in <a href="/docs/providers/#choose-a-stream-extraction-method">stream extraction method</a>
+plays live streams and premieres in up to 4K and can rewind them, except in the
+web demo. Streams with live captions, and some others, play at the live edge
+without seeking. To rewind those, use <strong>yt-dlp</strong> when YouTube provides a
+rewindable stream. OpenTubeX Lite and the web demo have no yt-dlp. Streams with
+DVR disabled cannot be rewound.</p>
 </section><section class="feature-entry"><h3 id="youtube-style-shorts">YouTube-style Shorts</h3>
 <p>Choose between a YouTube-style Shorts layout and player or the regular video
 grid and player. Shorts follow your finger during vertical swipes, keep
@@ -398,8 +400,8 @@ playlist results.</p>
 </picture>
 </section><section class="feature-entry"><h3 id="youtube-ai-video-summaries">YouTube AI video summaries</h3>
 <p>Choose whether summaries supplied by YouTube are hidden, collapsed, or
-expanded below video descriptions. New installations start with summaries
-collapsed, and the same preference applies to Shorts.</p>
+expanded below video descriptions. Summaries are hidden by default, and the
+same preference applies to Shorts.</p>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="/feature-images/cbf325b9-6c94-4837-9938-5f16633dbd49.png">
   <source media="(prefers-color-scheme: light)" srcset="/feature-images/59c40f1d-c647-443e-affd-e61c22aea4e5.png">

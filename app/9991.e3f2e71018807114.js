@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunkopentubex=self.rspackChunkopentubex||[]).push([[9991],{13002(e,s,n){let r=(0,n(68144).registerPlugin)("ScreenBrightness",{});n.d(s,{},{ScreenBrightness:r})}}]);
