@@ -187,8 +187,18 @@ const primaryNav = [
 				<nav class="site-footer__col" aria-labelledby="footer-legal-heading">
 					<h2 id="footer-legal-heading">Legal</h2>
 					<ul>
-						<li><a href="/ai-disclosure/" aria-current={active === 'ai-disclosure' ? 'page' : undefined}>AI disclosure</a></li>
-						<li><a href="/privacy/" aria-current={active === 'privacy' ? 'page' : undefined}>Privacy policy</a></li>
+						<li>
+							<a href="/ai-disclosure/" aria-current={active === 'ai-disclosure' ? 'page' : undefined}>
+								<Icon name="lucide:bot" aria-hidden="true" />
+								AI disclosure
+							</a>
+						</li>
+						<li>
+							<a href="/privacy/" aria-current={active === 'privacy' ? 'page' : undefined}>
+								<Icon name="lucide:shield-check" aria-hidden="true" />
+								Privacy policy
+							</a>
+						</li>
 					</ul>
 				</nav>
 			</div>
