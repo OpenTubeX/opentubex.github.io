@@ -57,12 +57,14 @@
   overflow-x: auto;
   overscroll-behavior-inline: contain;
 }
-/* Nine client columns, each just wide enough for the widest stacked name. */
-.comparison-table { width: 100%; min-width: calc(var(--comparison-label-width) + 9 * 6.25rem); border-collapse: separate; border-spacing: 0; table-layout: fixed; color: var(--ink); }
+/* Client columns (all nine by default, fewer when filtered), each just wide
+   enough for the widest stacked name. */
+.comparison-table { width: 100%; min-width: calc(var(--comparison-label-width) + var(--comparison-clients, 9) * 6.25rem); border-collapse: separate; border-spacing: 0; table-layout: fixed; color: var(--ink); }
 .comparison-table th, .comparison-table td { border-bottom: 1px solid var(--line); padding: 0.75rem 0.25rem; }
 .comparison-table tr > :first-child:not([colspan]) { width: var(--comparison-label-width); text-align: left; padding-inline: 1.25rem; }
 .comparison-table thead { position: relative; z-index: 4; }
 .comparison-table thead th { background: var(--white); font-family: var(--font-display); }
+.comparison-table thead tr > th:first-child:not([colspan]) { text-align: center; }
 .comparison-table thead a { display: inline-flex; flex-direction: column; align-items: center; gap: 0.375rem; min-height: 44px; }
 .comparison-table thead img { flex: none; object-fit: contain; }
 .comparison-table tbody th[scope='row'] { font-size: 0.9375rem; font-weight: 500; line-height: 1.45; }
@@ -122,3 +124,31 @@
 :is(.comparison-table thead, .comparison-feature) a, .comparison-client-label { color: var(--ink); text-decoration: underline dotted; text-decoration-color: var(--accent-link-underline); text-underline-offset: 0.25em; }
 :is(.comparison-table thead, .comparison-feature) a:hover { color: var(--accent-deep); }
 .comparison-feature > :is(svg, img) { flex: none; width: 1.25rem; height: 1.25rem; object-fit: contain; }
+
+.comparison-filter-button { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; max-width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--line); border-radius: 0.7rem; background: var(--white); color: var(--ink); font: 600 0.875rem/1.2 var(--font-body); text-align: left; cursor: pointer; }
+.comparison-filter-button:hover { border-color: var(--accent-deep); color: var(--accent-deep); }
+.comparison-filter-button svg { flex: none; width: 1.125rem; height: 1.125rem; }
+.comparison-filter { width: min(280px, calc(100vw - 24px)); }
+.comparison-filter__hint { color: var(--slate); font-size: 0.875rem; }
+.comparison-filter__list { margin: 0.5rem -0.5rem 0; padding: 0; list-style: none; }
+.comparison-filter__list li { display: flex; align-items: center; padding-left: 0.5rem; border-radius: 0.5rem; background: var(--white); transition: transform 150ms ease, box-shadow 150ms ease; }
+.comparison-filter__list.is-sorting { user-select: none; }
+.comparison-filter__list li.is-dragging { position: relative; z-index: 1; transition: box-shadow 150ms ease; background: var(--surface); box-shadow: 0 0.5rem 1.25rem var(--detail-shadow), 0 0 0 1px var(--line); }
+.comparison-filter label { display: flex; flex: 1; align-items: center; gap: 0.75rem; min-height: 44px; cursor: pointer; }
+.comparison-filter label:has(:disabled) { cursor: not-allowed; color: var(--slate); }
+.comparison-filter input { flex: none; width: 1.125rem; height: 1.125rem; margin: 0; accent-color: var(--accent-deep); cursor: inherit; }
+.comparison-filter label img { flex: none; object-fit: contain; }
+.comparison-filter__handle { display: grid; flex: none; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 0.4rem; background: transparent; color: var(--slate); cursor: grab; touch-action: none; }
+.comparison-filter__handle:hover { background: var(--mist-2); color: var(--ink); }
+/* Hidden clients sit below a divider and can't be reordered. */
+.comparison-filter__list li:has(:checked) + li:not(:has(:checked)) { margin-top: 0.5rem; border-top: 1px solid var(--line); border-top-left-radius: 0; border-top-right-radius: 0; }
+.comparison-filter__list li:not(:has(:checked)) { color: var(--slate); }
+.comparison-filter__list li:not(:has(:checked)) img { opacity: 0.5; }
+.comparison-filter__list li:not(:has(:checked)) .comparison-filter__handle { visibility: hidden; }
+.is-dragging .comparison-filter__handle { cursor: grabbing; }
+.comparison-filter__handle svg { width: 1.125rem; height: 1.125rem; }
+.comparison-filter__reset { min-height: 44px; margin-top: 0.25rem; padding: 0; border: 0; background: transparent; color: var(--accent-deep); font: 600 0.9375rem/1.2 var(--font-body); text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
+.comparison-filter__reset:disabled { color: var(--slate); text-decoration: none; cursor: default; }
+@media (prefers-reduced-motion: reduce) {
+  .comparison-filter__list li { transition: none; }
+}

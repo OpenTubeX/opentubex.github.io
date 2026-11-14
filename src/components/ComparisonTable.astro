@@ -15,7 +15,7 @@ import { clients, groups, support } from '../data/comparisons';
 			<table class="comparison-table comparison-table--sticky" role="presentation">
 				<thead>
 					<tr>
-						<th><span class="sr-only">Feature</span></th>
+						<th><button type="button" class="comparison-filter-button" popovertarget="comparison-filter" tabindex="-1"><Icon name="lucide:list-filter" aria-hidden="true" /><span class="sr-only">Filter clients: </span><span class="comparison-filter-summary">All clients</span></button></th>
 						{clients.map((client) => (
 							<th>
 								<span class="comparison-client-label">
@@ -35,7 +35,7 @@ import { clients, groups, support } from '../data/comparisons';
 			<caption class="sr-only">Documented support in {clients.map((client) => client.name).join(', ')}</caption>
 			<thead>
 				<tr>
-					<th scope="col"><span class="sr-only">Feature</span></th>
+					<th scope="col"><span class="sr-only">Feature</span><button type="button" class="comparison-filter-button" popovertarget="comparison-filter"><Icon name="lucide:list-filter" aria-hidden="true" /><span class="sr-only">Filter clients: </span><span class="comparison-filter-summary">All clients</span></button></th>
 					{clients.map((client) => <th scope="col"><a href={client.url}><img src={client.icon} alt="" width="24" height="24" />{client.name}</a></th>)}
 				</tr>
 			</thead>
@@ -73,6 +73,25 @@ import { clients, groups, support } from '../data/comparisons';
 	</div>
 </div>
 
+<div popover id="comparison-filter" class="comparison-detail comparison-filter" role="dialog" aria-labelledby="comparison-filter-heading" aria-describedby="comparison-filter-hint">
+	<div class="comparison-detail__header">
+		<h3 id="comparison-filter-heading">Clients</h3>
+		<button type="button" popovertarget="comparison-filter" popovertargetaction="hide" aria-label="Close client filter">×</button>
+	</div>
+	<p class="comparison-filter__hint" id="comparison-filter-hint">Uncheck to hide, drag to reorder.</p>
+	<ul class="comparison-filter__list">
+		{clients.map((client, index) => (
+			<li data-client={index}>
+				<label><input type="checkbox" checked /><img src={client.icon} alt="" width="20" height="20" />{client.name}</label>
+				<button type="button" class="comparison-filter__handle" aria-label={`Move ${client.name}`} aria-describedby="comparison-filter-keys"><Icon name="lucide:grip-vertical" aria-hidden="true" /></button>
+			</li>
+		))}
+	</ul>
+	<p class="sr-only" id="comparison-filter-keys">Use the up and down arrow keys to move.</p>
+	<p class="sr-only" id="comparison-filter-status" aria-live="polite"></p>
+	<button type="button" class="comparison-filter__reset">Reset</button>
+</div>
+
 <style is:global>
 	/* Narrow layouts need a horizontal scrollport, which prevents the real
 	   thead from sticking to the page viewport. Keep an aria-hidden copy outside
@@ -98,6 +117,12 @@ import { clients, groups, support } from '../data/comparisons';
 
 		.comparison-table--sticky {
 			margin: 0;
+		}
+
+		/* The copy covers the real header, so its filter button takes the clicks.
+		   It stays out of the tab order; keyboard users reach the real one. */
+		.comparison-table--sticky .comparison-filter-button {
+			pointer-events: auto;
 		}
 
 		.comparison-table--sticky .comparison-client-label {
@@ -146,13 +171,184 @@ import { clients, groups, support } from '../data/comparisons';
 			syncHeaderX();
 		}
 
+		const frame = document.querySelector('.comparison-frame');
+		const filter = document.getElementById('comparison-filter');
+		const list = filter && filter.querySelector('.comparison-filter__list');
+		const reset = filter && filter.querySelector('.comparison-filter__reset');
+		const status = document.getElementById('comparison-filter-status');
+		const summaries = document.querySelectorAll('.comparison-filter-summary');
+		// Client cells per row, indexed by their original column, so they can be
+		// re-appended in any order.
+		const rows = frame ? Array.from(frame.querySelectorAll('tr')).map(function (row) {
+			return { row: row, cells: Array.from(row.children).slice(1) };
+		}) : [];
+
+		// The popover list is the source of truth: its order is the column order
+		// and its checkboxes are the visibility. Hidden cells drop out of the column
+		// layout. Group headings span every column, so their colspan must follow
+		// the visible count, or fixed table layout would hand the leftover width to
+		// phantom columns.
+		function applyFilter() {
+			const order = Array.from(list.children).map(function (item) {
+				return { index: Number(item.dataset.client), box: item.querySelector('input') };
+			});
+			const visible = order.filter(function (client) { return client.box.checked; }).length;
+			rows.forEach(function (entry) {
+				if (!entry.cells.length) {
+					entry.row.firstElementChild.colSpan = visible + 1;
+					return;
+				}
+				order.forEach(function (client) {
+					const cell = entry.cells[client.index];
+					cell.hidden = !client.box.checked;
+					entry.row.append(cell);
+				});
+			});
+			frame.style.setProperty('--comparison-clients', visible);
+			// Keep at least one client so the table never collapses to labels only.
+			order.forEach(function (client) { client.box.disabled = client.box.checked && visible === 1; });
+			reset.disabled = visible === order.length && order.every(function (client, position) { return client.index === position; });
+			summaries.forEach(function (summary) {
+				summary.textContent = visible === order.length ? 'All clients' : visible + ' of ' + order.length;
+			});
+		}
+
+		function isChecked(item) {
+			return item.querySelector('input').checked;
+		}
+
+		// Animate rows from their old to their new positions after a DOM move.
+		function flip(mutate) {
+			const items = Array.from(list.children);
+			const before = items.map(function (item) { return item.offsetTop; });
+			mutate();
+			items.forEach(function (item, index) {
+				const delta = before[index] - item.offsetTop;
+				if (!delta) return;
+				item.style.transition = 'none';
+				item.style.transform = 'translateY(' + delta + 'px)';
+			});
+			list.getBoundingClientRect();
+			items.forEach(function (item) {
+				item.style.transition = '';
+				item.style.transform = '';
+			});
+		}
+
+		// Pointer-driven sorting, so the row follows the cursor or finger (native
+		// drag and drop shows a detached ghost and doesn't work with touch).
+		function startDrag(event, handle) {
+			const item = handle.parentElement;
+			const items = Array.from(list.children);
+			const from = items.indexOf(item);
+			// Hidden clients stay below the visible ones, so only sort among those.
+			const last = items.filter(isChecked).length - 1;
+			const step = items[1].offsetTop - items[0].offsetTop;
+			const startY = event.clientY;
+			let offset = 0;
+			let to = from;
+			handle.setPointerCapture(event.pointerId);
+			list.classList.add('is-sorting');
+			item.classList.add('is-dragging');
+
+			function move(moveEvent) {
+				offset = Math.max(-from * step, Math.min((last - from) * step, moveEvent.clientY - startY));
+				to = from + Math.round(offset / step);
+				item.style.transform = 'translateY(' + offset + 'px)';
+				items.forEach(function (other, index) {
+					const shift = index > from && index <= to ? -step : index < from && index >= to ? step : 0;
+					if (other !== item) other.style.transform = shift ? 'translateY(' + shift + 'px)' : '';
+				});
+			}
+			function end(endEvent) {
+				handle.removeEventListener('pointermove', move);
+				handle.removeEventListener('pointerup', end);
+				handle.removeEventListener('pointercancel', end);
+				if (endEvent.type === 'pointercancel') to = from;
+				// Commit the new order without animating the siblings a second time.
+				items.forEach(function (other) {
+					other.style.transition = 'none';
+					other.style.transform = '';
+				});
+				if (to !== from) list.insertBefore(item, items[to > from ? to + 1 : to] || null);
+				// Then glide the dragged row from where it was released into its slot.
+				item.style.transform = 'translateY(' + (offset - (to - from) * step) + 'px)';
+				item.getBoundingClientRect();
+				items.forEach(function (other) { other.style.transition = ''; });
+				item.classList.remove('is-dragging');
+				list.classList.remove('is-sorting');
+				item.style.transform = '';
+				if (to !== from) applyFilter();
+			}
+			handle.addEventListener('pointermove', move);
+			handle.addEventListener('pointerup', end);
+			handle.addEventListener('pointercancel', end);
+		}
+
+		if (frame && filter) {
+			// A toggled client moves to the boundary between the visible and hidden
+			// groups: the end of the visible columns, or the top of the hidden list.
+			filter.addEventListener('change', function (event) {
+				const item = event.target.closest('li');
+				const boundary = Array.from(list.children).find(function (other) { return other !== item && !isChecked(other); });
+				flip(function () { list.insertBefore(item, boundary || null); });
+				// Moving the row drops focus from its checkbox.
+				event.target.focus();
+				applyFilter();
+			});
+			list.addEventListener('pointerdown', function (event) {
+				const handle = event.target.closest('.comparison-filter__handle');
+				if (handle && event.isPrimary && event.button === 0) {
+					event.preventDefault();
+					startDrag(event, handle);
+				}
+			});
+			list.addEventListener('keydown', function (event) {
+				const handle = event.target.closest('.comparison-filter__handle');
+				if (!handle || (event.key !== 'ArrowUp' && event.key !== 'ArrowDown')) return;
+				event.preventDefault();
+				const item = handle.parentElement;
+				const up = event.key === 'ArrowUp';
+				const sibling = up ? item.previousElementSibling : item.nextElementSibling;
+				if (!sibling || !isChecked(sibling)) return;
+				// Move the neighbor rather than the item, so the handle keeps focus.
+				flip(function () { list.insertBefore(sibling, up ? item.nextElementSibling : item); });
+				applyFilter();
+				status.textContent = item.textContent.trim() + ', position ' + (Array.from(list.children).indexOf(item) + 1) + ' of ' + list.children.length;
+			});
+			reset.addEventListener('click', function () {
+				flip(function () {
+					Array.from(list.children)
+						.sort(function (a, b) { return a.dataset.client - b.dataset.client; })
+						.forEach(function (item) {
+							item.querySelector('input').checked = true;
+							list.append(item);
+						});
+				});
+				applyFilter();
+			});
+			// Browsers may restore checkbox state on reload or back navigation.
+			applyFilter();
+		}
+
+		// The filter has two invokers (the real header and its sticky copy), so
+		// position each popover next to the button that actually opened it.
+		let lastTrigger = null;
+		document.addEventListener('click', function (event) {
+			const button = event.target.closest && event.target.closest('[popovertarget]:not([popovertargetaction])');
+			if (button) lastTrigger = button;
+		}, true);
+
 		function position(panel) {
-			const trigger = document.querySelector('.support-button[popovertarget="' + panel.id + '"]');
+			const trigger = lastTrigger && lastTrigger.getAttribute('popovertarget') === panel.id
+				? lastTrigger
+				: document.querySelector('[popovertarget="' + panel.id + '"]:not([popovertargetaction])');
 			if (!trigger) return;
 			const rect = trigger.getBoundingClientRect();
 			const width = panel.offsetWidth;
 			const height = panel.offsetHeight;
-			const left = Math.max(12, Math.min(rect.left + rect.width / 2 - width / 2, window.innerWidth - width - 12));
+			const preferred = panel === filter ? rect.left : rect.left + rect.width / 2 - width / 2;
+			const left = Math.max(12, Math.min(preferred, window.innerWidth - width - 12));
 			const top = rect.bottom + height + 8 < window.innerHeight - 12 ? rect.bottom + 8 : Math.max(12, rect.top - height - 8);
 			panel.style.left = left + 'px';
 			panel.style.top = top + 'px';
