@@ -2,6 +2,8 @@
 export default {
 	themes: ['vitesse-dark', 'vitesse-light'],
 	cascadeLayer: 'vendor',
+	// Give every code block the window header with traffic light dots.
+	defaultProps: { frame: 'terminal' },
 	themeCssSelector: (theme) => `[data-theme='${theme.type}']`,
 	styleOverrides: {
 		borderRadius: '0.35rem',
