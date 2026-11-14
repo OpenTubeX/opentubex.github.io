@@ -26,7 +26,7 @@ Turning off future recording is different from deleting existing entries. Use th
 
 ## Limit history retention
 
-Open **Settings → Data & Storage → Storage** and find **Automatic History Retention (Days)** in the watch-history controls. Leave it blank to keep history indefinitely, or enter a positive whole number to retain a limited number of days.
+Open **Settings → Privacy** and find **Automatic History Retention (Days)** below the history toggles. Leave it blank to keep history indefinitely, or enter a positive whole number to retain a limited number of days.
 
 Saving a retention period removes older entries immediately and continues applying the limit while the app is open. [Export history](/docs/importing/#back-up-your-library) first if you may want it later.
 
