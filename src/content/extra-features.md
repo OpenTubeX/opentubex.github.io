@@ -302,10 +302,12 @@ in full-window or fullscreen mode.
 
 ### Rewind live streams and premieres
 
-Use **yt-dlp** as the [stream extraction method](/docs/providers/#choose-a-stream-extraction-method)
-to rewind live streams and premieres when YouTube provides a rewindable stream.
-Streams with DVR disabled cannot be rewound. The built-in method plays live
-streams and premieres at the live edge without seeking.
+The built-in [stream extraction method](/docs/providers/#choose-a-stream-extraction-method)
+plays live streams and premieres in up to 4K and can rewind them, except in the
+web demo. Streams with live captions, and some others, play at the live edge
+without seeking. To rewind those, use **yt-dlp** when YouTube provides a
+rewindable stream. OpenTubeX Lite and the web demo have no yt-dlp. Streams with
+DVR disabled cannot be rewound.
 
 ### YouTube-style Shorts
 
