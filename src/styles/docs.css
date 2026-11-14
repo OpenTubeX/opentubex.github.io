@@ -103,3 +103,4 @@
 .docs-content th { background: var(--surface); }
 .docs-content .stream-extraction-methods :is(th, td):first-child { width: 6rem; white-space: nowrap; }
 .docs-content code { overflow-wrap: anywhere; }
+.docs-content .expressive-code:not(:last-child) { margin-bottom: 1rem; }

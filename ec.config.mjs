@@ -1,25 +1,10 @@
-// Match the code blocks previously configured through Starlight.
+// Frame colors come from the site theme in signal.css.
 export default {
-	themes: ['night-owl', 'vitesse-light'],
+	themes: ['vitesse-dark', 'vitesse-light'],
 	cascadeLayer: 'vendor',
 	themeCssSelector: (theme) => `[data-theme='${theme.type}']`,
-	customizeTheme: (theme) => {
-		if (theme.type === 'dark') {
-			theme.colors['titleBar.border'] = theme.colors['tab.activeBackground'];
-			theme.colors['editorGroupHeader.tabsBorder'] = theme.colors['tab.activeBackground'];
-			for (const setting of theme.settings) {
-				if (setting.name?.includes('Link')) setting.settings.fontStyle = 'underline';
-			}
-			theme.settings.push({
-				name: 'Shell commands',
-				scope: 'entity.name.function.call.shell',
-				settings: { fontStyle: '' },
-			});
-		}
-		return theme;
-	},
 	styleOverrides: {
-		borderRadius: '0px',
+		borderRadius: '0.35rem',
 		borderWidth: '1px',
 		codePaddingBlock: '0.75rem',
 		codePaddingInline: '1rem',

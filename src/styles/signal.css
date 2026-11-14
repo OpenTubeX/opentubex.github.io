@@ -128,7 +128,11 @@
   --button-primary-hover: #a8251a;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Layer the reset below Expressive Code's `vendor` layer so it keeps the code block spacing. */
+@layer reset, vendor;
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+}
 
 ::selection {
   color: var(--selection-text);
@@ -2084,6 +2088,41 @@ a.version-chip:hover .version-chip__dot {
   margin: 0;
 }
 
+/* Expressive Code: use the site's surfaces instead of the syntax theme's. */
+.expressive-code {
+  --ec-brdCol: var(--line);
+  --ec-codeBg: var(--surface);
+  --ec-codeSelBg: color-mix(in srgb, var(--accent) 25%, transparent);
+  --ec-frm-frameBoxShdCssVal: none;
+  --ec-frm-edBg: var(--surface);
+  --ec-frm-edTabBarBg: color-mix(in srgb, var(--ink) 4%, var(--surface));
+  --ec-frm-edTabBarBrdCol: var(--line);
+  --ec-frm-edTabBarBrdBtmCol: var(--line);
+  --ec-frm-edActTabBg: var(--surface);
+  --ec-frm-edActTabFg: var(--ink);
+  --ec-frm-edActTabIndBtmCol: var(--surface);
+  --ec-frm-trmBg: var(--surface);
+  --ec-frm-trmTtbBg: color-mix(in srgb, var(--ink) 4%, var(--surface));
+  --ec-frm-trmTtbFg: var(--slate);
+  --ec-frm-trmTtbBrdBtmCol: var(--line);
+}
+
+/* Traffic light dots; the theme's mask keeps their shape. */
+.expressive-code .frame.is-terminal .header::before {
+  background: linear-gradient(to right, #ff5f57 31.7%, #febc2e 31.7% 68.3%, #28c840 68.3%);
+  opacity: 1;
+}
+
+/* The copy button stays visible, so keep it off the header and let lines scroll past it. */
+.expressive-code .copy {
+  inset-block-start: calc(var(--ec-brdWd) + var(--button-spacing) + 0.15rem);
+  inset-inline-end: 0.55rem;
+}
+
+.expressive-code .ec-line .code {
+  padding-inline-end: 2.75rem;
+}
+
 .cmd-block {
   margin-top: 0.85rem;
   max-width: min(42rem, 100%);
@@ -2256,7 +2295,7 @@ a.version-chip:hover .version-chip__dot {
   inset-block-start: calc(var(--cmd-header-h) + 0.55rem) !important;
 }
 
-.cmd-block .expressive-code .copy button {
+.expressive-code .copy button {
   opacity: 1 !important;
   width: 1.85rem !important;
   height: 1.85rem !important;
@@ -2267,37 +2306,37 @@ a.version-chip:hover .version-chip__dot {
   overflow: visible !important;
 }
 
-.cmd-block .expressive-code .copy button::before {
+.expressive-code .copy button::before {
   display: none !important;
 }
 
-.cmd-block .expressive-code .copy button div {
+.expressive-code .copy button div {
   display: none !important;
 }
 
-.cmd-block .expressive-code .copy button::after {
+.expressive-code .copy button::after {
   background-color: var(--slate) !important;
   margin: 0.35rem !important;
   inset: 0 !important;
 }
 
-.cmd-block .expressive-code .copy button:hover,
-.cmd-block .expressive-code .copy button:focus-visible {
+.expressive-code .copy button:hover,
+.expressive-code .copy button:focus-visible {
   background: var(--white) !important;
   border-color: var(--accent) !important;
 }
 
-.cmd-block .expressive-code .copy button:hover::after,
-.cmd-block .expressive-code .copy button:focus-visible::after {
+.expressive-code .copy button:hover::after,
+.expressive-code .copy button:focus-visible::after {
   background-color: var(--ink) !important;
 }
 
 /* Match the repository sites: replace the copy glyph with a checkmark on success. */
-.cmd-block .expressive-code .copy:has(.feedback.show) button {
+.expressive-code .copy:has(.feedback.show) button {
   border-color: color-mix(in srgb, var(--accent) 55%, var(--line)) !important;
 }
 
-.cmd-block .expressive-code .copy:has(.feedback.show) button::after {
+.expressive-code .copy:has(.feedback.show) button::after {
   background-color: var(--accent-deep) !important;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 4 4L19 6'/%3E%3C/svg%3E") !important;
   -webkit-mask-position: center;
@@ -2307,7 +2346,7 @@ a.version-chip:hover .version-chip__dot {
   mask-size: contain;
 }
 
-.cmd-block .expressive-code .copy .feedback {
+.expressive-code .copy .feedback {
   position: absolute !important;
   width: 1px;
   height: 1px;
@@ -2319,7 +2358,7 @@ a.version-chip:hover .version-chip__dot {
   border: 0;
 }
 
-.cmd-block .expressive-code .copy .feedback::after {
+.expressive-code .copy .feedback::after {
   display: none;
 }
 
