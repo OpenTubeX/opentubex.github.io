@@ -104,7 +104,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'The website works in desktop and mobile browsers.', source: 'https://www.youtube.com/' },
 			] },
 			{ name: 'Native mobile interface', icon: 'lucide:smartphone', cells: [
-				{ status: 'no', label: 'Web-based', note: 'The Android and iOS apps use Capacitor to show a web interface, with native integrations.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/package.json' },
+				{ status: 'no', label: 'Web-based', note: 'The Android and iOS apps use Capacitor to show a web interface, with native integrations.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/package.json' },
 				{ status: 'no', label: 'Web-based fork', note: 'The unofficial FreeTubeAndroid port shows FreeTube\'s web interface in an Android WebView.', source: 'https://github.com/MarmadileManteater/FreeTubeAndroid/tree/0.25.3.1/android/app/src/main/java/io/freetubeapp/freetube' },
 				{ status: 'yes', note: 'Native Android interface.', source: 'https://github.com/futo-org/grayjay-android/tree/396' },
 				{ status: 'yes', note: 'Built with Android UI components.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3' },
@@ -115,7 +115,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Native Android and iOS apps for phones and tablets.', source: 'https://support.google.com/youtube/answer/3227660?hl=en' },
 			] },
 			{ name: 'Services beyond YouTube', icon: 'lucide:layers', cells: [
-				{ status: 'partial', label: 'RSS and links', note: ['Follows creators on other platforms, such as Twitch through RSSHub, with RSS or Atom feeds in an RSS tab of the subscriptions feed. Feed items and links from a ', { text: 'yt-dlp-supported service', href: 'https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md' }, ', pasted or shared to the Android app, play in the app and keep their progress. You can\'t browse or search other services.'], source: 'https://github.com/OpenTubeX/OpenTubeX/pull/2574' },
+				{ status: 'yes', note: ['Follows channels on Twitch, SoundCloud, PeerTube, Rumble, and Odysee without an account. Their uploads and live streams appear in a Platforms tab and the New feed, their channels and playlists open in the app, search covers them, and Twitch channels can notify you when they go live. RSS feeds and links from any ', { text: 'yt-dlp-supported service', href: 'https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md' }, ' also play in the app and keep their place in the ', { text: 'watch history', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/externalMediaHistory.js' }, '. The web app and Android Lite ship without yt-dlp and stay YouTube-only.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/platformFeed.js' },
 				{ status: 'no', note: 'YouTube only.' },
 				{ status: 'yes', note: 'Source plugins add services such as Twitch, PeerTube, and SoundCloud. What works depends on each plugin.', source: 'https://plugins.grayjay.app/' },
 				{ status: 'yes', note: 'Also supports SoundCloud, Bandcamp, PeerTube, and media.ccc.de.' },
@@ -142,7 +142,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Premium', note: ['Offline downloads need Premium. ', { text: 'Premium Lite', href: 'https://support.google.com/youtube/answer/15968883?hl=en' }, ' covers most non-music videos except Shorts. Some regions allow downloading selected videos for free. Downloaded videos only play inside YouTube.'], source: 'https://support.google.com/youtube/answer/7381437?hl=en' },
 			] },
 			{ name: 'Per-channel playback settings', icon: 'lucide:sliders-horizontal', cells: [
-				{ status: 'yes', note: 'Saves speed, quality, subtitles, and volume for each channel and applies them automatically.', source: 'https://opentubex.org/extra-features/#per-channel-playback-settings' },
+				{ status: 'yes', note: ['Saves speed, quality, subtitles, and volume for each channel and applies them automatically, also for ', { text: 'channels on other platforms', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/channel-preferences.js' }, '.'], source: 'https://opentubex.org/extra-features/#per-channel-playback-settings' },
 				{ status: 'no', note: 'Player settings apply to every channel.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/static/locales/en-US.yaml' },
 				{ status: 'no', note: 'The default speed applies to every channel.', source: 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/java/com/futo/platformplayer/Settings.kt' },
 				{ status: 'no', note: 'Speed and pitch apply to every channel.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/java/org/schabi/newpipe/player/helper/PlaybackParameterDialog.java' },
@@ -197,7 +197,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Premium', note: 'Background playback in the apps needs a paid plan. Premium Lite covers most non-music videos except Shorts, and full Premium also covers music. In a desktop browser, audio keeps playing in another tab.', source: 'https://support.google.com/youtube/answer/15968883?hl=en' },
 			] },
 			{ name: 'Recommendation engine', icon: 'lucide:sparkles', cells: [
-				{ status: 'partial', label: 'On-device', note: ['Optional Home recommendations learn from your history, saved videos, and feedback, with Familiar, Balanced, and Explore modes. They pick from a smaller pool than YouTube, built from ', { text: 'related videos, chosen channels, and searches', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/src/renderer/helpers/recommendationCandidates.js' }, '.'], source: 'https://opentubex.org/extra-features/#customizable-home-page' },
+				{ status: 'partial', label: 'On-device', note: ['Optional Home recommendations learn from your history, saved videos, and feedback, with Familiar, Balanced, and Explore modes. They pick from a smaller pool than YouTube, built from ', { text: 'related videos, chosen channels, and searches', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/recommendationCandidates.js' }, '. Signed in, Home can also show ', { text: 'YouTube\'s recommendations', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/views/Home/HomeYouTubeRecommendations.vue' }, '.'], source: 'https://opentubex.org/extra-features/#customizable-home-page' },
 				{ status: 'no', note: 'Shows related videos from YouTube or Invidious and trending feeds, but no personalized recommendations.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/src/renderer/views/Watch/Watch.js' },
 				{ status: 'partial', label: 'Source feeds', note: 'Home combines recommendations from its sources, personalized when you sign in to one. Grayjay has no engine of its own.', source: 'https://github.com/futo-org/grayjay-android/blob/396/README.md#feed' },
 				{ status: 'no', note: 'Related videos and trending only. Personalized recommendations are a feature request.', source: 'https://github.com/TeamNewPipe/NewPipe/issues/13362' },
@@ -208,7 +208,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', label: 'Server-side', note: 'Google\'s servers personalize Home, Shorts, and other sections from your watch and search history, subscriptions, likes, and feedback. Home relies mostly on watch history.', source: 'https://support.google.com/youtube/answer/16089387?hl=en' },
 			] },
 			{ name: 'Distraction-free toggles', icon: 'lucide:list-filter', cells: [
-				{ status: 'yes', note: 'Hides Shorts, recommendations, comments, counts, and navigation sections. Subscription feeds filter by videos, Shorts, live streams, and posts, and you can hide watched videos or block channels and title keywords.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/static/locales/en-US.yaml' },
+				{ status: 'yes', note: 'Hides Shorts, recommendations, comments, counts, and navigation sections. Subscription feeds filter by videos, Shorts, live streams, and posts, and you can hide watched videos or block channels and title keywords.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/static/locales/en-US.yaml' },
 				{ status: 'yes', note: 'Hides recommendations, comments, counts, and channel tabs such as Shorts. Subscription feeds filter by type, and you can hide watched videos or block channels and title keywords.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/static/locales/en-US.yaml' },
 				{ status: 'partial', label: 'Limited', note: 'Can hide the recommendations tab and choose which navigation tabs show. There are no toggles for Shorts, comments, or feed content.', source: 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/java/com/futo/platformplayer/Settings.kt' },
 				{ status: 'partial', label: 'Limited', note: 'Hides related videos, comments, and description boxes, lets you pick the home tabs, and turns off auto-queueing. No toggle hides Shorts everywhere.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml' },
@@ -230,7 +230,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Premium on mobile', note: 'Free on desktop and the web, but the phone and tablet apps need Premium. A browser queue is lost when you close the browser unless you save it as a playlist.', source: 'https://support.google.com/youtube/answer/9546304?hl=en' },
 			] },
 			{ name: 'Live chat', icon: 'lucide:messages-square', cells: [
-				{ status: 'yes', label: 'With replay', note: ['Shows chat during live streams and premieres and ', { text: 'replays chat', href: 'https://opentubex.org/extra-features/#live-streams-premieres-and-chat-replay' }, ' on past streams in sync with the video. Chat can dock in fullscreen. Needs a direct connection to YouTube, not Invidious.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/src/renderer/components/WatchVideoLiveChat/WatchVideoLiveChat.vue' },
+				{ status: 'yes', label: 'With replay', note: ['Shows chat during live streams and premieres and ', { text: 'replays chat', href: 'https://opentubex.org/extra-features/#live-streams-premieres-and-chat-replay' }, ' on past streams in sync with the video. Chat can dock in fullscreen. Needs a direct connection to YouTube, not Invidious.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/components/WatchVideoLiveChat/WatchVideoLiveChat.vue' },
 				{ status: 'partial', label: 'Live only', note: 'Shows chat during live streams and premieres, with no replay for past streams. Needs a direct connection to YouTube, not Invidious.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/src/renderer/views/Watch/Watch.js#L736-L740' },
 				{ status: 'yes', label: 'With replay', note: 'Shows live chat and replays it on past streams.', source: `${gjYoutube}/YoutubeScript.js#L2746-L2829` },
 				{ status: 'no', note: 'Live streams play without chat.' },
@@ -268,7 +268,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 		name: 'Library & sync',
 		rows: [
 			{ name: 'Posts', icon: 'lucide:message-square-text', cells: [
-				{ status: 'yes', note: 'Channel posts show in a Posts tab of the subscriptions feed and on channel pages.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/src/renderer/components/SubscriptionPosts/SubscriptionsPosts.vue' },
+				{ status: 'yes', note: 'Channel posts show in a Posts tab of the subscriptions feed and on channel pages.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/components/SubscriptionPosts/SubscriptionsPosts.vue' },
 				{ status: 'yes', note: 'Channel posts show in a Posts tab of the subscriptions feed and on channel pages.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/src/renderer/components/SubscriptionPosts/SubscriptionsPosts.vue' },
 				{ status: 'no', note: 'The YouTube plugin only loads videos, live streams, and Shorts, so posts don\'t show.', source: `${gjYoutube}/YoutubeScript.js#L3241-L3246` },
 				{ status: 'no', note: 'Posts don\'t show in feeds or on channel pages.' },
@@ -279,7 +279,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Posts show on channel pages and can appear on Home and in Subscriptions.', source: 'https://support.google.com/youtube/answer/9409631?hl=en' },
 			] },
 			{ name: 'Notifications', icon: 'lucide:bell-ring', cells: [
-				{ status: 'yes', label: 'Desktop and Android', note: ['Reminds you of ', { text: 'scheduled live streams and premieres', href: 'https://opentubex.org/extra-features/#upload-live-stream-and-premiere-notifications' }, ' and alerts you to new uploads from chosen channels and feed types. New-upload alerts aren\'t available on iOS.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/src/renderer/helpers/uploadNotifications.js' },
+				{ status: 'yes', label: 'Desktop and Android', note: ['Reminds you of ', { text: 'scheduled live streams and premieres', href: 'https://opentubex.org/extra-features/#upload-live-stream-and-premiere-notifications' }, ', alerts you to new uploads from chosen channels and feed types, and ', { text: 'tells you when a followed Twitch channel goes live', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/platformFeed.js#L670-L688' }, '. New-upload alerts aren\'t available on iOS.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/uploadNotifications.js' },
 				{ status: 'no', note: 'No system notifications.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/static/locales/en-US.yaml' },
 				{ status: 'yes', label: 'Android', note: 'Reminds you of scheduled content and notifies you of new content from followed channels. Depends on the source plugin and background updates.', source: 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/java/com/futo/platformplayer/states/StateNotifications.kt' },
 				{ status: 'partial', label: 'Feed updates', note: 'Checks chosen subscriptions periodically and notifies you of new items. No reminders for scheduled streams or premieres.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/java/org/schabi/newpipe/local/feed/notifications/NotificationWorker.kt' },
@@ -289,8 +289,19 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', label: 'Account required', note: 'Keeps YouTube\'s upload, live stream, and premiere notifications. Without root, push notifications go through MicroG-RE.', source: `${morpheFaq}#32-youtube-push-notifications-do-not-work` },
 				{ status: 'yes', label: 'Account required', note: ['Alerts you to uploads and live streams, plus ', { text: 'premiere reminders', href: 'https://support.google.com/youtube/answer/9080341?hl=en' }, '. Needs sign-in and notifications turned on, and not every upload triggers one.'], source: 'https://support.google.com/youtube/answer/3382248?hl=en' },
 			] },
+			{ name: 'Google account sign-in', icon: 'simple-icons:google', cells: [
+				{ status: 'yes', label: 'TV-style code', note: ['Optional sign-in with a code, the way a TV signs in, on desktop, Android, and iOS. Adds likes, comments and replies you can edit or delete, YouTube recommendations on Home, and optional watch-history reporting. ', { text: 'Subscriptions and playlists', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/youtube-sync.js' }, ', including Watch later and Liked videos, can sync with the account in both directions. Not available in the web app.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/api/youtube-account.js' },
+				{ status: 'no', note: 'No Google sign-in.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/README.md#L53' },
+				{ status: 'partial', label: 'Import / Home', note: ['The YouTube plugin signs in through Google\'s web page. It imports subscriptions, playlists, and history, personalizes Home, and can ', { text: 'use the account', href: `${gjYoutube}/YoutubeConfig.json#L71-L97` }, ' for members-only and age-restricted videos and to report what you watch. It can\'t like, comment, or subscribe on YouTube.'], source: `${gjYoutube}/YoutubeConfig.json#L419-L432` },
+				{ status: 'no', note: 'NewPipe won\'t add Google sign-in, to avoid anything that could track you.', source: 'https://github.com/TeamNewPipe/website/blob/abbaf19b37ee61930f41a11ee5c03c5db0c0e77d/_faq/bugs-google-login.html' },
+				{ status: 'no', note: 'No Google sign-in. LibreTube aims to stay independent from Google.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/README.md#L49' },
+				{ status: 'no', note: 'No Google sign-in.', source: 'https://github.com/Flow-Tube/Flow/blob/v3.0.0/README.md#L93' },
+				{ status: 'yes', label: 'TV-style code', note: 'Optional sign-in with a code, the way a TV signs in, without microG or root. Subscriptions, history, playlists, Watch later, and recommendations load from the account, and you can like, subscribe, and comment. Supports several accounts.', source: `${ntReadme}#how-sign-in-works` },
+				{ status: 'yes', label: 'Root or MicroG', note: 'Keeps every account feature of the official app. Without root, sign-in goes through MicroG-RE, and managed accounts such as Google Workspace may not work.', source: `${morpheFaq}#22-microg-google-login-does-not-work` },
+				{ status: 'yes', note: 'A Google account adds likes, comments, subscriptions, playlists, watch history, and personalized recommendations across devices.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
+			] },
 			{ name: 'Data import/export', icon: 'lucide:arrow-left-right', cells: [
-				{ status: 'yes', note: ['Imports subscriptions, watch and search history, and playlists from a YouTube Takeout ZIP or a FreeTube database. Subscriptions also import from NewPipe and LibreTube, and watch history from LibreTube. ', { text: 'Exports', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/src/renderer/components/Settings/Data/DataSettings.vue#L1260-L1402' }, ' subscriptions in OpenTubeX, YouTube, or NewPipe format, history and search history in OpenTubeX or YouTube format, and everything as a backup ZIP.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/static/locales/en-US.yaml#L1882-L1885' },
+				{ status: 'yes', note: ['Imports subscriptions, watch and search history, and playlists from a YouTube Takeout ZIP or a FreeTube database. Subscriptions also import from NewPipe and LibreTube, and watch history from LibreTube. ', { text: 'Exports', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/components/Settings/Data/DataSettings.vue#L1148-L1319' }, ' subscriptions in OpenTubeX, YouTube, or NewPipe format, history and search history in OpenTubeX or YouTube format, and everything as a backup ZIP.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/static/locales/en-US.yaml#L2023-L2026' },
 				{ status: 'yes', note: ['Imports subscriptions from YouTube Takeout and NewPipe, and watch and search history from YouTube Takeout. Playlists only import from FreeTube files. ', { text: 'Exports', href: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/src/renderer/components/DataSettings/DataSettings.vue#L605-L760' }, ' subscriptions in FreeTube, YouTube, or NewPipe format, and history and search history in FreeTube or YouTube format.'], source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/src/renderer/components/DataSettings/DataSettings.vue#L238-L248' },
 				{ status: 'partial', label: 'Own backups', note: 'Imports Grayjay backups and NewPipe subscriptions, but not YouTube Takeout or history and playlists from other apps. Signed in to a source such as YouTube, it can pull that account\'s subscriptions and playlists. Exports only a Grayjay backup ZIP, which other apps can\'t read.', source: 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/java/com/futo/platformplayer/states/StateBackup.kt#L588-L607' },
 				{ status: 'partial', label: 'Subscriptions', note: 'Imports YouTube subscriptions from Google Takeout and SoundCloud followings from a profile. Exports subscriptions as a NewPipe file. History and playlists only move through a NewPipe database export.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml#L211-L216' },
@@ -301,7 +312,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Takeout export', note: 'Google Takeout exports subscriptions, playlists, and history. Nothing can be imported from files or other apps.', source: 'https://support.google.com/accounts/answer/3024190?hl=en' },
 			] },
 			{ name: 'Sync between devices', icon: 'lucide:refresh-cw', cells: [
-				{ status: 'yes', label: 'End-to-end encrypted', note: 'Optional sync covers subscriptions, playlists, history, channel settings, profiles, tabs, and settings.', source: otxSync },
+				{ status: 'yes', label: 'End-to-end encrypted', note: ['Optional sync covers subscriptions, playlists, history, channel settings, profiles, tabs, and settings. Signed in to YouTube, ', { text: 'subscriptions and playlists', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/youtube-sync.js' }, ' can also sync with your YouTube account, which Google stores without this encryption.'], source: otxSync },
 				{ status: 'no', note: 'No sync. You can copy the data files yourself or use a file-sync tool.', source: localOnly },
 				{ status: 'yes', label: 'Device pairing', note: 'Paired devices sync subscriptions, playlists, Watch later, subscription groups, and history. The devices have to reach each other.', source: gjSync },
 				{ status: 'no', note: 'No sync. Import and export move data by hand.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3#installation-and-updates' },
@@ -372,7 +383,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Web extension', note: 'Works on the website through a browser extension. The apps don\'t support it.', source: 'https://returnyoutubedislike.com/' },
 			] },
 			{ name: 'AiSList', url: 'https://github.com/Override92/AiSList', icon: 'lucide:bot-off', cells: [
-				{ status: 'yes', note: 'Optionally filters out channels on AiSList\'s community lists of AI-generated content.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/src/renderer/helpers/aiSlopList.js' },
+				{ status: 'yes', note: 'Optionally filters out channels on AiSList\'s community lists of AI-generated content.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/aiSlopList.js' },
 				{ status: 'no', note: 'Not included.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/static/locales/en-US.yaml' },
 				{ status: 'no', note: 'Not included.', source: `${gjYoutube}/YoutubeConfig.json` },
 				{ status: 'no', note: 'Not included.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3' },
@@ -388,7 +399,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 		name: 'Privacy',
 		rows: [
 			{ name: 'Local-first', icon: 'lucide:hard-drive', cells: [
-				{ status: 'yes', note: 'Subscriptions, playlists, history, and settings stay on your device. Sync is optional.', source: 'https://opentubex.org/privacy/#desktop-and-mobile-apps' },
+				{ status: 'yes', note: 'Subscriptions, playlists, history, and settings stay on your device. Sync and YouTube sign-in are optional.', source: 'https://opentubex.org/privacy/#desktop-and-mobile-apps' },
 				{ status: 'yes', note: 'Subscriptions, playlists, history, and settings stay on your device, without an account.', source: localOnly },
 				{ status: 'yes', note: 'Subscriptions, playlists, and history stay on your device. Signing in to a source and device pairing are optional.', source: 'https://grayjay.app/' },
 				{ status: 'yes', note: 'Subscriptions, playlists, and history stay on your device, without an account.', source: 'https://newpipe.net/' },
@@ -410,7 +421,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'Uses YouTube\'s servers only.', source: 'https://www.youtube.com/' },
 			] },
 			{ name: 'No telemetry', icon: 'lucide:eye-off', cells: [
-				{ status: 'yes', note: 'No analytics or crash reporting. Optional sync only sends the categories you pick to your sync server. YouTube or your Invidious instance still sees what you load, and update checks contact GitHub.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/package.json' },
+				{ status: 'yes', note: 'No analytics or crash reporting. Optional sync only sends the categories you pick to your sync server. YouTube or your Invidious instance still sees what you load, and update checks contact GitHub.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/package.json' },
 				{ status: 'yes', note: 'Viewing data stays on your device. YouTube and optional services still see your requests and IP address.', source: 'https://docs.freetubeapp.io/usage/privacy/' },
 				{ status: 'partial', label: 'Startup telemetry', note: ['Android and desktop send startup telemetry with a persistent random ID and app and platform details. Android adds device details and the enabled sources. Watched videos and searches are left out. See the ', { text: 'desktop implementation', href: 'https://github.com/futo-org/Grayjay.Desktop/blob/20/Grayjay.ClientServer/States/StateTelemetry.cs' }, '.'], source: 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/java/com/futo/platformplayer/states/StateTelemetry.kt' },
 				{ status: 'yes', note: 'No usage reporting. Bug reports are sent only when you submit one.', source: 'https://newpipe.net/legal/privacy/' },
@@ -421,7 +432,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', label: 'Google tracking', note: 'Google collects what you watch, search, and interact with. History settings change how it\'s stored and used, and Premium doesn\'t stop the collection.', source: 'https://policies.google.com/privacy?hl=en' },
 			] },
 			{ name: 'No proprietary libraries', icon: 'lucide:package-check', cells: [
-				{ status: 'yes', note: ['No proprietary SDKs in the desktop or ', { text: 'Android dependencies', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/android/app/build.gradle' }, '.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/package.json' },
+				{ status: 'yes', note: ['No proprietary SDKs in the desktop or ', { text: 'Android dependencies', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/android/app/build.gradle' }, '.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/package.json' },
 				{ status: 'yes', note: 'The desktop app only uses open-source dependencies, including Electron.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/package.json' },
 				{ status: 'no', label: 'Stripe on Android', note: ['The Android app includes Stripe, whose ', { text: 'payment module', href: 'https://github.com/stripe/stripe-android/blob/v22.0.0/payments-core/build.gradle' }, ' depends on Google\'s proprietary Play services Wallet library.'], source: 'https://github.com/futo-org/grayjay-android/blob/396/app/build.gradle' },
 				{ status: 'yes', note: 'Avoids proprietary libraries and frameworks such as Google Play services.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3#description' },
@@ -432,7 +443,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', label: 'Closed source', note: 'The apps and website are closed source.', source: 'https://www.youtube.com/static?template=terms' },
 			] },
 			{ name: 'License', icon: 'lucide:scale', cells: [
-				{ label: 'AGPLv3', note: 'GNU Affero General Public License v3.0.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.37.4-beta/LICENSE' },
+				{ label: 'AGPLv3', note: 'GNU Affero General Public License v3.0.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/LICENSE' },
 				{ label: 'AGPLv3', note: 'GNU Affero General Public License v3.0.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/LICENSE' },
 				{ label: 'Source First 1.1', note: ['Source-available under FUTO\'s Source First License 1.1, which restricts commercial use and redistribution. The ', { text: 'desktop app', href: 'https://github.com/futo-org/Grayjay.Desktop/blob/20/LICENSE.md' }, ' uses the same license.'], source: 'https://github.com/futo-org/grayjay-android/blob/396/LICENSE.md' },
 				{ label: 'GPLv3', note: 'GNU General Public License v3.0 or later.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3' },
