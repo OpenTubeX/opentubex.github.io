@@ -37,7 +37,7 @@ Export a subscription file from your previous app, then transfer it to the devic
 
 The [client comparison](/compare/#import) lists the FreeTube data that OpenTubeX can import.
 
-### Move from FreeTube
+## Move from FreeTube
 
 In FreeTube, open **Settings → Data** and export your subscriptions, history, playlists, and search history in FreeTube format. Each export is a .db file that you can import into OpenTubeX with the matching action.
 
@@ -50,7 +50,7 @@ You can also import the files from FreeTube's data folder directly. Choose the f
 | **Import Playlists** | `playlists.db` |
 | **Import search history** | `search-history.db` |
 
-Do not choose `subscription-cache.db`. It only stores the videos FreeTube last loaded for your subscription feed, not the channels you follow. OpenTubeX loads the feed again after you import `profiles.db`.
+Do not choose `subscription-cache.db`. It only stores the videos and posts FreeTube last loaded for your subscription feed, not the channels you follow.
 
 Close FreeTube before you copy the files. Its data folder is in one of these locations:
 
