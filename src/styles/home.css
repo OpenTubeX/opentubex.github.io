@@ -247,17 +247,13 @@
   .home .hero__lede { font-size: 1rem; }
   .home .hero__headline { font-size: clamp(2.5rem, 10.5vw, 3.5rem); }
   .home .pillars { grid-template-columns: 1fr; }
-  .home .shot-tabs__tab { padding-inline: 0.6rem; }
-  .home .laptop__lid { animation: none; }
-  .home .laptop__video { object-fit: contain; }
-  .home .download { width: calc(100% - 1.5rem); margin-bottom: 2rem; }
-}
-
-@media (max-width: 400px) {
   .home .shot-tabs__tab {
     flex-direction: column;
     gap: 0.25rem;
     padding: 0.5rem 0.25rem;
+    white-space: nowrap;
   }
-}
+  .home .laptop__lid { animation: none; }
+  .home .laptop__video { object-fit: contain; }
+  .home .download { width: calc(100% - 1.5rem); margin-bottom: 2rem; }
 }
