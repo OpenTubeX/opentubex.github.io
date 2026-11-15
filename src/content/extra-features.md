@@ -1153,8 +1153,9 @@ down or tap outside to dismiss them.
 
 ### Interface preferences
 
-Choose the app font from nine bundled fonts, including the default Geist,
-Inter, Roboto and Google Sans, or search the fonts installed on your system.
+Choose the app font from ten bundled fonts, including the default Geist,
+Inter, Roboto, Google Sans and the serif Libron, or search the fonts installed
+on your system.
 **Font Size** makes text larger or smaller without zooming the rest of the
 interface. Choose whether links are underlined always, never, or only on
 hover, and select date and time formats independently of the app language.
