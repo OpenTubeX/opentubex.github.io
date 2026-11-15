@@ -135,6 +135,14 @@
   color: var(--accent-deep);
 }
 
+/* Set by the hero script until the logo and first screenshot are decoded. */
+.home .hero.is-loading :is(.hero__logo, .hero__headline, .hero__lede, .cta-group, .laptop__lid) {
+  animation-play-state: paused;
+}
+
+/* Browsers paint alt text while an image loads. */
+.home :is(.hero__logo, .laptop__shot) { color: transparent; }
+
 @media (prefers-reduced-motion: no-preference) {
   .home .shot-tabs::before { transition: transform 0.3s var(--ease); }
   .home .laptop__shot { transition: transform 0.3s var(--ease); }
@@ -231,4 +239,5 @@
     gap: 0.25rem;
     padding: 0.5rem 0.25rem;
   }
+}
 }

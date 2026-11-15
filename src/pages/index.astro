@@ -302,6 +302,22 @@ const optimizedScreenshots = await Promise.all(screenshots.map(async (shot) => (
 					</div>
 				</div>
 			</div>
+			<script is:inline>
+				// Hold the hero entrance until its images are decoded, so the laptop never opens on an empty screen.
+				(function () {
+					var hero = document.currentScript.closest('.hero');
+					var reveal = function () { hero.classList.remove('is-loading'); };
+					hero.classList.add('is-loading');
+					Promise.all(Array.prototype.map.call(hero.querySelectorAll('.hero__logo, .laptop__shot.is-active'), function (img) {
+						return new Promise(function (resolve) {
+							if (img.complete) return resolve();
+							img.addEventListener('load', resolve, { once: true });
+							img.addEventListener('error', resolve, { once: true });
+						}).then(function () { return img.decode(); }).catch(function () {});
+					})).then(reveal);
+					window.setTimeout(reveal, 2500);
+				})();
+			</script>
 		</section>
 
 		<section class="section" id="pillars" aria-labelledby="pillars-heading">
