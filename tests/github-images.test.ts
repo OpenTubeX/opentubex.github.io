@@ -40,17 +40,24 @@ for (const directory of ['_astro', 'feature-images']) {
 	});
 }
 
-test('bundles GitHub attachments referenced by raw HTML picture sources', async () => {
+test('bundles GitHub attachments and media assets referenced by raw HTML', async () => {
 	const fixture = await mkdtemp(join(tmpdir(), 'opentubex-github-images-'));
 	try {
 		const dark = '00000000-0000-0000-0000-000000000002';
 		const light = '00000000-0000-0000-0000-000000000003';
+		const video = '00000000-0000-0000-0000-000000000004';
+		const media = '20260101T000000Z-example-0000000000';
 		const cache = join(fixture, 'node_modules/.astro/github-images');
 		await mkdir(cache, { recursive: true });
 		const image = await sharp({
 			create: { width: 3, height: 2, channels: 4, background: '#00ff00' },
 		}).png().toBuffer();
-		await Promise.all([dark, light].map((name) => writeFile(join(cache, `${name}.png`), image)));
+		const clip = Buffer.from('not a real video');
+		await Promise.all([
+			...[dark, light].map((name) => writeFile(join(cache, `${name}.png`), image)),
+			writeFile(join(cache, `${video}.mp4`), clip),
+			writeFile(join(cache, `${media}.webp`), image),
+		]);
 		const result = JSON.parse(execFileSync(process.execPath, ['--eval', `
 			globalThis.fetch = () => { throw new Error('GitHub must not be contacted for a cached image'); };
 			const { default: bundle, copyExposedGitHubImages } = await import(${JSON.stringify(plugin)});
@@ -62,7 +69,8 @@ test('bundles GitHub attachments referenced by raw HTML picture sources', async 
 					'  <source media="(prefers-color-scheme: light) and (width > 600px)" srcset="https://github.com/user-attachments/assets/${light}">',
 					'  <img alt="src=https://github.com/user-attachments/assets/${dark}" src=https://github.com/user-attachments/assets/${dark}>',
 					'</picture>',
-					'<video src="https://github.com/user-attachments/assets/${light}"><source src="https://github.com/user-attachments/assets/${light}"></video>',
+					'<img src="https://github.com/OpenTubeX/media/releases/download/attachments/${media}.webp">',
+					'<video src="https://github.com/user-attachments/assets/${video}"><source src="https://github.com/user-attachments/assets/${video}"></video>',
 				].join('\\n'),
 			};
 			await bundle({ command: 'build' })({ type: 'root', children: [node] }, { path: '/src/content/extra-features.md' });
@@ -72,10 +80,12 @@ test('bundles GitHub attachments referenced by raw HTML picture sources', async 
 		expect(result.node.value).toContain(`srcset="/feature-images/${dark}.png"`);
 		expect(result.node.value).toContain(`srcset="/feature-images/${light}.png"`);
 		expect(result.node.value).toContain(` src=/feature-images/${dark}.png>`);
-		expect(result.node.value).toContain(`<video src="https://github.com/user-attachments/assets/${light}"><source src="https://github.com/user-attachments/assets/${light}">`);
+		expect(result.node.value).toContain(`<img src="/feature-images/${media}.webp">`);
+		expect(result.node.value).toContain(`<video src="/feature-images/${video}.mp4"><source src="/feature-images/${video}.mp4">`);
 		expect(result.node.value).toContain(`alt="src=https://github.com/user-attachments/assets/${dark}"`);
-		expect(result.copied).toBe(2);
+		expect(result.copied).toBe(4);
 		expect(await readFile(join(fixture, 'dist/feature-images', `${light}.png`))).toEqual(image);
+		expect(await readFile(join(fixture, 'dist/feature-images', `${video}.mp4`))).toEqual(clip);
 	} finally {
 		await rm(fixture, { recursive: true, force: true });
 	}

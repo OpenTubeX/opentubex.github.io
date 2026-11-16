@@ -8,8 +8,11 @@ import MoreDownloads from '../components/MoreDownloads.astro';
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import fdroidBadge from '../assets/fdroid-badge.png';
+import flatparkBadge from '../assets/flatpark-badge.svg';
 import githubBadge from '../assets/github-badge.png';
 import obtainiumBadge from '../assets/obtainium-badge.png';
+import snapBadgeDark from '../assets/snap-badge-dark.svg';
+import snapBadgeLight from '../assets/snap-badge-light.svg';
 import { detectLinuxDistro, detectOS } from '../lib/detect-os';
 import {
 	aptRepositoryUrl,
@@ -308,7 +311,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 										</p>
 										<CmdCode code={flatpakCode} lang="shell" />
 										<a class="pkg__badge" href={flatparkSiteUrl} rel="noopener noreferrer">
-											<img alt="Get it on FlatPark" width="154" height="56" src="https://flatpark.org/badges/get-it-on-flatpark.svg" />
+											<img alt="Get it on FlatPark" width="154" height="56" src={flatparkBadge.src} />
 										</a>
 										<MoreDownloads links={files('Flatpak')} label="Flatpak bundles" summary="Offline bundles" />
 									</div>
@@ -387,8 +390,8 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 										<CmdCode code={snapMigrationCode} lang="shell" title="Existing manual installation" />
 										<a class="pkg__badge" href={snapSiteUrl} rel="noopener noreferrer">
 											<picture>
-												<source data-logo-theme="dark" media="(prefers-color-scheme: dark)" srcset="https://snapcraft.io/en/dark/install.svg" type="image/svg+xml" />
-												<img alt="Get it from the Snap Store" width="188" height="56" src="https://snapcraft.io/en/light/install.svg" />
+												<source data-logo-theme="dark" media="(prefers-color-scheme: dark)" srcset={snapBadgeDark.src} type="image/svg+xml" />
+												<img alt="Get it from the Snap Store" width="188" height="56" src={snapBadgeLight.src} />
 											</picture>
 										</a>
 										<MoreDownloads links={files('Snap')} label="Snap packages" summary="Standalone .snap packages" />

@@ -1,11 +1,12 @@
 import { copyFile, mkdir, readdir, rename, rm, writeFile } from 'node:fs/promises';
-import { basename, dirname, relative, resolve, sep } from 'node:path';
+import { basename, dirname, extname, relative, resolve, sep } from 'node:path';
 import sharp from 'sharp';
 
-const attachmentPattern =
-	/^https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)$/;
-const attachmentUrlPattern = /https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)/g;
-const imageTagPattern = /<(img|source)\b(?:[^>"']|"[^"]*"|'[^']*')*>/gi;
+// Attachments uploaded to GitHub issues and pull requests, and release assets of the media repository.
+const mediaUrlSource = String.raw`https://github\.com/(?:user-attachments/assets/([a-f0-9-]+)|OpenTubeX/media/releases/download/[\w.-]+/([\w-]+)\.(?:gif|jpe?g|png|webp|mp4|webm|mov))`;
+const attachmentPattern = new RegExp(`^${mediaUrlSource}$`, 'i');
+const attachmentUrlPattern = new RegExp(mediaUrlSource, 'gi');
+const mediaTagPattern = /<(img|source|video)\b(?:[^>"']|"[^"]*"|'[^']*')*>/gi;
 const attributePattern = /(\s([^\s"'>/=]+)\s*=\s*)(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/g;
 const cacheDirectory = resolve('node_modules/.astro/github-images');
 const publicDirectory = resolve('public/feature-images');
@@ -21,7 +22,26 @@ const extensions = new Map([
 	['image/jpeg', '.jpg'],
 	['image/png', '.png'],
 	['image/webp', '.webp'],
+	['video/mp4', '.mp4'],
+	['video/webm', '.webm'],
+	['video/quicktime', '.mov'],
 ]);
+const mediaFilePattern = /\.(?:gif|jpe?g|png|webp|mp4|webm|mov)$/i;
+const videoFilePattern = /\.(?:mp4|webm|mov)$/i;
+
+/** Release assets download as `application/octet-stream`, so fall back to the URL's extension. */
+function mediaExtension(url, contentType) {
+	const extension = contentType && extensions.get(contentType);
+	if (extension) return extension;
+	const urlExtension = extname(new URL(url).pathname).toLowerCase().replace('.jpeg', '.jpg');
+	return [...extensions.values()].includes(urlExtension) ? urlExtension : undefined;
+}
+
+async function imageSize(path) {
+	if (videoFilePattern.test(path)) return {};
+	const metadata = await sharp(path).metadata();
+	return { width: metadata.width, height: metadata.pageHeight ?? metadata.height, pages: metadata.pages };
+}
 
 async function downloadImage(url, id, cachedFiles) {
 	const cachedFile = cachedFiles.find((file) => file.startsWith(`${id}.`));
@@ -34,19 +54,13 @@ async function downloadImage(url, id, cachedFiles) {
 			throw error;
 		});
 		const previousFile = previousFiles.find(
-			(file) => file.startsWith(`${id}.`) && /\.(?:gif|jpe?g|png|webp)$/i.test(file),
+			(file) => file.startsWith(`${id}.`) && mediaFilePattern.test(file),
 		);
 		if (previousFile) {
 			const previousPath = resolve(previousAssetsDirectory, previousFile);
-			const metadata = await sharp(previousPath).metadata();
 			const outputPath = `${directory}/${previousFile}`;
 			reusedAssets.set(outputPath, previousPath);
-			return {
-				url: `/${outputPath}`,
-				width: metadata.width,
-				height: metadata.pageHeight ?? metadata.height,
-				pages: metadata.pages,
-			};
+			return { url: `/${outputPath}`, ...(await imageSize(previousPath)) };
 		}
 	}
 
@@ -60,9 +74,9 @@ async function downloadImage(url, id, cachedFiles) {
 		}
 
 		const contentType = response.headers.get('content-type')?.split(';')[0];
-		const extension = contentType && extensions.get(contentType);
+		const extension = mediaExtension(url, contentType);
 		if (!extension) {
-			throw new Error(`Unsupported image type for ${url}: ${contentType ?? 'unknown'}`);
+			throw new Error(`Unsupported media type for ${url}: ${contentType ?? 'unknown'}`);
 		}
 
 		const path = resolve(cacheDirectory, `${id}${extension}`);
@@ -83,12 +97,7 @@ async function exposeCachedImage(asset) {
 	const filename = basename(asset.path);
 	await copyFile(asset.path, resolve(publicDirectory, filename));
 	exposedAssets.set(filename, asset.path);
-	const metadata = await sharp(asset.path).metadata();
-	return {
-		url: `/feature-images/${filename}`,
-		width: metadata.width,
-		height: metadata.pageHeight ?? metadata.height,
-	};
+	return { url: `/feature-images/${filename}`, ...(await imageSize(asset.path)) };
 }
 
 /** Remove exposed copies before Astro serves or bundles public files. */
@@ -97,14 +106,12 @@ export async function clearExposedGitHubImages() {
 	await rm(publicDirectory, { recursive: true, force: true });
 }
 
-/** Map image URLs in raw HTML; `<source src>` belongs to audio and video, not pictures. */
+/** Map media URLs in raw HTML: image `src` and `srcset`, and video and `<source>` `src`. */
 function mapImageSources(html, map) {
-	return html.replace(imageTagPattern, (tag, tagName) =>
+	return html.replace(mediaTagPattern, (tag) =>
 		tag.replace(attributePattern, (attribute, prefix, name, double, single, bare) => {
 			const attributeName = name.toLowerCase();
-			if (attributeName !== 'srcset' && (attributeName !== 'src' || tagName.toLowerCase() === 'source')) {
-				return attribute;
-			}
+			if (attributeName !== 'srcset' && attributeName !== 'src') return attribute;
 			const quote = double != null ? '"' : single != null ? "'" : '';
 			return `${prefix}${quote}${map(double ?? single ?? bare)}${quote}`;
 		}),
@@ -114,12 +121,12 @@ function mapImageSources(html, map) {
 function collectImages(node, images) {
 	if (node.type === 'image' && typeof node.url === 'string') {
 		const match = node.url.match(attachmentPattern);
-		if (match) images.push({ node, url: node.url, id: match[1] });
+		if (match) images.push({ node, url: node.url, id: match[1] ?? match[2] });
 	} else if (node.type === 'html' && typeof node.value === 'string') {
 		mapImageSources(node.value, (value) => {
-			for (const [url, id] of value.matchAll(attachmentUrlPattern)) {
+			for (const [url, attachmentId, mediaId] of value.matchAll(attachmentUrlPattern)) {
 				if (!images.some((image) => image.node === node && image.url === url)) {
-					images.push({ node, url, id });
+					images.push({ node, url, id: attachmentId ?? mediaId });
 				}
 			}
 			return value;
@@ -145,7 +152,7 @@ export default function remarkBundleGitHubImages(options = {}) {
 			await Promise.all(
 				images.slice(index, index + 8).map(async (image) => {
 					const downloaded = await downloadImage(image.url, image.id, cachedFiles);
-					const metadata = downloaded.path ? await sharp(downloaded.path).metadata() : undefined;
+					const metadata = downloaded.path ? await imageSize(downloaded.path) : undefined;
 					// Astro only resolves relative paths for Markdown images, so raw HTML needs a public URL.
 					const asset =
 						image.node.type === 'html' ||
