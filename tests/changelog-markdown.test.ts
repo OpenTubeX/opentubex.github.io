@@ -4,6 +4,7 @@ import { rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fromHtml } from 'hast-util-from-html';
 import { toHtml } from 'hast-util-to-html';
+import sharp from 'sharp';
 import { renderChangelogBodies } from '../src/lib/changelog-markdown';
 import rehypeChangelogTweaks from '../src/plugins/rehype-changelog-tweaks.mjs';
 import { cacheImagesInHtml } from '../src/plugins/remark-cache-changelog-images.mjs';
@@ -86,6 +87,34 @@ describe('renderChangelogBodies', () => {
 					rm(resolve('public/changelog-images', file), { force: true }),
 				]),
 			);
+		}
+	});
+
+	test('serves release-note SVGs as raster images from the site', async () => {
+		const url = 'https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/development/test-logo.svg';
+		const cachedFile = `${createHash('sha1').update(url).digest('hex').slice(0, 20)}@2x.optimized.webp`;
+		const svg = Buffer.from(
+			'<svg xmlns="http://www.w3.org/2000/svg" width="40" height="10"><script>alert(1)</script><rect width="40" height="10" fill="red"/></svg>',
+		);
+		const originalFetch = globalThis.fetch;
+		globalThis.fetch = async () => {
+			const response = new Response(svg, { headers: { 'content-type': 'image/svg+xml' } });
+			Object.defineProperty(response, 'url', { value: url });
+			return response;
+		};
+
+		try {
+			const [html] = await renderChangelogBodies([`<img alt="Logo" src="${url}">`]);
+
+			expect(html).toContain(`<img alt="Logo" src="/changelog-images/${cachedFile}" width="40" height="10"`);
+			const metadata = await sharp(resolve('.cache/changelog-images', cachedFile)).metadata();
+			expect(metadata).toMatchObject({ format: 'webp', width: 80, height: 20 });
+		} finally {
+			globalThis.fetch = originalFetch;
+			await Promise.all([
+				rm(resolve('.cache/changelog-images', cachedFile), { force: true }),
+				rm(resolve('public/changelog-images', cachedFile), { force: true }),
+			]);
 		}
 	});
 

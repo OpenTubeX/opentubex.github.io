@@ -9,6 +9,7 @@ import { toHtml } from 'hast-util-to-html';
 import sharp from 'sharp';
 import { visit } from 'unist-util-visit';
 
+// Other hosts stay remote, such as the Product Hunt badge with its live upvote count.
 const ALLOWED_HOSTS = new Set([
 	'github.com',
 	'private-user-images.githubusercontent.com',
@@ -22,10 +23,12 @@ const ALLOWED_DOWNLOAD_HOSTS = new Set([
 	'release-assets.githubusercontent.com',
 ]);
 
-// Raster formats only — remote SVGs stay on their origin so active content
-// never becomes a same-origin navigable asset on the site.
-const SUPPORTED_TYPES = new Set(['image/gif', 'image/jpeg', 'image/png', 'image/webp']);
-const SUPPORTED_FORMATS = new Set(['gif', 'jpeg', 'png', 'webp']);
+// SVGs are rasterized like every other format, so their active content never
+// becomes a same-origin navigable asset on the site.
+const SUPPORTED_TYPES = new Set(['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp']);
+const SUPPORTED_FORMATS = new Set(['gif', 'jpeg', 'png', 'svg', 'webp']);
+// SVGs render at twice their size (144 DPI) so they stay sharp on high-density screens.
+const SVG_SUFFIX = '@2x.optimized.webp';
 const OPTIMIZED_SUFFIX = '.optimized.webp';
 const VIDEO_TYPES = new Map([
 	['video/mp4', '.mp4'],
@@ -66,11 +69,6 @@ function isAllowedUrl(value, hosts = ALLOWED_HOSTS) {
 	} catch {
 		return false;
 	}
-}
-
-function isCacheableUrl(value) {
-	if (!isAllowedUrl(value)) return false;
-	return !new URL(value).pathname.toLowerCase().endsWith('.svg');
 }
 
 function cacheKey(url) {
@@ -156,6 +154,20 @@ async function fetchAsset(url, accept) {
 	});
 }
 
+/** Display size of a cached image; SVG renders are twice their display size. */
+async function cachedImage(filename) {
+	const metadata = await sharp(resolve(cacheDirectory, filename), {
+		animated: true,
+		limitInputPixels: false,
+	}).metadata();
+	const scale = filename.endsWith(SVG_SUFFIX) ? 2 : 1;
+	return {
+		src: `/changelog-images/${filename}`,
+		width: Math.round(metadata.width / scale),
+		height: Math.round((metadata.pageHeight ?? metadata.height) / scale),
+	};
+}
+
 async function downloadImage(url) {
 	if (!isAllowedUrl(url)) return url;
 
@@ -167,46 +179,27 @@ async function downloadImage(url) {
 		await mkdir(cacheDirectory, { recursive: true });
 		await mkdir(publicDirectory, { recursive: true });
 
+		const filenames = [`${id}${OPTIMIZED_SUFFIX}`, `${id}${SVG_SUFFIX}`];
 		const cachedFiles = await readdir(cacheDirectory);
-		const cached = cachedFiles.find((file) => file === `${id}${OPTIMIZED_SUFFIX}`);
+		const cached = filenames.find((file) => cachedFiles.includes(file));
 		if (cached) {
 			const publicFiles = await readdir(publicDirectory).catch(() => []);
 			if (!publicFiles.includes(cached)) {
 				await copyFile(resolve(cacheDirectory, cached), resolve(publicDirectory, cached));
 			}
-			const metadata = await sharp(resolve(cacheDirectory, cached), {
-				animated: true,
-				limitInputPixels: false,
-			}).metadata();
-			return {
-				src: `/changelog-images/${cached}`,
-				width: metadata.width,
-				height: metadata.pageHeight ?? metadata.height,
-			};
+			return cachedImage(cached);
 		}
 
-		const previousPath = previousImagesDirectory
-			? resolve(previousImagesDirectory, `${id}${OPTIMIZED_SUFFIX}`)
-			: undefined;
-		if (previousPath) {
+		if (previousImagesDirectory) {
 			const previousFiles = await readdir(previousImagesDirectory).catch((error) => {
 				if (error?.code === 'ENOENT') return [];
 				throw error;
 			});
-			const filename = `${id}${OPTIMIZED_SUFFIX}`;
-			if (previousFiles.includes(filename)) {
-				const cachePath = resolve(cacheDirectory, filename);
-				await copyFile(previousPath, cachePath);
-				await copyFile(previousPath, resolve(publicDirectory, filename));
-				const metadata = await sharp(cachePath, {
-					animated: true,
-					limitInputPixels: false,
-				}).metadata();
-				return {
-					src: `/changelog-images/${filename}`,
-					width: metadata.width,
-					height: metadata.pageHeight ?? metadata.height,
-				};
+			const previous = filenames.find((file) => previousFiles.includes(file));
+			if (previous) {
+				await copyFile(resolve(previousImagesDirectory, previous), resolve(cacheDirectory, previous));
+				await copyFile(resolve(previousImagesDirectory, previous), resolve(publicDirectory, previous));
+				return cachedImage(previous);
 			}
 		}
 
@@ -219,10 +212,6 @@ async function downloadImage(url) {
 				throw new Error(`Unsupported image type: ${asset.contentType ?? 'unknown'}`);
 			}
 
-			const filename = `${id}${OPTIMIZED_SUFFIX}`;
-			const cachePath = resolve(cacheDirectory, filename);
-			const publicPath = resolve(publicDirectory, filename);
-			const temporaryPath = `${cachePath}.tmp`;
 			const metadata = await sharp(asset.temporaryPath, {
 				animated: true,
 				limitInputPixels: false,
@@ -230,21 +219,19 @@ async function downloadImage(url) {
 			if (!metadata.format || !SUPPORTED_FORMATS.has(metadata.format)) {
 				throw new Error(`Unsupported image format: ${metadata.format ?? 'unknown'}`);
 			}
-			const info = metadata.format === 'webp'
-				? metadata
-				: await sharp(asset.temporaryPath, { animated: true, autoOrient: true })
-						.webp()
-						.toFile(temporaryPath);
+			const filename = `${id}${metadata.format === 'svg' ? SVG_SUFFIX : OPTIMIZED_SUFFIX}`;
+			const cachePath = resolve(cacheDirectory, filename);
+			const temporaryPath = `${cachePath}.tmp`;
 			if (metadata.format === 'webp') {
 				await copyFile(asset.temporaryPath, temporaryPath);
+			} else if (metadata.format === 'svg') {
+				await sharp(asset.temporaryPath, { density: 144 }).webp({ lossless: true }).toFile(temporaryPath);
+			} else {
+				await sharp(asset.temporaryPath, { animated: true, autoOrient: true }).webp().toFile(temporaryPath);
 			}
 			await rename(temporaryPath, cachePath);
-			await copyFile(cachePath, publicPath);
-			return {
-				src: `/changelog-images/${filename}`,
-				width: info.width,
-				height: info.pageHeight ?? info.height,
-			};
+			await copyFile(cachePath, resolve(publicDirectory, filename));
+			return cachedImage(filename);
 		} finally {
 			await rm(asset.temporaryPath, { force: true });
 		}
@@ -328,7 +315,7 @@ async function downloadVideo(url) {
 }
 
 function collectMarkdownImages(node, images) {
-	if (node.type === 'image' && typeof node.url === 'string' && isCacheableUrl(node.url)) {
+	if (node.type === 'image' && typeof node.url === 'string' && isAllowedUrl(node.url)) {
 		images.push(node);
 	}
 
@@ -397,7 +384,7 @@ export function rehypeCacheChangelogImages() {
 		visit(tree, 'element', (node) => {
 			const property = node.tagName === 'img' ? 'src' : node.tagName === 'source' ? 'srcSet' : null;
 			const src = property ? node.properties?.[property] : undefined;
-			if (typeof src === 'string' && isCacheableUrl(src)) images.push({ node, property });
+			if (typeof src === 'string' && isAllowedUrl(src)) images.push({ node, property });
 		});
 		if (!images.length) return;
 		await rewriteBatch(
