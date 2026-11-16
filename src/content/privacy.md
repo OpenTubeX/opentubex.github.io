@@ -96,7 +96,7 @@ HTTPS encrypts request paths and payloads in transit, but DNS providers and netw
 
 - To keep app data local, leave synchronization disabled.
 - End-to-end encryption prevents the sync operator from reading your synced data. Use a separate, strong privacy passphrase and keep it private.
-- To avoid sending requests to optional services, disable internet connectivity checks, update checks, Twitch live notifications, SponsorBlock, DeArrow, Return YouTube Dislike, voice-over translation, and synchronization.
+- To avoid sending requests to optional services, disable internet connectivity checks, update checks, Twitch live notifications, SponsorBlock, DeArrow, Return YouTube Dislike, voice-over translation, and synchronization, and don't use the on-demand features listed under [Network exposure](#network-exposure).
 - To hide your direct IP address from YouTube or optional services, route the relevant requests through a trusted VPN or Tor and verify the proxy configuration.
 
 ## Your rights and policy changes
