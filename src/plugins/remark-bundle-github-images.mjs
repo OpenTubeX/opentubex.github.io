@@ -26,7 +26,7 @@ const extensions = new Map([
 	['video/webm', '.webm'],
 	['video/quicktime', '.mov'],
 ]);
-const mediaFilePattern = /\.(?:gif|jpe?g|png|webp|mp4|webm|mov)$/i;
+const imageFilePattern = /\.(?:gif|jpe?g|png|webp)$/i;
 const videoFilePattern = /\.(?:mp4|webm|mov)$/i;
 
 /** Release assets download as `application/octet-stream`, so fall back to the URL's extension. */
@@ -43,8 +43,14 @@ async function imageSize(path) {
 	return { width: metadata.width, height: metadata.pageHeight ?? metadata.height, pages: metadata.pages };
 }
 
-async function downloadImage(url, id, cachedFiles) {
-	const cachedFile = cachedFiles.find((file) => file.startsWith(`${id}.`));
+/**
+ * Animated images get an MP4 sibling with the same name after the build, so only
+ * files of the referenced kind may stand in for the original.
+ */
+async function downloadImage(url, id, cachedFiles, kind) {
+	const filePattern = kind === 'video' ? videoFilePattern : imageFilePattern;
+	const matches = (file) => file.startsWith(`${id}.`) && filePattern.test(file);
+	const cachedFile = cachedFiles.find(matches);
 	if (cachedFile) return { path: resolve(cacheDirectory, cachedFile) };
 
 	for (const directory of previousSiteDirectory ? ['_astro', 'feature-images'] : []) {
@@ -53,9 +59,7 @@ async function downloadImage(url, id, cachedFiles) {
 			if (error?.code === 'ENOENT') return [];
 			throw error;
 		});
-		const previousFile = previousFiles.find(
-			(file) => file.startsWith(`${id}.`) && mediaFilePattern.test(file),
-		);
+		const previousFile = previousFiles.find(matches);
 		if (previousFile) {
 			const previousPath = resolve(previousAssetsDirectory, previousFile);
 			const outputPath = `${directory}/${previousFile}`;
@@ -64,7 +68,7 @@ async function downloadImage(url, id, cachedFiles) {
 		}
 	}
 
-	const existingDownload = downloads.get(id);
+	const existingDownload = downloads.get(`${kind}:${id}`);
 	if (existingDownload) return existingDownload;
 
 	const download = (async () => {
@@ -86,7 +90,7 @@ async function downloadImage(url, id, cachedFiles) {
 		return { path };
 	})();
 
-	downloads.set(id, download);
+	downloads.set(`${kind}:${id}`, download);
 	return download;
 }
 
@@ -108,12 +112,15 @@ export async function clearExposedGitHubImages() {
 
 /** Map media URLs in raw HTML: image `src` and `srcset`, and video and `<source>` `src`. */
 function mapImageSources(html, map) {
-	return html.replace(mediaTagPattern, (tag) =>
+	return html.replace(mediaTagPattern, (tag, tagName) =>
 		tag.replace(attributePattern, (attribute, prefix, name, double, single, bare) => {
 			const attributeName = name.toLowerCase();
 			if (attributeName !== 'srcset' && attributeName !== 'src') return attribute;
+			// `<source src>` belongs to video and audio, `<source srcset>` to pictures.
+			const element = tagName.toLowerCase();
+			const kind = element === 'video' || (element === 'source' && attributeName === 'src') ? 'video' : 'image';
 			const quote = double != null ? '"' : single != null ? "'" : '';
-			return `${prefix}${quote}${map(double ?? single ?? bare)}${quote}`;
+			return `${prefix}${quote}${map(double ?? single ?? bare, kind)}${quote}`;
 		}),
 	);
 }
@@ -121,12 +128,12 @@ function mapImageSources(html, map) {
 function collectImages(node, images) {
 	if (node.type === 'image' && typeof node.url === 'string') {
 		const match = node.url.match(attachmentPattern);
-		if (match) images.push({ node, url: node.url, id: match[1] ?? match[2] });
+		if (match) images.push({ node, url: node.url, id: match[1] ?? match[2], kind: 'image' });
 	} else if (node.type === 'html' && typeof node.value === 'string') {
-		mapImageSources(node.value, (value) => {
+		mapImageSources(node.value, (value, kind) => {
 			for (const [url, attachmentId, mediaId] of value.matchAll(attachmentUrlPattern)) {
-				if (!images.some((image) => image.node === node && image.url === url)) {
-					images.push({ node, url, id: attachmentId ?? mediaId });
+				if (!images.some((image) => image.node === node && image.url === url && image.kind === kind)) {
+					images.push({ node, url, id: attachmentId ?? mediaId, kind });
 				}
 			}
 			return value;
@@ -151,7 +158,7 @@ export default function remarkBundleGitHubImages(options = {}) {
 		for (let index = 0; index < images.length; index += 8) {
 			await Promise.all(
 				images.slice(index, index + 8).map(async (image) => {
-					const downloaded = await downloadImage(image.url, image.id, cachedFiles);
+					const downloaded = await downloadImage(image.url, image.id, cachedFiles, image.kind);
 					const metadata = downloaded.path ? await imageSize(downloaded.path) : undefined;
 					// Astro only resolves relative paths for Markdown images, so raw HTML needs a public URL.
 					const asset =
@@ -161,8 +168,8 @@ export default function remarkBundleGitHubImages(options = {}) {
 							? await exposeCachedImage(downloaded)
 							: downloaded;
 					if (image.node.type === 'html') {
-						image.node.value = mapImageSources(image.node.value, (value) =>
-							value.replaceAll(image.url, asset.url),
+						image.node.value = mapImageSources(image.node.value, (value, kind) =>
+							kind === image.kind ? value.replaceAll(image.url, asset.url) : value,
 						);
 						return;
 					}

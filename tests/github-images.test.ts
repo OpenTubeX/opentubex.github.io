@@ -18,6 +18,8 @@ for (const directory of ['_astro', 'feature-images']) {
 				create: { width: 3, height: 2, channels: 4, background: '#ff0000' },
 			}).webp().toBuffer();
 			await writeFile(join(previous, directory, `${id}.webp`), image);
+			// The build converts animated images into same-named MP4 siblings.
+			await writeFile(join(previous, directory, `${id}.mp4`), 'converted animation');
 			const result = JSON.parse(execFileSync(process.execPath, ['--eval', `
 				globalThis.fetch = () => { throw new Error('GitHub must not be contacted for a deployed image'); };
 				const { default: bundle, copyReusedGitHubImages } = await import(${JSON.stringify(plugin)});
@@ -39,6 +41,34 @@ for (const directory of ['_astro', 'feature-images']) {
 		}
 	});
 }
+
+test('downloads an image again when the deployment only has its converted video', async () => {
+	const fixture = await mkdtemp(join(tmpdir(), 'opentubex-github-images-'));
+	try {
+		const previous = join(fixture, 'previous-site/feature-images');
+		await mkdir(previous, { recursive: true });
+		await writeFile(join(previous, `${id}.mp4`), 'converted animation');
+		const image = await sharp({
+			create: { width: 3, height: 2, channels: 4, background: '#0000ff' },
+		}).webp().toBuffer();
+		const result = JSON.parse(execFileSync(process.execPath, ['--eval', `
+			globalThis.fetch = async () => new Response(Buffer.from(${JSON.stringify(image.toString('base64'))}, 'base64'), {
+				headers: { 'content-type': 'image/webp' },
+			});
+			const { default: bundle } = await import(${JSON.stringify(plugin)});
+			const node = { type: 'html', value: '<img src="https://github.com/user-attachments/assets/${id}">' };
+			await bundle()({ type: 'root', children: [node] }, { path: '/src/content/extra-features.md' });
+			console.log(JSON.stringify({ node }));
+		`], {
+			cwd: fixture,
+			env: { ...process.env, OPENTUBEX_PREVIOUS_SITE: join(fixture, 'previous-site') },
+			encoding: 'utf8',
+		}));
+		expect(result.node.value).toBe(`<img src="/feature-images/${id}.webp">`);
+	} finally {
+		await rm(fixture, { recursive: true, force: true });
+	}
+});
 
 test('bundles GitHub attachments and media assets referenced by raw HTML', async () => {
 	const fixture = await mkdtemp(join(tmpdir(), 'opentubex-github-images-'));
