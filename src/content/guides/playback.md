@@ -53,7 +53,7 @@ Shortcuts can be customized, so the displayed bindings are the source of truth. 
 - **Add-ons:** configure SponsorBlock and other optional services. Choose which SponsorBlock categories should be skipped automatically.
 - **Privacy:** review viewing privacy options.
 - **Data & Storage:** [import or export your library](/docs/importing/) and inspect storage usage.
-- **Sync:** [connect and pair your devices](/docs/sync/), end-to-end encrypted on servers with enhanced privacy. Keep the privacy passphrase private and make a backup before changing your setup.
+- **Sync:** [connect and pair your devices](/docs/sync/), end-to-end encrypted. Keep the privacy passphrase private and make a backup before changing your setup.
 
 See the [SponsorBlock guide](/docs/sponsorblock/) for skip behaviors and [Privacy and watch history](/docs/privacy/) for recording controls.
 

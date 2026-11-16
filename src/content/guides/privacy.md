@@ -41,7 +41,7 @@ For storage and cache cleanup, see [Data and storage](/docs/storage/). Avoid cle
 - Local extraction and downloads can contact YouTube directly. Playback and downloads from [external media links](/docs/playback/#play-a-link-from-another-site) also contact the selected site and its media services.
 - Invidious sends relevant requests to the chosen instance; video proxying and fallback affect which other connections occur.
 - SponsorBlock, DeArrow, and other add-ons contact their respective services when used.
-- With the default public sync server, or another server with enhanced privacy, sync is end-to-end encrypted. The app encrypts the selected data on your device before uploading it. LibreTube sync servers do not support this, and their operators can read synced data; the app warns you when that applies. See [Sync between devices](/docs/sync/) for setup and category selection.
+- Sync is end-to-end encrypted. The app encrypts the selected data on your device before uploading it. The only exception is LibreTube sync servers, and the app warns you if you connect to one. See [Sync between devices](/docs/sync/) for setup and category selection.
 - **Internet connectivity checks** sends small requests to a GrapheneOS-hosted service to check internet access. Review its toggle in Privacy settings.
 
 A receiving service can observe your IP address and request details unless the relevant connection is routed through an intermediary. Profiles are not separate security identities. See [Choose a content provider](/docs/providers/) for the provider settings, and the [network exposure table](/privacy/#network-exposure) for service-specific details.

@@ -86,7 +86,7 @@ OpenTubeX sync servers also offer these features; LibreTube servers do not.
 
 ## Manage devices and your password
 
-On servers with enhanced privacy, **Settings → Sync → Devices** lists every device with access to your account, with when it was last active. Use **Rename device** to change a name, or **Revoke access** to sign a lost or retired device out. Revoking a device also deletes its synced tab sets.
+**Settings → Sync → Devices** lists every device with access to your account, with when it was last active. Use **Rename device** to change a name, or **Revoke access** to sign a lost or retired device out. Revoking a device also deletes its synced tab sets.
 
 **Change password** changes your account password and signs out every other device; the current device stays connected. Sign the other devices in again or [pair them](#pair-another-device). This does not change your privacy passphrase.
 

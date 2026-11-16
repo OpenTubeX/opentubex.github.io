@@ -1,4 +1,4 @@
-Last updated: October 25, 2026
+Last updated: November 16, 2026
 
 This policy explains how the OpenTubeX website, desktop app, and mobile app handle data. It does not cover independently operated services or websites that OpenTubeX links to.
 
@@ -46,7 +46,7 @@ The following applies to desktop, Android, and iOS/iPadOS where the described fe
 
 OpenTubeX reduces the browser-based tracking surface by providing a local interface instead of loading the standard YouTube website and its page JavaScript. It does not provide anonymity: the services that answer a request can observe it, and network intermediaries can observe connection metadata.
 
-This section describes the data exposed by OpenTubeX itself. It assumes that your device is trusted, HTTPS is not compromised, and any enhanced-privacy sync passphrase remains secret. It does not protect against malware on your device, traffic-correlation attacks, or information you deliberately share through submissions, exports, external players, or custom download arguments.
+This section describes the data exposed by OpenTubeX itself. It assumes that your device is trusted, HTTPS is not compromised, and your sync passphrase remains secret. It does not protect against malware on your device, traffic-correlation attacks, or information you deliberately share through submissions, exports, external players, or custom download arguments.
 
 ### Data stored by OpenTubeX
 
@@ -74,8 +74,8 @@ Rows for optional services apply only when the feature is enabled. An IP address
 | DeArrow | Configured SponsorBlock/DeArrow and thumbnail-service operators | IP address, timing, video-ID hash prefixes for branding lookups, and full video identifiers and timestamps for generated-thumbnail requests |
 | Return YouTube Dislike | Configured Return YouTube Dislike operator | IP address, video identifiers, and timing |
 | Voice-over translation | Unofficial Yandex voice-over translation service | IP address, YouTube video identifier and URL, video duration, requested output language, and timing |
-| Enhanced-privacy sync | Configured sync operator | IP address, OpenTubeX application version from Electron desktop builds, account identifier, authentication data, encrypted payloads, collection names, payload sizes, revisions, event IDs, recipient device IDs, creation and expiry times, and request timing; not the decrypted selected data, activity details, or video requests |
-| Legacy sync | Configured sync operator | IP address, OpenTubeX application version from Electron desktop builds, account identifier, authentication data, selected synced data, and timing |
+| Sync | Configured sync operator | IP address, OpenTubeX application version from Electron desktop builds, account identifier, authentication data, encrypted payloads, collection names, payload sizes, revisions, event IDs, recipient device IDs, creation and expiry times, and request timing; not the decrypted selected data, activity details, or video requests |
+| Sync with a LibreTube sync server | Configured sync operator | IP address, OpenTubeX application version from Electron desktop builds, account identifier, authentication data, selected synced data, and timing |
 | `yt-dlp` playback and downloads | YouTube or the media site you open, its media hosts, and the configured proxy, if any | IP address, requested page and media resources, media identifiers, formats, and timing. Media hosts also receive the request headers and cookies needed for extracted streams. Configured authentication cookies may identify your account to the relevant site. OpenTubeX's proxy setting is passed to `yt-dlp`. |
 
 Opening an external media link can contact the selected site and its media services directly; selecting Invidious for YouTube metadata does not proxy these other sites. See [external media playback](/docs/playback/#play-a-link-from-another-site).

@@ -659,8 +659,7 @@ the playlist.
 
 Choose an image for a local playlist's thumbnail, replace it later, or restore
 the default. Custom thumbnails appear in playlist cards, headers, Home, and
-playlist selection menus. They stay in backups and can sync between devices
-with a supporting sync server or Enhanced Privacy enabled.
+playlist selection menus. They stay in backups and sync between your devices.
 
 In **Edit Playlist Info**, choose whether new videos go to the top or bottom
 of that playlist's custom order, shuffle the playlist by default, or remove

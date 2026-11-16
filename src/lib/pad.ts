@@ -28,7 +28,7 @@ Videos load through a built-in extractor, an Invidious instance or a Yattee Serv
 
 You can group subscriptions into profiles, choose whether each channel shows videos, Shorts, live streams or posts, and set daily video limits. You can save playback speed and quality per channel and customize keyboard shortcuts. Videos open in tabs, and the queue and mini-player keep playing while you browse.
 
-Optional sync keeps your library the same on all your devices, with end-to-end encryption on a compatible server. OpenTubeX supports custom themes and is available in more than 40 languages.
+Optional sync keeps your library the same on all your devices, with end-to-end encryption. OpenTubeX supports custom themes and is available in more than 40 languages.
 
 OpenTubeX is licensed under the GNU Affero General Public License v3.0.`,
 };
