@@ -27,7 +27,7 @@
 <h2 id="summary">Summary</h2>
 <ul>
 <li>The website has no accounts, advertising, analytics, or visitor tracking.</li>
-<li>The apps keep your subscriptions, playlists, history, and settings on your device. They leave it only if you turn on sync or sign in to YouTube. The public OpenTubeX sync server receives them end-to-end encrypted.</li>
+<li>The apps keep your subscriptions, playlists, history, and settings on your device. They leave it only if you turn on sync or sign in to YouTube. Sync is end-to-end encrypted.</li>
 <li>To load videos, the app contacts YouTube, an Invidious instance, or another platform. Those services see your IP address and what you request. OpenTubeX does not make you anonymous.</li>
 <li>A few requests happen by default: update checks, internet connectivity checks, Twitch live notifications, and downloads of <code>yt-dlp</code> and FFmpeg. You can <a href="#reduce-what-the-app-sends">turn them off</a>.</li>
 </ul>
@@ -69,14 +69,9 @@
 <h3 id="data-stored-on-your-device">Data stored on your device</h3>
 <p>Your subscriptions, playlists, settings (including per-channel settings), history, watch statistics, profiles, and open tabs stay on your device by default.</p>
 <h3 id="sync">Sync</h3>
-<p>Sync is off by default. When you turn it on, the app sends copies of these categories to the sync server you choose. All of them are selected by default:</p>
-<ul>
-<li>Subscriptions, playlists, history, and profiles.</li>
-<li>Watch statistics, live reminders, notifications, open tabs and session, and settings. These sync only with servers that support end-to-end encryption.</li>
-</ul>
-<p>You can turn individual categories off in <strong>Settings → Sync</strong>. See <a href="/docs/sync/">sync setup</a> for details.</p>
-<p>The public OpenTubeX sync server uses end-to-end encryption. The app encrypts your data on your device before uploading it, so the server cannot read it. The server still sees account and traffic metadata, listed under <a href="#optional-features">Optional features</a>. The public server has its <a href="https://github.com/OpenTubeX/sync-server/blob/main/PRIVACY.md">own privacy policy</a>. Other sync server operators are responsible for their own policies.</p>
-<p>With end-to-end encryption, sync also uploads two kinds of encrypted records:</p>
+<p>Sync is off by default. When you turn it on, the app sends copies of your subscriptions, playlists, history, watch statistics, live reminders, notifications, profiles, open tabs and session, and settings to the sync server. You can turn individual categories off in <strong>Settings → Sync</strong>. See <a href="/docs/sync/">sync setup</a> for details.</p>
+<p>Sync is end-to-end encrypted. The app encrypts your data on your device before uploading it, so the server cannot read it. The server still sees account and traffic metadata, listed under <a href="#optional-features">Optional features</a>. The public OpenTubeX sync server has its <a href="https://github.com/OpenTubeX/sync-server/blob/main/PRIVACY.md">own privacy policy</a>. Other sync server operators are responsible for their own policies.</p>
+<p>Sync also uploads two kinds of encrypted records:</p>
 <ul>
 <li><strong>An activity log.</strong> It lists changed setting keys and simple setting values, and short details about changes to subscriptions, playlists, profiles, saved playlists, channel preferences, caption appearance, and custom themes. It leaves out watch history, frequent playback changes, full object values, and item names or text settings longer than 128 bytes.</li>
 <li><strong>Requests to other devices.</strong> Opening a video on another device sends its video ID, title, and playback position.</li>
@@ -109,8 +104,7 @@
 <li><strong>DeArrow.</strong> The DeArrow and thumbnail servers see your IP address and timing. Title and thumbnail lookups send a hash prefix of the video ID. Generated thumbnails send the full video ID and a timestamp.</li>
 <li><strong>Return YouTube Dislike.</strong> The server sees your IP address, video IDs, and timing.</li>
 <li><strong>Voice-over translation.</strong> This uses an unofficial Yandex service, which sees your IP address, the YouTube video ID and URL, the video length, the language you want, and timing. The app sends nothing until you ask for a translation. A separate option, also off by default, requests a translation in the background whenever a supported video that is not live loads. These requests send no browser cookies or credentials.</li>
-<li><strong>Sync with end-to-end encryption.</strong> The sync server sees your IP address, app version (in the desktop and mobile apps), account ID, login data, the encrypted data, collection names, data sizes, revision and event IDs, the IDs of receiving devices, creation and expiry times, and timing. Pairing a new device sends its name unencrypted. The server cannot read your synced data, the activity log, or requests to other devices.</li>
-<li><strong>Sync with a LibreTube sync server.</strong> The server sees your IP address, app version (in the desktop and mobile apps), account ID, login data, and the synced data itself, along with timing.</li>
+<li><strong>Sync.</strong> The sync server sees your IP address, app version (in the desktop and mobile apps), account ID, login data, the encrypted data, collection names, data sizes, revision and event IDs, the IDs of receiving devices, creation and expiry times, and timing. Pairing a new device sends its name unencrypted. The server cannot read your synced data, the activity log, or requests to other devices. A LibreTube sync server is the one exception. It receives your data unencrypted.</li>
 </ul>
 <h3 id="features-you-use-on-demand">Features you use on demand</h3>
 <p>These services are contacted only when you use the feature:</p>
@@ -128,7 +122,7 @@
 <h3 id="reduce-what-the-app-sends">Reduce what the app sends</h3>
 <ul>
 <li>To keep your library on your device, leave sync off.</li>
-<li>If you use sync, use a server with end-to-end encryption and a strong passphrase that you use nowhere else.</li>
+<li>If you use sync, choose a strong privacy passphrase that you use nowhere else.</li>
 <li>To avoid optional services, turn off internet connectivity checks, update checks, Twitch live notifications, SponsorBlock, DeArrow, Return YouTube Dislike, voice-over translation, and sync. Avoid the <a href="#features-you-use-on-demand">features you use on demand</a>.</li>
 <li>To hide your IP address from YouTube or other services, route the app through a VPN or Tor you trust, and check that the app uses it.</li>
 </ul>
