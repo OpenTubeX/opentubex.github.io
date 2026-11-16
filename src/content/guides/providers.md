@@ -70,7 +70,7 @@ Search settings for **fallback**, review the setting, and leave it off if you ne
 
 Search settings for **Proxy Videos Through Invidious** to review video proxying. It is only available while an Invidious instance is in use. When supported by the selected playback path, this sends video requests through the instance rather than directly to YouTube. Proxying can affect speed and availability.
 
-Do not assume this switch controls external players or every playback engine. OpenTubeX's [privacy policy](/privacy/#network-exposure) describes exposure for local extraction, Invidious, and yt-dlp separately.
+Do not assume this switch controls external players or every playback engine. OpenTubeX's [privacy policy](/privacy/#services-the-app-contacts) describes exposure for local extraction, Invidious, and yt-dlp separately.
 
 ## When a provider stops working
 

@@ -15,7 +15,7 @@ The default public OpenTubeX sync server supports all sync features with end-to-
 
 You can also use a self-hosted OpenTubeX server. LibreTube sync servers are supported, but do not support end-to-end encryption or certain sync features.
 
-Read the **Privacy policy for this server** link when available. The [network exposure table](/privacy/#network-exposure) explains what a sync operator can observe.
+Read the **Privacy policy for this server** link when available. The OpenTubeX [privacy policy](/privacy/#optional-features) explains what a sync operator can observe.
 
 ## Connect your first device
 

@@ -64,4 +64,4 @@ Two more add-ons are there as well:
 - **AiSList** hides AI slop channels on a community-maintained blocklist from search, trending, and recommendations, and labels videos from channels on its warnlist. It only applies to results loaded with the Local API.
 - **Voice-over translation**, on desktop and Android, plays a machine-translated voice-over through the unofficial Yandex service when you request it. It is off by default.
 
-Enabling an add-on makes requests to its service. The [privacy policy's network exposure table](/privacy/#network-exposure) describes what each service can observe. An add-on outage does not necessarily mean the video provider itself is unavailable.
+Enabling an add-on makes requests to its service. The [privacy policy](/privacy/#services-the-app-contacts) describes what each service can observe. An add-on outage does not necessarily mean the video provider itself is unavailable.

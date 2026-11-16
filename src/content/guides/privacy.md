@@ -44,7 +44,7 @@ For storage and cache cleanup, see [Data and storage](/docs/storage/). Avoid cle
 - Sync is end-to-end encrypted. The app encrypts the selected data on your device before uploading it. The only exception is LibreTube sync servers, and the app warns you if you connect to one. See [Sync between devices](/docs/sync/) for setup and category selection.
 - **Internet connectivity checks** sends small requests to a GrapheneOS-hosted service to check internet access. Review its toggle in Privacy settings.
 
-A receiving service can observe your IP address and request details unless the relevant connection is routed through an intermediary. Profiles are not separate security identities. See [Choose a content provider](/docs/providers/) for the provider settings, and the [network exposure table](/privacy/#network-exposure) for service-specific details.
+A receiving service can observe your IP address and request details unless the relevant connection is routed through an intermediary. Profiles are not separate security identities. See [Choose a content provider](/docs/providers/) for the provider settings, and the [list of services the app contacts](/privacy/#services-the-app-contacts) for service-specific details.
 
 ## Share a useful bug report privately
 

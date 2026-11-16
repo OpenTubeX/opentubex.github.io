@@ -2,105 +2,153 @@ Last updated: November 16, 2026
 
 This policy explains how the OpenTubeX website, desktop app, and mobile app handle data. It does not cover independently operated services or websites that OpenTubeX links to.
 
+## Summary
+
+- The website has no accounts, advertising, analytics, or visitor tracking.
+- The apps keep your subscriptions, playlists, history, and settings on your device. They leave it only if you turn on sync or sign in to YouTube. The public OpenTubeX sync server receives them end-to-end encrypted.
+- To load videos, the app contacts YouTube, an Invidious instance, or another platform. Those services see your IP address and what you request. OpenTubeX does not make you anonymous.
+- A few requests happen by default: update checks, internet connectivity checks, Twitch live notifications, and downloads of `yt-dlp` and FFmpeg. You can [turn them off](#reduce-what-the-app-sends).
+
 ## Operator and contact
 
 The OpenTubeX website and app are operated by [D3SOX](https://github.com/D3SOX). For privacy questions or requests, email [Show email address](protected-email:5e.52.5a.5d.62.5g.31.5h.60.5a.64.52.54.67.37.5g.5h.56.5f.62.63.53.56.66.28.5g.60.58).
 
 ## Website
 
-### Data processed when you visit
+### Hosting
 
-The website is static. It has no accounts, contact forms, advertising, analytics, fingerprinting, or other visitor tracking operated by OpenTubeX.
+The website is static and hosted on GitHub Pages. It has no accounts, contact forms, advertising, analytics, fingerprinting, or other visitor tracking run by OpenTubeX, and OpenTubeX keeps no visitor log.
 
-The site is hosted by GitHub Pages. When your browser requests a page or asset, GitHub may process standard connection and request information such as your IP address, browser and device information, requested URL, referring page, and the date and time of the request. OpenTubeX does not maintain a separate visitor log.
+When your browser requests a page, GitHub may process your IP address, browser and device information, the requested URL, the referring page, and the time of the request. GitHub decides how long it keeps these records and may process them outside your country. See the [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) for details.
 
-Fonts, scripts, styles, images, and videos are served with the website itself, except for two kinds of badges. The package version badges on the downloads page load from the OpenTubeX badge service on Cloudflare Workers, and one changelog entry shows a Product Hunt badge with its current upvote count. When your browser loads one of these badges, Cloudflare or Product Hunt receives the same kind of request information described above.
+### Third-party content
 
-Following a link to GitHub, Weblate, Fluxer, Matrix, or another external service sends a request to that service. Its own privacy policy applies once you visit it.
+The website serves its own fonts, scripts, styles, images, and videos. Two kinds of badges are the exception:
+
+- The package version badges on the downloads page load from the OpenTubeX badge service on Cloudflare Workers. Cloudflare processes these requests under the [Cloudflare Privacy Policy](https://www.cloudflare.com/policies/privacy/).
+- One changelog entry shows a Product Hunt badge with its current upvote count. Product Hunt processes these requests under its own privacy policy.
+
+When your browser loads a badge, Cloudflare or Product Hunt receives the same request information as GitHub.
+
+Following a link to GitHub, Weblate, Fluxer, Matrix, or another external service sends a request to that service, and its own privacy policy applies.
 
 ### Local storage and cookies
 
-The website stores your light, dark, or automatic theme preference and selections made in synchronized tab controls in your browser's local storage. These values stay on your device and do not identify you. The website itself does not set cookies.
+The website saves your theme choice (light, dark, or automatic) and the tabs you select in tabbed sections in your browser's local storage. These values stay on your device and do not identify you. The website does not set cookies.
 
 ### Web app
 
-The [web demo](/demo/) and `opentubex.org/app/` run the OpenTubeX web build in your browser. Its subscriptions, playlists, history, and settings are stored in your browser's storage for opentubex.org and are only sent elsewhere if you enable synchronization. Clearing this site's data in your browser deletes the copies on this device.
+The [web demo](/demo/) and `opentubex.org/app/` run OpenTubeX in your browser. The web app stores your subscriptions, playlists, history, and settings in your browser's storage for opentubex.org. It sends them elsewhere only if you turn on sync. Clearing this site's data in your browser deletes them from this device.
 
-The web app loads videos, searches, and images from the configured Invidious instance or Yattee server. With the [OpenTubeX Local API extension](/docs/self-hosting/), it requests YouTube directly from your browser instead. With a Yattee server, the app loads some thumbnails directly from YouTube's image server, i.ytimg.com. When it has to pick a random Invidious instance, it fetches the public instance list from api.invidious.io. It also checks GitHub for new releases unless update checks are turned off, and sends the requests listed under [Network exposure](#network-exposure) for the features you enable. Links and video IDs after the `#` in the address are not sent to GitHub Pages.
+The web app contacts these services:
 
-### Why this data is processed
+- The Invidious instance or Yattee server you configure, for videos, searches, and images. With a Yattee server, some thumbnails load directly from YouTube's image server, i.ytimg.com.
+- YouTube directly from your browser, if you use the [OpenTubeX Local API extension](/docs/self-hosting/).
+- api.invidious.io, for the list of public instances when the app has to pick a random Invidious instance.
+- GitHub, to check for new releases, unless you turn update checks off.
+- The services under [Services the app contacts](#services-the-app-contacts) for the features you enable.
 
-The connection data described above is processed to deliver and secure the website. Where the GDPR applies, this processing is based on the operator's legitimate interest in providing a reliable and secure website under Article 6(1)(f), and on Article 6(1)(c) when processing is required by law.
+Links and video IDs after the `#` in the address are not sent to GitHub Pages.
 
-### Service providers, transfers, and retention
+### Legal basis
 
-GitHub, Inc. and its affiliates provide the website hosting and determine how long their operational records are retained. GitHub may use infrastructure in countries outside your own. See the [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) for details about its processing, safeguards, retention, and privacy contacts. Cloudflare, Inc. runs the badge service and processes badge requests as described in the [Cloudflare Privacy Policy](https://www.cloudflare.com/policies/privacy/). Product Hunt processes requests for its badge under its own privacy policy.
+GitHub processes connection data to deliver and secure the website. Where the GDPR applies, the legal basis is the operator's legitimate interest in a reliable and secure website under Article 6(1)(f), and Article 6(1)(c) when the law requires the processing.
 
-OpenTubeX does not sell website visitor data, use it for advertising, or make automated decisions with legal or similarly significant effects.
+OpenTubeX does not sell visitor data, use it for advertising, or make automated decisions about visitors with legal or similarly significant effects.
 
 ## Desktop and mobile apps
 
-The following applies to desktop, Android, and iOS/iPadOS where the described feature is available. The mobile apps store the library in private application storage and use the platform's storage picker for downloaded media; desktop profile paths and executable settings do not apply there.
+This section applies to desktop, Android, and iOS/iPadOS where a feature is available. The mobile apps keep your library in private app storage and save downloaded media to a location you choose with the system file picker.
 
-### Privacy and threat model
+### What OpenTubeX protects against
 
-OpenTubeX reduces the browser-based tracking surface by providing a local interface instead of loading the standard YouTube website and its page JavaScript. It does not provide anonymity: the services that answer a request can observe it, and network intermediaries can observe connection metadata.
+OpenTubeX shows its own interface instead of loading the YouTube website, so YouTube's page scripts do not run. This reduces browser-based tracking, but it does not make you anonymous. Every service that answers a request can see it, and the networks in between can see connection metadata.
 
-This section describes the data exposed by OpenTubeX itself. It assumes that your device is trusted, HTTPS is not compromised, and your sync passphrase remains secret. It does not protect against malware on your device, traffic-correlation attacks, or information you deliberately share through submissions, exports, external players, or custom download arguments.
+This policy assumes that your device is not compromised, HTTPS works as intended, and your sync passphrase stays secret. OpenTubeX does not protect against malware on your device or traffic-correlation attacks. It also cannot protect information you choose to share through submissions, exports, external players, or custom download arguments.
 
-### Data stored by OpenTubeX
+### Data stored on your device
 
-By default, subscriptions, playlists, settings including saved channel settings, history, watch statistics, profiles, and open tabs remain on your device. Enabling synchronization sends copies of the selected categories to the configured sync server.
+Your subscriptions, playlists, settings (including per-channel settings), history, watch statistics, profiles, and open tabs stay on your device by default.
 
-The default public OpenTubeX sync server uses end-to-end encryption: the app encrypts the selected data on your device before upload. The server still receives account and traffic metadata.
+### Sync
 
-When you enable synchronization, the default selection includes subscriptions, playlists, history, watch statistics, live reminders, notifications, profiles, open tabs and session, and settings. Watch statistics, live reminders, notifications, open tabs, and settings sync only with servers that support end-to-end encryption. You can turn individual categories off in **Settings → Sync**. See [sync setup](/docs/sync/) for setup and category selection.
+Sync is off by default. When you turn it on, the app sends copies of these categories to the sync server you choose. All of them are selected by default:
 
-The public OpenTubeX sync service has a [separate privacy policy](https://github.com/OpenTubeX/sync-server/blob/main/PRIVACY.md). Other sync-server operators are responsible for their own notices and practices.
+- Subscriptions, playlists, history, and profiles.
+- Watch statistics, live reminders, notifications, open tabs and session, and settings. These sync only with servers that support end-to-end encryption.
 
-With end-to-end encryption, sync also uploads encrypted account activity, including changed setting keys, scalar values, and bounded details about subscriptions, playlists, profiles, saved playlists, channel preferences, caption appearance, and custom themes. Watch history and frequent playback changes are excluded. Full object values are omitted from activity. Item names and scalar setting strings longer than 128 bytes are also omitted. Opening a video on another device sends an encrypted request containing its video ID, title, and playback position. The OpenTubeX sync server retains up to 100 activity batches per account for 30 days and up to 100 pending device requests per account for 24 hours; acknowledged requests are deleted, and expired records are normally removed within one hour.
+You can turn individual categories off in **Settings → Sync**. See [sync setup](/docs/sync/) for details.
 
-### Network exposure
+The public OpenTubeX sync server uses end-to-end encryption. The app encrypts your data on your device before uploading it, so the server cannot read it. The server still sees account and traffic metadata, listed under [Optional features](#optional-features). The public server has its [own privacy policy](https://github.com/OpenTubeX/sync-server/blob/main/PRIVACY.md). Other sync server operators are responsible for their own policies.
 
-Rows for optional services apply only when the feature is enabled. An IP address in the table means your direct address unless the request is routed through a correctly configured proxy, VPN, or Tor.
+With end-to-end encryption, sync also uploads two kinds of encrypted records:
 
-| Mode or feature | Who receives requests | What they can observe |
-| --- | --- | --- |
-| Local extractor | YouTube/Google | IP address, requested API, media and image resources, video or channel identifiers, searches, and timing |
-| Invidious | Configured Invidious operator; YouTube receives the instance's upstream requests and may receive direct media requests when video proxying is disabled | The operator can see your IP address, requested content, searches, and timing. YouTube normally sees the instance's IP for proxied requests, but sees your IP for direct media requests. Translating a comment sends its text directly to YouTube |
-| YouTube account sign-in | YouTube/Google | Requests made with your account identify it. Depending on the options you enable, they include subscription and playlist sync, ratings, comments, recommendations, and watch-history reports. Reply notifications are on by default after sign-in |
-| Update checks (enabled by default) | GitHub | IP address, request timing, and standard request metadata. Turn them off under **Settings → General → Check for Updates** |
-| `yt-dlp` and FFmpeg downloads (desktop and Android) | GitHub; on Linux and macOS, FFmpeg comes from ffmpeg.martin-riedl.de | IP address, timing, and the requested operating system and architecture. Missing tools are downloaded when needed. **Settings → Advanced → External Software → Managed Tool Updates** chooses whether managed copies update automatically (the desktop default), ask first (the Android default), or update only through the manual buttons |
-| Other platforms: Twitch, SoundCloud, PeerTube, Rumble, Odysee, media.ccc.de | The platform and its media hosts; SepiaSearch for PeerTube searches | IP address, searches, requested channels and media, and timing. While live notifications are on (the default), the app checks followed Twitch channels every few minutes |
-| VPN or Tor | VPN or Tor infrastructure and the destination service | The intermediary can observe connection metadata depending on the setup. The destination sees the VPN or Tor exit address, requested resources, and timing instead of your direct IP address |
-| Internet connectivity checks (enabled by default) | GrapheneOS-hosted connectivity check server | IP address, request timing, and standard request metadata such as the User-Agent. The `HEAD` request to `connectivitycheck.grapheneos.network/generate_204` sends no cookies, referrer, or request body |
-| SponsorBlock | Configured SponsorBlock operator | IP address, timing, lookup hash prefixes, and requested categories; contribution-stat lookups reveal a stable hash of a SponsorBlock user identifier; submissions and votes additionally reveal video identifiers, segment data, and a SponsorBlock user identifier; submissions also include the video duration and OpenTubeX version. Removing SponsorBlock segments from a download makes `yt-dlp` look them up on its default server, sponsor.ajay.app, with a video-ID hash prefix |
-| DeArrow | Configured SponsorBlock/DeArrow and thumbnail-service operators | IP address, timing, video-ID hash prefixes for branding lookups, and full video identifiers and timestamps for generated-thumbnail requests |
-| Return YouTube Dislike | Configured Return YouTube Dislike operator | IP address, video identifiers, and timing |
-| Voice-over translation | Unofficial Yandex voice-over translation service | IP address, YouTube video identifier and URL, video duration, requested output language, and timing |
-| Sync | Configured sync operator | IP address, OpenTubeX application version from the desktop and mobile apps, account identifier, authentication data, encrypted payloads, collection names, payload sizes, revisions, event IDs, recipient device IDs, creation and expiry times, and request timing. Device pairing also sends the new device's name unencrypted. The operator cannot read the decrypted selected data, activity details, or video requests |
-| Sync with a LibreTube sync server | Configured sync operator | IP address, OpenTubeX application version from the desktop and mobile apps, account identifier, authentication data, selected synced data, and timing |
-| `yt-dlp` playback and downloads | YouTube or the media site you open, its media hosts, and the configured proxy, if any | IP address, requested page and media resources, media identifiers, formats, and timing. Media hosts also receive the request headers and cookies needed for extracted streams. Configured authentication cookies may identify your account to the relevant site. OpenTubeX's proxy setting is passed to `yt-dlp`. |
+- **An activity log.** It lists changed setting keys and simple setting values, and short details about changes to subscriptions, playlists, profiles, saved playlists, channel preferences, caption appearance, and custom themes. It leaves out watch history, frequent playback changes, full object values, and item names or text settings longer than 128 bytes.
+- **Requests to other devices.** Opening a video on another device sends its video ID, title, and playback position.
 
-Opening an external media link can contact the selected site and its media services directly; selecting Invidious for YouTube metadata does not proxy these other sites. See [external media playback](/docs/playback/#play-a-link-from-another-site).
+The OpenTubeX sync server keeps up to 100 batches of activity per account for 30 days and up to 100 pending device requests per account for 24 hours. It deletes a device request once the receiving device confirms it, and usually removes expired records within an hour.
 
-Some features contact a service only when you enable or use them: RSS feeds and RSSHub instances you add, and the RSSHub instance list on raw.githubusercontent.com; the AI slop channel lists on raw.githubusercontent.com; theme discovery on GitHub; the proxy test at ipwho.is, which reports the address and location your proxy exposes; favicons of the search engines you enable for the context menu; and casting receivers, which receive the media address and metadata. A Chromecast device also loads Google's default media receiver.
+## Services the app contacts
 
-Connectivity checks may run at startup, when returning to the app, after connection changes, or during network recovery. Failed checks are retried while the system reports an internet connection. You can turn them off under **Settings → Privacy → Internet connectivity checks**.
+Each service below can see the listed data. "IP address" means your real address unless you route the request through a working proxy, VPN, or Tor.
 
-Voice-over translation is disabled by default. When it is enabled, no translation-service request is made until you request a translation. The separate background-preparation option is also disabled by default; enabling it requests a translation whenever a supported non-live video loads. These requests omit browser credentials and cookies.
+### Video sources
 
-HTTPS encrypts request paths and payloads in transit, but DNS providers and network operators may still learn destination hostnames and traffic patterns. A VPN or Tor changes which parties see your direct IP address; it does not prevent the destination service from seeing the request itself.
+You choose where videos come from. Each source sees what you watch and search for.
 
-### Choosing a setup
+- **Local extractor.** YouTube/Google sees your IP address, the API requests, media and image requests, video and channel IDs, searches, and timing.
+- **Invidious.** The Invidious operator sees your IP address, what you request and search for, and timing. YouTube usually sees only the instance's IP address. If the instance has video proxying turned off, YouTube sees your IP address for video streams. Translating a comment sends its text directly to YouTube.
+- **`yt-dlp` playback and downloads.** YouTube or the site you open, its media servers, and your proxy, if you set one, see your IP address, the pages and media you request, media IDs, formats, and timing. Media servers also receive the headers and cookies needed for the stream. If you configure login cookies, they may identify your account to that site. `yt-dlp` uses the proxy you set in OpenTubeX.
+- **Other platforms.** Twitch, SoundCloud, PeerTube, Rumble, Odysee, media.ccc.de, and their media servers see your IP address, searches, the channels and media you request, and timing. PeerTube searches go to SepiaSearch.
+- **External media links.** Opening a link from another site contacts that site and its media servers directly, even if you use Invidious for YouTube. See [external media playback](/docs/playback/#play-a-link-from-another-site).
 
-- To keep app data local, leave synchronization disabled.
-- End-to-end encryption prevents the sync operator from reading your synced data. Use a separate, strong privacy passphrase and keep it private.
-- To avoid sending requests to optional services, disable internet connectivity checks, update checks, Twitch live notifications, SponsorBlock, DeArrow, Return YouTube Dislike, voice-over translation, and synchronization, and don't use the on-demand features listed under [Network exposure](#network-exposure).
-- To hide your direct IP address from YouTube or optional services, route the relevant requests through a trusted VPN or Tor and verify the proxy configuration.
+### On by default
+
+These requests happen unless you turn them off:
+
+- **Update checks.** GitHub sees your IP address, timing, and standard request headers. Turn them off under **Settings → General → Check for Updates**.
+- **Internet connectivity checks.** A server hosted by GrapheneOS sees your IP address, timing, and standard request headers such as the User-Agent. The app sends a `HEAD` request to `connectivitycheck.grapheneos.network/generate_204` with no cookies, referrer, or body. It checks at startup, when you return to the app, after connection changes, and while recovering from network errors, and retries failed checks while the system reports a connection. Turn them off under **Settings → Privacy → Internet connectivity checks**.
+- **Twitch live notifications.** The app checks the Twitch channels you follow every few minutes.
+- **`yt-dlp` and FFmpeg downloads** on desktop and Android. The app downloads missing tools from GitHub when needed. On Linux and macOS, FFmpeg comes from ffmpeg.martin-riedl.de. These servers see your IP address, timing, and your operating system and processor type. **Settings → Advanced → External Software → Managed Tool Updates** controls updates. Desktop updates automatically by default, Android asks first, and you can also choose manual updates only.
+
+### Optional features
+
+These features contact a service only after you turn them on:
+
+- **YouTube account sign-in.** Requests made with your account identify you to YouTube/Google. Depending on your options, they include subscription and playlist sync, ratings, comments, recommendations, and watch history reports. Reply notifications are on by default after you sign in.
+- **SponsorBlock.** The SponsorBlock server sees your IP address, timing, the categories you request, and a short prefix of a hash of the video ID. Looking up your contribution stats reveals a stable hash of your SponsorBlock user ID. Submitting segments or voting reveals the video ID, the segment data, and your SponsorBlock user ID. Submissions also include the video length and OpenTubeX version. Removing SponsorBlock segments from a download makes `yt-dlp` look them up on its default server, sponsor.ajay.app, with a hash prefix of the video ID.
+- **DeArrow.** The DeArrow and thumbnail servers see your IP address and timing. Title and thumbnail lookups send a hash prefix of the video ID. Generated thumbnails send the full video ID and a timestamp.
+- **Return YouTube Dislike.** The server sees your IP address, video IDs, and timing.
+- **Voice-over translation.** This uses an unofficial Yandex service, which sees your IP address, the YouTube video ID and URL, the video length, the language you want, and timing. The app sends nothing until you ask for a translation. A separate option, also off by default, requests a translation in the background whenever a supported video that is not live loads. These requests send no browser cookies or credentials.
+- **Sync with end-to-end encryption.** The sync server sees your IP address, app version (in the desktop and mobile apps), account ID, login data, the encrypted data, collection names, data sizes, revision and event IDs, the IDs of receiving devices, creation and expiry times, and timing. Pairing a new device sends its name unencrypted. The server cannot read your synced data, the activity log, or requests to other devices.
+- **Sync with a LibreTube sync server.** The server sees your IP address, app version (in the desktop and mobile apps), account ID, login data, and the synced data itself, along with timing.
+
+### Features you use on demand
+
+These services are contacted only when you use the feature:
+
+- RSS feeds and RSSHub instances you add, and the list of RSSHub instances on raw.githubusercontent.com.
+- The AI slop channel lists on raw.githubusercontent.com.
+- Theme discovery on GitHub.
+- The proxy test at ipwho.is, which shows the address and location your proxy reveals.
+- The icons of search engines you enable for the context menu.
+- Cast devices, which receive the media address and details. A Chromecast also loads Google's default media receiver.
+
+### Proxies, VPNs, and Tor
+
+A VPN or Tor hides your IP address from the services you contact. They see the VPN or Tor exit address, what you request, and timing. The VPN provider or Tor network can see connection metadata, depending on your setup.
+
+HTTPS encrypts what you request and what you receive. Your DNS provider and network operator can still see which servers you connect to and when.
+
+### Reduce what the app sends
+
+- To keep your library on your device, leave sync off.
+- If you use sync, use a server with end-to-end encryption and a strong passphrase that you use nowhere else.
+- To avoid optional services, turn off internet connectivity checks, update checks, Twitch live notifications, SponsorBlock, DeArrow, Return YouTube Dislike, voice-over translation, and sync. Avoid the [features you use on demand](#features-you-use-on-demand).
+- To hide your IP address from YouTube or other services, route the app through a VPN or Tor you trust, and check that the app uses it.
 
 ## Your rights and policy changes
 
-Depending on applicable law, you may request access, correction, deletion, restriction, objection, or portability for personal data controlled by the operator. You may also complain to your local data protection authority. Contact [Show email address](protected-email:5e.52.5a.5d.62.5g.31.5h.60.5a.64.52.54.67.37.5g.5h.56.5f.62.63.53.56.66.28.5g.60.58) to make a request. A service provider or independently operated service must handle requests relating to data that it controls.
+Depending on the law that applies to you, you can ask the operator to access, correct, delete, restrict, or transfer your personal data, or object to its processing. You can also complain to your local data protection authority. To make a request, email [Show email address](protected-email:5e.52.5a.5d.62.5g.31.5h.60.5a.64.52.54.67.37.5g.5h.56.5f.62.63.53.56.66.28.5g.60.58). For data held by GitHub, Cloudflare, Product Hunt, or an independently operated service, contact that provider.
 
-This policy may change when the website, app, or their data practices change. The date at the top identifies the latest version.
+This policy changes when the website, apps, or data practices change. The date at the top shows the latest version.
