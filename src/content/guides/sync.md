@@ -11,9 +11,9 @@ See the [device sync comparison](/compare/#sync).
 
 ## Choose a server
 
-The default public OpenTubeX sync server supports all sync features with end-to-end encryption. The app encrypts synced data on your device before uploading it; only your devices hold the key. The server still receives account and connection metadata.
+Sync is end-to-end encrypted. The app encrypts synced data on your device before uploading it, and only your devices hold the key. The server still receives account and connection metadata.
 
-You can also use a self-hosted OpenTubeX server. LibreTube sync servers are supported, but do not support end-to-end encryption or certain sync features.
+OpenTubeX uses its public sync server by default. You can also [self-host the sync server](https://github.com/OpenTubeX/sync-server).
 
 Read the **Privacy policy for this server** link when available. The OpenTubeX [privacy policy](/privacy/#optional-features) explains what a sync operator can observe.
 
@@ -21,7 +21,7 @@ Read the **Privacy policy for this server** link when available. The OpenTubeX [
 
 1. Open **Settings → Sync** and turn on **Enable Sync**.
 2. Enter or select the **Sync server URL** and wait for the server check.
-3. Enter your **Username** and account **Password**. For encrypted sync, also enter a separate **Privacy passphrase**. Use the same privacy passphrase when signing in to an existing encrypted account.
+3. Enter your **Username** and account **Password**. Also enter a separate **Privacy passphrase**. Use the same privacy passphrase when signing in to an existing account.
 4. Choose **Register** to create an account if the server allows registration, or **Log in** for an existing account.
 5. Check the connection and privacy status, then review the categories described below. Use **Sync now** and wait for synchronization to finish before pairing another device.
 
@@ -78,8 +78,6 @@ Pairing transfers account access and the privacy key without typing your account
 You can also sign in on the second device with the same server, username, account password, and privacy passphrase. If pairing reports that it cannot verify the key, sync the existing device first and retry.
 
 ## Use sync across devices
-
-OpenTubeX sync servers also offer these features; LibreTube servers do not.
 
 - **Account activity** in **Settings → Sync** lists recent changes from your devices, such as a changed setting or a video added to a playlist.
 - To continue a video elsewhere, choose **Open on another device** in its menu. Offline devices receive it when they reconnect, for up to 24 hours.

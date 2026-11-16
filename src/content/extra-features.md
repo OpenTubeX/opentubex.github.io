@@ -1273,9 +1273,6 @@ profiles, tabs, notifications, and settings with end-to-end encryption.
 Self-hosted sync servers can offer single sign-on through an OIDC provider
 such as Authelia.
 
-LibreTube sync servers are also supported, but do not support end-to-end
-encryption or certain sync features.
-
 Sync sends changes as they happen, and the Android app keeps syncing in the
 background. Account activity shows
 which device added, removed, or changed items, and **Open on another device**
