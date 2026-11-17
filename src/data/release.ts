@@ -6,6 +6,7 @@ const releaseBaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases/download
 export const allReleasesUrl = 'https://github.com/OpenTubeX/OpenTubeX/releases';
 export const githubReleaseUrl = `https://github.com/OpenTubeX/OpenTubeX/releases/tag/${releaseTag}`;
 
+export const downloadServiceUrl = 'https://download.opentubex.org';
 export const aptRepositoryUrl = 'https://apt.opentubex.org';
 export const coprRepositoryUrl = 'https://copr.fedorainfracloud.org/coprs/d3sox/opentubex/';
 export const rpmRepositoryUrl = 'https://rpm.opentubex.org';

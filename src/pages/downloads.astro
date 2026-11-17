@@ -19,6 +19,7 @@ import {
 	archRepositoryUrl,
 	coprRepositoryUrl,
 	downloadGroups,
+	downloadServiceUrl,
 	flatparkSiteUrl,
 	flatpakSiteUrl,
 	fdroidNightlyUrl,
@@ -472,6 +473,10 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 							</div>
 						</SignalTabs>
 					</div>
+					<p class="pkg__body pkg__body--follow" id="permanent-links">
+						Need a link that always points to the latest release? <a href={downloadServiceUrl}>download.opentubex.org</a> has
+						a fixed URL for every file that you can use in scripts, with curl or wget, or to share a download.
+					</p>
 				</div>
 
 				<div slot="nightly" id="development">

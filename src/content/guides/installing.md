@@ -89,6 +89,14 @@ For updates, use the update offered by the OpenTubeX source in SideStore, or imp
 
 The port is experimental. Playback, fullscreen, touch menus, and settings have been tested on a physical iPad, but broader device coverage is still in progress. Authenticated playback, translated audio, app-managed proxies, alternate icons, and closed-app subscription refresh are unavailable on iOS. Track progress in [the iOS port issue](https://github.com/OpenTubeX/OpenTubeX/issues/1279).
 
+## Permanent download links
+
+[download.opentubex.org](https://download.opentubex.org) lists a fixed URL for every release file, such as `/linux/appimage-x64` or `/android/apk-universal`. Each URL redirects to the file from the latest release on GitHub, so it keeps working after new versions come out. A new release can take up to five minutes to show up there.
+
+```shell
+curl -fL -o OpenTubeX.AppImage https://download.opentubex.org/linux/appimage-x64
+```
+
 ## Update without starting over
 
 1. [Export your data](/docs/importing/#back-up-your-library) before changing release channels or reinstalling.
