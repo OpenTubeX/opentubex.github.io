@@ -114,6 +114,17 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Keeps the official app\'s interface. A patch can switch to the phone, tablet, or automotive layout.', source: `${morphePatches}/layout/formfactor/ChangeFormFactorPatch.kt` },
 				{ status: 'yes', note: 'Native Android and iOS apps for phones and tablets.', source: 'https://support.google.com/youtube/answer/3227660?hl=en' },
 			] },
+			{ name: 'Native desktop interface', icon: 'lucide:laptop', cells: [
+				{ status: 'no', label: 'Web-based', note: 'The desktop app uses Electron to show a web interface.', source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/package.json' },
+				{ status: 'no', label: 'Web-based', note: 'Uses Electron to show a web interface built with Vue.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/package.json' },
+				{ status: 'no', label: 'Web-based', note: 'The desktop app shows a web interface in an embedded Chromium browser.', source: 'https://github.com/futo-org/Grayjay.Desktop/tree/20' },
+				{ status: 'no', note: 'Android only.' },
+				{ status: 'no', note: 'Android only.' },
+				{ status: 'no', label: 'Web-based', note: 'The desktop beta uses Tauri to show a web interface in the system\'s web view.', source: `${flowDesktop}/package.json` },
+				{ status: 'no', note: 'Android only.', source: ntReadme },
+				{ status: 'no', note: 'Morphe Desktop patches APKs on a computer. It doesn\'t play videos.', source: 'https://github.com/MorpheApp/morphe-desktop/tree/v2.1.1' },
+				{ status: 'no', label: 'Website', note: 'There is no desktop app. On a computer, YouTube runs in the browser.', source: 'https://www.youtube.com/' },
+			] },
 			{ name: 'Services beyond YouTube', icon: 'lucide:layers', cells: [
 				{ status: 'yes', note: ['Follows channels on Twitch, SoundCloud, PeerTube, Rumble, and Odysee, and conferences on media.ccc.de, without an account. Their uploads and live streams appear in a Platforms tab and the New feed, their channels and playlists open in the app, search covers them, and Twitch channels can notify you when they go live. RSS feeds and links from any ', { text: 'yt-dlp-supported service', href: 'https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md' }, ' also play in the app and keep their place in the ', { text: 'watch history', href: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.0-beta/src/renderer/helpers/externalMediaHistory.js' }, '. The web app and Android Lite ship without yt-dlp and stay YouTube-only.'], source: 'https://github.com/OpenTubeX/OpenTubeX/blob/v0.38.1-beta/src/platforms/index.js' },
 				{ status: 'no', note: 'YouTube only.' },
