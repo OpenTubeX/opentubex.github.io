@@ -1,5 +1,6 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
+import PageHeroTitle from '../components/PageHeroTitle.astro';
 import { Content, getHeadings } from '../content/privacy.md';
 
 const headings = getHeadings().filter((heading) => heading.depth === 2);
@@ -30,7 +31,7 @@ const headings = getHeadings().filter((heading) => heading.depth === 2);
 			<div class="page-hero__mesh" aria-hidden="true"></div>
 			<div class="page-hero__content">
 				<p class="page-hero__eyebrow">Legal</p>
-				<h1 class="page-hero__title">Privacy policy</h1>
+				<PageHeroTitle icon="lucide:shield-check">Privacy policy</PageHeroTitle>
 				<p class="page-hero__lede">What the website, desktop app, and mobile app expose, store, and send.</p>
 			</div>
 		</header>

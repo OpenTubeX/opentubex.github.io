@@ -1,5 +1,6 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
+import PageHeroTitle from '../components/PageHeroTitle.astro';
 import PageIndex from '../components/PageIndex.astro';
 import { Icon } from 'astro-icon/components';
 import { allReleasesUrl } from '../data/release';
@@ -45,7 +46,7 @@ const groups = months.map((month) => ({
 			<div class="page-hero__mesh" aria-hidden="true"></div>
 			<div class="page-hero__content">
 				<p class="page-hero__eyebrow">Release notes</p>
-				<h1 class="page-hero__title">Changelog</h1>
+				<PageHeroTitle icon="lucide:history">Changelog</PageHeroTitle>
 				<p class="page-hero__lede">
 					Stable releases only. Nightlies can be seen on GitHub.
 				</p>

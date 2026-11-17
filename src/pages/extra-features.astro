@@ -1,5 +1,6 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
+import PageHeroTitle from '../components/PageHeroTitle.astro';
 import { Icon } from 'astro-icon/components';
 import PageIndex, { type IndexGroup } from '../components/PageIndex.astro';
 import { Content, getHeadings } from '../content/extra-features.md';
@@ -53,7 +54,7 @@ const highlights = [
 			<div class="page-hero__mesh" aria-hidden="true"></div>
 			<div class="page-hero__content">
 				<p class="page-hero__eyebrow">Features</p>
-				<h1 class="page-hero__title">What makes OpenTubeX different</h1>
+				<PageHeroTitle icon="lucide:sparkles">What makes OpenTubeX different</PageHeroTitle>
 				<p class="page-hero__lede">
 					Watch across devices, skip interruptions, and make playback work the way you want.
 				</p>

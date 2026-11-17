@@ -1,6 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import SignalLayout from '../layouts/SignalLayout.astro';
+import PageHeroTitle from '../components/PageHeroTitle.astro';
 import { releaseTag, releaseVersion } from '../data/release';
 ---
 
@@ -29,7 +30,7 @@ import { releaseTag, releaseVersion } from '../data/release';
 			<div class="page-hero__mesh" aria-hidden="true"></div>
 			<div class="page-hero__content">
 				<p class="page-hero__eyebrow">Web demo</p>
-				<h1 class="page-hero__title">Try OpenTubeX in your browser</h1>
+				<PageHeroTitle icon="lucide:monitor-play">Try OpenTubeX in your browser</PageHeroTitle>
 				<p class="page-hero__lede">
 					The web build of the latest release, running entirely in your browser. Nothing to install, and your library
 					stays on this device.

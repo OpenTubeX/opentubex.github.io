@@ -1,0 +1,13 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  icon?: string;
+}
+const { icon } = Astro.props;
+---
+
+<h1 class:list={['page-hero__title', { 'page-hero__title--icon': icon }]}>
+  {icon && <span class="page-hero__icon" aria-hidden="true"><Icon name={icon} /></span>}
+  <slot />
+</h1>

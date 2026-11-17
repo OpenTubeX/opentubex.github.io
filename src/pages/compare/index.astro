@@ -1,5 +1,6 @@
 ---
 import SignalLayout from '../../layouts/SignalLayout.astro';
+import PageHeroTitle from '../../components/PageHeroTitle.astro';
 import ComparisonTable from '../../components/ComparisonTable.astro';
 import '../../styles/comparisons.css';
 ---
@@ -9,7 +10,7 @@ import '../../styles/comparisons.css';
 		<header class="page-hero">
 			<div class="page-hero__content">
 				<p class="page-hero__eyebrow">Client comparison</p>
-				<h1 class="page-hero__title">Compare YouTube clients</h1>
+				<PageHeroTitle icon="lucide:columns-2">Compare YouTube clients</PageHeroTitle>
 				<p class="page-hero__lede">This table compares OpenTubeX with FreeTube, Grayjay, NewPipe, LibreTube, Flow, NewTube, Morphe, and YouTube. It covers platforms, privacy, playback, and library tools for people looking at FreeTube alternatives.</p>
 			</div>
 		</header>

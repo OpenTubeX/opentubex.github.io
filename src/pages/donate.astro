@@ -2,6 +2,7 @@
 import { Icon } from 'astro-icon/components';
 import CoinQr from '../components/CoinQr.astro';
 import SignalLayout from '../layouts/SignalLayout.astro';
+import PageHeroTitle from '../components/PageHeroTitle.astro';
 import { renderBrandedQr } from '../lib/branded-qr';
 
 const platforms = [
@@ -63,7 +64,7 @@ const coins = [
 			<div class="page-hero__mesh" aria-hidden="true"></div>
 			<div class="page-hero__content">
 				<p class="page-hero__eyebrow">Donate</p>
-				<h1 class="page-hero__title">Support OpenTubeX</h1>
+				<PageHeroTitle icon="lucide:heart">Support OpenTubeX</PageHeroTitle>
 				<p class="page-hero__lede">
 					If you find OpenTubeX useful, a donation helps fund its development.
 				</p>

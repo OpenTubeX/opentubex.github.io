@@ -1,5 +1,6 @@
 ---
 import SignalLayout from '../layouts/SignalLayout.astro';
+import PageHeroTitle from '../components/PageHeroTitle.astro';
 import DownloadPlatform from '../components/DownloadPlatform.astro';
 import CmdCode from '../components/CmdCode.astro';
 import SignalTabs from '../components/SignalTabs.astro';
@@ -225,7 +226,7 @@ flatpak install opentubex org.opentubex.OpenTubeX//nightly`;
 			<div class="page-hero__mesh" aria-hidden="true"></div>
 			<div class="page-hero__content">
 				<p class="page-hero__eyebrow">Downloads</p>
-				<h1 class="page-hero__title">Get OpenTubeX</h1>
+				<PageHeroTitle icon="lucide:download">Get OpenTubeX</PageHeroTitle>
 				<p class="page-hero__lede">
 					Download a build for your device or install it through your package manager.
 				</p>

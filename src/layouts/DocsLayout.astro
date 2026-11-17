@@ -1,9 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
-import { Icon } from 'astro-icon/components';
 import type { MarkdownHeading } from 'astro';
 import PageIndex, { type IndexGroup } from '../components/PageIndex.astro';
 import DocsSearch from '../components/DocsSearch.astro';
+import PageHeroTitle from '../components/PageHeroTitle.astro';
 import SignalLayout from './SignalLayout.astro';
 import '../styles/docs.css';
 
@@ -36,10 +36,7 @@ if (sections.length) groups.push({ label: 'On this page', links: sections.map((h
       <div class="page-hero__content">
         <DocsSearch />
         <p class="page-hero__eyebrow">User documentation</p>
-        <h1 class="page-hero__title docs-title">
-          {icon && <span class="docs-icon docs-icon--hero" aria-hidden="true"><Icon name={icon} /></span>}
-          {title}
-        </h1>
+        <PageHeroTitle icon={icon}>{title}</PageHeroTitle>
         <p class="page-hero__lede">{description}</p>
       </div>
     </header>
