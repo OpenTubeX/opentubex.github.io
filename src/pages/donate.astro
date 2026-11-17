@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import markDark from '../assets/mark-dark.svg';
+import CoinQr from '../components/CoinQr.astro';
 import SignalLayout from '../layouts/SignalLayout.astro';
 import { renderBrandedQr } from '../lib/branded-qr';
 
@@ -40,8 +40,6 @@ const coins = [
 		body: 'Bitcoin payments are public on the blockchain, including the amount. To donate privately, use Monero.',
 	},
 ].map((coin) => ({ ...coin, qr: renderBrandedQr(coin.uri + coin.address) }));
-
-const markSrc = typeof markDark === 'string' ? markDark : markDark.src;
 ---
 
 <SignalLayout title="Donate – OpenTubeX" description="Support OpenTubeX with a donation through GitHub Sponsors, Liberapay, Monero, or Bitcoin." active="donate">
@@ -110,21 +108,24 @@ const markSrc = typeof markDark === 'string' ? markDark : markDark.src;
 								</button>
 							</div>
 							<div class="coin__qr-wrap">
-								<figure
-									class="coin__qr"
-									role="img"
-									aria-label={`QR code for the ${name} address`}
-									style={`--logo-size: ${qr.logoSize * 100}%; --coin-color: ${color}`}
+								<button
+									class="coin__qr-zoom"
+									type="button"
+									popovertarget={`qr-${name.toLowerCase()}`}
+									aria-label={`Enlarge the ${name} QR code`}
 								>
-									<Fragment set:html={qr.svg} />
-									<span class="coin__qr-logo" aria-hidden="true">
-										<span class="coin__qr-mark"><img src={markSrc} alt="" /></span>
-										<span class="coin__qr-badge"><Icon name={icon} /></span>
-									</span>
-								</figure>
-								<button class="btn btn--quiet coin__qr-toggle" type="button" aria-pressed="false" data-qr-light>
-									<Icon name="lucide:sun" aria-hidden="true" />
-									Light version
+									<CoinQr name={name} icon={icon} color={color} qr={qr} />
+								</button>
+								<div popover id={`qr-${name.toLowerCase()}`} class="coin__qr-dialog" role="dialog" aria-label={`${name} QR code`}>
+									<CoinQr name={name} icon={icon} color={color} qr={qr} />
+									<button class="btn btn--ghost" type="button" popovertarget={`qr-${name.toLowerCase()}`} popovertargetaction="hide">
+										<Icon name="lucide:x" aria-hidden="true" />
+										Close
+									</button>
+								</div>
+								<button class="btn btn--quiet coin__qr-toggle" type="button" data-qr-toggle>
+									<span class="coin__qr-show-light"><Icon name="lucide:sun" aria-hidden="true" />Light version</span>
+									<span class="coin__qr-show-dark"><Icon name="lucide:moon" aria-hidden="true" />Dark version</span>
 								</button>
 							</div>
 						</article>
@@ -171,82 +172,77 @@ const markSrc = typeof markDark === 'string' ? markDark : markDark.src;
 
 	.coin__copy.is-copied .coin__copied-icon { display: block; }
 
+	/* Light-on-dark codes need the script, which adds the "Light version"
+	   switch for scanners that can't read them. */
 	.coin__qr-wrap {
+		--qr-bg: #ffffff;
+		--qr-ink: #1a1a1a;
+		--qr-eye: #b8291c;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 0.5rem;
 	}
 
-	/* The SVG's quiet zone pads the code, so the logo size is a share of the
-	   figure's width. */
-	.coin__qr {
-		--qr-bg: #ffffff;
-		--qr-ink: #1a1a1a;
-		--qr-eye: #b8291c;
-		position: relative;
-		width: 11rem;
-		margin: 0;
-		border-radius: 1rem;
-		background: var(--qr-bg);
-		box-shadow:
-			0 0 0 1px var(--line),
-			0 0.75rem 1.75rem -0.9rem var(--accent-glow);
-		line-height: 0;
-	}
-
-	.coin__qr :global(svg) { width: 100%; height: auto; }
-	.coin__qr :global(.qr-modules) { stroke: var(--qr-ink); }
-	.coin__qr :global(.qr-eyes) { stroke: var(--qr-eye); }
-	.coin__qr :global(.qr-eye-dot) { fill: var(--qr-eye); stroke: none; }
-
-	.coin__qr-logo {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: var(--logo-size);
-		aspect-ratio: 1;
-		translate: -50% -50%;
-	}
-
-	.coin__qr-mark {
-		position: absolute;
-		inset: 8%;
-		display: grid;
-		place-items: center;
-		border-radius: 28%;
-		background: var(--button-primary-bg);
-	}
-
-	.coin__qr-mark img { width: 66%; height: auto; }
-
-	.coin__qr-badge {
-		position: absolute;
-		right: -4%;
-		bottom: -4%;
-		width: 46%;
-		aspect-ratio: 1;
-		border-radius: 50%;
-		background: var(--qr-bg);
-		box-shadow: 0 0 0 1.5px var(--qr-bg);
-		color: var(--coin-color);
-	}
-
-	.coin__qr-badge :global(svg) { display: block; width: 100%; height: 100%; }
-
-	/* Some older scanners can't read light-on-dark codes, so the dark code
-	   needs the script for its "Light version" fallback. */
-	:global(html.js[data-theme="dark"]) .coin__qr-wrap:not(:has([aria-pressed="true"])) .coin__qr {
+	:global(html.js[data-theme="dark"]) .coin__qr-wrap:not(.is-light) {
 		--qr-bg: #1c1c1c;
 		--qr-ink: #f2f2f2;
 		--qr-eye: #ff6253;
+	}
+
+	.coin__qr-zoom {
+		display: block;
+		width: 11rem;
+		padding: 0;
+		border: 0;
+		border-radius: 1rem;
+		background: none;
+		cursor: zoom-in;
+		transition: transform 0.25s var(--ease);
+	}
+
+	.coin__qr-zoom:hover { transform: scale(1.03); }
+
+	.coin__qr-zoom:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+	}
+
+	/* The site's reset removes the margin that centers popovers. */
+	.coin__qr-dialog {
+		margin: auto;
+		width: min(26rem, calc(100vw - 2rem), calc(100dvh - 8rem));
+		padding: 1rem;
+		border: 1px solid var(--line);
+		border-radius: 1.5rem;
+		background: var(--surface);
+		color: var(--ink);
+	}
+
+	.coin__qr-dialog:popover-open {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.coin__qr-dialog::backdrop {
+		background: rgb(0 0 0 / 0.6);
+		backdrop-filter: blur(3px);
 	}
 
 	.coin__qr-toggle { display: none; font-size: 0.85rem; }
 
 	:global(html.js[data-theme="dark"]) .coin__qr-toggle { display: inline-flex; }
 
-	:global(.signal-body) .coin__qr-toggle[aria-pressed="true"] { color: var(--accent-deep); }
+	.coin__qr-toggle span {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	.coin__qr-wrap.is-light .coin__qr-show-light,
+	.coin__qr-wrap:not(.is-light) .coin__qr-show-dark { display: none; }
 
 	@media (max-width: 820px) {
 		.pillar--linked > .btn,
@@ -262,9 +258,9 @@ const markSrc = typeof markDark === 'string' ? markDark : markDark.src;
 <script>
 	document.addEventListener('click', async (event) => {
 		const target = event.target instanceof Element ? event.target : null;
-		const toggle = target?.closest('[data-qr-light]');
+		const toggle = target?.closest('[data-qr-toggle]');
 		if (toggle) {
-			toggle.setAttribute('aria-pressed', String(toggle.getAttribute('aria-pressed') !== 'true'));
+			toggle.closest('.coin__qr-wrap')?.classList.toggle('is-light');
 			return;
 		}
 
