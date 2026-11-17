@@ -19,7 +19,7 @@ export const clients = [
 	{ name: 'Grayjay', icon: '/compare-icons/grayjay.png', url: 'https://grayjay.app/desktop/', source: 'https://grayjay.app/desktop/' },
 	{ name: 'NewPipe', icon: '/compare-icons/newpipe.svg', url: 'https://newpipe.net/', source: 'https://newpipe.net/' },
 	{ name: 'LibreTube', icon: '/compare-icons/libretube.svg', url: 'https://libretube.dev/', source: 'https://github.com/libre-tube/LibreTube' },
-	{ name: 'Flow', icon: '/compare-icons/flow.svg', url: 'https://flow-tube.org/', source: 'https://github.com/Flow-Tube/Flow/tree/v3.0.0' },
+	{ name: 'Flow', icon: '/compare-icons/flow.svg', url: 'https://flow-tube.org/', source: 'https://github.com/Flow-Tube/Flow/tree/v3.0.5' },
 	{ name: 'NewTube', icon: '/compare-icons/newtube.svg', url: 'https://newtube.org/', source: 'https://github.com/aleixrodriala/newtube/tree/v1.17.1' },
 	{ name: 'Morphe', icon: '/compare-icons/morphe.svg', url: 'https://morphe.software/', source: 'https://github.com/MorpheApp/morphe-patches/tree/v2.2.0' },
 	{ name: 'YouTube', icon: '/compare-icons/youtube.svg', url: 'https://www.youtube.com/', source: 'https://support.google.com/youtube/' },
@@ -36,9 +36,9 @@ const otxSync = 'https://opentubex.org/extra-features/#encrypted-sync';
 const ltPrivacy = 'https://github.com/libre-tube/LibreTube/blob/v32.1/PRIVACY_POLICY.md';
 const gjYoutube = 'https://gitlab.futo.org/videostreaming/plugins/youtube/-/blob/447cf876d50909546a3f77fbb2b908df26bdc1ea';
 const gjSync = 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/java/com/futo/platformplayer/states/StateSync.kt';
-const flowRelease = 'https://github.com/Flow-Tube/Flow/tree/v3.0.0';
+const flowRelease = 'https://github.com/Flow-Tube/Flow/tree/v3.0.5';
 const flowCode = `${flowRelease}/app/src/main/java/io/github/aedev/flow`;
-const flowDesktop = 'https://github.com/Flow-Tube/Flow-Desktop/tree/v0.1.0-beta3';
+const flowDesktop = 'https://github.com/Flow-Tube/Flow-Desktop/tree/v0.1.0-beta4';
 const localOnly = 'https://docs.freetubeapp.io/usage/data-location/';
 const ntRelease = 'https://github.com/aleixrodriala/newtube/blob/v1.17.1';
 const ntReadme = `${ntRelease}/README.md`;
@@ -169,7 +169,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'No silence skipping.', source: 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/java/com/futo/platformplayer/Settings.kt' },
 				{ status: 'yes', note: 'The playback dialog can fast-forward during silence.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/java/org/schabi/newpipe/player/helper/PlaybackParameterDialog.java' },
 				{ status: 'yes', note: 'The playback options have a Skip silence toggle.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/sheets/PlaybackOptionsSheet.kt' },
-				{ status: 'yes', label: 'Android', note: ['Uses ExoPlayer\'s silence skipping. The ', { text: 'desktop beta setting', href: `${flowDesktop}/src/lib/settings/schema.ts` }, ' stays disabled until silence detection is implemented.'], source: `${flowCode}/player/audio/AudioFeaturesManager.kt` },
+				{ status: 'yes', label: 'Android', note: 'Uses ExoPlayer\'s silence skipping. The desktop beta has none.', source: `${flowCode}/player/audio/AudioFeaturesManager.kt` },
 				{ status: 'no', note: 'No silence skipping.', source: `${ntSettings}#L166-L177` },
 				{ status: 'yes', note: 'Adds an option to skip silent pauses automatically.', source: `${morphePatches}/video/audio/SkipSilencePatch.kt` },
 				{ status: 'no', note: 'No silence skipping. Premium\'s Auto speed changes the pace of some Android videos, which is a different feature.', source: 'https://support.google.com/youtube/answer/6308116?hl=en' },
@@ -180,7 +180,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'With Background Behavior set to Player Overlay, leaving the app enters picture-in-picture.', source: 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/java/com/futo/platformplayer/Settings.kt' },
 				{ status: 'yes', note: 'With Minimize on app switch set to the popup player, leaving the app opens a floating overlay. It needs permission to draw over other apps.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml' },
 				{ status: 'yes', note: 'Enters picture-in-picture when you leave the player during playback, if PiP is on.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/fragments/PlayerFragment.kt' },
-				{ status: 'yes', label: 'Android', note: 'With Auto PiP on, leaving the app during a video enters picture-in-picture. The desktop beta only has manual PiP.', source: `${flowCode}/MainActivity.kt` },
+				{ status: 'yes', label: 'Android', note: 'Leaving the app during a video enters picture-in-picture. Auto PiP is on by default. The desktop beta only has manual PiP.', source: `${flowCode}/data/local/PlayerPreferences.kt` },
 				{ status: 'yes', note: 'Leaving the app during playback enters picture-in-picture on Android 8 and later, unless When you leave the app is set to Only audio.', source: `${ntCode}/ui/playback/BackgroundModePolicy.java` },
 				{ status: 'yes', note: 'Keeps the official app\'s automatic picture-in-picture and lifts YouTube\'s limits on which videos can use it.', source: `${morpheExtension}/patches/BackgroundPlaybackPatch.java` },
 				{ status: 'partial', label: 'Premium for music', note: 'Leaving the app starts picture-in-picture when enabled. Music needs Premium.', source: 'https://support.google.com/youtube/answer/7552722?hl=en' },
@@ -246,7 +246,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', label: 'With replay', note: 'Shows live chat and replays it on past streams.', source: `${gjYoutube}/YoutubeScript.js#L2746-L2829` },
 				{ status: 'no', note: 'Live streams play without chat.' },
 				{ status: 'no', note: 'Live streams play without chat.' },
-				{ status: 'partial', label: 'Desktop replay', note: ['Android shows live chat, including in a fullscreen side panel, but doesn\'t replay it. The ', { text: 'desktop beta', href: `${flowDesktop}/src/lib/useChatReplay.ts` }, ' replays chat on past streams in sync with the video.'], source: `${flowCode}/ui/components/videoplayer/sheet/FlowLiveChatBottomSheet.kt` },
+				{ status: 'yes', label: 'With replay', note: ['Shows live chat, including in a fullscreen side panel, and replays chat on past streams in sync with the video. The ', { text: 'desktop beta', href: `${flowDesktop}/src/lib/useChatReplay.ts` }, ' replays chat too.'], source: `${flowCode}/ui/screens/player/ChatReplayController.kt` },
 				{ status: 'partial', label: 'Live only', note: 'Shows chat during live streams, but not on past streams.', source: `${ntCode}/ui/playback/LiveChatSheet.java#L23-L29` },
 				{ status: 'yes', label: 'With replay', note: 'Keeps YouTube\'s live chat and replay. A patch can show chat as Niconico-style comments scrolling across the video.', source: `${morphePatches}/layout/niconicocomments/NiconicoCommentsPatch.kt` },
 				{ status: 'yes', label: 'With replay', note: 'Chat runs during live streams and premieres. Past streams replay chat unless the creator turned replay off or edited the stream.', source: 'https://support.google.com/youtube/answer/15268877?hl=en' },
@@ -284,7 +284,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'The YouTube plugin only loads videos, live streams, and Shorts, so posts don\'t show.', source: `${gjYoutube}/YoutubeScript.js#L3241-L3246` },
 				{ status: 'no', note: 'Posts don\'t show in feeds or on channel pages.' },
 				{ status: 'no', note: 'Posts don\'t show in feeds or on channel pages.' },
-				{ status: 'partial', label: 'Channel pages', note: 'Channel pages have a Posts tab with comments, but the subscriptions feed doesn\'t include posts.', source: `${flowCode}/ui/components/channel/ChannelCommunityPosts.kt` },
+				{ status: 'yes', note: ['Channel posts show in a Posts chip of the subscriptions feed and in a ', { text: 'Posts tab on channel pages', href: `${flowCode}/ui/components/channel/ChannelCommunityPosts.kt` }, ', with comments.'], source: `${flowCode}/ui/screens/subscriptions/SubscriptionPostsViewModel.kt` },
 				{ status: 'no', note: 'Posts don\'t show in feeds or on channel pages.', source: ntReadme },
 				{ status: 'yes', note: 'Keeps YouTube\'s posts and adds options to translate them and download their images.', source: `${morphePatches}/interaction/posttranslate/PostTranslatePatch.kt` },
 				{ status: 'yes', note: 'Posts show on channel pages and can appear on Home and in Subscriptions.', source: 'https://support.google.com/youtube/answer/9409631?hl=en' },
@@ -295,7 +295,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', label: 'Android', note: 'Reminds you of scheduled content and notifies you of new content from followed channels. Depends on the source plugin and background updates.', source: 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/java/com/futo/platformplayer/states/StateNotifications.kt' },
 				{ status: 'partial', label: 'Feed updates', note: 'Checks chosen subscriptions periodically and notifies you of new items. No reminders for scheduled streams or premieres.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/java/org/schabi/newpipe/local/feed/notifications/NotificationWorker.kt' },
 				{ status: 'partial', label: 'New uploads', note: 'Checks subscriptions for new uploads periodically, with per-channel controls. Upcoming videos are left out, and there are no start-time reminders.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/workers/NotificationWorker.kt' },
-				{ status: 'yes', label: 'Android', note: ['Alerts you to new uploads from chosen subscriptions and ', { text: 'reminds you of upcoming live streams and premieres', href: `${flowCode}/notification/UpcomingVideoReminderWorker.kt` }, '. Timing depends on Android\'s background scheduling.'], source: `${flowCode}/notification/SubscriptionCheckWorker.kt` },
+				{ status: 'yes', label: 'Android and desktop', note: ['Alerts you to new uploads from chosen subscriptions and ', { text: 'reminds you of upcoming live streams and premieres', href: `${flowCode}/notification/UpcomingVideoReminderWorker.kt` }, '. The ', { text: 'desktop beta', href: `${flowDesktop}/src-tauri/src/services/notification_service.rs` }, ' does both too. On Android, timing depends on background scheduling.'], source: `${flowCode}/notification/SubscriptionCheckWorker.kt` },
 				{ status: 'partial', label: 'In-app list', note: 'Signed in, you can open your YouTube notifications in the app. No system alerts for uploads, streams, or premieres.', source: `${ntStrings}#L228` },
 				{ status: 'yes', label: 'Account required', note: 'Keeps YouTube\'s upload, live stream, and premiere notifications. Without root, push notifications go through MicroG-RE.', source: `${morpheFaq}#32-youtube-push-notifications-do-not-work` },
 				{ status: 'yes', label: 'Account required', note: ['Alerts you to uploads and live streams, plus ', { text: 'premiere reminders', href: 'https://support.google.com/youtube/answer/9080341?hl=en' }, '. Needs sign-in and notifications turned on, and not every upload triggers one.'], source: 'https://support.google.com/youtube/answer/3382248?hl=en' },
@@ -306,7 +306,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Import / Home', note: ['The YouTube plugin signs in through Google\'s web page. It imports subscriptions, playlists, and history, personalizes Home, and can ', { text: 'use the account', href: `${gjYoutube}/YoutubeConfig.json#L71-L97` }, ' for members-only and age-restricted videos and to report what you watch. It can\'t like, comment, or subscribe on YouTube.'], source: `${gjYoutube}/YoutubeConfig.json#L419-L432` },
 				{ status: 'no', note: 'NewPipe won\'t add Google sign-in, to avoid anything that could track you.', source: 'https://github.com/TeamNewPipe/website/blob/abbaf19b37ee61930f41a11ee5c03c5db0c0e77d/_faq/bugs-google-login.html' },
 				{ status: 'no', note: 'No Google sign-in. LibreTube aims to stay independent from Google.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/README.md#L49' },
-				{ status: 'no', note: 'No Google sign-in.', source: 'https://github.com/Flow-Tube/Flow/blob/v3.0.0/README.md#L93' },
+				{ status: 'no', note: 'No Google sign-in.', source: 'https://github.com/Flow-Tube/Flow/blob/v3.0.5/README.md#L93' },
 				{ status: 'yes', label: 'TV-style code', note: 'Optional sign-in with a code, the way a TV signs in, without microG or root. Subscriptions, history, playlists, Watch later, and recommendations load from the account, and you can like, subscribe, and comment. Supports several accounts.', source: `${ntReadme}#how-sign-in-works` },
 				{ status: 'yes', label: 'Root or MicroG', note: 'Keeps every account feature of the official app. Without root, sign-in goes through MicroG-RE, and managed accounts such as Google Workspace may not work.', source: `${morpheFaq}#22-microg-google-login-does-not-work` },
 				{ status: 'yes', note: 'A Google account adds likes, comments, subscriptions, playlists, watch history, and personalized recommendations across devices.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
@@ -317,7 +317,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'partial', label: 'Own backups', note: 'Imports Grayjay backups and NewPipe subscriptions, but not YouTube Takeout or history and playlists from other apps. Signed in to a source such as YouTube, it can pull that account\'s subscriptions and playlists. Exports only a Grayjay backup ZIP, which other apps can\'t read.', source: 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/java/com/futo/platformplayer/states/StateBackup.kt#L588-L607' },
 				{ status: 'partial', label: 'Subscriptions', note: 'Imports YouTube subscriptions from Google Takeout and SoundCloud followings from a profile. Exports subscriptions as a NewPipe file. History and playlists only move through a NewPipe database export.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml#L211-L216' },
 				{ status: 'yes', note: 'Imports subscriptions from YouTube, NewPipe, and FreeTube, playlists from YouTube, Piped, FreeTube, or a list of links, and watch history from YouTube Takeout. Exports subscriptions in NewPipe or FreeTube format, playlists in Piped or FreeTube format, and everything as a LibreTube backup.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/java/com/github/libretube/ui/preferences/BackupRestoreSettings.kt#L226-L245' },
-				{ status: 'yes', note: 'Imports a full Google Takeout, including likes and the YouTube Music library. It also reads NewPipe and LibreTube backups, FreeTube history, and Metrolist music playlists. Exports a Flow backup and the recommendation profiles.', source: 'https://github.com/Flow-Tube/Flow/blob/v3.0.0/app/src/main/res/values/strings.xml#L1657-L1700' },
+				{ status: 'yes', note: 'Imports a full Google Takeout, including likes and the YouTube Music library. It also reads NewPipe and LibreTube backups, FreeTube history, and Metrolist music playlists. Exports a Flow backup, a playlists file, and the recommendation profiles.', source: 'https://github.com/Flow-Tube/Flow/blob/v3.0.5/app/src/main/res/values/strings.xml#L2070-L2113' },
 				{ status: 'partial', label: 'Takeout export', note: ['No import. Your library lives in your Google account, which Google Takeout can export. NewTube\'s own ', { text: 'backup file', href: `${ntSettings}#L144-L152` }, ' only covers its settings.'], source: 'https://support.google.com/accounts/answer/3024190?hl=en' },
 				{ status: 'partial', label: 'Takeout export', note: 'No import. Your library lives in your Google account, which Google Takeout can export. Morphe\'s Import / Export only covers its settings.', source: `${morpheFaq}#113-how-do-i-backup-my-youtube-morphe-settings` },
 				{ status: 'partial', label: 'Takeout export', note: 'Google Takeout exports subscriptions, playlists, and history. Nothing can be imported from files or other apps.', source: 'https://support.google.com/accounts/answer/3024190?hl=en' },
@@ -328,7 +328,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', label: 'Device pairing', note: 'Paired devices sync subscriptions, playlists, Watch later, subscription groups, and history. The devices have to reach each other.', source: gjSync },
 				{ status: 'no', note: 'No sync. Import and export move data by hand.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3#installation-and-updates' },
 				{ status: 'partial', label: 'Piped account', note: 'A Piped account syncs subscriptions and playlists. History and settings stay local.', source: ltPrivacy },
-				{ status: 'yes', label: 'Device pairing', note: 'Paired devices sync playlists, history, likes, subscriptions and groups, notes, chosen settings, and the video and music recommendation profiles, including with the desktop beta. The devices need a direct connection.', source: `${flowCode}/ui/screens/sync/SyncCollections.kt` },
+				{ status: 'yes', label: 'End-to-end encrypted', note: ['Linked devices sync playlists, history, likes, subscriptions and groups, notes, chosen settings, and the video and music recommendation profiles, including with the desktop beta. They sync through ', { text: 'your own Flow server, a WebDAV folder, or the same Wi-Fi network', href: 'https://github.com/Flow-Tube/Flow/blob/v3.0.5/app/src/main/res/values/strings.xml#L3058-L3083' }, '.'], source: `${flowCode}/ui/screens/sync/SyncCollections.kt` },
 				{ status: 'yes', label: 'Google account', note: ['Subscriptions, playlists, history, and Watch later come from your Google account. NewTube\'s own settings move through a ', { text: 'backup file', href: `${ntSettings}#L144-L152` }, '.'], source: `${ntReadme}#features` },
 				{ status: 'yes', label: 'Google account', note: 'Subscriptions and playlists follow your Google account. Morphe\'s settings move by hand through Import / Export.', source: `${morpheFaq}#113-how-do-i-backup-my-youtube-morphe-settings` },
 				{ status: 'yes', label: 'Google account', note: 'Subscriptions and playlists follow your Google account across devices.', source: 'https://support.google.com/youtube/answer/69961?hl=en' },
@@ -339,7 +339,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Paired devices exchange recent history.', source: gjSync },
 				{ status: 'no', note: 'History only moves through manual backups.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3#installation-and-updates' },
 				{ status: 'no', note: 'A Piped account doesn\'t sync history or playback positions.', source: ltPrivacy },
-				{ status: 'yes', note: 'History is one of the collections paired devices can sync, including the desktop beta.', source: `${flowCode}/ui/screens/sync/SyncCollections.kt` },
+				{ status: 'yes', note: 'History is one of the collections linked devices can sync, including the desktop beta.', source: `${flowCode}/ui/screens/sync/SyncCollections.kt` },
 				{ status: 'yes', label: 'History enabled', note: 'Saved to your Google account when the account keeps history. Settings can save it, stop sending it, or clear it.', source: `${ntSettings}#L126-L136` },
 				{ status: 'yes', label: 'History enabled', note: 'Saved to your Google account when history is on. Morphe warns when a DNS blocker stops history from saving.', source: `${morphePatches}/misc/dns/CheckWatchHistoryDomainNameResolutionPatch.kt` },
 				{ status: 'yes', label: 'History enabled', note: 'Saved to your Google account when history is on. You can pause or delete it.', source: 'https://support.google.com/youtube/answer/95725?hl=en' },
@@ -350,7 +350,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'yes', note: 'Watch metrics in the Creators tab show watch time and views per creator.', source: 'https://github.com/futo-org/grayjay-android/blob/396/app/src/main/res/values/strings.xml' },
 				{ status: 'partial', label: 'Most played', note: 'A Most Played list, but no watch-time charts.', source: 'https://github.com/TeamNewPipe/NewPipe/blob/v0.29.3/app/src/main/res/values/strings.xml' },
 				{ status: 'no', note: 'No watch-time statistics.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/res/values/strings.xml' },
-				{ status: 'yes', note: ['Flow Recap charts watch time per day for a month and per month for a year, broken down by weekday, time of day, and top channels. The ', { text: 'Wellbeing page', href: `${flowCode}/ui/screens/settings/wellbeing/WatchTimeCard.kt` }, ' shows daily watch time for the past week.'], source: `${flowCode}/ui/screens/recap/RecapOverviewCards.kt` },
+				{ status: 'yes', note: ['Flow Recap charts watch time per day for a month and per month for a year, broken down by weekday, time of day, and top channels. The ', { text: 'Wellbeing page', href: `${flowCode}/ui/screens/settings/wellbeing/WatchTimeCard.kt` }, ' shows daily watch time for the past week. The desktop beta has Flow Recap too.'], source: `${flowCode}/ui/screens/recap/RecapOverviewCards.kt` },
 				{ status: 'no', note: 'No watch-time statistics.', source: `${ntStrings}#L48` },
 				{ status: 'yes', label: 'Account required', note: 'Uses YouTube\'s Time watched page, which needs sign-in and watch history. Morphe adds no statistics of its own.', source: 'https://support.google.com/youtube/answer/9052667?hl=en' },
 				{ status: 'yes', label: 'Account required', note: 'Time watched shows the daily average, today, yesterday, and the past seven days if you\'re signed in with history on. It leaves out deleted history, private viewing, YouTube Music, and YouTube TV.', source: 'https://support.google.com/youtube/answer/9052667?hl=en' },
@@ -399,7 +399,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 				{ status: 'no', note: 'Not included.', source: `${gjYoutube}/YoutubeConfig.json` },
 				{ status: 'no', note: 'Not included.', source: 'https://github.com/TeamNewPipe/NewPipe/tree/v0.29.3' },
 				{ status: 'no', note: 'Not included.', source: 'https://github.com/libre-tube/LibreTube/blob/v32.1/app/src/main/res/values/strings.xml' },
-				{ status: 'no', note: 'Not included.', source: `${flowRelease}#features` },
+				{ status: 'yes', note: 'Optionally hides or labels channels on AiSList\'s lists, downloaded once a day, and reports AI channels to AiSList. The desktop beta hides or labels them too.', source: 'https://github.com/Flow-Tube/Flow/blob/v3.0.5/app/src/main/res/values/strings.xml#L5286-L5303' },
 				{ status: 'no', note: 'Not included.', source: ntReadme },
 				{ status: 'yes', note: 'Optionally hides channels flagged by AiSList in Home and search, and reports AI channels from the video menu. Filtering runs on your device.', source: `${morpheStrings}/youtube/strings.xml#L375-L388` },
 				{ status: 'partial', label: 'Web extension', note: 'The AiBlock browser extension filters channels on the website with AiSList. The apps don\'t support it.', source: 'https://aisloplist.com/' },
