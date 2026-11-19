@@ -31,6 +31,15 @@ test('the conventional favicon URL serves an ICO asset instead of an HTML redire
 test('the shared layout advertises an ICO fallback and the SVG favicon', () => {
 	const layout = readFileSync('src/layouts/SignalLayout.astro', 'utf8');
 	const icons = [...layout.matchAll(/<link\b[^>]*\brel="icon"[^>]*>/g)].map(([tag]) => tag);
-	expect(icons.some((tag) => tag.includes('href="/favicon.ico"') && tag.includes('type="image/x-icon"'))).toBe(true);
-	expect(icons.some((tag) => tag.includes('href="/favicon.svg"') && tag.includes('type="image/svg+xml"'))).toBe(true);
+	expect(icons.some((tag) => tag.includes('href="/favicon.ico?v=') && tag.includes('type="image/x-icon"'))).toBe(true);
+	expect(icons.some((tag) => tag.includes('href="/favicon.svg?v=') && tag.includes('type="image/svg+xml"'))).toBe(true);
+});
+
+test('the shared layout advertises a PNG touch icon that exists', () => {
+	const layout = readFileSync('src/layouts/SignalLayout.astro', 'utf8');
+	expect(layout).toContain('<link rel="apple-touch-icon" href="/apple-touch-icon.png" />');
+	const png = readFileSync('public/apple-touch-icon.png');
+	expect(png.subarray(0, 8)).toEqual(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+	expect(png.readUInt32BE(16)).toBe(180);
+	expect(png.readUInt32BE(20)).toBe(180);
 });
