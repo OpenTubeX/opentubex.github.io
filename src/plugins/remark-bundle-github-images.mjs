@@ -230,7 +230,7 @@ export async function copyReusedGitHubImages(distDirectory) {
 	return reusedAssets.size;
 }
 
-/** Copy animated and raw HTML feature images that bypass Astro's image processing. */
+/** Copy animated and raw HTML feature images, which bypass Astro's image pipeline. */
 export async function copyExposedGitHubImages(distDirectory) {
 	if (exposedAssets.size === 0) return 0;
 

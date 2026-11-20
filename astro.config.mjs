@@ -45,7 +45,7 @@ function cachedImages() {
 					console.log(`[features] Reused ${featureCount} image(s) from the previous deployment`);
 				}
 				if (exposedFeatureCount > 0) {
-					console.log(`[features] Copied ${exposedFeatureCount} unprocessed image(s) into dist`);
+					console.log(`[features] Copied ${exposedFeatureCount} raw HTML or animated image(s) into dist/feature-images`);
 				}
 			},
 		},
