@@ -1,22 +1,30 @@
 import { loadShikiTheme } from 'astro-expressive-code';
 
-/**
- * Vitesse with brighter, distinct colors for shell code, matching the package repository pages.
- * Shell scopes only, so other languages keep plain Vitesse.
- */
-async function withShellColors(baseTheme, name, palette) {
+/** Vitesse's editor colors with our own token colors: one bright hue per token kind, in every language. */
+async function vibrant(baseTheme, name, palette) {
 	const theme = await loadShikiTheme(baseTheme);
 	theme.name = name;
 	const rules = {
-		command: ['entity.name.command.shell', 'support.function.builtin.shell'],
-		option: ['source.shell constant.other.option'],
-		string: ['string.quoted.single.shell', 'string.quoted.double.shell', 'punctuation.definition.string.begin.shell', 'punctuation.definition.string.end.shell'],
-		operator: ['keyword.operator.pipe.shell', 'keyword.operator.redirect.shell', 'keyword.operator.logical.shell', 'constant.character.escape.line-continuation.shell'],
-		argument: ['string.unquoted.argument.shell'],
+		muted: ['comment', 'punctuation'],
+		function: ['entity.name.function', 'support.function', 'entity.name.command'],
+		keyword: ['keyword', 'storage', 'constant.other.option'],
+		string: ['string', 'punctuation.definition.string'],
+		number: ['constant', 'variable', 'punctuation.definition.variable', 'support.constant'],
+		operator: ['keyword.operator', 'constant.character.escape'],
+		name: [
+			'entity.name.tag',
+			'entity.name.type',
+			'entity.other.attribute-name',
+			'support.type',
+			'support.class',
+			'variable.other.property',
+			'string.unquoted.argument',
+		],
 	};
-	for (const [key, scope] of Object.entries(rules)) {
-		theme.settings.push({ scope, settings: { foreground: palette[key] } });
-	}
+	theme.settings = [
+		{ settings: { foreground: theme.fg, background: theme.bg } },
+		...Object.entries(rules).map(([key, scope]) => ({ scope, settings: { foreground: palette[key] } })),
+	];
 	return theme;
 }
 
@@ -37,19 +45,23 @@ const sudoCommand = {
 // Frame colors come from the site theme in signal.css.
 export default {
 	themes: [
-		await withShellColors('vitesse-dark', 'opentubex-dark', {
-			command: '#ff8478',
-			option: '#d3b5ff',
+		await vibrant('vitesse-dark', 'opentubex-dark', {
+			muted: '#8a8a8a',
+			function: '#ff8478',
+			keyword: '#d3b5ff',
 			string: '#b5dda9',
+			number: '#ffc093',
 			operator: '#f2a8bd',
-			argument: '#91c4ff',
+			name: '#91c4ff',
 		}),
-		await withShellColors('vitesse-light', 'opentubex-light', {
-			command: '#c0392b',
-			option: '#7445c2',
+		await vibrant('vitesse-light', 'opentubex-light', {
+			muted: '#767676',
+			function: '#c0392b',
+			keyword: '#7445c2',
 			string: '#3b7a2a',
+			number: '#a85400',
 			operator: '#b02a62',
-			argument: '#1f63c4',
+			name: '#1f63c4',
 		}),
 	],
 	shiki: { transformers: [sudoCommand] },
