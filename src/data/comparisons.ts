@@ -16,7 +16,7 @@ interface Row {
 export const clients = [
 	{ name: 'OpenTubeX', icon: '/favicon.svg', url: '/downloads/', source: 'https://github.com/OpenTubeX/OpenTubeX' },
 	{ name: 'FreeTube', icon: '/compare-icons/freetube.svg', url: 'https://freetubeapp.io/', source: 'https://github.com/FreeTubeApp/FreeTube' },
-	{ name: 'Grayjay', icon: '/compare-icons/grayjay.png', url: 'https://grayjay.app/desktop/', source: 'https://grayjay.app/desktop/' },
+	{ name: 'Grayjay', icon: '/compare-icons/grayjay.webp', url: 'https://grayjay.app/desktop/', source: 'https://grayjay.app/desktop/' },
 	{ name: 'NewPipe', icon: '/compare-icons/newpipe.svg', url: 'https://newpipe.net/', source: 'https://newpipe.net/' },
 	{ name: 'LibreTube', icon: '/compare-icons/libretube.svg', url: 'https://libretube.dev/', source: 'https://github.com/libre-tube/LibreTube' },
 	{ name: 'Flow', icon: '/compare-icons/flow.svg', url: 'https://flow-tube.org/', source: 'https://github.com/Flow-Tube/Flow/tree/v3.0.5' },
@@ -360,7 +360,7 @@ export const groups: { name: string; rows: Row[] }[] = [
 	{
 		name: 'Add-ons',
 		rows: [
-			{ name: 'SponsorBlock', url: 'https://sponsor.ajay.app/', image: '/compare-icons/sponsorblock.png', cells: [
+			{ name: 'SponsorBlock', url: 'https://sponsor.ajay.app/', image: '/compare-icons/sponsorblock.webp', cells: [
 				{ status: 'yes', label: 'Full', note: 'Category skipping, mute segments, full-video labels, channel whitelisting, and submitting segments from the player.', source: 'https://opentubex.org/extra-features/#sponsorblock-submission' },
 				{ status: 'partial', label: 'Skipping only', note: 'Skips segments by category and can exclude channels. No submissions, mute segments, or full-video labels.', source: 'https://github.com/FreeTubeApp/FreeTube/blob/v0.26.0-beta/src/renderer/helpers/sponsorblock.js' },
 				{ status: 'partial', label: 'YouTube plugin', note: 'The YouTube plugin skips segments by category, manually or automatically. No submissions, mute segments, or full-video labels.', source: `${gjYoutube}/YoutubeConfig.json#L178-L262` },

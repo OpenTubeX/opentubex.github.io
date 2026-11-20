@@ -16,7 +16,7 @@ Google Takeout exports your Google account data. OpenTubeX can import subscripti
 
 Selecting only these categories keeps the export smaller. If you use more than one Google account, check which account is selected before exporting.
 
-<img src="/docs-images/takeout/history.png" alt="Google Takeout content-options dialog with history selected." width="431" height="451" loading="lazy" decoding="async" />
+<img src="/docs-images/takeout/history.webp" alt="Google Takeout content-options dialog with history selected." width="431" height="451" loading="lazy" decoding="async" />
 
 *Select history for watch and search history. You can also select subscriptions and playlists.*
 
@@ -28,11 +28,11 @@ The screenshots show the relevant controls, but are not captures of today's inte
 2. Change **History** to **JSON** and confirm with **OK**.
 3. Select **Next step**.
 
-<img src="/docs-images/takeout/json.png" alt="Google Takeout format dialog with history set to JSON." width="553" height="319" loading="lazy" decoding="async" />
+<img src="/docs-images/takeout/json.webp" alt="Google Takeout format dialog with history set to JSON." width="553" height="319" loading="lazy" decoding="async" />
 
 *Set history to JSON before requesting the export.*
 
-<img src="/docs-images/takeout/youtube.png" alt="Google Takeout YouTube entry showing JSON format, one data type selected, and the Next step button." width="689" height="409" loading="lazy" decoding="async" />
+<img src="/docs-images/takeout/youtube.webp" alt="Google Takeout YouTube entry showing JSON format, one data type selected, and the Next step button." width="689" height="409" loading="lazy" decoding="async" />
 
 *After making your choices, the buttons may read JSON format and a count of selected types rather than Multiple formats and All YouTube data included. This example includes history only.*
 
