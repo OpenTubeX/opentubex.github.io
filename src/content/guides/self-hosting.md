@@ -60,7 +60,7 @@ The server only accepts connections from the computer it runs on. Put an HTTPS s
 - **[Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/)** gives the server a public address without opening ports. Point a tunnel at `http://localhost:8080`, and protect the address with [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/access-controls/policies/) so that only you can use it.
 - **A reverse proxy** such as [Caddy](https://caddyserver.com/) works with your own domain. Caddy obtains a certificate on its own:
 
-  ```text
+  ```caddyfile
   opentubex.example.com {
   	reverse_proxy localhost:8080
   }

@@ -54,7 +54,7 @@ Put a reverse proxy in front of the server that handles HTTPS and forwards reque
 
 [Caddy](https://caddyserver.com/) does both by default and obtains a certificate for the domain. A `Caddyfile` for it:
 
-```text
+```caddyfile
 yattee.example.com {
 	reverse_proxy localhost:8085
 }

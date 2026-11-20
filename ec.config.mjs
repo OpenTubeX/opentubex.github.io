@@ -1,4 +1,5 @@
 import { loadShikiTheme } from 'astro-expressive-code';
+import caddyfile from './src/plugins/caddyfile-grammar.mjs';
 
 /** Vitesse's editor colors with our own token colors: one bright hue per token kind, in every language. */
 async function vibrant(baseTheme, name, palette) {
@@ -64,7 +65,7 @@ export default {
 			name: '#1f63c4',
 		}),
 	],
-	shiki: { transformers: [sudoCommand] },
+	shiki: { langs: [caddyfile], transformers: [sudoCommand] },
 	cascadeLayer: 'vendor',
 	// Give every code block the window header with traffic light dots.
 	defaultProps: { frame: 'terminal' },
