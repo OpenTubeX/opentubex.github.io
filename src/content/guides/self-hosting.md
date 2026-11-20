@@ -83,7 +83,7 @@ The `latest` image follows stable releases. To try nightly builds, change `ghcr.
 
 Browsers don't let web pages read YouTube's responses, so the web app has no Local API on its own. The [OpenTubeX Local API extension](https://github.com/OpenTubeX/OpenTubeX/tree/development/browser-extension) lets it request YouTube directly from your browser, as the desktop and mobile apps do. Each browser that opens the web app needs the extension:
 
-1. Install the extension as its [README](https://github.com/OpenTubeX/OpenTubeX/tree/development/browser-extension#install) describes. It isn't in the browser add-on stores yet.
+1. [Download the extension](https://github.com/OpenTubeX/OpenTubeX/releases/latest/download/opentubex-local-api-extension.zip) and install it as its [README](https://github.com/OpenTubeX/OpenTubeX/tree/development/browser-extension#install) describes. It isn't in the browser add-on stores yet.
 2. If you open OpenTubeX on an address other than `localhost`, open the extension's options and add that `https://` address.
 3. Reload OpenTubeX.
 4. If you picked Invidious or a Yattee server as **Preferred API Backend** earlier, OpenTubeX keeps using it. Change it to **Local API** in the **Video and metadata providers** settings.
