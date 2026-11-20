@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readdir, rename, rm, writeFile } from 'node:fs/promises';
+import { access, copyFile, mkdir, readdir, rename, rm, writeFile } from 'node:fs/promises';
 import { basename, dirname, extname, relative, resolve, sep } from 'node:path';
 import sharp from 'sharp';
 
@@ -9,6 +9,7 @@ const attachmentUrlPattern = new RegExp(mediaUrlSource, 'gi');
 const mediaTagPattern = /<(img|source|video)\b(?:[^>"']|"[^"]*"|'[^']*')*>/gi;
 const attributePattern = /(\s([^\s"'>/=]+)\s*=\s*)(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/g;
 const cacheDirectory = resolve('node_modules/.astro/github-images');
+const optimizedDirectory = resolve(cacheDirectory, 'webp');
 const publicDirectory = resolve('public/feature-images');
 const previousSiteDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
 	? resolve(process.env.OPENTUBEX_PREVIOUS_SITE)
@@ -16,6 +17,7 @@ const previousSiteDirectory = process.env.OPENTUBEX_PREVIOUS_SITE
 const downloads = new Map();
 const reusedAssets = new Map();
 const exposedAssets = new Map();
+const optimizedImages = new Map();
 
 const extensions = new Map([
 	['image/gif', '.gif'],
@@ -62,6 +64,12 @@ async function downloadImage(url, id, cachedFiles, kind) {
 		const previousFile = previousFiles.find(matches);
 		if (previousFile) {
 			const previousPath = resolve(previousAssetsDirectory, previousFile);
+			// Deployments before WebP conversion exposed originals, so convert those like a fresh download.
+			if (directory === 'feature-images' && !/\.(?:webp|mp4|webm|mov)$/i.test(previousFile)) {
+				const path = resolve(cacheDirectory, previousFile);
+				await copyFile(previousPath, path);
+				return { path };
+			}
 			const outputPath = `${directory}/${previousFile}`;
 			reusedAssets.set(outputPath, previousPath);
 			return { url: `/${outputPath}`, ...(await imageSize(previousPath)) };
@@ -94,14 +102,32 @@ async function downloadImage(url, id, cachedFiles, kind) {
 	return download;
 }
 
+/** Encode like changelog images; animated WebP still becomes MP4 after the build when that is smaller. */
+function optimizeImage(path) {
+	if (videoFilePattern.test(path) || path.endsWith('.webp')) return path;
+	if (!optimizedImages.has(path)) {
+		optimizedImages.set(path, (async () => {
+			const output = resolve(optimizedDirectory, `${basename(path, extname(path))}.webp`);
+			if (await access(output).then(() => true, () => false)) return output;
+			await mkdir(optimizedDirectory, { recursive: true });
+			const temporaryPath = `${output}.tmp`;
+			await sharp(path, { animated: true, autoOrient: true }).webp().toFile(temporaryPath);
+			await rename(temporaryPath, output);
+			return output;
+		})());
+	}
+	return optimizedImages.get(path);
+}
+
 async function exposeCachedImage(asset) {
 	if (!asset.path) return asset;
 
 	await mkdir(publicDirectory, { recursive: true });
-	const filename = basename(asset.path);
-	await copyFile(asset.path, resolve(publicDirectory, filename));
-	exposedAssets.set(filename, asset.path);
-	return { url: `/feature-images/${filename}`, ...(await imageSize(asset.path)) };
+	const path = await optimizeImage(asset.path);
+	const filename = basename(path);
+	await copyFile(path, resolve(publicDirectory, filename));
+	exposedAssets.set(filename, path);
+	return { url: `/feature-images/${filename}`, ...(await imageSize(path)) };
 }
 
 /** Remove exposed copies before Astro serves or bundles public files. */

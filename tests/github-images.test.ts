@@ -70,6 +70,35 @@ test('downloads an image again when the deployment only has its converted video'
 	}
 });
 
+test('converts PNGs that an older deployment exposed unprocessed', async () => {
+	const fixture = await mkdtemp(join(tmpdir(), 'opentubex-github-images-'));
+	try {
+		const previous = join(fixture, 'previous-site/feature-images');
+		await mkdir(previous, { recursive: true });
+		await writeFile(join(previous, `${id}.png`), await sharp({
+			create: { width: 3, height: 2, channels: 4, background: '#ff00ff' },
+		}).png().toBuffer());
+		const result = JSON.parse(execFileSync(process.execPath, ['--eval', `
+			globalThis.fetch = () => { throw new Error('GitHub must not be contacted for a deployed image'); };
+			const { default: bundle, copyExposedGitHubImages } = await import(${JSON.stringify(plugin)});
+			const node = { type: 'html', value: '<img src="https://github.com/user-attachments/assets/${id}">' };
+			await bundle({ command: 'build' })({ type: 'root', children: [node] }, { path: '/src/content/extra-features.md' });
+			const copied = await copyExposedGitHubImages('dist');
+			console.log(JSON.stringify({ node, copied }));
+		`], {
+			cwd: fixture,
+			env: { ...process.env, OPENTUBEX_PREVIOUS_SITE: join(fixture, 'previous-site') },
+			encoding: 'utf8',
+		}));
+		expect(result.node.value).toBe(`<img src="/feature-images/${id}.webp">`);
+		expect(result.copied).toBe(1);
+		const converted = await sharp(await readFile(join(fixture, 'dist/feature-images', `${id}.webp`))).metadata();
+		expect(converted.format).toBe('webp');
+	} finally {
+		await rm(fixture, { recursive: true, force: true });
+	}
+});
+
 test('bundles GitHub attachments and media assets referenced by raw HTML', async () => {
 	const fixture = await mkdtemp(join(tmpdir(), 'opentubex-github-images-'));
 	try {
@@ -107,14 +136,15 @@ test('bundles GitHub attachments and media assets referenced by raw HTML', async
 			const copied = await copyExposedGitHubImages('dist');
 			console.log(JSON.stringify({ node, copied }));
 		`], { cwd: fixture, encoding: 'utf8' }));
-		expect(result.node.value).toContain(`srcset="/feature-images/${dark}.png"`);
-		expect(result.node.value).toContain(`srcset="/feature-images/${light}.png"`);
-		expect(result.node.value).toContain(` src=/feature-images/${dark}.png>`);
+		expect(result.node.value).toContain(`srcset="/feature-images/${dark}.webp"`);
+		expect(result.node.value).toContain(`srcset="/feature-images/${light}.webp"`);
+		expect(result.node.value).toContain(` src=/feature-images/${dark}.webp>`);
 		expect(result.node.value).toContain(`<img src="/feature-images/${media}.webp">`);
 		expect(result.node.value).toContain(`<video src="/feature-images/${video}.mp4"><source src="/feature-images/${video}.mp4">`);
 		expect(result.node.value).toContain(`alt="src=https://github.com/user-attachments/assets/${dark}"`);
 		expect(result.copied).toBe(4);
-		expect(await readFile(join(fixture, 'dist/feature-images', `${light}.png`))).toEqual(image);
+		const converted = await sharp(await readFile(join(fixture, 'dist/feature-images', `${light}.webp`))).metadata();
+		expect(converted).toMatchObject({ format: 'webp', width: 3, height: 2 });
 		expect(await readFile(join(fixture, 'dist/feature-images', `${video}.mp4`))).toEqual(clip);
 	} finally {
 		await rm(fixture, { recursive: true, force: true });
