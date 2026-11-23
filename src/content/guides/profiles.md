@@ -14,7 +14,7 @@ For a lighter way to filter one feed, use [subscription groups](#use-subscriptio
 1. Open **Settings → Data & Storage → Data**.
 2. Select **Manage Subscriptions** to open the profile manager.
 3. Choose **Create New Profile**.
-4. Enter a name, choose its appearance, then select **Create Profile**.
+4. Enter a name, choose its appearance and whether it [keeps its data or settings separate](#keep-data-or-settings-separate), then select **Create Profile**.
 
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/create-profile-dark.webp" type="image/webp" />
@@ -32,7 +32,16 @@ The default **All Channels** profile collects your subscriptions. Use an additio
 2. Choose a profile in the profile selector.
 3. Open **Subscriptions** to view that profile's channels.
 
-An empty profile has no channels to show. Switching profiles is not a way to create separate watch-history or playlist libraries.
+An empty profile has no channels to show. Unless a profile keeps its data or settings separate, every profile uses the same watch history, playlists, and settings.
+
+## Keep data or settings separate
+
+When you create a profile, you can choose what it keeps to itself:
+
+- **Keep data separate** gives the profile its own subscriptions, watch history, playlists, search history, watch statistics, and queue. Your other profiles don't see them, and this profile doesn't see theirs. You can't change this after creating the profile.
+- **Keep settings separate** gives the profile its own settings, which start out the same as your shared settings. While the profile is active, changes in Settings only apply to it. For example, a car profile can hide comments and live chat while still using your subscriptions and history. Settings of this device, such as sync, proxy, backups, and download folders, stay shared.
+
+You can turn **Keep settings separate** on or off later by editing the profile. Turning it off deletes the settings you changed for that profile. In Settings, a profile icon marks each setting that the active profile changed; select it to use the shared value again. **All Channels** always uses the shared data and settings.
 
 ## Add channels
 
