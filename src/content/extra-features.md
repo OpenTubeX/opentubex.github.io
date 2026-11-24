@@ -59,7 +59,7 @@ watch statistics.
 
 Preload upcoming yt-dlp videos from the watch queue, playlist or
 recommendations, or prepare an entire playlist before watching. Choose how
-many videos to prepare and how many extractions to run concurrently.
+many upcoming videos to prepare, or none to turn preloading off.
 Preloading prepares stream URLs to reduce playback delays; use Downloads to
 save videos for offline playback.
 
@@ -181,8 +181,8 @@ Plasma.
 ### Cast to Google Cast, FCast and DLNA devices
 
 Google Cast and FCast casting are supported on Android and desktop, and DLNA
-casting on Android, desktop and iOS/iPadOS. Turn on each protocol in Player
-settings, then choose a device from the cast button
+casting on Android, desktop and iOS/iPadOS. Choose the protocols under **Cast
+To** in Player settings, then choose a device from the cast button
 in the player. On desktop, devices from every enabled protocol appear in one
 list; on phones, each protocol has its own submenu. While casting, the menu
 becomes a remote with seek and volume sliders, playback buttons, and subtitle
@@ -788,8 +788,8 @@ interface keeps its colors.
 Hide channels directly from channel-link context menus, or filter content with
 saved channel and phrase block lists in Focus settings. Blocked videos,
 playlists, channels and posts can be blurred instead of hidden; click one to
-show it. Temporarily pause both lists from settings or an optional Quick
-Settings control without deleting your entries.
+show it. To pause both lists without deleting your entries, set Blocked Items
+to Show in settings or in an optional Quick Settings control.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/a63ded12-3b9f-466b-aead-a65957eab9b9">
@@ -1374,9 +1374,9 @@ stream videos through the server.
 
 Retry age-restricted and members-only videos through yt-dlp with cookies from
 a browser or file. Configured cookies can also request account-only formats
-for any video. Use the configured cookies for subtitles, transcripts and
-automatic caption translations, with a separate subtitle-only authentication
-setting. On desktop and Android, age-restricted or empty Local API searches can
+for any video. Choose whether yt-dlp uses them for playback, downloads, and
+subtitles, which include transcripts and automatic caption translations.
+On desktop and Android, age-restricted or empty Local API searches can
 be retried with your configured yt-dlp cookies when family-friendly search is
 off. Android uses your saved YouTube session.
 
