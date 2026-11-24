@@ -65,7 +65,7 @@ watch statistics.</p>
 </section><section class="feature-entry"><h3 id="preload-upcoming-videos-and-playlists">Preload upcoming videos and playlists</h3>
 <p>Preload upcoming yt-dlp videos from the watch queue, playlist or
 recommendations, or prepare an entire playlist before watching. Choose how
-many videos to prepare and how many extractions to run concurrently.
+many upcoming videos to prepare, or none to turn preloading off.
 Preloading prepares stream URLs to reduce playback delays; use Downloads to
 save videos for offline playback.</p>
 <picture>
@@ -153,8 +153,8 @@ Plasma.</p>
 <p><img src="/_astro/4c1f1f7b-7614-41c8-abd3-5c5179d75cee.jm1jKhSX_Z1bQJxo.webp" alt="Auto Picture-in-Picture window options" width="436" height="157" loading="lazy" decoding="async"></p>
 </section><section class="feature-entry"><h3 id="cast-to-google-cast-fcast-and-dlna-devices">Cast to Google Cast, FCast and DLNA devices</h3>
 <p>Google Cast and FCast casting are supported on Android and desktop, and DLNA
-casting on Android, desktop and iOS/iPadOS. Turn on each protocol in Player
-settings, then choose a device from the cast button
+casting on Android, desktop and iOS/iPadOS. Choose the protocols under <strong>Cast
+To</strong> in Player settings, then choose a device from the cast button
 in the player. On desktop, devices from every enabled protocol appear in one
 list; on phones, each protocol has its own submenu. While casting, the menu
 becomes a remote with seek and volume sliders, playback buttons, and subtitle
@@ -610,17 +610,17 @@ interface keeps its colors.</p>
 <p>Hide channels directly from channel-link context menus, or filter content with
 saved channel and phrase block lists in Focus settings. Blocked videos,
 playlists, channels and posts can be blurred instead of hidden; click one to
-show it. Temporarily pause both lists from settings or an optional Quick
-Settings control without deleting your entries.</p>
+show it. To pause both lists without deleting your entries, set Blocked Items
+to Show in settings or in an optional Quick Settings control.</p>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="/feature-images/a63ded12-3b9f-466b-aead-a65957eab9b9.webp">
   <source media="(prefers-color-scheme: light)" srcset="/feature-images/1882cf4a-69d6-4881-8da8-9b49915f564d.webp">
   <img width="700" height="212" style="max-width: min(100%, 700px); height: auto;" loading="lazy" decoding="async" alt="Blocked video blurred in the subscription feed with a Show blocked item button" src="/feature-images/a63ded12-3b9f-466b-aead-a65957eab9b9.webp">
 </picture>
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/feature-images/48413b19-766e-405d-a2bd-42e0c01717cd.webp">
-  <source media="(prefers-color-scheme: light)" srcset="/feature-images/d197d0aa-6f63-4ef1-b26f-9150062247da.webp">
-  <img width="656" height="296" style="max-width: min(100%, 656px); max-height: 296px;" loading="lazy" decoding="async" alt="Enable block lists switch above saved channel and phrase lists" src="/feature-images/48413b19-766e-405d-a2bd-42e0c01717cd.webp">
+  <source media="(prefers-color-scheme: dark)" srcset="/feature-images/643d3a34-cca3-4391-9fe9-6ed765d57a4e.webp">
+  <source media="(prefers-color-scheme: light)" srcset="/feature-images/88550d92-e7f5-4601-88cb-80f000c44eb9.webp">
+  <img width="632" height="441" style="max-width: min(100%, 632px); height: auto;" loading="lazy" decoding="async" alt="Blocked Items select above saved channel and phrase lists" src="/feature-images/643d3a34-cca3-4391-9fe9-6ed765d57a4e.webp">
 </picture>
 </section><section class="feature-entry"><h3 id="hide-ai-slop-channels">Hide AI slop channels</h3>
 <p>Turn on <strong>Hide AI slop channels</strong> in Add-ons settings to use the
@@ -1060,9 +1060,9 @@ stream videos through the server.</p>
 </section><section class="feature-entry"><h3 id="authenticated-playback">Authenticated playback</h3>
 <p>Retry age-restricted and members-only videos through yt-dlp with cookies from
 a browser or file. Configured cookies can also request account-only formats
-for any video. Use the configured cookies for subtitles, transcripts and
-automatic caption translations, with a separate subtitle-only authentication
-setting. On desktop and Android, age-restricted or empty Local API searches can
+for any video. Choose whether yt-dlp uses them for playback, downloads, and
+subtitles, which include transcripts and automatic caption translations.
+On desktop and Android, age-restricted or empty Local API searches can
 be retried with your configured yt-dlp cookies when family-friendly search is
 off. Android uses your saved YouTube session.</p>
 <picture>
