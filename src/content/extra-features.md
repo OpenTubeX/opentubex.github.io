@@ -800,7 +800,7 @@ to Show in settings or in an optional Quick Settings control.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/643d3a34-cca3-4391-9fe9-6ed765d57a4e">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/88550d92-e7f5-4601-88cb-80f000c44eb9">
-  <img width="632" height="441" style="max-width: min(100%, 632px); max-height: 441px;" loading="lazy" decoding="async" alt="Blocked Items select above saved channel and phrase lists" src="https://github.com/user-attachments/assets/643d3a34-cca3-4391-9fe9-6ed765d57a4e">
+  <img width="632" height="441" style="max-width: min(100%, 632px); height: auto;" loading="lazy" decoding="async" alt="Blocked Items select above saved channel and phrase lists" src="https://github.com/user-attachments/assets/643d3a34-cca3-4391-9fe9-6ed765d57a4e">
 </picture>
 
 ### Hide AI slop channels
