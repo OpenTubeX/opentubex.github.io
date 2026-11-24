@@ -200,11 +200,11 @@ playback in OpenTubeX.
 Keep watching when you scroll down a video page, leave the Watch page, or
 switch to another tab. When there's room, such as on phones in portrait or on
 vertical monitors, scrolling down pins the full-size player to the top;
-otherwise the video shrinks into the mini player. Choose what happens in
-Player settings with **When scrolling down** and **When leaving a video**. Use
-the mini player's controls to return to the source tab or hide the player
-without interrupting playback. On desktop, double-click the mini player to
-return to the full player.
+otherwise the video shrinks into the mini player. To stop playback when you
+leave a video instead, turn off **Keep playing after leaving a video** in
+Player settings. Use the mini player's controls to return to the source tab
+or hide the player without interrupting playback. On desktop, double-click the
+mini player to return to the full player.
 
 On mobile, the bottom player includes playback progress, play/pause, 10-second
 seeking, and previous/next controls when available. Drag the progress line to
