@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.7",
-    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/sitemap": "^3.7.5",
     "@iconify-json/lucide": "^1.2.153",
     "@iconify-json/simple-icons": "^1.2.101",
     "astro": "7.4.12",
