@@ -1,0 +1,1 @@
+"serviceWorker"in navigator&&navigator.serviceWorker.register(`pwabuilder-sw.js?v=${document.currentScript.dataset.version}`,{scope:"./"});
