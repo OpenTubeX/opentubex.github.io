@@ -11,8 +11,8 @@ For a lighter way to filter one feed, use [subscription groups](#use-subscriptio
 
 ## Create a profile
 
-1. Open **Settings → Data & Storage → Data**.
-2. Select **Manage Subscriptions** to open the profile manager.
+1. Open **Settings → Subscriptions**.
+2. Select **Open Profile Manager**.
 3. Choose **Create New Profile**.
 4. Enter a name, choose its appearance and whether it [keeps its data or settings separate](#keep-data-or-settings-separate), then select **Create Profile**.
 
@@ -49,7 +49,7 @@ To add a new channel, switch to your desired profile, open the channel, and sele
 
 To organize channels you already follow:
 
-1. Open **Manage Subscriptions**, choose the profile you want to edit, and open the **Manage profile subscriptions** tab.
+1. Open the profile manager from **Settings → Subscriptions → Open Profile Manager**, choose the profile you want to edit, and open the **Manage profile subscriptions** tab.
 2. Select channels from the available channel list.
 3. Choose **Add Selected To Profile**.
 4. Return to your subscription feed and check the active profile.
