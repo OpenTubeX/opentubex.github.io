@@ -285,8 +285,9 @@ player menu. The boost applies to the current tab and resets in new tabs.
 On desktop and Android, **Normalize Loudness** turns down videos loaded with
 the Local API that are louder than most, so the volume doesn't jump between
 videos. **Mono Audio** plays both audio channels in both ears, for videos
-whose sound only comes out of one side. Turn it on in Player settings, or
-switch it from the player menu. These options are not available on iOS.
+whose sound only comes out of one side. Turn on **Show Mono Audio Toggle** in
+Playback settings, then switch it from the player menu. Like the boost, it
+applies to the current tab. These options are not available on iOS.
 
 <img width="401" height="210" style="max-width: min(100%, 401px); height: auto;" loading="lazy" decoding="async" src="https://github.com/user-attachments/assets/a0096e9a-6dcb-4bc2-8f07-b47f0e7986de" alt="Mono Audio turned on in the player menu">
 
