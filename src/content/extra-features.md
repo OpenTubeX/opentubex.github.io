@@ -1114,8 +1114,8 @@ dock's edge to make it wider or narrower; the width is remembered, and
 double-clicking the edge restores the default. Choose and reorder fullscreen
 action buttons in **Customize interface**, including an optional shortcut to
 the download dialog, and choose which player elements stay visible while
-playback is paused. In portrait on phones, panels open as full-width bottom
-sheets that you can drag.
+playback is paused in Focus settings. In portrait on phones, panels open as
+full-width bottom sheets that you can drag.
 
 <img width="533" height="300" style="max-width: min(100%, 533px); height: auto;" loading="lazy" decoding="async" src="https://github.com/OpenTubeX/media/releases/download/attachments/20261112T081539Z-fullscreen-dock-width-resize-103c66f62c.webp" alt="Dragging the edge of the fullscreen side panels to make them wider">
 
