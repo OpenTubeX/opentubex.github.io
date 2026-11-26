@@ -64,7 +64,7 @@ You do not need to upload the archive to another website. Creating an export doe
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/data-dark.webp" type="image/webp" />
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/data-light.webp" type="image/webp" />
-  <img src="/docs-images/data-light.webp" alt="OpenTubeX Data settings showing Import YouTube Takeout ZIP and separate data import actions." width="1280" height="820" loading="lazy" decoding="async" />
+  <img src="/docs-images/data-light.webp" alt="OpenTubeX Data settings showing the YouTube/Google Takeout tile with Import YouTube Takeout ZIP, and a list of data types with their own Import buttons." width="1280" height="820" loading="lazy" decoding="async" />
 </picture>
 
 *Choose Import YouTube Takeout ZIP to select the archive directly.*
@@ -73,10 +73,10 @@ You do not need to upload the archive to another website. Creating an export doe
 
 1. Extract the downloaded ZIP and open `Takeout/YouTube and YouTube Music/`. Exports in other languages use translated folder and file names, so select the translated equivalents of the paths in step 3.
 2. In OpenTubeX, open **Settings → Data & Storage → Data**.
-3. Choose **Import Subscriptions** for `subscriptions/subscriptions.csv`, **Import History** for `history/watch-history.json`, or **Import search history** for `history/search-history.json`.
+3. Under **Individual data**, select **Import** in the **Subscriptions** row for `subscriptions/subscriptions.csv`, in the **History** row for `history/watch-history.json`, or in the **Search history** row for `history/search-history.json`.
 4. Check the imported data and refresh the subscription feed.
 
-For a Takeout playlist CSV, choose **Import Playlists** and select an individual file in `playlists/`, or use ZIP import for several playlists together.
+For a Takeout playlist CSV, select **Import** in the **Playlists** row and select an individual file in `playlists/`, or use ZIP import for several playlists together.
 
 ## If something is missing
 

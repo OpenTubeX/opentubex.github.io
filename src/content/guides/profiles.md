@@ -72,4 +72,4 @@ Once a group exists, the **New Group** and **Edit Group** buttons appear next to
 
 ## Back up profiles
 
-Use **Settings → Data & Storage → Data → Export Subscriptions → Export OpenTubeX**. That format preserves profile information for importing on another OpenTubeX installation. Subscription groups and the custom channel order are settings, so the subscriptions export leaves them out. Use **Export Settings**, or **Export backup** with the settings category selected, to keep them. See [Back up your library](/docs/importing/#back-up-your-library).
+In **Settings → Data & Storage → Data**, select **Export** in the **Subscriptions** row, then **Export OpenTubeX**. That format preserves profile information for importing on another OpenTubeX installation. Subscription groups and the custom channel order are settings, so the subscriptions export leaves them out. Use **Export** in the **Settings** row, or **Export backup** with the settings category selected, to keep them. See [Back up your library](/docs/importing/#back-up-your-library).

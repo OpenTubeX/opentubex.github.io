@@ -1415,7 +1415,7 @@ preview new, existing, and skipped records and see which data will merge or be
 replaced. Playlist titles and descriptions are preserved without Takeout's
 export-file suffixes. Exports in any language are recognized.
 
-**Import Playlists** also accepts several Takeout playlist CSVs at once. Pick
+The playlist import in Data settings also accepts several Takeout playlist CSVs at once. Pick
 `playlists.csv` with them to keep their original titles and descriptions. You
 can also import subscriptions and watch history from
 [LibreTube](https://github.com/libre-tube/LibreTube).

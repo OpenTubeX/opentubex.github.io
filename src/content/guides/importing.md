@@ -9,20 +9,20 @@ icon: lucide:database-backup
 
 1. Open your profile menu and select **All settings**.
 2. Select **Data & Storage**.
-3. Open the **Data** tab. Choose **Export backup** or **Import backup** for one OpenTubeX ZIP, an action for an individual file, or **Import YouTube Takeout ZIP** for a downloaded YouTube archive.
+3. Open the **Data** tab. Choose **Export backup** or **Import backup** for one OpenTubeX ZIP, or **Import YouTube Takeout ZIP** for a downloaded YouTube archive. For an individual file, use the **Import** and **Export** buttons in the matching row under **Individual data**.
 
 <picture>
   <source data-shot-theme="dark" media="(prefers-color-scheme: dark)" srcset="/docs-images/data-dark.webp" type="image/webp" />
   <source data-shot-theme="light" media="(prefers-color-scheme: light)" srcset="/docs-images/data-light.webp" type="image/webp" />
-  <img src="/docs-images/data-light.webp" alt="Data settings with unified backup controls, a YouTube Takeout ZIP import button, and individual import and export actions." width="1280" height="820" loading="lazy" decoding="async" />
+  <img src="/docs-images/data-light.webp" alt="Data settings with Complete backup and YouTube/Google Takeout tiles above a list of data types, each with Import and Export buttons." width="1280" height="820" loading="lazy" decoding="async" />
 </picture>
 
-*Desktop Data settings. Import a YouTube Takeout ZIP directly, or choose an action for an individual file.*
+*Desktop Data settings. Back up everything or import a YouTube Takeout ZIP at the top, or import and export one kind of data in the list below.*
 
 ## Import subscriptions
 
 1. Export subscriptions from your previous app. For YouTube, request a YouTube data export through [Google Takeout](https://takeout.google.com/), including subscriptions.
-2. Select **Import Subscriptions** and choose the individual file. For Takeout, extract `subscriptions/subscriptions.csv` from the ZIP first, or use **Import YouTube Takeout ZIP** to select the archive, choose the categories to import, select **Preview changes**, then **Import selected data**.
+2. In the **Subscriptions** row, select **Import** and choose the individual file. For Takeout, extract `subscriptions/subscriptions.csv` from the ZIP first, or use **Import YouTube Takeout ZIP** to select the archive, choose the categories to import, select **Preview changes**, then **Import selected data**.
 3. Wait for the import result. Open **Subscriptions**, check the active profile, and refresh the feed.
 
 Supported subscription formats include OpenTubeX / FreeTube **.db**, YouTube Takeout **.csv**, **.json**, or **.opml**, NewPipe **.json**, and LibreTube backup or FreeTube export **.json**. A JSON file must contain the expected export data; renaming a different file does not convert it.
@@ -41,14 +41,14 @@ The [client comparison](/compare/#import) lists the FreeTube data that OpenTubeX
 
 In FreeTube, open **Settings → Data** and export your subscriptions, history, playlists, and search history in FreeTube format. Each export is a .db file that you can import into OpenTubeX with the matching action.
 
-You can also import the files from FreeTube's data folder directly. Choose the file that matches each action:
+You can also import the files from FreeTube's data folder directly. Select **Import** in each row and choose the file that matches it:
 
-| OpenTubeX action | FreeTube file |
+| OpenTubeX row | FreeTube file |
 | --- | --- |
-| **Import Subscriptions** | `profiles.db` |
-| **Import History** | `history.db` |
-| **Import Playlists** | `playlists.db` |
-| **Import search history** | `search-history.db` |
+| **Subscriptions** | `profiles.db` |
+| **History** | `history.db` |
+| **Playlists** | `playlists.db` |
+| **Search history** | `search-history.db` |
 
 Do not choose `subscription-cache.db`. It only stores the videos and posts FreeTube last loaded for your subscription feed, not the channels you follow.
 
@@ -63,11 +63,11 @@ Quit FreeTube before you choose or copy these files. Until it quits, they can st
 
 ## Import history or playlists
 
-1. In the Data tab, choose **Import History**, **Import Playlists**, or **Import search history**.
+1. In the Data tab, select **Import** in the **History**, **Playlists**, or **Search history** row.
 2. Select the matching exported file and wait for the result.
 3. Open the corresponding library page to check the imported entries.
 
-**History** accepts OpenTubeX / FreeTube .db, YouTube Takeout .json, and LibreTube backup .json. **Search history** accepts OpenTubeX / FreeTube .db and YouTube Takeout .json. **Import Playlists** accepts OpenTubeX / FreeTube .db exports and individual YouTube Takeout playlist .csv files. Use **Import YouTube Takeout ZIP** for multiple Takeout playlists together.
+**History** accepts OpenTubeX / FreeTube .db, YouTube Takeout .json, and LibreTube backup .json. **Search history** accepts OpenTubeX / FreeTube .db and YouTube Takeout .json. **Playlists** accepts OpenTubeX / FreeTube .db exports and individual YouTube Takeout playlist .csv files. Use **Import YouTube Takeout ZIP** for multiple Takeout playlists together.
 
 If imported history has missing details or incorrect LIVE labels, use [Repair History](/docs/troubleshooting/#repair-imported-history).
 
@@ -77,7 +77,7 @@ If imported history has missing details or incorrect LIVE labels, use [Repair Hi
 2. Choose the categories to include, select **Export selected data**, then save the ZIP file in a backup location you can find on your other device.
 3. On that device, select **Import backup** and choose the ZIP. OpenTubeX offers only the categories the ZIP contains and previews how many items are new, already present, or skipped. Select the categories to import, then **Import selected data**.
 
-The ZIP contains separate JSON files for the selected categories: profiles and subscriptions, playlists, watch history, search history, watch statistics, and transferable settings. All categories are selected by default. Importing merges the selected categories with data already on the device; records with matching IDs or dates are updated. You can still export or import individual categories using the separate actions.
+The ZIP contains separate JSON files for the selected categories: profiles and subscriptions, playlists, watch history, search history, watch statistics, and transferable settings. All categories are selected by default. Importing merges the selected categories with data already on the device; records with matching IDs or dates are updated. You can still export or import individual categories from their rows under **Individual data**.
 
 The ZIP does not include open tab sessions or the entire application profile. Transferable settings omit device-specific options and sync credentials, such as proxy configuration, external-player paths, screenshot folders, and the sync privacy key. Configure sync separately on the other device using the [sync setup guide](/docs/sync/).
 
