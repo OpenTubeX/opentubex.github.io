@@ -76,7 +76,7 @@ You do not need to upload the archive to another website. Creating an export doe
 3. Under **Individual data**, select **Import** in the **Subscriptions** row for `subscriptions/subscriptions.csv`, in the **History** row for `history/watch-history.json`, or in the **Search history** row for `history/search-history.json`.
 4. Check the imported data and refresh the subscription feed.
 
-For a Takeout playlist CSV, select **Import** in the **Playlists** row and select an individual file in `playlists/`, or use ZIP import for several playlists together.
+For a Takeout playlist CSV, select **Import** in the **Playlists** row and select the file in `playlists/` together with `playlists.csv`, which keeps the playlist's original title and description. Use ZIP import for several playlists together.
 
 ## If something is missing
 
